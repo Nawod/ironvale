@@ -1,8 +1,21 @@
 import {it,expect} from 'vitest';
 import {createGame} from '../src/sim/world';
 import {step} from '../src/sim/engine';
-import {snapshot} from '../src/sim/visibility';
+import {snapshot,updateVisibility} from '../src/sim/visibility';
 import {encodeSave,decodeSave} from '../src/sim/save';
+import {applyCommand} from '../src/sim/economy';
+it('keeps last-seen resource amounts while enemy gathering occurs outside sight',()=>{
+ const s=createGame({opponents:1,difficulty:'normal',seed:1});const resource=Object.values(s.entities).find(e=>e.kind==='resource'&&s.visible[0][Math.floor(e.y)*s.size+Math.floor(e.x)])!;const amount=resource.amount;
+ for(const e of Object.values(s.entities))if(e.owner===0){e.x=70;e.y=15;}
+ updateVisibility(s);resource.amount=3;
+ expect(snapshot(s,0).entities.find(e=>e.id===resource.id)?.amount).toBe(amount);
+});
+it('rejects construction orders against units and completed buildings without free repairs',()=>{
+ const s=createGame({opponents:1,difficulty:'normal',seed:1});const w=Object.values(s.entities).find(e=>e.owner===0&&e.type==='villager')!,cap=s.entities[s.players[0].capital];cap.hp-=100;
+ for(const kind of ['build','repair'] as const)expect(applyCommand(s,{type:'order',player:0,ids:[w.id],order:{kind,target:w.id}})).toBeTruthy();
+ expect(applyCommand(s,{type:'order',player:0,ids:[w.id],order:{kind:'build',target:cap.id}})).toBeTruthy();
+ const hp=cap.hp;expect(()=>step(s,1)).not.toThrow();expect(cap.hp).toBe(hp);
+});
 it.each([2,3,4,5,6,7,8])('creates %i equal empires with distinct colors',count=>{
  const s=createGame({opponents:(count-1) as any,difficulty:'normal',seed:42});
  expect(s.players).toHaveLength(count);expect(s.size).toBe(count===2?96:count<=4?128:count<=6?160:192);

@@ -69,6 +69,9 @@ export function applyCommand(s:GameState,c:Command):string|null {
   if(c.order.kind==='attack'&&(!target||target.owner===p.id||target.owner<0||target.hp<=0))return 'Choose a living enemy target.';
   if(c.order.kind==='gather'&&(!target||target.kind!=='resource'&&!(target.type==='farm'&&target.owner===p.id&&target.progress===1)))return 'Choose a resource or your completed farm.';
   if(['build','repair','garrison'].includes(c.order.kind)&&target?.owner!==p.id)return 'Choose your own building.';
+  if(['build','repair'].includes(c.order.kind)&&target?.kind!=='building')return 'Choose your own building.';
+  if(c.order.kind==='build'&&target!.progress>=1)return 'That building is already complete. Use repair for damage.';
+  if(c.order.kind==='repair'&&target!.progress<1)return 'Finish construction before repairing this building.';
   if(c.order.kind==='garrison'&&(!target||!BUILDINGS[target.type as keyof typeof BUILDINGS]?.slots||target.progress<1))return 'Garrison in a completed tower or fortress.';
   if(c.order.kind==='repair'&&target?.hp===0)return 'Use rebuild to restore your capital.';
   let assigned=0;const columns=Math.ceil(Math.sqrt(units.length));for(const [index,e]of units.entries()){if(['gather','build','repair'].includes(c.order.kind)&&e.type!=='villager')continue;if(c.order.kind==='garrison'&&e.type==='villager')continue;
@@ -102,7 +105,7 @@ export function updateEconomy(s:GameState,dt:number,grids:Uint8Array[]):void{
    if(adjacentDistance(e,target)>1.4){travel(s,e,target,dt,grids[e.owner]);continue;}
    const n=Math.min(dt*(resource==='food'?3.6:2.8),target.amount,15-(e.carry?.amount??0));target.amount-=n;if(!e.carry)e.carry={resource,amount:0};e.carry.amount+=n;if(e.carry.amount>=14.999)o.returning=true;
   }else{
-   if(target.owner!==e.owner||target.hp<=0){assign(e,{kind:'idle'});continue;}
+   if(target.owner!==e.owner||target.hp<=0||target.kind!=='building'||(o.kind==='build'&&target.progress>=1)||(o.kind==='repair'&&target.progress<1)){assign(e,{kind:'idle'});continue;}
    if(adjacentDistance(e,target)>1.7){travel(s,e,approach(s,e,target,grids[e.owner]),dt,grids[e.owner]);continue;}
    const d=BUILDINGS[target.type as keyof typeof BUILDINGS];
    if(o.kind==='build'){

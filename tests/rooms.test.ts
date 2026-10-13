@@ -1,6 +1,12 @@
 import {it,expect} from 'vitest';
 import {RoomService} from '../server/rooms';
 import {validateMessage} from '../server/validation';
+import {createGame} from '../src/sim/world';
+it('restores a finished checkpoint and sends results immediately when its player reconnects',()=>{
+ const f=fixture();f.connect('a');f.connect('b');f.send('a',create);const joined=f.sent.a.find(m=>m.type==='joined');f.send('b',{type:'join',code:joined.room.code,name:'Friend'});f.send('a',{type:'ready',ready:true});f.send('b',{type:'ready',ready:true});f.send('a',{type:'start'});
+ const room=f.drivers[0].room,state=createGame(room.config);state.winner=0;room.phase='finished';room.lastState=state;f.service.restore(room);f.connect('resumed');f.send('resumed',{type:'resume',code:room.code,token:joined.token});
+ expect(f.sent.resumed.find(m=>m.type==='snapshot')?.snapshot.winner).toBe(0);
+});
 function fixture(){let now=1000;const sent:Record<string,any[]>={},drivers:any[]=[];const service=new RoomService({now:()=>now,countdownMs:10,reconnectMs:120000,driver:(room:any,cb:any)=>{const d={room,cb,commands:[] as any[],controllers:[] as any[],submit(...args:any[]){this.commands.push(args);},controller(...args:any[]){this.controllers.push(args);},stop(){},checkpoint(){}};drivers.push(d);return d;}});const connect=(id:string)=>{sent[id]=[];service.connect(id,{send:m=>sent[id].push(m),close:()=>{}});};const send=(id:string,m:any)=>service.handle(id,validateMessage(m));return{service,sent,drivers,connect,send,advance:(ms:number)=>{now+=ms;service.sweep();}};}
 const create={type:'create',name:'Host',capacity:2,fillAI:false,difficulty:'normal',seed:42};
 it('never starts a private room automatically and restricts its Start match button to the host',()=>{const f=fixture();f.connect('a');f.connect('b');f.send('a',create);const code=f.sent.a.find(m=>m.type==='joined').room.code;f.send('b',{type:'join',code,name:'Friend'});f.send('a',{type:'ready',ready:true});f.send('b',{type:'ready',ready:true});expect(f.drivers).toHaveLength(0);f.send('b',{type:'start'});expect(f.sent.b.at(-1).type).toBe('error');f.send('a',{type:'start'});expect(f.drivers).toHaveLength(1);expect(f.drivers[0].room.config.participants.map((p:any)=>p.name)).toEqual(['Host','Friend']);});

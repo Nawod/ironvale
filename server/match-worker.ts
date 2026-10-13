@@ -4,6 +4,7 @@ import {decodeSave,encodeSave} from '../src/sim/save';
 import {step,command} from '../src/sim/engine';
 import {snapshot} from '../src/sim/visibility';
 import type {Command,MatchConfig} from '../src/sim/types';
+import {TickClock} from './tick-clock';
 const port=parentPort!;
 const state=workerData.state?decodeSave(workerData.state):createGame(workerData.config as MatchConfig);
 state.paused=false;
@@ -16,10 +17,14 @@ port.on('message',m=>{
  else if(m.type==='controller'&&state.players[m.player]){state.players[m.player].controller=m.controller;checkpoint();}
  else if(m.type==='checkpoint')checkpoint();
 });
-setInterval(()=>{
+const clock=new TickClock(performance.now());
+const run=()=>{
  while(commands.length){const c=commands.shift()!;let error:string|null;try{error=command(state,{...c.command,player:c.player});}catch{error='This order could not be processed.';}port.postMessage({type:'result',player:c.player,seq:c.seq,error});}
- step(state);
+ for(let remaining=clock.due(performance.now());remaining>0;remaining--){step(state);
  if(++frames%4===0)publish();
  if(state.tick>0&&state.tick%1200===0&&state.tick!==lastSavedTick){lastSavedTick=state.tick;checkpoint();}if(state.winner!==null&&!finished){finished=true;checkpoint();}
-},50);
+ }
+ setTimeout(run,clock.delay(performance.now()));
+};
+setTimeout(run,clock.delay(performance.now()));
 checkpoint();publish();
