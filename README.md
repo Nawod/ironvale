@@ -1,6 +1,6 @@
 # Ironvale
 
-An original medieval RTS for your browser, with single-player and server-authoritative online multiplayer. Build a city, assign workers, gather food/wood/stone/gold, hunt and cultivate, research three development stages, recruit armies, defend with walls and garrisons, and capture rival capitals.
+An original 3D medieval RTS for your browser, with single-player and server-authoritative online multiplayer. Build a city, assign workers, gather food/wood/stone/gold, hunt and cultivate, research three development stages, recruit armies, defend with walls and garrisons, and capture rival capitals.
 
 **Two to eight empires** share one map. Online matches support public matchmaking and private invitation rooms. Single-player supports one to seven computer rivals. There are no alliances or time limits. Computer opponents fight each other, use the same resources and fog rules, and can capture cities. Last empire standing wins.
 
@@ -40,6 +40,7 @@ For local development use `npm run dev` plus `npm run server` in a second termin
 | Select | Click; drag to select units; Shift-click adds | Tap; hold 450 ms then drag a box for groups; use Idle villagers or Select army |
 | Contextual order | Right-click a resource, building, enemy, or ground | Choose an order button, then tap the target |
 | Camera | Ctrl + left mouse drag; arrow keys; wheel zoom; middle-button drag | Drag to pan; pinch to zoom |
+| Rotate/reset | Q / E or arrow buttons rotate; diamond button resets angle/zoom | Camera arrow and diamond buttons |
 | Army orders | A attack-move; M move; P patrol; S stop | Command buttons |
 | Home | H or the shield/Town center button | Shield/Town center button |
 | Control groups | Ctrl+1–9 saves; 1–9 selects | Select army button |
@@ -53,7 +54,7 @@ Destroy an original capital and occupy its ruins with soldiers for **30 seconds*
 
 Manual saves and a rolling autosave every 60 simulation seconds use IndexedDB. All simulation state is retained, including AI plans, fog, queues, and randomness. Loading starts paused. Leaving the tab pauses single-player automatically; online matches continue. Saves remain in this browser on this device; clearing site data removes them. Local saves are not cloud accounts.
 
-Music and sound effects are synthesized locally and adjustable in Settings. Audio unlocks on your first tap, click or keypress; Settings includes a Test sound button. There are no external asset requests. All artwork is original code-drawn medieval vector art, rendered into cached local sprite textures.
+Music and sound effects are synthesized locally and adjustable in Settings. Audio unlocks on your first tap, click or keypress; Settings includes a Test sound button. There are no external asset requests. The battlefield uses original locally generated 3D medieval meshes, animated workers and troops, directional lighting, desktop shadows and visible projectile trajectories. UI icons retain the original code-drawn artwork.
 
 ## Build and verification
 
@@ -71,9 +72,9 @@ npm run build
 
 `dist/` contains the browser build and `dist-server/` contains the Node server and simulation worker. To provide online play, deploy both together with the production dependencies; a static-only host supports offline play but cannot run multiplayer. Serve it through HTTP/HTTPS; opening `index.html` directly through `file://` does not support the module worker. Relative asset paths support hosting in a subdirectory. For local production play use `npm start`; Vite preview serves static files only.
 
-The simulation is browser-independent TypeScript, running at20 Hz in a browser worker offline or a Node worker thread online. React handles menus/controls; PixiJS WebGL handles the battlefield. Human and AI commands share validation. Rendering receives player-visible snapshots; saved matches retain full state. Online rooms use WebSockets, player-specific snapshots, and server-controlled human/AI seats. Accounts, ranked play, chat, spectators, and cross-device guest identity are not implemented.
+The simulation is browser-independent TypeScript, running at20 Hz in a browser worker offline or a Node worker thread online. React handles menus/controls; Three.js WebGL handles the 3D battlefield. Human and AI commands share validation. Rendering receives player-visible snapshots; saved matches retain full state. Online rooms use WebSockets, player-specific snapshots, and server-controlled human/AI seats. Accounts, ranked play, chat, spectators, and cross-device guest identity are not implemented.
 
-The benchmark uses a controlled 400- and 800-unit fixtures with AI thinking delayed to isolate the load; rendering includes nearby combat, with enlarged unit health to keep the count stable. Browser benchmarks use native Windows Direct3D where available. Phone layouts/controls and CPU-throttled performance are emulated on the desktop GPU, **not physical-phone verification**. Test results, screenshots, headless diagnostic states and performance measurements are in `test-results/` after running the checks. Original verification is in `docs/verification.md`; multiplayer evidence and current limits are in `docs/multiplayer-verification.md`.
+The benchmark uses a controlled 400- and 800-unit fixtures with AI thinking delayed to isolate the load; rendering includes nearby combat, with enlarged unit health to keep the count stable. Browser benchmarks use native Windows Direct3D where available. Phone layouts/controls and CPU-throttled performance are emulated on the desktop GPU, **not physical-phone verification**. Test results, screenshots, headless diagnostic states and performance measurements are in `test-results/` after running the checks. 3D conversion evidence is in `docs/3d-verification.md`. Original verification is in `docs/verification.md`; multiplayer evidence and current limits are in `docs/multiplayer-verification.md`.
 
 
 ## Public hosting
