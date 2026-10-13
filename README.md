@@ -23,7 +23,7 @@ For friends or a phone/tablet on the same Wi-Fi, open http://YOUR-COMPUTER-LAN-I
 
 Choose **Play online** and enter your guest name. Accounts are not required.
 
-- **Create room:** choose any limit from2–8, optionally fill empty seats with AI, and share the room code or invitation link. At least two humans must join. Each participant presses **Ready**. Only the creator/host sees the **Start match** button; joining and readiness never start a private game automatically. The host can lower the player limit to the number of friends who joined, or fill vacant seats with AI. Changing room settings clears readiness so everyone can confirm them.
+- **Create room:** share the room code or invitation link. At least two humans must join. Each participant presses **Ready**. Only the creator/host sees the **Start match** button; joining and readiness never start a private game automatically. No player count is chosen when creating a private room: up to eight humans can join, and Start match uses the actual joined count (2–8). The host can optionally fill remaining seats with AI for an eight-empire match. Changing room settings clears readiness so everyone can confirm them.
 - **Join room:** use a friend's invitation link or enter their code, then press Ready and wait for the host.
 - **Find a match:** select the number of human players2–8. Public queues fill that exact count and start after a short countdown. There is no ranked ladder, party matchmaking or artificial queue timeout.
 
@@ -39,7 +39,7 @@ For local development use `npm run dev` plus `npm run server` in a second termin
 |---|---|---|
 | Select | Click; drag to select units; Shift-click adds | Tap; use Idle villagers or Select army for groups |
 | Contextual order | Right-click a resource, building, enemy, or ground | Choose an order button, then tap the target |
-| Camera | Arrow keys; wheel zoom; middle-button drag | Drag to pan; pinch to zoom |
+| Camera | Ctrl + left mouse drag; arrow keys; wheel zoom; middle-button drag | Drag to pan; pinch to zoom |
 | Army orders | A attack-move; M move; P patrol; S stop | Command buttons |
 | Home | H or the shield/Town center button | Shield/Town center button |
 | Control groups | Ctrl+1–9 saves; 1–9 selects | Select army button |

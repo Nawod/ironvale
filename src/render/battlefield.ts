@@ -54,7 +54,7 @@ export class Battlefield {
  }
  private down=(e:PointerEvent)=>{if(!this.interactive)return;const p=this.screenPoint(e);this.pointers.set(e.pointerId,p);this.app.canvas.setPointerCapture(e.pointerId);
   if(this.pointers.size===2){const a=[...this.pointers.values()];this.initialPinch=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);this.initialZoom=this.zoom;this.drag=undefined;return;}
-  this.drag={point:p,last:p,id:e.pointerId,button:e.button,touch:e.pointerType!=='mouse',hit:this.hit(p),shift:e.shiftKey,moved:false,pan:e.button===1||e.pointerType!=='mouse'};
+  this.drag={point:p,last:p,id:e.pointerId,button:e.button,touch:e.pointerType!=='mouse',hit:this.hit(p),shift:e.shiftKey,moved:false,pan:e.button===1||(e.button===0&&e.ctrlKey)||e.pointerType!=='mouse'};
  };
  private move=(e:PointerEvent)=>{const p=this.screenPoint(e);this.pointer=p;if(this.pointers.has(e.pointerId))this.pointers.set(e.pointerId,p);
   if(this.pointers.size===2){const a=[...this.pointers.values()];this.zoom=Math.max(.4,Math.min(2,this.initialZoom*Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)/this.initialPinch));return;}
@@ -62,6 +62,7 @@ export class Battlefield {
  };
  private up=(e:PointerEvent)=>{const p=this.screenPoint(e),d=this.drag;this.pointers.delete(e.pointerId);if(this.pointers.size>0){this.drag=undefined;return;}this.drag=undefined;if(!d)return;
   if(d.moved){if(!d.pan&&d.button===0&&this.snapshot){const ids=this.snapshot.entities.filter(v=>v.owner===this.snapshot!.playerId&&v.kind==='unit').filter(v=>{const q=this.worldToScreen(v);return q.x>=Math.min(d.point.x,p.x)&&q.x<=Math.max(d.point.x,p.x)&&q.y>=Math.min(d.point.y,p.y)&&q.y<=Math.max(d.point.y,p.y);}).map(v=>v.id);this.hooks.select(ids,d.shift);}return;}
+  if(d.pan&&!d.touch)return;
   const world=this.screenToWorld(p),target=this.hit(p);
   if(d.button===2||this.mode||this.placement){this.hooks.action(world,target);return;}
   if(target)this.hooks.select([target.id],d.shift||d.touch&&this.selection.includes(target.id));else this.hooks.select([],false);

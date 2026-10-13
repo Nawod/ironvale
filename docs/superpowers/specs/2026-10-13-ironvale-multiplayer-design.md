@@ -61,3 +61,7 @@ Deliver source, production client/server build, local multiplayer launcher, conf
 - Use separate Playwright browser contexts for real server-connected players. Exercise two-player public matching, private invitation rooms, every supported count through server integration tests, an eight-player browser smoke match, issued orders, disconnection/reconnection and results. Retain original offline checks and responsive phone/tablet emulation.
 - Run seeded mixed-controller headless matches and an eight-empire, 800-unit performance fixture. Report actual workstation measurements, snapshot bandwidth and server tick timings. Mobile emulation is not physical-device verification.
 - Pass type checking, simulation/server/browser tests and production build. Update the project verification report with evidence and limitations. Preserve the original approved single-player specification alongside this extension.
+
+## Private-room and camera revision
+
+User-authorized revision: private creation does not ask for a player count. Private lobbies admit up to eight humans, and the host explicitly starts with the actual ready joined group of two to eight. Optional AI filling creates eight empires. Public queues retain their requested match sizes. Ctrl + left mouse drag pans the battlefield without selecting units or issuing commands; middle drag and touch gestures remain available.

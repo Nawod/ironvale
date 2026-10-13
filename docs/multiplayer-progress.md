@@ -21,3 +21,7 @@ Final review: three Important findings reproduced RED and repaired GREEN: constr
 Clock measurement: Windows interval drift repaired using bounded elapsed-time fixed-step scheduling. Eight connections now receive100 ticks/25 snapshots in5.01 seconds;45.51–47.46 KiB/s per player, initial160–164 KiB. Clock regressions and full70-test/14-file suite pass; final production build passes. Full browser after review:21 pass/6 device-specific skips. Rendering800 units:desktop60.00 FPS,phone-emulated57.15 FPS; four-times CPU throttling, Intel UHD ANGLE D3D11.
 
 Delivery: post-clock multiplayer browsers7 pass/2 intentional skips. Production localhost5180 health and game page verified. Server left running; launcher and README support later restarts/LAN play. 800-unit simulation benchmark mean1.20ms/p953.23ms/max123.40ms; maximum tick overrun documented. Final report:docs/multiplayer-verification.md.
+
+User revision: Ctrl + left-drag pans without selection/orders. Private rooms have no preselected count, always admit up to8, and start with the actual2–8 ready humans. Optional AI filling remains explicit. New panning/dynamic-room tests observed RED before implementation; full78-test/15-file suite passes.
+
+Revision browser verification: desktoppan/private2/public2/private8 pass; phone/tablet public pass. Two combined-run mobile acknowledgement timeouts after8-context load; isolated unchanged private/reconnect checks both pass (6.4s/8.7s). Final browser test server built/type-checked the release. Updated local production server restarted on5180.
