@@ -71,8 +71,9 @@ export function applyCommand(s:GameState,c:Command):string|null {
   if(['build','repair','garrison'].includes(c.order.kind)&&target?.owner!==p.id)return 'Choose your own building.';
   if(c.order.kind==='garrison'&&(!target||!BUILDINGS[target.type as keyof typeof BUILDINGS]?.slots||target.progress<1))return 'Garrison in a completed tower or fortress.';
   if(c.order.kind==='repair'&&target?.hp===0)return 'Use rebuild to restore your capital.';
-  let assigned=0;for(const e of units){if(['gather','build','repair'].includes(c.order.kind)&&e.type!=='villager')continue;if(c.order.kind==='garrison'&&e.type==='villager')continue;
-   assign(e,{...c.order,origin:c.order.kind==='patrol'?{x:e.x,y:e.y}:undefined});assigned++;
+  let assigned=0;const columns=Math.ceil(Math.sqrt(units.length));for(const [index,e]of units.entries()){if(['gather','build','repair'].includes(c.order.kind)&&e.type!=='villager')continue;if(c.order.kind==='garrison'&&e.type==='villager')continue;
+   const point=c.order.point&&units.length>1?{x:Math.max(1,Math.min(s.size-2,c.order.point.x+(index%columns-(columns-1)/2)*1.15)),y:Math.max(1,Math.min(s.size-2,c.order.point.y+(Math.floor(index/columns)-(Math.ceil(units.length/columns)-1)/2)*1.15))}:c.order.point;
+   assign(e,{...c.order,point,origin:c.order.kind==='patrol'?{x:e.x,y:e.y}:undefined});assigned++;
   }return assigned?null:'These units cannot perform that task.';
  }return 'Unknown command.';
 }

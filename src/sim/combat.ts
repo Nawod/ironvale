@@ -28,9 +28,9 @@ export function updateCombat(s:GameState,dt:number,grids:Uint8Array[]):void{
   e.cooldown=Math.max(0,e.cooldown-dt);
   const def=e.kind==='unit'?UNITS[e.type as keyof typeof UNITS]:BUILDINGS[e.type as keyof typeof BUILDINGS];
   const order=e.order;let target=order.kind==='attack'&&order.target?s.entities[order.target]:undefined;
-  if(target&&(target.hp<=0||!seen(s,e.owner,target))){target=undefined;assign(e,{kind:'idle'});}
-  const auto=e.kind==='building'?!!(def as typeof BUILDINGS.capital).damage:e.type!=='villager'&&!['move','garrison'].includes(order.kind)&&e.stance!=='hold';
-  if(!target&&auto){const r=e.kind==='building'?(def.range??0):Math.max(6,def.range??0);target=nearby(e,r).filter(t=>t.owner!==e.owner&&t.hp>0&&s.entities[t.id]&&seen(s,e.owner,t)&&adjacentDistance(e,t)<=r&&!(e.stance==='defensive'&&e.home&&distance(t,e.home)>7)).sort((a,b)=>(a.kind==='unit'?0:3)+adjacentDistance(e,a)-((b.kind==='unit'?0:3)+adjacentDistance(e,b)))[0];}
+  if(target&&(target.hp<=0||target.owner===e.owner||target.owner<0||target.garrisoned||!seen(s,e.owner,target))){target=undefined;assign(e,{kind:'idle'});}
+  const auto=e.kind==='building'?!!(def as typeof BUILDINGS.capital).damage:e.type!=='villager'&&!['move','garrison'].includes(order.kind);
+  if(!target&&auto){const r=e.kind==='building'||e.stance==='hold'?(def.range??0):Math.max(6,def.range??0);target=nearby(e,r).filter(t=>t.owner!==e.owner&&t.hp>0&&!t.garrisoned&&s.entities[t.id]&&seen(s,e.owner,t)&&adjacentDistance(e,t)<=r&&!(e.stance==='defensive'&&e.home&&distance(t,e.home)>7)).sort((a,b)=>(a.kind==='unit'?0:3)+adjacentDistance(e,a)-((b.kind==='unit'?0:3)+adjacentDistance(e,b)))[0];}
   if(target){const range=def.range??0;if(adjacentDistance(e,target)<=range){if(e.cooldown<=0){target.hp-=attackDamage(s,e,target);e.attackFx={x:target.x,y:target.y,tick:s.tick};e.cooldown=e.type==='trebuchet'?3:e.type==='ram'?2:1.15;
     const latest=[...s.events].reverse().find(v=>v.player===target!.owner&&v.kind==='attack');if(!latest||s.tick-latest.tick>200)event(s,target.owner,'Your empire is under attack.','attack',target);
     if(target.hp<=0)kill(s,target);

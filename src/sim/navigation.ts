@@ -30,8 +30,8 @@ export function pathfind(s:GameState,start:Position,goal:Position,owner:number,g
  const open:{id:number;score:number}[]=[{id:begin,score:0}],closed=new Uint8Array(size*size);let iter=0;
  const push=(v:{id:number;score:number})=>{open.push(v);let i=open.length-1;while(i>0){const p=(i-1)>>1;if(open[p].score<=v.score)break;open[i]=open[p];i=p;}open[i]=v;};
  const pop=()=>{const out=open[0],tail=open.pop()!;if(open.length){let i=0;while(i*2+1<open.length){let c=i*2+1;if(c+1<open.length&&open[c+1].score<open[c].score)c++;if(open[c].score>=tail.score)break;open[i]=open[c];i=c;}open[i]=tail;}return out;};
- while(open.length&&iter++<6000){const id=pop().id;if(closed[id])continue;closed[id]=1;if(id===end){const out:Position[]=[];let c=end;while(c!==begin&&c>=0){out.push({x:c%size+.5,y:Math.floor(c/size)+.5});c=parent[c];}return out.reverse();}
-  const x=id%size,y=Math.floor(id/size);for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){const nx=x+dx,ny=y+dy;if(nx<1||ny<1||nx>=size-1||ny>=size-1)continue;const next=ny*size+nx;if(closed[next]||grid[next]||dx&&dy&&(grid[y*size+nx]||grid[ny*size+x]))continue;const g=cost[id]+(dx&&dy?1.414:1);if(g>=cost[next])continue;cost[next]=g;parent[next]=id;push({id:next,score:g+Math.hypot(gx-nx,gy-ny)});}
+ while(open.length&&iter<size*size){const id=pop().id;if(closed[id])continue;iter++;closed[id]=1;if(id===end){const out:Position[]=[];let c=end;while(c!==begin&&c>=0){out.push({x:c%size+.5,y:Math.floor(c/size)+.5});c=parent[c];}return out.reverse();}
+  const x=id%size,y=Math.floor(id/size);for(const [dx,dy]of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){const nx=x+dx,ny=y+dy;if(nx<1||ny<1||nx>=size-1||ny>=size-1)continue;const next=ny*size+nx;if(closed[next]||grid[next]||dx&&dy&&(grid[y*size+nx]||grid[ny*size+x]))continue;const g=cost[id]+(dx&&dy?Math.SQRT2:1);if(g>=cost[next])continue;cost[next]=g;parent[next]=id;push({id:next,score:g+Math.max(Math.abs(gx-nx),Math.abs(gy-ny))+(Math.SQRT2-1)*Math.min(Math.abs(gx-nx),Math.abs(gy-ny))});}
  }return [];
 }
 export function travel(s:GameState,e:Entity,goal:Position,dt:number,grid:Uint8Array):boolean{

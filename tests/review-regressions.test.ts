@@ -1,0 +1,11 @@
+import {it,expect} from 'vitest';
+import {createGame,spawn} from '../src/sim/world';
+import {updateCombat,updateConquest} from '../src/sim/combat';
+import {blockedGrid} from '../src/sim/navigation';
+import {updateVisibility} from '../src/sim/visibility';
+import {encodeSave,decodeSave} from '../src/sim/save';
+import {command,step} from '../src/sim/engine';
+it('stops explicit attacks when conquest transfers the target to the attacker',()=>{const s=createGame({opponents:3,difficulty:'normal',seed:3}),cap=s.entities[s.players[1].capital];cap.hp=0;for(const e of Object.values(s.entities))if(e.owner===1&&e.kind==='unit'){e.x=60;e.y=60;}const house=spawn(s,'building','house',1,{x:cap.x-3,y:cap.y}),u=spawn(s,'unit','spearman',0,{x:cap.x-3,y:cap.y-1});u.order={kind:'attack',target:house.id};updateConquest(s,30);expect(house.owner).toBe(0);updateVisibility(s);const hp=house.hp;updateCombat(s,.05,s.players.map(p=>blockedGrid(s,p.id)));expect(house.hp).toBe(hp);});
+it('loads saves after a conquered capital outpost is destroyed',()=>{const s=createGame({opponents:3,difficulty:'normal',seed:4}),cap=s.entities[s.players[1].capital];cap.hp=0;for(const e of Object.values(s.entities))if(e.owner===1&&e.kind==='unit'){e.x=60;e.y=60;}spawn(s,'unit','spearman',0,{x:cap.x-1,y:cap.y});updateConquest(s,30);delete s.entities[cap.id];expect(()=>decodeSave(encodeSave(s))).not.toThrow();});
+it('protects units that enter a garrison from stale direct attack orders',()=>{const s=createGame({opponents:1,difficulty:'normal',seed:4}),tower=spawn(s,'building','tower',1,{x:30,y:30}),defender=spawn(s,'unit','spearman',1,{x:29,y:30}),attacker=spawn(s,'unit','archer',0,{x:28,y:30});attacker.order={kind:'attack',target:defender.id};defender.garrisoned=tower.id;tower.garrison=[defender.id];updateVisibility(s);const hp=defender.hp;step(s,1,false);expect(defender.hp).toBe(hp);});
+it('hold-position defenders fire within range without chasing enemies',()=>{const s=createGame({opponents:1,difficulty:'normal',seed:4}),defender=spawn(s,'unit','spearman',0,{x:30,y:30}),enemy=spawn(s,'unit','spearman',1,{x:31,y:30});defender.stance='hold';enemy.stance='hold';updateVisibility(s);step(s,10,false);expect(enemy.hp).toBeLessThan(100);expect(defender.x).toBe(30);expect(defender.y).toBe(30);});

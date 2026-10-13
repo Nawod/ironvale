@@ -84,9 +84,9 @@ export function paintEntity(type:Entity['type'],owner=0):HTMLCanvasElement{
 }
 export function entityTexture(type:Entity['type'],owner:number):Texture{const key=`${type}:${owner}`;if(!textures.has(key))textures.set(key,Texture.from(paintEntity(type,owner)));return textures.get(key)!;}
 export function entityImage(type:Entity['type'],owner=0):string{const key=`${type}:${owner}`;if(!images.has(key))images.set(key,paintEntity(type,owner).toDataURL());return images.get(key)!;}
-export function tileTexture(variant:number):Texture{
- const key=`tile${variant}`;if(textures.has(key))return textures.get(key)!;const cv=document.createElement('canvas');cv.width=64;cv.height=34;const c=cv.getContext('2d')!;
+export function tileTexture(variant:number,dim=false):Texture{
+ const key=`tile${variant}:${dim}`;if(textures.has(key))return textures.get(key)!;const cv=document.createElement('canvas');cv.width=64;cv.height=34;const c=cv.getContext('2d')!;
  const colors=['#668252','#6c8656','#5f7b4e','#718b59','#9a9470','#728359'];polygon(c,[[32,0],[64,16],[32,32],[0,16]],colors[variant%colors.length]);
  for(let i=0;i<14;i++){const x=(i*17+variant*11)%58+3,y=(i*13+variant*7)%28+2;if(Math.abs(x-32)/32+Math.abs(y-16)/16<.85){line(c,x,y,x+2,y-2,i%3===0?'#8ea26955':'#3f663855',1);}}
- const t=Texture.from(cv);textures.set(key,t);return t;
+ if(dim)polygon(c,[[32,0],[64,16],[32,32],[0,16]],'#1b302966');const t=Texture.from(cv);textures.set(key,t);return t;
 }

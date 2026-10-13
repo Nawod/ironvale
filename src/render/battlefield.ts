@@ -1,4 +1,4 @@
-import { Application, Container, Graphics, Sprite, Text } from 'pixi.js';
+import { Application, Container, Graphics, Sprite, Texture } from 'pixi.js';
 import { entityTexture,tileTexture } from './art';
 import type { Entity, Position, Snapshot, BuildingType } from '../sim/types';
 import { BUILDINGS } from '../sim/definitions';
@@ -7,11 +7,11 @@ export const uniso=(p:Position):Position=>({x:p.x/64+p.y/32,y:p.y/32-p.x/64});
 export interface BattlefieldHooks { select:(ids:number[],append:boolean)=>void; action:(point:Position,target?:Entity)=>void; cancel:()=>void; error:(text:string)=>void }
 export class Battlefield {
  app=new Application();world=new Container();ground=new Container();objects=new Container();overlay=new Graphics();labels=new Container();
- sprites=new Map<number,Sprite>();tiles:Sprite[]=[];snapshot?:Snapshot;selection:number[]=[];placement?:BuildingType;mode='';camera={x:0,y:0};zoom=1;ready=false;destroyed=false;
+ sprites=new Map<number,Sprite>();chunks=new Map<string,{sprite:Sprite;canvas:HTMLCanvasElement;fog:number[]}>();snapshot?:Snapshot;selection:number[]=[];placement?:BuildingType;mode='';camera={x:0,y:0};zoom=1;ready=false;destroyed=false;
  private resize?:ResizeObserver;private pointers=new Map<number,Position>();private drag?:{point:Position;last:Position;id:number;button:number;touch:boolean;hit?:Entity;shift:boolean;moved:boolean;pan:boolean};private pointer?:Position;private initialPinch=0;private initialZoom=1;private keys=new Set<string>();private lastTime=performance.now();private frameTimes:number[]=[];
  constructor(private host:HTMLElement,private hooks:BattlefieldHooks,private interactive=true){}
  async init():Promise<void>{
-  await this.app.init({resizeTo:this.host,background:'#344b36',antialias:true,preference:'webgl',resolution:Math.min(devicePixelRatio,2),autoDensity:true});
+  await this.app.init({resizeTo:this.host,background:'#344b36',antialias:true,preference:'webgl',resolution:this.host.clientWidth<700?1:Math.min(devicePixelRatio,2),autoDensity:true});
   if(this.destroyed){this.app.destroy(true,{children:true});return;}
   this.host.appendChild(this.app.canvas);this.app.canvas.setAttribute('aria-label','Isometric battlefield');this.app.canvas.style.touchAction='none';
   this.world.addChild(this.ground,this.objects,this.overlay,this.labels);this.objects.sortableChildren=true;this.app.stage.addChild(this.world);
@@ -24,12 +24,13 @@ export class Battlefield {
  }
  update(s:Snapshot,initial=false):void{
   const prior=this.snapshot;this.snapshot=s;if(!this.ready)return;
-  if(!this.tiles.length||prior?.size!==s.size){this.ground.removeChildren().forEach(c=>c.destroy());this.tiles=[];
-   for(let y=0;y<s.size;y++)for(let x=0;x<s.size;x++){const v=s.terrain[y*s.size+x],t=new Sprite(tileTexture(v===1?4:(x*7+y*13)%4));const p=iso({x,y});t.position.set(p.x,p.y);t.anchor.set(.5,0);t.eventMode='none';this.ground.addChild(t);this.tiles.push(t);}
-   initial=true;
-  }
+  if(!prior||prior.size!==s.size){for(const chunk of this.chunks.values())chunk.sprite.destroy({texture:true,textureSource:true});this.chunks.clear();initial=true;}
   if(initial){const cap=s.entities.find(e=>e.owner===0&&e.type==='capital');this.center(cap?{x:cap.x+1.5,y:cap.y+3}:{x:20,y:20});}
-  for(let i=0;i<this.tiles.length;i++){const t=this.tiles[i];t.visible=s.fog[i]>0;t.tint=s.fog[i]===2?0xffffff:0x7b8576;}
+  for(let cy=0;cy<s.size;cy+=8)for(let cx=0;cx<s.size;cx+=8){const key=`${cx},${cy}`,fog:number[]=[];for(let y=0;y<8;y++)for(let x=0;x<8;x++)fog.push(s.fog[(cy+y)*s.size+cx+x]);let chunk=this.chunks.get(key);if(!chunk&&!fog.some(v=>v>0))continue;if(chunk&&fog.every((v,i)=>chunk!.fog[i]===v))continue;
+   if(!chunk){const canvas=document.createElement('canvas');canvas.width=512;canvas.height=258;const sprite=new Sprite(Texture.from(canvas));sprite.anchor.set(.5,0);const p=iso({x:cx,y:cy});sprite.position.set(p.x,p.y);this.ground.addChild(sprite);chunk={sprite,canvas,fog:[]};this.chunks.set(key,chunk);}
+   const ctx=chunk.canvas.getContext('2d')!;ctx.clearRect(0,0,512,258);for(let y=0;y<8;y++)for(let x=0;x<8;x++){const f=fog[y*8+x];if(!f)continue;const v=s.terrain[(cy+y)*s.size+cx+x],source=tileTexture(v===1?4:((cx+x)*7+(cy+y)*13)%4,f===1).source.resource as HTMLCanvasElement;ctx.drawImage(source,256+(x-y)*32-32,(x+y)*16);}
+   chunk.fog=fog;chunk.sprite.texture.source.update();
+  }
   const alive=new Set<number>();
   for(const e of s.entities){if(e.kind==='resource'&&e.amount<=0)continue;alive.add(e.id);let sp=this.sprites.get(e.id);if(!sp){sp=new Sprite(entityTexture(e.type,e.owner));sp.anchor.set(.5,e.kind==='building'?.77:e.type==='wood'?.88:.85);this.sprites.set(e.id,sp);this.objects.addChild(sp);const p=this.entityPosition(e);sp.position.set(p.x,p.y);}
    const texture=entityTexture(e.type,e.owner);if(sp.texture!==texture)sp.texture=texture;sp.alpha=e.ghost?.45:e.progress<1?.55+.4*e.progress:1;sp.tint=e.hp<=0?0x6c675b:0xffffff;
@@ -38,11 +39,12 @@ export class Battlefield {
  }
  private entityPosition(e:Entity):Position {const n=e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].size:0;return iso({x:e.x+n*.5,y:e.y+n*.5});}
  center(p:Position):void{this.camera=iso(p);}
+ private originY():number{return this.app.screen.height*(this.interactive?(this.app.screen.width<700?.35:.42):.5);}
  private screenPoint(e:PointerEvent|WheelEvent):Position {const r=this.app.canvas.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
- screenToWorld(p:Position):Position {return uniso({x:(p.x-this.app.screen.width/2)/this.zoom+this.camera.x,y:(p.y-this.app.screen.height/2)/this.zoom+this.camera.y});}
- worldToScreen(p:Position):Position {const v=iso(p);return{x:(v.x-this.camera.x)*this.zoom+this.app.screen.width/2,y:(v.y-this.camera.y)*this.zoom+this.app.screen.height/2};}
+ screenToWorld(p:Position):Position {return uniso({x:(p.x-this.app.screen.width/2)/this.zoom+this.camera.x,y:(p.y-this.originY())/this.zoom+this.camera.y});}
+ worldToScreen(p:Position):Position {const v=iso(p);return{x:(v.x-this.camera.x)*this.zoom+this.app.screen.width/2,y:(v.y-this.camera.y)*this.zoom+this.originY()};}
  private hit(p:Position):Entity|undefined{
-  if(!this.snapshot)return;const candidates=this.snapshot.entities.filter(e=>!e.ghost&&!(e.kind==='resource'&&e.amount<=0)).map(e=>{const pos=this.entityPosition(e),sp={x:(pos.x-this.camera.x)*this.zoom+this.app.screen.width/2,y:(pos.y-this.camera.y)*this.zoom+this.app.screen.height/2};const width=e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].size*30*this.zoom:e.type==='wood'?30*this.zoom:21*this.zoom;const h=e.kind==='building'?100*this.zoom:e.kind==='unit'?42*this.zoom:e.type==='wood'?95*this.zoom:26*this.zoom;return {e,sp,width,h};}).filter(v=>Math.abs(p.x-v.sp.x)<v.width&&p.y>v.sp.y-v.h&&p.y<v.sp.y+14*this.zoom).sort((a,b)=>(a.e.kind==='unit'?-10000:0)+Math.abs(a.sp.x-p.x)+Math.abs(a.sp.y-15-p.y)-((b.e.kind==='unit'?-10000:0)+Math.abs(b.sp.x-p.x)+Math.abs(b.sp.y-15-p.y)));
+  if(!this.snapshot)return;const candidates=this.snapshot.entities.filter(e=>!e.ghost&&!(e.kind==='resource'&&e.amount<=0)).map(e=>{const pos=this.entityPosition(e),sp={x:(pos.x-this.camera.x)*this.zoom+this.app.screen.width/2,y:(pos.y-this.camera.y)*this.zoom+this.originY()};const width=e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].size*30*this.zoom:e.type==='wood'?30*this.zoom:21*this.zoom;const h=e.kind==='building'?100*this.zoom:e.kind==='unit'?42*this.zoom:e.type==='wood'?95*this.zoom:26*this.zoom;return {e,sp,width,h};}).filter(v=>Math.abs(p.x-v.sp.x)<v.width&&p.y>v.sp.y-v.h&&p.y<v.sp.y+14*this.zoom).sort((a,b)=>(a.e.kind==='unit'?-10000:0)+Math.abs(a.sp.x-p.x)+Math.abs(a.sp.y-15-p.y)-((b.e.kind==='unit'?-10000:0)+Math.abs(b.sp.x-p.x)+Math.abs(b.sp.y-15-p.y)));
   return candidates[0]?.e;
  }
  private down=(e:PointerEvent)=>{if(!this.interactive)return;const p=this.screenPoint(e);this.pointers.set(e.pointerId,p);this.app.canvas.setPointerCapture(e.pointerId);
@@ -69,13 +71,16 @@ export class Battlefield {
   if(!this.snapshot)return;const now=performance.now(),dt=Math.min(.05,(now-this.lastTime)/1000);this.frameTimes.push(now-this.lastTime);if(this.frameTimes.length>120)this.frameTimes.shift();this.lastTime=now;
   if(this.interactive){const speed=600*dt/this.zoom;this.camera.x+=(this.keys.has('ArrowRight')?speed:0)-(this.keys.has('ArrowLeft')?speed:0);this.camera.y+=(this.keys.has('ArrowDown')?speed:0)-(this.keys.has('ArrowUp')?speed:0);}
   const clamp=uniso(this.camera);clamp.x=Math.max(0,Math.min(this.snapshot.size,clamp.x));clamp.y=Math.max(0,Math.min(this.snapshot.size,clamp.y));this.camera=iso(clamp);
-  this.world.position.set(this.app.screen.width/2-this.camera.x*this.zoom,this.app.screen.height/2-this.camera.y*this.zoom);this.world.scale.set(this.zoom);
+  this.world.position.set(this.app.screen.width/2-this.camera.x*this.zoom,this.originY()-this.camera.y*this.zoom);this.world.scale.set(this.zoom);
+  const left=-this.world.x/this.zoom-64,right=(this.app.screen.width-this.world.x)/this.zoom+64,top=-this.world.y/this.zoom-64,bottom=(this.app.screen.height-this.world.y)/this.zoom+64;
+  for(const chunk of this.chunks.values()){const t=chunk.sprite;t.visible=t.x+256>left&&t.x-256<right&&t.y+258>top&&t.y<bottom;}
   this.overlay.clear();
   for(const e of this.snapshot.entities){const sp=this.sprites.get(e.id);if(!sp)continue;const pos=this.entityPosition(e);const moving=e.kind==='unit'&&Math.hypot(sp.x-pos.x,sp.y-pos.y)>.3;
    const factor=1-Math.exp(-dt*12);sp.x+=(pos.x-sp.x)*factor;sp.y+=(pos.y-sp.y)*factor;sp.zIndex=e.x+e.y+(e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].size:0);
    const working=e.kind==='unit'&&['gather','build','repair'].includes(e.order.kind);
    const bob=(moving||working)&&e.kind==='unit'?Math.sin(now*.013+e.id)*1.5:0;sp.pivot.y=bob;sp.rotation=working?Math.sin(now*.009+e.id)*.025:0;
    sp.visible=sp.x>-this.world.x/this.zoom-350&&sp.x<(this.app.screen.width-this.world.x)/this.zoom+350&&sp.y>-this.world.y/this.zoom-300&&sp.y<(this.app.screen.height-this.world.y)/this.zoom+200;
+   if(!sp.visible)continue;
    if(this.selection.includes(e.id)){
     const n=e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].size*22:16;
     this.overlay.ellipse(pos.x,pos.y+2,n,n*.45).stroke({color:e.owner===0?0xe9d797:0xe79c80,width:2});
@@ -95,5 +100,5 @@ export class Battlefield {
   const drag=this.drag;if(drag?.moved&&!drag.pan&&drag.button===0){const a=this.screenToWorld(drag.point),b=this.screenToWorld(drag.last),pa=iso(a),pb=iso(b);this.overlay.rect(Math.min(pa.x,pb.x),Math.min(pa.y,pb.y),Math.abs(pb.x-pa.x),Math.abs(pb.y-pa.y)).fill({color:0xcadd9e,alpha:.12}).stroke({color:0xd9e8b6,width:1});}
  }
  metrics():{fps:number;renderer:string}{return {fps:1000/(this.frameTimes.reduce((a,b)=>a+b,0)/Math.max(1,this.frameTimes.length)),renderer:'WebGL'};}
- destroy():void{this.destroyed=true;this.resize?.disconnect();window.removeEventListener('keydown',this.keydown);window.removeEventListener('keyup',this.keyup);window.removeEventListener('blur',this.blur);if(this.ready){this.app.ticker.stop();this.app.destroy(true,{children:true,texture:false});}this.sprites.clear();}
+ destroy():void{this.destroyed=true;this.resize?.disconnect();window.removeEventListener('keydown',this.keydown);window.removeEventListener('keyup',this.keyup);window.removeEventListener('blur',this.blur);if(this.ready){this.app.ticker.stop();for(const chunk of this.chunks.values())chunk.sprite.destroy({texture:true,textureSource:true});this.chunks.clear();this.app.destroy(true,{children:true,texture:false});}this.sprites.clear();}
 }

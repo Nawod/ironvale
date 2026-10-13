@@ -53,7 +53,7 @@ export function updateAI(s:GameState,includeHuman=false):void{
   const known=Object.values(s.intel[p.id]).filter(e=>e.type==='capital'&&e.owner!==p.id&&s.players[e.owner]?.alive).sort((a,b)=>distance(cap,a)-distance(cap,b));
   const target=known.find(e=>e.id===p.ai.target)??known[0];if(!target||army.length<(s.config.difficulty==='easy'?12:8))continue;
   p.ai.target=target.id;const live=s.entities[target.id],fallen=live&&seen(s,p.id,live)&&live.hp<=0;
-  const available=army.filter(e=>e.order.kind==='idle'||fallen&&e.stance!=='hold'||e.order.kind==='attackMove'&&e.order.point&&distance(e.order.point,{x:target.x-1,y:target.y+1})>3);
+  const available=army.filter(e=>e.order.kind==='idle'||fallen&&e.stance!=='hold'||e.order.kind==='attackMove'&&e.order.point&&distance(e.order.point,{x:target.x-1,y:target.y+1})>Math.max(3,Math.sqrt(army.length)*1.5));
   if(available.length){const point={x:target.x-1,y:target.y+1};submit({type:'order',ids:available.map(e=>e.id),order:{kind:'attackMove',point}});p.ai.raids++;if(fallen){submit({type:'stance',ids:available.slice(0,3).map(e=>e.id),stance:'hold'});submit({type:'order',ids:available.slice(0,3).map(e=>e.id),order:{kind:'move',point}});}}
  }
 }
