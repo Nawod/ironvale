@@ -8,7 +8,9 @@ export interface BattlefieldHooks { select:(ids:number[],append:boolean)=>void; 
 export class Battlefield {
  app=new Application();world=new Container();ground=new Container();objects=new Container();overlay=new Graphics();labels=new Container();
  sprites=new Map<number,Sprite>();chunks=new Map<string,{sprite:Sprite;canvas:HTMLCanvasElement;fog:number[]}>();snapshot?:Snapshot;selection:number[]=[];placement?:BuildingType;mode='';camera={x:0,y:0};zoom=1;ready=false;destroyed=false;
- private resize?:ResizeObserver;private pointers=new Map<number,Position>();private drag?:{point:Position;last:Position;id:number;button:number;touch:boolean;hit?:Entity;shift:boolean;moved:boolean;pan:boolean};private pointer?:Position;private initialPinch=0;private initialZoom=1;private keys=new Set<string>();private lastTime=performance.now();private frameTimes:number[]=[];
+ private holdTimer?:ReturnType<typeof setTimeout>;
+ private clearHold=()=>{if(this.holdTimer!==undefined)clearTimeout(this.holdTimer);this.holdTimer=undefined;};
+ private resize?:ResizeObserver;private pointers=new Map<number,Position>();private drag?:{point:Position;last:Position;id:number;button:number;touch:boolean;hit?:Entity;shift:boolean;moved:boolean;pan:boolean;held?:boolean};private pointer?:Position;private initialPinch=0;private initialZoom=1;private keys=new Set<string>();private lastTime=performance.now();private frameTimes:number[]=[];
  constructor(private host:HTMLElement,private hooks:BattlefieldHooks,private interactive=true){}
  async init():Promise<void>{
   await this.app.init({resizeTo:this.host,background:'#344b36',antialias:true,preference:'webgl',resolution:this.host.clientWidth<700?1:Math.min(devicePixelRatio,2),autoDensity:true});
@@ -53,26 +55,27 @@ export class Battlefield {
   return candidates[0]?.e;
  }
  private down=(e:PointerEvent)=>{if(!this.interactive)return;const p=this.screenPoint(e);this.pointers.set(e.pointerId,p);this.app.canvas.setPointerCapture(e.pointerId);
-  if(this.pointers.size===2){const a=[...this.pointers.values()];this.initialPinch=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);this.initialZoom=this.zoom;this.drag=undefined;return;}
+  if(this.pointers.size===2){this.clearHold();const a=[...this.pointers.values()];this.initialPinch=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);this.initialZoom=this.zoom;this.drag=undefined;return;}
   this.drag={point:p,last:p,id:e.pointerId,button:e.button,touch:e.pointerType!=='mouse',hit:this.hit(p),shift:e.shiftKey,moved:false,pan:e.button===1||(e.button===0&&e.ctrlKey)||e.pointerType!=='mouse'};
+  this.clearHold();if(this.drag.touch){const drag=this.drag;this.holdTimer=setTimeout(()=>{if(this.drag===drag&&!drag.moved&&this.pointers.size===1){drag.pan=false;drag.held=true;}},450);}
  };
  private move=(e:PointerEvent)=>{const p=this.screenPoint(e);this.pointer=p;if(this.pointers.has(e.pointerId))this.pointers.set(e.pointerId,p);
   if(this.pointers.size===2){const a=[...this.pointers.values()];this.zoom=Math.max(.4,Math.min(2,this.initialZoom*Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)/this.initialPinch));return;}
-  const d=this.drag;if(!d||d.id!==e.pointerId)return;const delta=Math.hypot(p.x-d.point.x,p.y-d.point.y);if(delta>8)d.moved=true;if(d.moved&&d.pan){this.camera.x-=(p.x-d.last.x)/this.zoom;this.camera.y-=(p.y-d.last.y)/this.zoom;}d.last=p;
+  const d=this.drag;if(!d||d.id!==e.pointerId)return;const delta=Math.hypot(p.x-d.point.x,p.y-d.point.y);if(delta>8){d.moved=true;this.clearHold();}if(d.moved&&d.pan){this.camera.x-=(p.x-d.last.x)/this.zoom;this.camera.y-=(p.y-d.last.y)/this.zoom;}d.last=p;
  };
- private up=(e:PointerEvent)=>{const p=this.screenPoint(e),d=this.drag;this.pointers.delete(e.pointerId);if(this.pointers.size>0){this.drag=undefined;return;}this.drag=undefined;if(!d)return;
+ private up=(e:PointerEvent)=>{this.clearHold();const p=this.screenPoint(e),d=this.drag;this.pointers.delete(e.pointerId);if(this.pointers.size>0){this.drag=undefined;return;}this.drag=undefined;if(!d)return;
   if(d.moved){if(!d.pan&&d.button===0&&this.snapshot){const ids=this.snapshot.entities.filter(v=>v.owner===this.snapshot!.playerId&&v.kind==='unit').filter(v=>{const q=this.worldToScreen(v);return q.x>=Math.min(d.point.x,p.x)&&q.x<=Math.max(d.point.x,p.x)&&q.y>=Math.min(d.point.y,p.y)&&q.y<=Math.max(d.point.y,p.y);}).map(v=>v.id);this.hooks.select(ids,d.shift);}return;}
-  if(d.pan&&!d.touch)return;
+  if(d.held||d.pan&&!d.touch)return;
   const world=this.screenToWorld(p),target=this.hit(p);
   if(d.button===2||this.mode||this.placement){this.hooks.action(world,target);return;}
   if(target)this.hooks.select([target.id],d.shift||d.touch&&this.selection.includes(target.id));else this.hooks.select([],false);
  };
- private cancelPointer=(e:PointerEvent)=>{this.pointers.delete(e.pointerId);this.drag=undefined;};
+ private cancelPointer=(e:PointerEvent)=>{this.clearHold();this.pointers.delete(e.pointerId);this.drag=undefined;};
  private context=(e:Event)=>e.preventDefault();
  private wheel=(e:WheelEvent)=>{if(!this.interactive)return;e.preventDefault();const p=this.screenPoint(e),before=this.screenToWorld(p);this.zoom=Math.max(.4,Math.min(2,this.zoom*Math.exp(-e.deltaY*.001)));const after=this.screenToWorld(p),a=iso(before),b=iso(after);this.camera.x+=a.x-b.x;this.camera.y+=a.y-b.y;};
  private keydown=(e:KeyboardEvent)=>{if(!(e.target instanceof HTMLInputElement)&&!e.ctrlKey&&!e.metaKey)this.keys.add(e.code);if(e.code.startsWith('Arrow'))e.preventDefault();};
  private keyup=(e:KeyboardEvent)=>this.keys.delete(e.code);
- private blur=()=>{this.keys.clear();this.drag=undefined;this.pointers.clear();};
+ private blur=()=>{this.clearHold();this.keys.clear();this.drag=undefined;this.pointers.clear();};
  private draw():void{
   if(!this.snapshot)return;const now=performance.now(),dt=Math.min(.05,(now-this.lastTime)/1000);this.frameTimes.push(now-this.lastTime);if(this.frameTimes.length>120)this.frameTimes.shift();this.lastTime=now;
   if(this.interactive){const speed=600*dt/this.zoom;this.camera.x+=(this.keys.has('ArrowRight')?speed:0)-(this.keys.has('ArrowLeft')?speed:0);this.camera.y+=(this.keys.has('ArrowDown')?speed:0)-(this.keys.has('ArrowUp')?speed:0);}
@@ -107,5 +110,5 @@ export class Battlefield {
   const drag=this.drag;if(drag?.moved&&!drag.pan&&drag.button===0){const a=this.screenToWorld(drag.point),b=this.screenToWorld(drag.last),pa=iso(a),pb=iso(b);this.overlay.rect(Math.min(pa.x,pb.x),Math.min(pa.y,pb.y),Math.abs(pb.x-pa.x),Math.abs(pb.y-pa.y)).fill({color:0xcadd9e,alpha:.12}).stroke({color:0xd9e8b6,width:1});}
  }
  metrics():{fps:number;renderer:string}{return {fps:1000/(this.frameTimes.reduce((a,b)=>a+b,0)/Math.max(1,this.frameTimes.length)),renderer:'WebGL'};}
- destroy():void{this.destroyed=true;this.resize?.disconnect();window.removeEventListener('keydown',this.keydown);window.removeEventListener('keyup',this.keyup);window.removeEventListener('blur',this.blur);if(this.ready){this.app.ticker.stop();for(const chunk of this.chunks.values())chunk.sprite.destroy({texture:true,textureSource:true});this.chunks.clear();this.app.destroy(true,{children:true,texture:false});}this.sprites.clear();}
+ destroy():void{this.clearHold();this.destroyed=true;this.resize?.disconnect();window.removeEventListener('keydown',this.keydown);window.removeEventListener('keyup',this.keyup);window.removeEventListener('blur',this.blur);if(this.ready){this.app.ticker.stop();for(const chunk of this.chunks.values())chunk.sprite.destroy({texture:true,textureSource:true});this.chunks.clear();this.app.destroy(true,{children:true,texture:false});}this.sprites.clear();}
 }

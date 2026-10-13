@@ -10,7 +10,7 @@ Refresh and connection recovery retain the same seat for 120 seconds; expiration
 
 ## Automated checks
 
-- `npm test`: **78 passing tests in 15 files**. Includes the original economy, movement, combat, conquest, visibility and persistence checks, expanded map counts, private room authority, public queues for every count from 2 to 8, actual WebSocket/worker recruitment from multiple seats, replay rejection, seat reconnect, checkpoint restart recovery and elapsed-time server scheduling.
+- `npm test`: **82 passing tests in 16 files**. Includes the original economy, movement, combat, conquest, visibility and persistence checks, expanded map counts, private room authority, public queues for every count from 2 to 8, actual WebSocket/worker recruitment from multiple seats, replay rejection, seat reconnect, checkpoint restart recovery and elapsed-time server scheduling.
 - `npm run build`: type checking, browser production build and server/worker build pass. Vite reports a large graphics bundle warning; it does not fail the build.
 - The browser suite exercises offline recruitment, saves, gathering and construction, responsive controls, private host readiness/start, public matching, refresh recovery, menus while simulation continues and eight independent browser contexts sharing one map. Device-specific cases deliberately skip other projects.
 - Full browser run after the three review repairs: **21 pass, 6 intentional device-specific skips**, across desktop, phone and tablet Chromium projects. Screenshots of the phone lobby and the eighth player's battlefield were inspected.
@@ -55,3 +55,9 @@ For public Internet play, deploy `dist`, `dist-server` and production dependenci
 Private creation and the lobby no longer ask for a player count. Rooms allow up to eight humans, and the host manually starts the current ready joined group (2–8); no empty seats are required. Optional AI filling produces eight empires. Server tests cover every actual private start count from two to eight. Ctrl + left mouse drag pans the camera and preserves selection, verified against the actual pointer handlers and in desktop Chromium.
 
 Updated browser checks: desktop Ctrl-drag, two-person dynamic private room, public matching and eight-browser dynamic room passed. The combined run had two mobile timing failures after the eight-context case (readiness and recruitment acknowledgement waits); unchanged phone/tablet private-room flows both passed in an isolated rerun (6.4s/8.7s). Mobile public matching passed in the combined run. These are emulated devices. The browser test server rebuilt and type-checked the final release.
+
+## Recruitment, audio and touch fixes — 2026-10-14
+
+Full simulation/server/audio/control suite:82 tests in16 files pass. New regressions verify front recruitment, resumed audio effects, touch hold-and-drag selecting owned units, quick drags remaining camera pans, and cancellation of delayed holds. Audio unlocks on first pointer/key interaction, including online menus; defaults are louder and Settings offers Test sound. Browser audio checks observe a real nonzero analyser signal, rather than merely an enabled setting. Physical speaker output and physical touch devices are not measured.
+
+Focused interaction browsers:5 pass/1 intentional desktop-touch skip. Desktop/phone/tablet audio produced a measured nonzero Web Audio signal; phone/tablet hold-drag selected all6 villagers. The phone selection release also verifies no accidental building activation. Screenshot inspected. Browser test server runs the production build/type check. Local game server restarted with the shared simulation fixes.

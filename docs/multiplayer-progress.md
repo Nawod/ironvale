@@ -25,3 +25,7 @@ Delivery: post-clock multiplayer browsers7 pass/2 intentional skips. Production 
 User revision: Ctrl + left-drag pans without selection/orders. Private rooms have no preselected count, always admit up to8, and start with the actual2–8 ready humans. Optional AI filling remains explicit. New panning/dynamic-room tests observed RED before implementation; full78-test/15-file suite passes.
 
 Revision browser verification: desktoppan/private2/public2/private8 pass; phone/tablet public pass. Two combined-run mobile acknowledgement timeouts after8-context load; isolated unchanged private/reconnect checks both pass (6.4s/8.7s). Final browser test server built/type-checked the release. Updated local production server restarted on5180.
+
+2026-10-14 user fixes: recruitment searches clear front exits before side/rear exits, with unit/resource collision checks; audio resumes before effects, unlocks from user interaction in local/online screens, louder defaults and Test sound; touch holds450ms to select a group, immediate drags pan, pinch/cancellation clears hold timers. Each requested issue reproduced RED; full82-test/16-file suite passes.
+
+Browser evidence: audio3 device-layout projects and touch selection2 layouts pass (5 pass/1 skip). Selection box coordinates corrected to cover all6 starting villagers and begin on unobstructed map rather than phone toolbar. Additional phone release check passes without activating a building. Phone screenshot inspected. Build/typecheck passes via browser server.

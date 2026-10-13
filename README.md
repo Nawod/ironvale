@@ -37,7 +37,7 @@ For local development use `npm run dev` plus `npm run server` in a second termin
 
 | Action | Desktop | Touch |
 |---|---|---|
-| Select | Click; drag to select units; Shift-click adds | Tap; use Idle villagers or Select army for groups |
+| Select | Click; drag to select units; Shift-click adds | Tap; hold 450 ms then drag a box for groups; use Idle villagers or Select army |
 | Contextual order | Right-click a resource, building, enemy, or ground | Choose an order button, then tap the target |
 | Camera | Ctrl + left mouse drag; arrow keys; wheel zoom; middle-button drag | Drag to pan; pinch to zoom |
 | Army orders | A attack-move; M move; P patrol; S stop | Command buttons |
@@ -45,7 +45,7 @@ For local development use `npm run dev` plus `npm run server` in a second termin
 | Control groups | Ctrl+1–9 saves; 1–9 selects | Select army button |
 | Pause | Space or Escape | Pause button |
 
-Select villagers to place buildings. Building buttons show their costs and remain locked until the required development stage. Select production buildings to recruit or research. Town advancement requires a completed barracks and storehouse; Fortified Empire requires a smithy and market. Gates admit the owner's troops; walls block routes. Soldiers can garrison towers and fortresses. Hold position permits firing in range without pursuit.
+Select villagers to place buildings. Building buttons show their costs and remain locked until the required development stage. Select production buildings to recruit or research. Recruits emerge on the front side of their building, using another clear nearby exit if the front is blocked. Town advancement requires a completed barracks and storehouse; Fortified Empire requires a smithy and market. Gates admit the owner's troops; walls block routes. Soldiers can garrison towers and fortresses. Hold position permits firing in range without pursuit.
 
 Destroy an original capital and occupy its ruins with soldiers for **30 seconds**. Hostile troops contest and pause occupation; abandoning it resets progress. The owner can rebuild after clearing attackers. Capture transfers surviving buildings and villagers and disbands the defeated army. Captured capitals become outposts. Captured population may exceed housing, but recruitment waits for capacity.
 
@@ -53,7 +53,7 @@ Destroy an original capital and occupy its ruins with soldiers for **30 seconds*
 
 Manual saves and a rolling autosave every 60 simulation seconds use IndexedDB. All simulation state is retained, including AI plans, fog, queues, and randomness. Loading starts paused. Leaving the tab pauses single-player automatically; online matches continue. Saves remain in this browser on this device; clearing site data removes them. Local saves are not cloud accounts.
 
-Music and sound effects are synthesized locally and adjustable in Settings. There are no external asset requests. All artwork is original code-drawn medieval vector art, rendered into cached local sprite textures.
+Music and sound effects are synthesized locally and adjustable in Settings. Audio unlocks on your first tap, click or keypress; Settings includes a Test sound button. There are no external asset requests. All artwork is original code-drawn medieval vector art, rendered into cached local sprite textures.
 
 ## Build and verification
 
