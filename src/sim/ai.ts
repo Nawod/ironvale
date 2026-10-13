@@ -8,7 +8,7 @@ import { random } from './world';
 export function updateAI(s:GameState,includeHuman=false):void{
  const interval=s.config.difficulty==='easy'?100:s.config.difficulty==='normal'?50:25;
  for(const p of s.players){
-  if(!p.alive||p.id===0&&!includeHuman||s.tick<p.ai.nextThink)continue;p.ai.nextThink=s.tick+interval;
+  if(!p.alive||p.controller==='human'&&!includeHuman||s.tick<p.ai.nextThink)continue;p.ai.nextThink=s.tick+interval;
   const all=Object.values(s.entities),own=all.filter(e=>e.owner===p.id),cap=s.entities[p.capital];if(!cap)continue;
   const workers=own.filter(e=>e.type==='villager'),army=own.filter(e=>military(e)&&e.type!=='scout'&&!e.garrisoned),scouts=own.filter(e=>e.type==='scout');
   const buildings=own.filter(e=>e.kind==='building'),idle=workers.filter(e=>e.order.kind==='idle'),ready=(t:string)=>buildings.some(e=>e.type===t&&e.progress===1&&e.hp>0),count=(t:string)=>buildings.filter(e=>e.type===t).length;

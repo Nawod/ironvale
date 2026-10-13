@@ -5,3 +5,7 @@ playwright-report/
 .superpowers/
 *.log
 .npm-cache/
+
+dist-server/
+server-data/
+.env

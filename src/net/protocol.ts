@@ -1,0 +1,23 @@
+import type {Command,Difficulty,Snapshot} from '../sim/types';
+export interface RoomSettings {capacity:number;fillAI:boolean;difficulty:Difficulty;seed:number}
+export interface LobbyPlayer {id:string;name:string;seat:number;ready:boolean;connected:boolean;controller:'human'|'ai'}
+export interface RoomView extends RoomSettings {code:string;kind:'private'|'public';phase:'lobby'|'countdown'|'playing'|'finished';hostId:string;players:LobbyPlayer[];countdownEnds?:number}
+export type ClientMessage =
+ | ({type:'create';name:string}&RoomSettings)
+ | {type:'join';name:string;code:string}
+ | {type:'queue';name:string;count:number}
+ | {type:'ready';ready:boolean}
+ | ({type:'settings'}&RoomSettings)
+ | {type:'start'|'cancel'|'leave'}
+ | {type:'resume';code:string;token:string}
+ | {type:'command';seq:number;command:Command};
+export type ServerMessage =
+ | {type:'welcome';id:string;protocol:1}
+ | {type:'joined';room:RoomView;token:string;playerId:number;lastSeq:number}
+ | {type:'room';room:RoomView}
+ | {type:'queued';count:number;waiting:number}
+ | {type:'started';room:RoomView;playerId:number}
+ | {type:'snapshot';snapshot:Snapshot}
+ | {type:'commandResult';seq:number;error:string|null}
+ | {type:'error'|'closed';error:string}
+ | {type:'left'};

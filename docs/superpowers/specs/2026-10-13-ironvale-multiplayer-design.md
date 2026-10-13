@@ -1,6 +1,6 @@
 # Ironvale multiplayer design
 
-Date: 2026-10-13. Status: conversational design approved; written specification ready for review.
+Date: 2026-10-13. Status: approved for development. The user explicitly requested development after reviewing the written specification and confirmed a manual host start button.
 
 ## Intended outcome
 
@@ -16,7 +16,7 @@ Public matchmaking offers a target player count from 2–8. Players join a first
 
 Private rooms have a short room code and copyable invite link. The host chooses total empire count from 2–8, map seed, AI difficulty and whether vacant seats may be filled with AI. Joined humans occupy seats before AI. Humans explicitly mark themselves ready; the host starts when the configured seats are occupied by ready humans or AI. At least two humans are required for an online match; one-human games remain available through Single player. Total human and AI empires never exceeds eight. Lobby settings and seats lock at match start. If the host leaves a waiting room, hosting transfers to the oldest connected participant; an empty waiting room expires.
 
-The lobby shows participants, empire colors, readiness and AI seats. Errors such as an invalid code, full room, match already started or unavailable server are stated plainly. A human cannot join another empire midway through a match. The existing free-for-all capital occupation rules decide the winner; there is no match timer.
+The lobby shows participants, empire colors, readiness and AI seats. Private rooms never start automatically: an explicit **Start match** button belongs to the host, who starts after friends join and become ready. Errors such as an invalid code, full room, match already started or unavailable server are stated plainly. A human cannot join another empire midway through a match. The existing free-for-all capital occupation rules decide the winner; there is no match timer.
 
 ## Connection and match lifecycle
 

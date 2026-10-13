@@ -29,7 +29,7 @@ export const UNITS: Record<UnitType,UnitDef> = {
  ram:{name:'Battering ram',cost:{wood:130,gold:60},age:3,hp:350,speed:1.3,damage:48,range:1.8,seconds:28,armor:10,sight:6},
  trebuchet:{name:'Trebuchet',cost:{wood:160,gold:100},age:3,hp:200,speed:1.1,damage:70,range:12,seconds:35,armor:3,sight:9},
 };
-export const COLORS=['#7eb8d0','#db795e','#d9b960','#a28acc'];
+export const COLORS=['#7eb8d0','#db795e','#d9b960','#a28acc','#78bc88','#df91ba','#e8e0cb','#769ce5'];
 export const AGE_NAMES=['','Settlement','Town','Fortified Empire'];
 export const AGE_COSTS=[{}, {food:400,gold:150}, {food:700,gold:350,stone:150}] as Partial<Resources>[];
 export const TICK_RATE=20;
