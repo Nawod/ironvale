@@ -56,7 +56,7 @@ export class RoomService {
   const b=this.bindings.get(id);if(!b)return;this.bindings.delete(id);const {room,player}=b;
   if(room.phase==='playing'||room.phase==='finished'){player.connectionId=undefined;player.disconnectedAt=this.now();if(explicit)this.takeover(room,player);if(!room.players.some(p=>p.connectionId))room.emptySince=this.now();room.driver?.checkpoint();this.broadcast(room);return;}
   room.players=room.players.filter(p=>p!==player);
-  if(room.phase==='countdown'){for(const p of room.players){this.bindings.delete(p.connectionId!);const q=this.queues.get(room.capacity)??[];q.push({id:p.connectionId!,name:p.name});this.queues.set(room.capacity,q);this.send(p.connectionId,{type:'left'});}this.delete(room);this.queueUpdate(room.capacity);return;}
+  if(room.phase==='countdown'){for(const p of room.players){this.bindings.delete(p.connectionId!);const q=this.queues.get(room.capacity)??[];q.push({id:p.connectionId!,name:p.name});this.queues.set(room.capacity,q);this.send(p.connectionId,{type:'left'});}this.delete(room);this.match(room.capacity);return;}
   room.players.forEach((p,i)=>p.seat=i);if(room.hostId===player.id)room.hostId=room.players[0]?.id??'';if(!room.players.length)this.delete(room);else this.broadcast(room);
  }
  private takeover(room:Room,p:Participant){p.controller='ai';p.tokenHash='';room.driver?.controller(p.seat,'ai');room.driver?.checkpoint();}
@@ -66,7 +66,7 @@ export class RoomService {
   if(room.phase==='lobby'&&now-room.createdAt>3600000){for(const p of room.players)this.send(p.connectionId,{type:'closed',error:'This waiting room expired. Create a new room.'});this.delete(room);continue;}
   if(room.phase==='playing'){for(const p of room.players)if(p.controller==='human'&&p.disconnectedAt!==undefined&&now-p.disconnectedAt>=(this.options.reconnectMs??120000))this.takeover(room,p);const humans=room.players.filter(p=>p.controller==='human');const allEliminated=room.lastState&&humans.every(p=>!room.lastState!.players[p.seat]?.alive);if(!humans.length||allEliminated){room.emptySince??=now;if(now-room.emptySince>30000)this.delete(room);}}
   if(room.phase==='finished'&&now-(room.endedAt??now)>600000)this.delete(room);
- }}
+ }for(const [count,q]of this.queues)if(q.length>=count&&this.rooms.size<(this.options.maxRooms??32))this.match(count);}
  private delete(room:Room){room.driver?.stop();for(const p of room.players){if(p.connectionId)this.bindings.delete(p.connectionId);}this.rooms.delete(room.code);this.options.remove?.(room.code);}
  restore(room:Room){room.players.forEach(p=>{p.connectionId=undefined;if(p.controller==='human')p.disconnectedAt=this.now();});room.createdAt=this.now();room.emptySince=undefined;this.rooms.set(room.code,room);if(room.phase==='playing'){room.driver=this.options.driver(room,this.callbacks(room));}else room.endedAt=this.now();}
  shutdown(){for(const room of this.rooms.values()){for(const p of room.players)this.send(p.connectionId,{type:'closed',error:'The server is restarting. Your match will reconnect when it returns.'});room.driver?.stop();}this.peers.clear();}

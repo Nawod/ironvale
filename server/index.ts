@@ -34,6 +34,7 @@ export async function startServer(options:ServerOptions={}){
   const id=randomUUID();let alive=true,bucketAt=Date.now(),count=0,invalid=0;let previousFog:number[]|undefined,previousPlayer:number|undefined;
   const send=(m:ServerMessage)=>{
    if(socket.readyState!==WebSocket.OPEN)return;if(socket.bufferedAmount>4*1024*1024){socket.close(1013,'Connection too slow');return;}if(m.type==='snapshot'&&socket.bufferedAmount>512*1024)return;
+   if(m.type==='started'){previousFog=undefined;previousPlayer=undefined;}
    let packet:any=m;
    if(m.type==='snapshot'){
     const s=m.snapshot,changes:number[]=[];if(previousPlayer!==s.playerId)previousFog=undefined;

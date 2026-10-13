@@ -7,6 +7,7 @@ import type {Command,MatchConfig} from '../src/sim/types';
 const port=parentPort!;
 const state=workerData.state?decodeSave(workerData.state):createGame(workerData.config as MatchConfig);
 state.paused=false;
+let frames=0,lastSavedTick=-1,finished=false;
 const commands:{player:number;seq:number;command:Command}[]=[];
 const publish=()=>{for(const p of state.players)if(p.controller==='human')port.postMessage({type:'snapshot',player:p.id,snapshot:snapshot(state,p.id)});};
 const checkpoint=()=>port.postMessage({type:'checkpoint',state:encodeSave(state)});
@@ -18,7 +19,7 @@ port.on('message',m=>{
 setInterval(()=>{
  while(commands.length){const c=commands.shift()!;let error:string|null;try{error=command(state,{...c.command,player:c.player});}catch{error='This order could not be processed.';}port.postMessage({type:'result',player:c.player,seq:c.seq,error});}
  step(state);
- if(state.tick%4===0||state.winner!==null)publish();
- if(state.tick>0&&state.tick%1200===0)checkpoint();
+ if(++frames%4===0)publish();
+ if(state.tick>0&&state.tick%1200===0&&state.tick!==lastSavedTick){lastSavedTick=state.tick;checkpoint();}if(state.winner!==null&&!finished){finished=true;checkpoint();}
 },50);
 checkpoint();publish();

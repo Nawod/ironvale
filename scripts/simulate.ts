@@ -2,7 +2,7 @@ import {createGame} from '../src/sim/world';
 import {step} from '../src/sim/engine';
 import {updateAI} from '../src/sim/ai';
 import {writeFileSync,mkdirSync} from 'node:fs';
-const opponents=(Number(process.argv[2])===1?1:3) as 1|3,max=Number(process.argv[3])||36000;
+const opponents=Math.max(1,Math.min(7,Number(process.argv[2])||3)) as 1|2|3|4|5|6|7,max=Number(process.argv[3])||36000;
 const seed=Number(process.argv[4])||42;
 const s=createGame({opponents,difficulty:'hard',seed}),started=performance.now(),captures:unknown[]=[];let eventId=0;
 for(let i=0;i<max&&s.winner===null;i++){

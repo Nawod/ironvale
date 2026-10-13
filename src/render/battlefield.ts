@@ -25,17 +25,22 @@ export class Battlefield {
  update(s:Snapshot,initial=false):void{
   const prior=this.snapshot;this.snapshot=s;if(!this.ready)return;
   if(!prior||prior.size!==s.size){for(const chunk of this.chunks.values())chunk.sprite.destroy({texture:true,textureSource:true});this.chunks.clear();initial=true;}
-  if(initial){const cap=s.entities.find(e=>e.owner===0&&e.type==='capital');this.center(cap?{x:cap.x+1.5,y:cap.y+3}:{x:20,y:20});}
-  for(let cy=0;cy<s.size;cy+=8)for(let cx=0;cx<s.size;cx+=8){const key=`${cx},${cy}`,fog:number[]=[];for(let y=0;y<8;y++)for(let x=0;x<8;x++)fog.push(s.fog[(cy+y)*s.size+cx+x]);let chunk=this.chunks.get(key);if(!chunk&&!fog.some(v=>v>0))continue;if(chunk&&fog.every((v,i)=>chunk!.fog[i]===v))continue;
-   if(!chunk){const canvas=document.createElement('canvas');canvas.width=512;canvas.height=258;const sprite=new Sprite(Texture.from(canvas));sprite.anchor.set(.5,0);const p=iso({x:cx,y:cy});sprite.position.set(p.x,p.y);this.ground.addChild(sprite);chunk={sprite,canvas,fog:[]};this.chunks.set(key,chunk);}
-   const ctx=chunk.canvas.getContext('2d')!;ctx.clearRect(0,0,512,258);for(let y=0;y<8;y++)for(let x=0;x<8;x++){const f=fog[y*8+x];if(!f)continue;const v=s.terrain[(cy+y)*s.size+cx+x],source=tileTexture(v===1?4:((cx+x)*7+(cy+y)*13)%4,f===1).source.resource as HTMLCanvasElement;ctx.drawImage(source,256+(x-y)*32-32,(x+y)*16);}
-   chunk.fog=fog;chunk.sprite.texture.source.update();
-  }
+  if(initial){const cap=s.entities.find(e=>e.owner===s.playerId&&e.type==='capital');this.center(cap?{x:cap.x+1.5,y:cap.y+3}:{x:20,y:20});}
+  this.updateTerrain(s);
   const alive=new Set<number>();
   for(const e of s.entities){if(e.kind==='resource'&&e.amount<=0)continue;alive.add(e.id);let sp=this.sprites.get(e.id);if(!sp){sp=new Sprite(entityTexture(e.type,e.owner));sp.anchor.set(.5,e.kind==='building'?.77:e.type==='wood'?.88:.85);this.sprites.set(e.id,sp);this.objects.addChild(sp);const p=this.entityPosition(e);sp.position.set(p.x,p.y);}
    const texture=entityTexture(e.type,e.owner);if(sp.texture!==texture)sp.texture=texture;sp.alpha=e.ghost?.45:e.progress<1?.55+.4*e.progress:1;sp.tint=e.hp<=0?0x6c675b:0xffffff;
   }
   for(const[id,sp]of this.sprites)if(!alive.has(id)){sp.destroy();this.sprites.delete(id);}
+ }
+ private terrainView='';
+ private updateTerrain(s:Snapshot):void{
+  const left=this.camera.x-this.app.screen.width/2/this.zoom-384,right=this.camera.x+this.app.screen.width/2/this.zoom+384,top=this.camera.y-this.originY()/this.zoom-192,bottom=this.camera.y+(this.app.screen.height-this.originY())/this.zoom+192;
+  for(let cy=0;cy<s.size;cy+=8)for(let cx=0;cx<s.size;cx+=8){const pos=iso({x:cx,y:cy});if(pos.x+256<left||pos.x-256>right||pos.y+258<top||pos.y>bottom)continue;const key=`${cx},${cy}`,fog:number[]=[];for(let y=0;y<8;y++)for(let x=0;x<8;x++)fog.push(s.fog[(cy+y)*s.size+cx+x]);let chunk=this.chunks.get(key);if(!chunk&&!fog.some(v=>v>0))continue;if(chunk&&fog.every((v,i)=>chunk!.fog[i]===v))continue;
+   if(!chunk){const canvas=document.createElement('canvas');canvas.width=512;canvas.height=258;const sprite=new Sprite(Texture.from(canvas));sprite.anchor.set(.5,0);const p=iso({x:cx,y:cy});sprite.position.set(p.x,p.y);this.ground.addChild(sprite);chunk={sprite,canvas,fog:[]};this.chunks.set(key,chunk);}
+   const ctx=chunk.canvas.getContext('2d')!;ctx.clearRect(0,0,512,258);for(let y=0;y<8;y++)for(let x=0;x<8;x++){const f=fog[y*8+x];if(!f)continue;const v=s.terrain[(cy+y)*s.size+cx+x],source=tileTexture(v===1?4:((cx+x)*7+(cy+y)*13)%4,f===1).source.resource as HTMLCanvasElement;ctx.drawImage(source,256+(x-y)*32-32,(x+y)*16);}
+   chunk.fog=fog;chunk.sprite.texture.source.update();
+  }
  }
  private entityPosition(e:Entity):Position {const n=e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].size:0;return iso({x:e.x+n*.5,y:e.y+n*.5});}
  center(p:Position):void{this.camera=iso(p);}
@@ -56,7 +61,7 @@ export class Battlefield {
   const d=this.drag;if(!d||d.id!==e.pointerId)return;const delta=Math.hypot(p.x-d.point.x,p.y-d.point.y);if(delta>8)d.moved=true;if(d.moved&&d.pan){this.camera.x-=(p.x-d.last.x)/this.zoom;this.camera.y-=(p.y-d.last.y)/this.zoom;}d.last=p;
  };
  private up=(e:PointerEvent)=>{const p=this.screenPoint(e),d=this.drag;this.pointers.delete(e.pointerId);if(this.pointers.size>0){this.drag=undefined;return;}this.drag=undefined;if(!d)return;
-  if(d.moved){if(!d.pan&&d.button===0&&this.snapshot){const ids=this.snapshot.entities.filter(v=>v.owner===0&&v.kind==='unit').filter(v=>{const q=this.worldToScreen(v);return q.x>=Math.min(d.point.x,p.x)&&q.x<=Math.max(d.point.x,p.x)&&q.y>=Math.min(d.point.y,p.y)&&q.y<=Math.max(d.point.y,p.y);}).map(v=>v.id);this.hooks.select(ids,d.shift);}return;}
+  if(d.moved){if(!d.pan&&d.button===0&&this.snapshot){const ids=this.snapshot.entities.filter(v=>v.owner===this.snapshot!.playerId&&v.kind==='unit').filter(v=>{const q=this.worldToScreen(v);return q.x>=Math.min(d.point.x,p.x)&&q.x<=Math.max(d.point.x,p.x)&&q.y>=Math.min(d.point.y,p.y)&&q.y<=Math.max(d.point.y,p.y);}).map(v=>v.id);this.hooks.select(ids,d.shift);}return;}
   const world=this.screenToWorld(p),target=this.hit(p);
   if(d.button===2||this.mode||this.placement){this.hooks.action(world,target);return;}
   if(target)this.hooks.select([target.id],d.shift||d.touch&&this.selection.includes(target.id));else this.hooks.select([],false);
@@ -71,6 +76,7 @@ export class Battlefield {
   if(!this.snapshot)return;const now=performance.now(),dt=Math.min(.05,(now-this.lastTime)/1000);this.frameTimes.push(now-this.lastTime);if(this.frameTimes.length>120)this.frameTimes.shift();this.lastTime=now;
   if(this.interactive){const speed=600*dt/this.zoom;this.camera.x+=(this.keys.has('ArrowRight')?speed:0)-(this.keys.has('ArrowLeft')?speed:0);this.camera.y+=(this.keys.has('ArrowDown')?speed:0)-(this.keys.has('ArrowUp')?speed:0);}
   const clamp=uniso(this.camera);clamp.x=Math.max(0,Math.min(this.snapshot.size,clamp.x));clamp.y=Math.max(0,Math.min(this.snapshot.size,clamp.y));this.camera=iso(clamp);
+  const viewStamp=`${Math.floor(this.camera.x/128)},${Math.floor(this.camera.y/64)},${this.zoom.toFixed(2)},${this.app.screen.width},${this.app.screen.height}`;if(viewStamp!==this.terrainView){this.terrainView=viewStamp;this.updateTerrain(this.snapshot);}
   this.world.position.set(this.app.screen.width/2-this.camera.x*this.zoom,this.originY()-this.camera.y*this.zoom);this.world.scale.set(this.zoom);
   const left=-this.world.x/this.zoom-64,right=(this.app.screen.width-this.world.x)/this.zoom+64,top=-this.world.y/this.zoom-64,bottom=(this.app.screen.height-this.world.y)/this.zoom+64;
   for(const chunk of this.chunks.values()){const t=chunk.sprite;t.visible=t.x+256>left&&t.x-256<right&&t.y+258>top&&t.y<bottom;}
@@ -83,13 +89,13 @@ export class Battlefield {
    if(!sp.visible)continue;
    if(this.selection.includes(e.id)){
     const n=e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].size*22:16;
-    this.overlay.ellipse(pos.x,pos.y+2,n,n*.45).stroke({color:e.owner===0?0xe9d797:0xe79c80,width:2});
+    this.overlay.ellipse(pos.x,pos.y+2,n,n*.45).stroke({color:e.owner===this.snapshot.playerId?0xe9d797:0xe79c80,width:2});
     const yy=pos.y-(e.kind==='building'?110:55),width=e.kind==='building'?65:32;
-    this.overlay.rect(pos.x-width/2,yy,width,4).fill(0x26332b);this.overlay.rect(pos.x-width/2,yy,width*Math.max(0,e.hp/e.maxHp),4).fill(e.owner===0?0xa9c782:0xd58a72);
+    this.overlay.rect(pos.x-width/2,yy,width,4).fill(0x26332b);this.overlay.rect(pos.x-width/2,yy,width*Math.max(0,e.hp/e.maxHp),4).fill(e.owner===this.snapshot.playerId?0xa9c782:0xd58a72);
    }
    if(e.kind==='building'&&e.progress<1){this.overlay.rect(pos.x-22,pos.y-35,44,4).fill(0x4b4635);this.overlay.rect(pos.x-22,pos.y-35,44*e.progress,4).fill(0xe0c985);const n=BUILDINGS[e.type as keyof typeof BUILDINGS].size*18;this.overlay.moveTo(pos.x-n,pos.y-10).lineTo(pos.x-n,pos.y-80).lineTo(pos.x+n,pos.y-50).lineTo(pos.x+n,pos.y+10).stroke({color:0x9b8053,width:3,alpha:.8});}
    if(e.occupation){this.overlay.rect(pos.x-40,pos.y-60,80,7).fill(0x403929);this.overlay.rect(pos.x-40,pos.y-60,80*e.occupation.progress/30,7).fill(0xe6b86f);}
-   if(e.kind==='unit'&&e.carry&&e.owner===0)this.overlay.circle(pos.x+8,pos.y-28,3).fill(e.carry.resource==='gold'?0xd7bd61:e.carry.resource==='food'?0xcc9b69:0xb5a58b);
+   if(e.kind==='unit'&&e.carry&&e.owner===this.snapshot.playerId)this.overlay.circle(pos.x+8,pos.y-28,3).fill(e.carry.resource==='gold'?0xd7bd61:e.carry.resource==='food'?0xcc9b69:0xb5a58b);
    if(e.attackFx&&this.snapshot.tick-e.attackFx.tick<20){const end=iso(e.attackFx),age=(this.snapshot.tick-e.attackFx.tick)/20;const ranged=['archer','trebuchet','tower','fortress','capital'].includes(e.type);if(ranged){const x=pos.x+(end.x-pos.x)*age,y=pos.y-35+(end.y-pos.y+35)*age-Math.sin(age*Math.PI)*25;this.overlay.moveTo(x-6,y-2).lineTo(x,y).stroke({color:e.type==='trebuchet'?0x57564b:0xe5d3a4,width:e.type==='trebuchet'?5:2});}else if(age<.4){this.overlay.moveTo(pos.x+8,pos.y-18).lineTo(pos.x+23*Math.sin(age*8),pos.y-40+age*40).stroke({color:0xe5d8b9,width:2});}}
   }
   if(this.placement&&this.pointer){const p=this.screenToWorld(this.pointer),point={x:Math.floor(p.x),y:Math.floor(p.y)},d=BUILDINGS[this.placement],s=this.snapshot;
