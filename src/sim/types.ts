@@ -1,6 +1,6 @@
 export type Resource = 'food' | 'wood' | 'stone' | 'gold';
 export type Resources = Record<Resource, number>;
-export type UnitType = 'villager' | 'scout' | 'spearman' | 'swordsman' | 'archer' | 'cavalry' | 'ram' | 'trebuchet';
+export type UnitType = 'villager' | 'scout' | 'spearman' | 'swordsman' | 'archer' | 'cavalry' | 'ram' | 'trebuchet' | 'pikeman' | 'crossbowman' | 'heavyCavalry';
 export type BuildingType = 'capital' | 'outpost' | 'house' | 'storage' | 'farm' | 'barracks' | 'palisade' | 'range' | 'stable' | 'smithy' | 'market' | 'wall' | 'gate' | 'tower' | 'fortress' | 'workshop';
 export type Position = { x: number; y: number };
 export type Order = { kind: 'idle' | 'move' | 'gather' | 'build' | 'repair' | 'attack' | 'attackMove' | 'patrol' | 'garrison'; target?: number; point?: Position; origin?: Position; returning?: boolean };
@@ -10,6 +10,7 @@ export interface Entity extends Position {
   hp: number; maxHp: number; order: Order; path: Position[]; pathGoal?: Position; cooldown: number;
   progress: number; queue: QueueItem[]; amount: number; carry?: { resource: Resource; amount: number }; nextPathTick?:number; attackFx?:Position & {tick:number};
   stance: 'aggressive' | 'defensive' | 'hold'; home?: Position; garrisoned?: number; garrison: number[];
+  buildQueue?: number[];
   occupation?: { owner: number; progress: number }; ghost?: boolean;
 }
 export type Difficulty = 'easy' | 'normal' | 'hard';

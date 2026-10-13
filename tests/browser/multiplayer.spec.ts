@@ -1,10 +1,10 @@
 import {test,expect} from '@playwright/test';
 test.use({actionTimeout:10000});
-test('Ctrl plus mouse drag pans while keeping the town center selected',async({page},info)=>{
+test('Ctrl plus mouse drag rotates while keeping the town center selected',async({page},info)=>{
  test.skip(info.project.name!=='desktop');await page.goto('/');await page.getByRole('button',{name:'Begin your reign'}).click();await page.getByRole('button',{name:'Town center',exact:true}).click();await expect(page.getByRole('button',{name:'Recruit Villager',exact:true})).toBeVisible();
  const box=(await page.locator('[data-testid="battlefield"] canvas').boundingBox())!;await page.keyboard.down('Control');await page.mouse.move(box.x+box.width*.5,box.y+box.height*.4);await page.mouse.down();await page.mouse.move(box.x+box.width*.65,box.y+box.height*.5,{steps:12});await page.mouse.up();await page.keyboard.up('Control');await expect(page.getByRole('button',{name:'Recruit Villager',exact:true})).toBeVisible();
 });
-async function openOnline(page:any,name:string){await page.goto('/');await page.getByRole('button',{name:'Play online',exact:true}).click({timeout:10000});await page.getByLabel('Your name').fill(name);}
+async function openOnline(page:any,name:string){await page.goto('/');await page.getByRole('button',{name:'Play with Freinds',exact:true}).click({timeout:10000});await page.getByLabel('Your name').fill(name);}
 test('host manually starts a private match after friends join; both seats recruit and reconnect',async({page,browser},info)=>{
  test.setTimeout(60000);const context=await browser.newContext(info.project.use),friend=await context.newPage();
  try{await openOnline(page,'Alice');await page.getByRole('button',{name:'Create room',exact:true}).click();await expect(page.getByLabel('Player limit',{exact:true})).toHaveCount(0);await page.getByRole('button',{name:'Open room',exact:true}).click();const code=await page.getByTestId('room-code').textContent();

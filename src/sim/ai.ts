@@ -1,6 +1,6 @@
 import type { BuildingType, Entity, GameState, Resource, UnitType } from './types';
 import { distance, military } from './types';
-import { BUILDINGS, AGE_COSTS } from './definitions';
+import { BUILDINGS, AGE_COSTS, UNITS } from './definitions';
 import { applyCommand, affordable } from './economy';
 import { capacity,population,seen } from './visibility';
 import { canPlace } from './navigation';
@@ -40,7 +40,7 @@ export function updateAI(s:GameState,includeHuman=false):void{
   const ageReserved=p.age<3&&!cap.queue.some(q=>q.kind==='age')&&workers.length>=15;
   for(const b of buildings){if(b.queue.length||b.progress<1||b.hp<=0)continue;
    if(b.type==='smithy'){submit({type:'research',building:b.id,research:p.weapons<=p.armor?'weapons':'armor'});continue;}
-   const trains=BUILDINGS[b.type as keyof typeof BUILDINGS].trains?.filter(u=>u!=='villager'&&u!=='scout');if(!trains?.length||army.length>=60)continue;
+   const trains=BUILDINGS[b.type as keyof typeof BUILDINGS].trains?.filter(u=>u!=='villager'&&u!=='scout'&&UNITS[u].age<=p.age);if(!trains?.length||army.length>=60)continue;
    if(ageReserved&&p.resources.food<(AGE_COSTS[p.age].food??0)+100)continue;
    const unit:UnitType=b.type==='workshop'?(army.filter(e=>e.type==='ram').length<3?'ram':'trebuchet'):trains[Math.floor(random(s)*trains.length)];submit({type:'recruit',building:b.id,unit});
   }

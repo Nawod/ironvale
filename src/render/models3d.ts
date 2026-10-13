@@ -20,7 +20,7 @@ export class ModelLibrary {
   };
   if(type==='wood'){post(0,0,1.5);add('cone','#2e5740',[0,1.35,0],[1.2,1.5,1.2]);add('cone','#3d6b43',[0,2.05,0],[.95,1.4,.95]);add('cone','#557c47',[0,2.65,0],[.65,1.1,.65]);}
   else if(type==='stone'||type==='gold'){for(let i=0;i<4;i++)add('rock',type==='gold'?(i%2?'#c8a84e':'#9b8a55'):'#89958c',[(i%2-.5)*.5,.24+(i===3?.15:0),(Math.floor(i/2)-.5)*.5],[.75,.55,.7],[0,i*.9,.15]);}
-  else if(type==='deer'){box('#997654',0,.65,0,.72,.36,.3);for(const x of [-.25,.25])for(const z of [-.1,.1])box('#6f5039',x,.29,z,.07,.6,.07);add('cylinder','#a78158',[.35,.85,0],[.13,.5,.16],[0,0,-.5]);add('sphere','#b18c65',[.46,1.11,0],[.32,.24,.2]);for(const z of [-.08,.08]){add('cylinder','#634c35',[.4,1.4,z],[.035,.55,.035],[0,0,.3]);add('cylinder','#634c35',[.31,1.51,z],[.03,.24,.03],[0,0,-.7]);}}
+  else if(type==='deer'){box('#997654',0,.65,0,.72,.36,.3);for(const x of [-.25,.25])for(const z of [-.1,.1])box('#6f5039',x,.29,z,.07,.6,.07,x<0?'legL':'legR');add('cylinder','#a78158',[.35,.85,0],[.13,.5,.16],[0,0,-.5]);add('sphere','#b18c65',[.46,1.11,0],[.32,.24,.2]);for(const z of [-.08,.08]){add('cylinder','#634c35',[.4,1.4,z],[.035,.55,.035],[0,0,.3]);add('cylinder','#634c35',[.31,1.51,z],[.03,.24,.03],[0,0,-.7]);}}
   else if(type in BUILDINGS){const def=BUILDINGS[type as keyof typeof BUILDINGS],n=def.size;
    box('#6c7563',0,.055,0,n*.96,.11,n*.96);
    if(type==='farm'){box('#725e3d',0,.13,0,n*.94,.08,n*.94);for(let i=0;i<6;i++){box('#495c35',(i-2.5)*.43,.19,0,.16,.09,2.65);for(let j=0;j<4;j++)add('cone','#c4b76a',[(i-2.5)*.43,.4,(j-1.5)*.62],[.15,.42,.15]);}}
@@ -44,8 +44,11 @@ export class ModelLibrary {
   }else if(type==='ram'||type==='trebuchet'){box('#8e6b3e',0,.5,0,1.1,.32,1.5);for(const x of [-.63,.63])for(const z of [-.5,.5])add('cylinder','#504733',[x,.25,z],[.5,.15,.5],[0,0,Math.PI/2]);
    if(type==='ram'){box('#b69b6a',0,.83,0,.23,.23,2,'weapon');add('roof',team,[0,1.1,0],[1.4,.6,1.65]);}
    else{for(const x of [-.38,.38])add('box','#8b6e43',[x,1.05,0],[.14,1.9,.14],[.3,0,0]);add('box','#bba075',[0,1.9,.1],[.13,.15,2.3],[.6,0,0],'weapon');box('#706c55',0,1.55,-.85,.45,.5,.4);}
-  }else{const mounted=type==='scout'||type==='cavalry';if(mounted){box('#93744f',0,.75,0,.43,.48,1.15);for(const x of [-.15,.15])for(const z of [-.4,.4])box('#594635',x,.32,z,.12,.7,.13,z<0?'legL':'legR');box('#9e8058',0,1.03,.44,.2,.58,.23);add('sphere','#9e8058',[0,1.35,.55],[.27,.32,.5]);box(team,0,.97,0,.48,.08,.5);}person(mounted?.78:0,type!=='villager');const b=mounted?.78:0;
-   if(type==='spearman'||type==='cavalry'){add('cylinder','#9e8258',[.34,b+1.1,0],[.045,2.1,.045],[0,0,0],'weapon');add('cone','#aeb9b9',[.34,b+2.24,0],[.16,.3,.16],[0,0,0],'weapon');}
+  }else{const mounted=type==='scout'||type==='cavalry'||type==='heavyCavalry';if(mounted){box('#93744f',0,.75,0,.43,.48,1.15);for(const x of [-.15,.15])for(const z of [-.4,.4])box('#594635',x,.32,z,.12,.7,.13,z<0?'legL':'legR');box('#9e8058',0,1.03,.44,.2,.58,.23);add('sphere','#9e8058',[0,1.35,.55],[.27,.32,.5]);box(team,0,.97,0,.48,.08,.5);}person(mounted?.78:0,type!=='villager');const b=mounted?.78:0;
+   if(type==='heavyCavalry'){box('#aeb9b9',0,.82,.32,.5,.42,.6);box(team,0,1.05,0,.58,.15,.85);}
+   if(type==='pikeman'){box('#aeb9b9',-.3,.85,.08,.12,.65,.42);add('cone',team,[0,1.45,0],[.18,.4,.18]);}
+   if(type==='spearman'||type==='pikeman'||type==='cavalry'||type==='heavyCavalry'){add('cylinder','#9e8258',[.34,b+1.1,0],[.045,2.1,.045],[0,0,0],'weapon');add('cone','#aeb9b9',[.34,b+2.24,0],[.16,.3,.16],[0,0,0],'weapon');}
+   else if(type==='crossbowman'){box('#755338',.34,b+.82,.2,.12,.14,.6,'weapon');box('#aeb9b9',.34,b+.87,.4,.62,.05,.08,'weapon');box(team,0,b+1.35,0,.38,.14,.35);}
    else if(type==='archer'){add('bow','#947249',[.35,b+.85,.12],[.6,.9,.6],[0,Math.PI/2,0],'weapon');}
    else if(type==='villager'){box('#896c45',.33,b+.52,.06,.06,.8,.06,'arm');box('#aeb9b9',.34,b+.92,.06,.34,.08,.09,'arm');}
    else{box('#aeb9b9',.33,b+.85,.1,.06,.65,.04,'weapon');box(team,-.32,b+.73,.15,.09,.47,.36);}

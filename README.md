@@ -21,7 +21,7 @@ For friends or a phone/tablet on the same Wi-Fi, open http://YOUR-COMPUTER-LAN-I
 
 ## Online matches
 
-Choose **Play online** and enter your guest name. Accounts are not required.
+Choose **Play with Freinds** and enter your guest name. Accounts are not required.
 
 - **Create room:** share the room code or invitation link. At least two humans must join. Each participant presses **Ready**. Only the creator/host sees the **Start match** button; joining and readiness never start a private game automatically. No player count is chosen when creating a private room: up to eight humans can join, and Start match uses the actual joined count (2–8). The host can optionally fill remaining seats with AI for an eight-empire match. Changing room settings clears readiness so everyone can confirm them.
 - **Join room:** use a friend's invitation link or enter their code, then press Ready and wait for the host.
@@ -37,16 +37,22 @@ For local development use `npm run dev` plus `npm run server` in a second termin
 
 | Action | Desktop | Touch |
 |---|---|---|
-| Select | Click; drag to select units; Shift-click adds | Tap; hold 450 ms then drag a box for groups; use Idle villagers or Select army |
-| Contextual order | Right-click a resource, building, enemy, or ground | Choose an order button, then tap the target |
-| Camera | Ctrl + left mouse drag; arrow keys; wheel zoom; middle-button drag | Drag to pan; pinch to zoom |
+| Select | Click; drag to select units; Shift-click adds | Tap; hold 450 ms then drag a box for groups; use Idle villagers or Select all army |
+| Contextual order | Right-click a resource, building, enemy, or ground | With units selected, tap resources to gather, enemies to attack, or ground to move; command buttons remain available |
+| Camera | Middle-button drag or arrow keys pan; Ctrl + left drag rotates; wheel zooms | Drag to pan; two fingers pinch to zoom and twist to rotate |
 | Rotate/reset | Q / E or arrow buttons rotate; diamond button resets angle/zoom | Camera arrow and diamond buttons |
 | Army orders | A attack-move; M move; P patrol; S stop | Command buttons |
 | Home | H or the shield/Town center button | Shield/Town center button |
-| Control groups | Ctrl+1–9 saves; 1–9 selects | Select army button |
+| Control groups | Ctrl+1–9 saves; 1–9 selects | Select all army button |
 | Pause | Space or Escape | Pause button |
 
 Select villagers to place buildings. Building buttons show their costs and remain locked until the required development stage. Select production buildings to recruit or research. Recruits emerge on the front side of their building, using another clear nearby exit if the front is blocked. Town advancement requires a completed barracks and storehouse; Fortified Empire requires a smithy and market. Gates admit the owner's troops; walls block routes. Soldiers can garrison towers and fortresses. Hold position permits firing in range without pursuit.
+
+With villagers selected, click or tap an unfinished friendly building to assign them to finish construction. Completed buildings remain selectable; Shift-click can select an unfinished building without assigning workers.
+
+Stone-wall placement queues successive sites for the selected builders. They finish them in placement order; a new move, gather, attack or Stop order cancels their remaining assignments. Each site is paid for when placed and stays available for reassignment. Queues are saved with the match.
+
+Wild deer roam near their original habitat in the authoritative simulation and pause while a nearby villager hunts them. Pikemen train at barracks in Town; crossbowmen and heavy cavalry unlock in Fortified Empire at archery ranges and stables. Spears counter mounted troops, mounted troops counter archers, and bows/crossbows counter spear infantry.
 
 Destroy an original capital and occupy its ruins with soldiers for **30 seconds**. Hostile troops contest and pause occupation; abandoning it resets progress. The owner can rebuild after clearing attackers. Capture transfers surviving buildings and villagers and disbands the defeated army. Captured capitals become outposts. Captured population may exceed housing, but recruitment waits for capacity.
 
@@ -74,7 +80,7 @@ npm run build
 
 The simulation is browser-independent TypeScript, running at20 Hz in a browser worker offline or a Node worker thread online. React handles menus/controls; Three.js WebGL handles the 3D battlefield. Human and AI commands share validation. Rendering receives player-visible snapshots; saved matches retain full state. Online rooms use WebSockets, player-specific snapshots, and server-controlled human/AI seats. Accounts, ranked play, chat, spectators, and cross-device guest identity are not implemented.
 
-The benchmark uses a controlled 400- and 800-unit fixtures with AI thinking delayed to isolate the load; rendering includes nearby combat, with enlarged unit health to keep the count stable. Browser benchmarks use native Windows Direct3D where available. Phone layouts/controls and CPU-throttled performance are emulated on the desktop GPU, **not physical-phone verification**. Test results, screenshots, headless diagnostic states and performance measurements are in `test-results/` after running the checks. 3D conversion evidence is in `docs/3d-verification.md`. Original verification is in `docs/verification.md`; multiplayer evidence and current limits are in `docs/multiplayer-verification.md`.
+The benchmark uses a controlled 400- and 800-unit fixtures with AI thinking delayed to isolate the load; rendering includes nearby combat, with enlarged unit health to keep the count stable. Browser benchmarks use native Windows Direct3D where available. Phone layouts/controls and CPU-throttled performance are emulated on the desktop GPU, **not physical-phone verification**. Test results, screenshots, headless diagnostic states and performance measurements are in `test-results/` after running the checks. Latest gameplay and gesture verification is in `docs/gameplay-refinements.md`; initial 3D conversion evidence is in `docs/3d-verification.md`. Original verification is in `docs/verification.md`; multiplayer evidence and current limits are in `docs/multiplayer-verification.md`.
 
 
 ## Public hosting

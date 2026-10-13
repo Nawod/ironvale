@@ -25,8 +25,9 @@ function person(c:CanvasRenderingContext2D,x:number,y:number,color:string,type:s
  line(c,x-8,y-28,x-12,y-15,'#c5a47d',4);line(c,x+8,y-28,x+13,y-18,'#c5a47d',4);
  ellipse(c,x,y-41,6,7,'#dfbd91');ellipse(c,x,y-47,7,3,type==='villager'?'#aa9562':'#a8b2ac');
  if(type==='villager'){line(c,x+13,y-18,x+20,y-38,'#755131',3);polygon(c,[[x+15,y-35],[x+26,y-40],[x+27,y-32],[x+20,y-30]],'#89938b');}
+ else if(type==='crossbowman'){line(c,x+8,y-23,x+20,y-34,'#a9814d',5);line(c,x+7,y-35,x+28,y-26,'#d4ddd3',3);}
  else if(type==='archer'){c.strokeStyle='#a9814d';c.lineWidth=3;c.beginPath();c.arc(x+13,y-24,15,-1.4,1.4);c.stroke();line(c,x+15,y-39,x+15,y-10,'#ddcfac',1);}
- else{line(c,x+13,y-18,x+15,y-(type==='spearman'?67:43),'#8d7656',2);polygon(c,[[x+12,y-(type==='spearman'?67:43)],[x+16,y-(type==='spearman'?74:52)],[x+19,y-(type==='spearman'?66:43)]],'#d4ddd3');polygon(c,[[x-17,y-28],[x-5,y-28],[x-6,y-14],[x-11,y-9],[x-17,y-16]],color,'#dfc996');}
+ else{line(c,x+13,y-18,x+15,y-((type==='spearman'||type==='pikeman')?67:43),'#8d7656',2);polygon(c,[[x+12,y-((type==='spearman'||type==='pikeman')?67:43)],[x+16,y-((type==='spearman'||type==='pikeman')?74:52)],[x+19,y-((type==='spearman'||type==='pikeman')?66:43)]],'#d4ddd3');polygon(c,[[x-17,y-28],[x-5,y-28],[x-6,y-14],[x-11,y-9],[x-17,y-16]],color,'#dfc996');}
 }
 export function paintEntity(type:Entity['type'],owner=0):HTMLCanvasElement{
  const b=BUILDINGS[type as keyof typeof BUILDINGS],isBuilding=!!b,canvas=document.createElement('canvas');canvas.width=isBuilding?320:type==='wood'?100:140;canvas.height=isBuilding?280:type==='wood'?150:120;
@@ -72,7 +73,7 @@ export function paintEntity(type:Entity['type'],owner=0):HTMLCanvasElement{
   ellipse(c,0,3,34,11,'#233b2a44');for(const[x,y,w]of [[-20,0,21],[5,5,25],[21,-5,16],[-3,-10,18]]){polygon(c,[[x-w,y],[x-w*.4,y-w],[x+w*.5,y-w*.8],[x+w,y],[x,y+w*.4]],type==='gold'?'#aaa071':'#8a9388','#546255');polygon(c,[[x-w*.4,y-w],[x+w*.5,y-w*.8],[x,y-w*.3]],type==='gold'?'#d2bd74':'#b2b9a9');}
  }else if(type==='deer'){
   ellipse(c,0,2,20,5,'#31452955');ellipse(c,-3,-18,16,8,'#9b784f');for(const x of [-14,9])line(c,x,-13,x-2,0,'#765b3c',3);line(c,9,-20,14,-39,'#af8c5b',6);ellipse(c,18,-39,8,4,'#ae8957');line(c,16,-43,13,-54,'#725337',2);line(c,14,-48,8,-52,'#725337',2);line(c,18,-44,23,-54,'#725337',2);
- }else if(type==='cavalry'||type==='scout'){
+ }else if(type==='cavalry'||type==='heavyCavalry'||type==='scout'){
   ellipse(c,0,2,23,7,'#263a2e55');ellipse(c,-1,-22,23,10,type==='scout'?'#ae9a79':'#77644f');for(const x of [-16,14]){line(c,x,-17,x-4,0,'#675340',5);line(c,x+3,-17,x+7,-1,'#675340',4);}line(c,15,-23,20,-40,'#806b53',9);ellipse(c,27,-41,11,5,'#998466');polygon(c,[[22,-43],[19,-51],[26,-45]],'#5c4c3d');polygon(c,[[-12,-26],[12,-26],[10,-10],[-13,-13]],team);person(c,-4,-30,team,type==='scout'?'swordsman':'spearman');
  }else if(type==='ram'||type==='trebuchet'){
   ellipse(c,0,3,39,10,'#263a2e55');box(c,-19,-8,65,25,19,'#8b6f43','#665236','#ac8c57');for(const x of [-27,8,33])ellipse(c,x,6,8,10,'#584c35');

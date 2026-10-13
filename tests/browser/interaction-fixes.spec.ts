@@ -8,7 +8,7 @@ test('first online interaction unlocks audio and produces a measurable signal',a
    createGain(){const node=super.createGain(),connect=node.connect.bind(node) as any;node.connect=((target:any,...args:any[])=>connect(target===this.destination?this.meter:target,...args)) as any;return node;}
   };
  });
- await page.goto('/');await page.getByRole('button',{name:'Play online',exact:true}).click();
+ await page.goto('/');await page.getByRole('button',{name:'Play with Freinds',exact:true}).click();
  await expect.poll(()=>page.evaluate(()=>{const ctx=(window as any).__testAudio;if(!ctx||ctx.state!=='running')return 0;const samples=new Uint8Array(ctx.meter.frequencyBinCount);ctx.meter.getByteFrequencyData(samples);return Math.max(...samples);})).toBeGreaterThan(8);
 });
 test('touch hold and drag selects several villagers',async({page,context},info)=>{

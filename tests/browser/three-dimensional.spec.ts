@@ -24,7 +24,7 @@ test('rotated drag panning and touch pinch retain accurate model selection',asyn
  await page.getByRole('button',{name:'Rotate camera right'}).click();await page.getByRole('button',{name:'Rotate camera right'}).click();
  const dx=40,dy=20,start={x:viewport.width/2,y:viewport.height*.4};let finalZoom=zoom;
  if(info.project.name==='desktop'){
-  await page.keyboard.down('Control');await page.mouse.move(start.x,start.y);await page.mouse.down();await page.mouse.move(start.x+dx,start.y+dy,{steps:4});await page.mouse.up();await page.keyboard.up('Control');
+  await page.mouse.move(start.x,start.y);await page.mouse.down({button:'middle'});await page.mouse.move(start.x+dx,start.y+dy,{steps:4});await page.mouse.up({button:'middle'});
  }else{
   const cdp=await context.newCDPSession(page);
   await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[start]});await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:start.x+dx,y:start.y+dy}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});

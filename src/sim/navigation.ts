@@ -1,6 +1,6 @@
 import type { Entity, GameState, Position } from './types';
 import { distance } from './types';
-import { BUILDINGS } from './definitions';
+import { BUILDINGS,UNITS } from './definitions';
 export function bounds(s:GameState,p:Position):boolean{return Number.isFinite(p.x)&&Number.isFinite(p.y)&&p.x>=1&&p.y>=1&&p.x<s.size-1&&p.y<s.size-1;}
 export function buildingSize(e:Entity):number{return e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].size:0;}
 export function blockedGrid(s:GameState,owner:number):Uint8Array{
@@ -41,6 +41,6 @@ export function travel(s:GameState,e:Entity,goal:Position,dt:number,grid:Uint8Ar
  if(!changed&&!e.path.length&&s.tick<(e.nextPathTick??0))return false;
  const next=e.path[0];if(changed||!e.path.length||next&&grid[Math.floor(next.y)*s.size+Math.floor(next.x)]){e.path=pathfind(s,e,goal,e.owner,grid);e.pathGoal={...goal};e.nextPathTick=s.tick+(e.path.length?0:40);}
  if(!e.path.length)return false;
- const p=e.path[0],d=distance(e,p),speed=(e.type==='villager'?2.2:e.type==='scout'?3.8:e.type==='cavalry'?3.5:e.type==='ram'?1.3:e.type==='trebuchet'?1.1:2.25)*dt;
+ const p=e.path[0],d=distance(e,p),speed=(e.type==='deer'?1.1:UNITS[e.type as keyof typeof UNITS]?.speed??2.25)*dt;
  if(d<=speed){e.x=p.x;e.y=p.y;e.path.shift();}else{e.x+=(p.x-e.x)*speed/d;e.y+=(p.y-e.y)*speed/d;}return distance(e,goal)<.35;
 }
