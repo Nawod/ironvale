@@ -1,0 +1,13 @@
+import {it,expect} from 'vitest';
+import {createGame,spawn} from '../src/sim/world';
+import {step} from '../src/sim/engine';
+import {updateAI} from '../src/sim/ai';
+import {encodeSave,decodeSave} from '../src/sim/save';
+import {updateVisibility} from '../src/sim/visibility';
+it('assigns real economic tasks without inventing resources',()=>{const s=createGame({opponents:3,difficulty:'hard',seed:7});s.tick=100;updateAI(s);const workers=Object.values(s.entities).filter(e=>e.owner===1&&e.type==='villager');expect(workers.some(e=>e.order.kind==='gather')).toBe(true);expect(s.players[1].resources.food).toBeLessThanOrEqual(350);expect(s.players[1].resources.wood).toBeLessThanOrEqual(450);});
+it('computer armies target another computer city after discovering it',()=>{const s=createGame({opponents:3,difficulty:'hard',seed:7}),cap=s.entities[s.players[2].capital];for(let i=0;i<14;i++)spawn(s,'unit','spearman',1,{x:cap.x-5,y:cap.y-2});updateVisibility(s);s.tick=1000;updateAI(s);expect(s.players[1].ai.target).toBe(cap.id);expect(Object.values(s.entities).some(e=>e.owner===1&&e.order.kind==='attackMove')).toBe(true);});
+it('restores a match without changing queues, fog, plans or future outcomes',()=>{const s=createGame({opponents:1,difficulty:'normal',seed:9});step(s,100);const restored=decodeSave(encodeSave(s));expect(restored).toEqual(s);step(s,120);step(restored,120);expect(restored).toEqual(s);});
+it('rejects incompatible and malformed saves with a useful message',()=>{expect(()=>decodeSave('{"version":4}')).toThrow(/version|compatible/i);expect(()=>decodeSave('{}')).toThrow(/save/i);});
+it('pause stops all simulation time',()=>{const s=createGame({opponents:1,difficulty:'normal',seed:1});s.paused=true;step(s,500);expect(s.tick).toBe(0);});
+it('preserves an existing assault route rather than restarting it every decision',()=>{const s=createGame({opponents:3,difficulty:'hard',seed:7}),cap=s.entities[s.players[2].capital];const army=[];for(let i=0;i<14;i++)army.push(spawn(s,'unit','spearman',1,{x:cap.x-5,y:cap.y-2}));updateVisibility(s);s.tick=1000;updateAI(s);army[0].path=[{x:100,y:20}];s.tick=1100;updateAI(s);expect(army[0].path).toHaveLength(1);});
+it('replaces a lost scout to discover remaining opponents',()=>{const s=createGame({opponents:1,difficulty:'hard',seed:3});for(const e of Object.values(s.entities))if(e.owner===1&&e.type==='scout')delete s.entities[e.id];s.tick=100;updateAI(s);expect(s.entities[s.players[1].capital].queue.some(q=>q.unit==='scout')).toBe(true);});
