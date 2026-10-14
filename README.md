@@ -15,9 +15,9 @@ npm run build
 npm start
 ```
 
-Open http://localhost:5180. The same Node server serves the game and its online connections. Alternatively, double-click **Play Ironvale.cmd** to build and launch the production game at http://localhost:5180. Close its server window or press Ctrl+C to stop it.
+Open http://localhost:8180. The same Node server serves the game and its online connections. Alternatively, double-click **Play Ironvale.cmd** to build and launch the production game at http://localhost:8180. Close its server window or press Ctrl+C to stop it.
 
-For friends or a phone/tablet on the same Wi-Fi, open http://YOUR-COMPUTER-LAN-IP:5180 on each device. Open that LAN address on the host too before copying the invite, so the invitation points to the reachable computer rather than localhost. The game server listens on the local network. Browser/device firewalls can affect access. Saves are separate on each device and each origin.
+For friends or a phone/tablet on the same Wi-Fi, open http://YOUR-COMPUTER-LAN-IP:8180 on each device. Open that LAN address on the host too before copying the invite, so the invitation points to the reachable computer rather than localhost. The game server listens on the local network. Browser/device firewalls can affect access. Saves are separate on each device and each origin.
 
 ## Online matches
 
@@ -31,7 +31,7 @@ Online games keep running when you open menus, switch tabs or lose your connecti
 
 The server validates every order and only sends your own fog-of-war view. Clients cannot spend another empire's resources, command its troops, or load a local save to rewind a shared match. Server checkpoints use the configured data directory and recover after a normal restart; browser-local saves remain for single-player games.
 
-For local development use `npm run dev` plus `npm run server` in a second terminal. Vite proxies `/ws` to the Node server on5180. The production launcher runs a single combined server.
+For local development use `npm run dev` plus `npm run server` in a second terminal. Vite proxies `/ws` to the Node server on8180. The production launcher runs a single combined server.
 
 ## Controls
 
