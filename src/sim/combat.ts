@@ -7,9 +7,9 @@ import {assign,event} from './economy';
 export function attackDamage(s:GameState,a:Entity,b:Entity):number{
  const p=s.players[a.owner];let damage=a.kind==='building'?(BUILDINGS[a.type as keyof typeof BUILDINGS].damage??0)+a.garrison.length*3:UNITS[a.type as keyof typeof UNITS].damage;
  damage+=p.weapons*3;
- if(a.type==='spearman'&&(b.type==='cavalry'||b.type==='scout'))damage*=2.8;
- if(a.type==='cavalry'&&b.type==='archer')damage*=1.6;
- if(a.type==='archer'&&b.type==='spearman')damage*=1.5;
+ if(['spearman','pikeman'].includes(a.type)&&['cavalry','heavyCavalry','scout'].includes(b.type))damage*=2.8;
+ if(['cavalry','heavyCavalry'].includes(a.type)&&['archer','crossbowman'].includes(b.type))damage*=1.6;
+ if(['archer','crossbowman'].includes(a.type)&&['spearman','pikeman'].includes(b.type))damage*=1.5;
  if(a.type==='ram'||a.type==='trebuchet')damage*=b.kind==='building'?3:.2;
  const armor=b.kind==='unit'?UNITS[b.type as keyof typeof UNITS].armor+(s.players[b.owner]?.armor??0)*2:2;
  return Math.max(1,damage-armor);

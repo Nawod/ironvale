@@ -1,6 +1,6 @@
 export type Resource = 'food' | 'wood' | 'stone' | 'gold';
 export type Resources = Record<Resource, number>;
-export type UnitType = 'villager' | 'scout' | 'spearman' | 'swordsman' | 'archer' | 'cavalry' | 'ram' | 'trebuchet';
+export type UnitType = 'villager' | 'scout' | 'spearman' | 'swordsman' | 'archer' | 'cavalry' | 'ram' | 'trebuchet' | 'pikeman' | 'crossbowman' | 'heavyCavalry';
 export type BuildingType = 'capital' | 'outpost' | 'house' | 'storage' | 'farm' | 'barracks' | 'palisade' | 'range' | 'stable' | 'smithy' | 'market' | 'wall' | 'gate' | 'tower' | 'fortress' | 'workshop';
 export type Position = { x: number; y: number };
 export type Order = { kind: 'idle' | 'move' | 'gather' | 'build' | 'repair' | 'attack' | 'attackMove' | 'patrol' | 'garrison'; target?: number; point?: Position; origin?: Position; returning?: boolean };
@@ -10,15 +10,16 @@ export interface Entity extends Position {
   hp: number; maxHp: number; order: Order; path: Position[]; pathGoal?: Position; cooldown: number;
   progress: number; queue: QueueItem[]; amount: number; carry?: { resource: Resource; amount: number }; nextPathTick?:number; attackFx?:Position & {tick:number};
   stance: 'aggressive' | 'defensive' | 'hold'; home?: Position; garrisoned?: number; garrison: number[];
+  buildQueue?: number[];
   occupation?: { owner: number; progress: number }; ghost?: boolean;
 }
 export type Difficulty = 'easy' | 'normal' | 'hard';
-export interface MatchConfig { opponents: 1 | 3; difficulty: Difficulty; seed: number; tutorial?: boolean }
+export interface MatchConfig { opponents: 1 | 2 | 3 | 4 | 5 | 6 | 7; participants?: {name:string;controller:'human'|'ai'}[]; difficulty: Difficulty; seed: number; tutorial?: boolean }
 export interface AIState { nextThink: number; rally?: Position; target?: number; raids: number }
-export interface Player { id: number; name: string; color: string; alive: boolean; age: 1 | 2 | 3; resources: Resources; capital: number; weapons: number; armor: number; ai: AIState }
+export interface Player { controller:'human'|'ai'; id: number; name: string; color: string; alive: boolean; age: 1 | 2 | 3; resources: Resources; capital: number; weapons: number; armor: number; ai: AIState }
 export interface GameEvent { id: number; tick: number; kind: 'info' | 'attack' | 'capture' | 'error' | 'complete'; player: number; text: string; x?: number; y?: number }
-export interface GameState { version: 1; config: MatchConfig; tick: number; rng: number; nextId: number; nextEvent: number; size: number; terrain: number[]; entities: Record<number, Entity>; players: Player[]; explored: number[][]; visible: number[][]; intel: Record<number, Entity>[]; events: GameEvent[]; winner: number | null; paused: boolean }
-export interface Snapshot { tick: number; size: number; terrain: number[]; entities: Entity[]; players: Player[]; fog: number[]; events: GameEvent[]; winner: number | null; paused: boolean; config: MatchConfig; population: number; capacity: number }
+export interface GameState { version: 2; config: MatchConfig; tick: number; rng: number; nextId: number; nextEvent: number; size: number; terrain: number[]; entities: Record<number, Entity>; players: Player[]; explored: number[][]; visible: number[][]; intel: Record<number, Entity>[]; events: GameEvent[]; winner: number | null; paused: boolean }
+export interface Snapshot { playerId:number; tick: number; size: number; terrain: number[]; entities: Entity[]; players: Player[]; fog: number[]; events: GameEvent[]; winner: number | null; paused: boolean; config: MatchConfig; population: number; capacity: number }
 export type Command =
  | { type: 'order'; ids: number[]; order: Order; player: number }
  | { type: 'build'; building: BuildingType; point: Position; workers: number[]; player: number }

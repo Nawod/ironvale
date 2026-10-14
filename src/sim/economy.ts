@@ -6,7 +6,7 @@ import { spawn } from './world';
 export function event(s:GameState,player:number,text:string,kind:'info'|'attack'|'capture'|'error'|'complete'='info',p?:Position):void {s.events.push({id:s.nextEvent++,tick:s.tick,player,text,kind,...(p?{x:p.x,y:p.y}:{})});if(s.events.length>80)s.events.splice(0,s.events.length-80);}
 export function affordable(s:GameState,player:number,cost:Partial<Resources>):boolean {return Object.entries(cost).every(([r,n])=>s.players[player].resources[r as Resource]>=n!);}
 export function pay(s:GameState,player:number,cost:Partial<Resources>):boolean {if(!affordable(s,player,cost))return false;for(const[r,n]of Object.entries(cost))s.players[player].resources[r as Resource]-=n!;return true;}
-export function assign(e:Entity,order:Entity['order']):void {e.order=structuredClone(order);e.path=[];e.pathGoal=undefined;e.nextPathTick=0;e.home={x:e.x,y:e.y};}
+export function assign(e:Entity,order:Entity['order']):void {e.buildQueue=undefined;e.order=structuredClone(order);e.path=[];e.pathGoal=undefined;e.nextPathTick=0;e.home={x:e.x,y:e.y};}
 export function applyCommand(s:GameState,c:Command):string|null {
  const p=s.players[c.player];if(!p?.alive||s.winner!==null)return 'This empire is no longer in the match.';
  const owned=(id:number)=>{const e=s.entities[id];return e?.owner===c.player?e:undefined;};
@@ -18,8 +18,9 @@ export function applyCommand(s:GameState,c:Command):string|null {
   if(!workers.length)return 'Select a villager to build.';
   if(!canPlace(s,c.building,point))return 'Choose clear land for this building.';
   for(let y=point.y;y<point.y+d.size;y++)for(let x=point.x;x<point.x+d.size;x++)if(!s.visible[c.player][y*s.size+x])return 'Scout this land before building.';
+  if(c.building==='wall'&&workers.some(w=>(w.buildQueue?.length??0)>=128))return 'Finish queued walls before placing more.';
   if(!pay(s,c.player,d.cost))return 'Not enough resources.';
-  const e=spawn(s,'building',c.building,c.player,point);e.progress=0;e.hp=1;for(const w of workers)assign(w,{kind:'build',target:e.id});return null;
+  const e=spawn(s,'building',c.building,c.player,point);e.progress=0;e.hp=1;for(const w of workers){const current=w.order.target?s.entities[w.order.target]:undefined;if(c.building==='wall'&&w.order.kind==='build'&&(current?.type==='wall'&&current.owner===w.owner||(w.buildQueue??[]).some(id=>s.entities[id]?.owner===w.owner))){(w.buildQueue??=[]).push(e.id);}else assign(w,{kind:'build',target:e.id});}return null;
  }
  if(c.type==='recruit'){
   const b=owned(c.building),d=UNITS[c.unit];if(!b||b.kind!=='building'||b.progress<1||b.hp<=0)return 'Select a completed building you own.';
@@ -69,6 +70,9 @@ export function applyCommand(s:GameState,c:Command):string|null {
   if(c.order.kind==='attack'&&(!target||target.owner===p.id||target.owner<0||target.hp<=0))return 'Choose a living enemy target.';
   if(c.order.kind==='gather'&&(!target||target.kind!=='resource'&&!(target.type==='farm'&&target.owner===p.id&&target.progress===1)))return 'Choose a resource or your completed farm.';
   if(['build','repair','garrison'].includes(c.order.kind)&&target?.owner!==p.id)return 'Choose your own building.';
+  if(['build','repair'].includes(c.order.kind)&&target?.kind!=='building')return 'Choose your own building.';
+  if(c.order.kind==='build'&&target!.progress>=1)return 'That building is already complete. Use repair for damage.';
+  if(c.order.kind==='repair'&&target!.progress<1)return 'Finish construction before repairing this building.';
   if(c.order.kind==='garrison'&&(!target||!BUILDINGS[target.type as keyof typeof BUILDINGS]?.slots||target.progress<1))return 'Garrison in a completed tower or fortress.';
   if(c.order.kind==='repair'&&target?.hp===0)return 'Use rebuild to restore your capital.';
   let assigned=0;const columns=Math.ceil(Math.sqrt(units.length));for(const [index,e]of units.entries()){if(['gather','build','repair'].includes(c.order.kind)&&e.type!=='villager')continue;if(c.order.kind==='garrison'&&e.type==='villager')continue;
@@ -76,6 +80,10 @@ export function applyCommand(s:GameState,c:Command):string|null {
    assign(e,{...c.order,point,origin:c.order.kind==='patrol'?{x:e.x,y:e.y}:undefined});assigned++;
   }return assigned?null:'These units cannot perform that task.';
  }return 'Unknown command.';
+}
+function nextConstruction(s:GameState,w:Entity):void{
+ const queue=w.buildQueue??[];let id:number|undefined;while(queue.length){const candidate=queue.shift()!,site=s.entities[candidate];if(site?.owner===w.owner&&site.kind==='building'&&site.hp>0&&site.progress<1){id=candidate;break;}}
+ assign(w,id?{kind:'build',target:id}:{kind:'idle'});if(id&&queue.length)w.buildQueue=queue;
 }
 function dropoff(s:GameState,w:Entity,dt:number,grid:Uint8Array):boolean {
  const stores=Object.values(s.entities).filter(e=>e.owner===w.owner&&e.kind==='building'&&['capital','storage','outpost'].includes(e.type)&&e.hp>0&&e.progress===1).sort((a,b)=>adjacentDistance(w,a)-adjacentDistance(w,b));
@@ -86,7 +94,7 @@ function dropoff(s:GameState,w:Entity,dt:number,grid:Uint8Array):boolean {
 export function updateEconomy(s:GameState,dt:number,grids:Uint8Array[]):void{
  for(const e of Object.values(s.entities)){
   if(e.kind==='building'&&e.hp>0&&e.progress===1&&e.queue.length){const q=e.queue[0];if(q.kind==='unit'&&population(s,e.owner)>=capacity(s,e.owner))continue;q.remaining-=dt;if(q.remaining>0)continue;
-   if(q.kind==='unit'){const grid=grids[e.owner];let point:Position|undefined;const n=BUILDINGS[e.type as keyof typeof BUILDINGS].size;for(let r=1;r<=5&&!point;r++)for(let dx=-r;dx<=n+r&&!point;dx++)for(const dy of [-r,n+r]){const x=Math.floor(e.x+dx),y=Math.floor(e.y+dy);if(bounds(s,{x,y})&&!grid[y*s.size+x]){point={x:x+.5,y:y+.5};break;}}if(!point)continue;const unit=spawn(s,'unit',q.unit as UnitType,e.owner,point);if(unit.type!=='villager')unit.home=point;
+   if(q.kind==='unit'){const grid=grids[e.owner];let point:Position|undefined;const n=BUILDINGS[e.type as keyof typeof BUILDINGS].size;for(let r=1;r<=5&&!point;r++){const exits:Position[]=[];for(let dx=-r;dx<=n+r;dx++)for(let dy=-r;dy<=n+r;dy++){if(dx!==-r&&dx!==n+r&&dy!==-r&&dy!==n+r)continue;const x=Math.floor(e.x+dx),y=Math.floor(e.y+dy);if(bounds(s,{x,y})&&!grid[y*s.size+x]&&!Object.values(s.entities).some(v=>(v.kind==='unit'&&!v.garrisoned||v.kind==='resource'&&v.amount>0)&&Math.floor(v.x)===x&&Math.floor(v.y)===y))exits.push({x:x+.5,y:y+.5});}exits.sort((a,b)=>(b.x+b.y)-(a.x+a.y)||Math.abs((a.x-e.x)-(a.y-e.y))-Math.abs((b.x-e.x)-(b.y-e.y)));point=exits[0];}if(!point)continue;const unit=spawn(s,'unit',q.unit as UnitType,e.owner,point);if(unit.type!=='villager')unit.home=point;
    }else if(q.kind==='age'){s.players[e.owner].age=(s.players[e.owner].age+1)as 2|3;event(s,e.owner,'Your empire has advanced. New buildings and troops are available.','complete');}
    else{s.players[e.owner][q.kind]++;event(s,e.owner,`${q.kind==='weapons'?'Weapons':'Armor'} upgraded.`,'complete');}e.queue.shift();
   }
@@ -94,6 +102,7 @@ export function updateEconomy(s:GameState,dt:number,grids:Uint8Array[]):void{
   const o=e.order,target=o.target?s.entities[o.target]:undefined;
   if(o.kind==='idle'&&e.carry){dropoff(s,e,dt,grids[e.owner]);continue;}
   if(!['gather','build','repair'].includes(o.kind))continue;
+  if(!target&&o.kind==='build'){nextConstruction(s,e);continue;}
   if(!target){if(e.carry)dropoff(s,e,dt,grids[e.owner]);else assign(e,{kind:'idle'});continue;}
   if(o.kind==='gather'){
    const resource:Resource=target.type==='deer'||target.type==='farm'?'food':target.type as Resource;
@@ -102,12 +111,12 @@ export function updateEconomy(s:GameState,dt:number,grids:Uint8Array[]):void{
    if(adjacentDistance(e,target)>1.4){travel(s,e,target,dt,grids[e.owner]);continue;}
    const n=Math.min(dt*(resource==='food'?3.6:2.8),target.amount,15-(e.carry?.amount??0));target.amount-=n;if(!e.carry)e.carry={resource,amount:0};e.carry.amount+=n;if(e.carry.amount>=14.999)o.returning=true;
   }else{
-   if(target.owner!==e.owner||target.hp<=0){assign(e,{kind:'idle'});continue;}
+   if(target.owner!==e.owner||target.hp<=0||target.kind!=='building'||(o.kind==='build'&&target.progress>=1)||(o.kind==='repair'&&target.progress<1)){if(o.kind==='build')nextConstruction(s,e);else assign(e,{kind:'idle'});continue;}
    if(adjacentDistance(e,target)>1.7){travel(s,e,approach(s,e,target,grids[e.owner]),dt,grids[e.owner]);continue;}
    const d=BUILDINGS[target.type as keyof typeof BUILDINGS];
    if(o.kind==='build'){
     target.progress=Math.min(1,target.progress+dt/d.seconds);target.hp=Math.max(target.hp,target.maxHp*target.progress);
-    if(target.progress===1){event(s,e.owner,`${d.name} completed.`,'complete',target);assign(e,target.type==='farm'?{kind:'gather',target:target.id}:{kind:'idle'});}
+    if(target.progress===1){event(s,e.owner,`${d.name} completed.`,'complete',target);if(target.type==='farm')assign(e,{kind:'gather',target:target.id});else nextConstruction(s,e);}
    }else if(target.hp<target.maxHp){if(pay(s,e.owner,{wood:dt*.3}))target.hp=Math.min(target.maxHp,target.hp+dt*18);}else assign(e,{kind:'idle'});
   }
  }
