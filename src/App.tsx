@@ -106,7 +106,9 @@ export default function App(){
 
  const action=useCallback((point:Position,target?:Entity)=>{const current=latest.current;if(!current.s)return;const units=current.selection.map(id=>current.s!.entities.find(e=>e.id===id)).filter((e):e is Entity=>!!e&&e.owner===pid&&e.kind==='unit');
 
-  if(current.mode==='relocate'){const building=current.s.entities.find(e=>e.id===current.selection[0]);if(building)issue({type:'moveBuilding',building:building.id,point:{x:Math.floor(point.x),y:Math.floor(point.y)}});return;}
+  if(current.mode==='relocate'){const building=current.s.entities.find(e=>current.selection.includes(e.id));if(building)issue({type:'moveBuilding',building:building.id,point:{x:Math.floor(point.x),y:Math.floor(point.y)}});return;}
+
+  if(current.mode==='rally'){const building=current.s.entities.find(e=>current.selection.includes(e.id));if(building){const source=target&&(target.kind==='resource'||target.type==='farm'&&target.owner===pid&&target.progress===1)?target:undefined;issue({type:'rally',building:building.id,point:source?{x:source.x,y:source.y}:point,target:source?.id});}return;}
 
   if(current.placement){issue({type:'build',building:current.placement,point,workers:units.filter(e=>e.type==='villager').map(e=>e.id)});return;}
 
@@ -190,7 +192,7 @@ export default function App(){
 
   </>:s?<>
 
-   <BattlefieldView snapshot={s} selection={selection} placement={placement} movingBuilding={mode==='relocate'?selection[0]:undefined} mode={mode} hooks={hooks} viewRef={view} cameraOpen={overlay==='camera'} onToggleCamera={()=>openOverlay('camera')}/>
+   <BattlefieldView snapshot={s} selection={selection} placement={placement} movingBuilding={mode==='relocate'?primary?.id:undefined} mode={mode} hooks={hooks} viewRef={view} cameraOpen={overlay==='camera'} onToggleCamera={()=>openOverlay('camera')}/>
 
    <header className="hud"><button className="hud-brand" onClick={selectCapital} aria-label="Town center"><Emblem/><span>Ironvale</span></button><div className="resources">{Object.entries(s.players[pid].resources).map(([r,n])=>{const Icon=RESOURCE_ICONS[r as Resource];return <div className={'resource '+r} key={r} title={`${Math.floor(n)} ${r}`} aria-label={`${Math.floor(n)} ${r}`}><Icon size={20}/><span>{n>=10000?COMPACT_NUMBER.format(n):Math.floor(n)}</span><small>{r}</small></div>;})}<div className="resource population" data-testid="population"><Users size={20}/><span>{s.population} / {s.capacity}</span><small>population</small></div></div><div className="hud-tools">{!isOnline&&<button title="Save match" aria-label="Save match" onClick={()=>worker.current?.postMessage({type:'save'})}><Save size={19}/></button>}<button aria-label="Settings" onClick={()=>{setSettings(true);pauseMatch(true);}}><Settings size={19}/></button><button aria-label="Pause match" onClick={()=>pauseMatch(true)}><Menu size={20}/><span className="sr-only">Game menu</span></button></div></header>
 
@@ -205,7 +207,7 @@ export default function App(){
    {isOnline&&onlineState.room&&onlineSession.current&&<VoiceHud voice={onlineSession.current.voice} room={onlineState.room} open={overlay==='voice'} onOpenChange={open=>{setCommandsOpen(false);setOverlay(open?'voice':null);}}/>}
    <div className="event-feed">{s.events.filter(e=>e.kind==='attack'||e.kind==='capture').slice(-2).map(e=><button key={e.id} onClick={()=>e.x!==undefined&&center({x:e.x,y:e.y!})}><Flag size={13}/>{e.text}</button>)}</div>
 
-   {(mode||placement)&&<div className="order-banner"><Hand size={15}/>{mode==='relocate'?'Move building onto clear, scouted land':placement?`Place ${BUILDINGS[placement].name} on clear land`:`Choose where to ${mode==='attackMove'?'attack-move':mode}`}<button onClick={()=>{setMode('');setPlacement(undefined);}}>Cancel<X size={14}/></button></div>}
+   {(mode||placement)&&<div className="order-banner"><Hand size={15}/>{mode==='relocate'?'Move building onto clear, scouted land':mode==='rally'?'Choose a rally point or resource for new recruits':placement?`Place ${BUILDINGS[placement].name} on clear land`:`Choose where to ${mode==='attackMove'?'attack-move':mode}`}<button onClick={()=>{setMode('');setPlacement(undefined);}}>Cancel<X size={14}/></button></div>}
 
    <section className={'command-deck '+((compact?!commandsOpen:collapsed)?'collapsed':'')} aria-label="Selected entity commands"><div className="selection-panel">
     {primary?<><img src={entityImage(primary.type,primary.owner)} alt=""/><div><small>{primary.type==='zombie'?'The undead':primary.owner>=0?s.players[primary.owner].name:'The wilderness'}</small><h2>{selected.length>1?`${selected.length} units`:primary.kind==='building'?buildingName(primary):primary.kind==='unit'?UNITS[primary.type as keyof typeof UNITS].name:WILDERNESS_NAMES[primary.type]??primary.type[0].toUpperCase()+primary.type.slice(1)}</h2><p>{selected.length>1?`${workers.length} villagers · ${soldiers.length} soldiers`:primary.kind==='resource'?`${Math.ceil(primary.amount)} remaining`:primary.kind==='unit'?`${Math.ceil(primary.hp)} / ${primary.maxHp} health · ${primary.order.kind==='idle'?'Ready':primary.order.kind==='attackMove'?'Advancing':primary.order.kind==='gather'?'Gathering':primary.order.kind==='build'?'Building':primary.order.kind==='repair'?'Repairing':'On task'}`:primary.hp<=0?'Capital fallen':primary.progress<1?`Building ${Math.floor(primary.progress*100)}%`:`${Math.ceil(primary.hp)} / ${primary.maxHp} health`}</p>{primary.ghost&&<small>Last seen location</small>}</div></>:<div className="empty-selection"><Search size={22}/><h2>Your orders, commander.</h2><p>Select a building or unit to begin.</p></div>}

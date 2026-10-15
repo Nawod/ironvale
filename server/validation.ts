@@ -21,6 +21,9 @@ const ids=(v:unknown):number[]=>{if(!Array.isArray(v)||!v.length||v.length>1000)
 export function validateCommand(value:unknown):Command{
  const m=object(value),player=0;
  switch(m.type){
+  case 'formation':return{type:'formation',player,ids:ids(m.ids),formation:oneOf(m.formation,['line','box','spread'] as const)};
+  case 'clearRally':return{type:'clearRally',player,building:integer(m.building,1)};
+  case 'rally':return{type:'rally',player,building:integer(m.building,1),point:point(m.point),...(m.target!==undefined?{target:integer(m.target,1)}:{})};
   case 'order':{const o=object(m.order),kind=oneOf(o.kind,['idle','move','gather','build','repair','attack','attackMove','patrol','garrison'] as const);return{type:'order',player,ids:ids(m.ids),order:{kind,...(o.point!==undefined?{point:point(o.point)}:{}),...(o.target!==undefined?{target:integer(o.target,1)}:{})}};}
   case 'build':return{type:'build',player,workers:ids(m.workers),building:oneOf(m.building,Object.keys(BUILDINGS)) as any,point:point(m.point)};
   case 'recruit':return{type:'recruit',player,building:integer(m.building,1),unit:oneOf(m.unit,Object.keys(UNITS)) as any};

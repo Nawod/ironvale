@@ -3,6 +3,8 @@ import {BUILDINGS,UNITS,wallUpgrade} from './definitions';
 import {validateTeams} from './teams';
 import {validResource} from './nature';
 import {MAX_WORKER_TASKS,pendingTaskCount} from './tasks';
+import {FORMATIONS} from './formations';
+import {bounds} from './navigation';
 export function encodeSave(s:GameState):string{return JSON.stringify(s);}
 export function decodeSave(text:string):GameState{
  let s:GameState;try{s=JSON.parse(text);}catch{throw new Error('This save is damaged and cannot be loaded.');}
@@ -16,6 +18,8 @@ export function decodeSave(text:string):GameState{
  for(const arrays of [s.explored,s.visible])if(arrays.length!==s.players.length||arrays.some(a=>!Array.isArray(a)||a.length!==s.size*s.size))throw new Error('This save contains invalid map data.');
  for(const e of Object.values(s.entities)){if(!Number.isInteger(e.id)||e.id>=s.nextId||!Number.isFinite(e.x)||!Number.isFinite(e.y)||e.x<0||e.y<0||e.x>=s.size||e.y>=s.size||!e.order||!Array.isArray(e.path)||!Array.isArray(e.queue)||!Array.isArray(e.garrison)||e.buildQueue!==undefined&&(!Array.isArray(e.buildQueue)||e.buildQueue.length>128||e.buildQueue.some(id=>!Number.isInteger(id)||id<1||id>=s.nextId))||!Number.isFinite(e.hp)||e.kind==='unit'&&!UNITS[e.type as keyof typeof UNITS]||e.kind==='building'&&!BUILDINGS[e.type as keyof typeof BUILDINGS])throw new Error('This save contains invalid unit or building data.');}
  for(const e of Object.values(s.entities)){
+  if(e.formation!==undefined&&(e.kind!=='unit'||!FORMATIONS.includes(e.formation)))throw new Error('This save contains invalid formation data.');
+  if(e.rally!==undefined){const r=e.rally;if(e.kind!=='building'||!BUILDINGS[e.type as keyof typeof BUILDINGS]?.trains?.length||!r||!r.point||!bounds(s,r.point)||r.target!==undefined&&(!Number.isSafeInteger(r.target)||r.target<1||r.target>=s.nextId))throw new Error('This save contains invalid rally data.');}
   if(e.lastDamagedTick!==undefined&&(!Number.isSafeInteger(e.lastDamagedTick)||e.lastDamagedTick<0||e.lastDamagedTick>s.tick))throw new Error('This save contains invalid building damage data.');
   if(e.owner===-2||e.type==='zombie'){if(!s.config.zombies||e.owner!==-2||e.type!=='zombie'||e.kind!=='unit'||!e.home||!Number.isFinite(e.home.x)||!Number.isFinite(e.home.y)||e.home.x<0||e.home.y<0||e.home.x>=s.size||e.home.y>=s.size||e.garrisoned!==undefined||e.garrison.length||e.queue.length)throw new Error('This save contains invalid zombie data.');}
  }

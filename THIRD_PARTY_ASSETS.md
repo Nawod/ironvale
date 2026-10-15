@@ -30,11 +30,13 @@ skeletons or animation mixers. Full and crowd geometry banks are bounded and
 instanced by material; all sampling and equipment assembly happen during loading.
 
 The static realm provider imports trees, berry bushes, rocks, mountain formations
-and gold only. Buildings, walls and capital ruins use the previous Ironvale model
-library, restored at the user's request. Natural scenery stays grounded and shared;
+and gold only. Buildings and walls now use the original Ironvale medieval architecture provider,
+created for the user's 2026-10-16 medieval overhaul. It uses original geometry and
+procedural material textures; the imported fantasy building archive remains
+disabled. Capital ruins retain the earlier Ironvale fallback models. Natural scenery stays grounded and shared;
 unused imported building files are not fetched or prepared during gameplay.
 Wooden-to-stone-to-reinforced upgrades retain their new rules, costs and timers.
-The supplied assets retain their stylized game appearance.
+The supplied characters, animals and natural scenery retain their stylized game appearance. The terrain additionally uses the already licensed Poly Haven ground photograph with original grass/soil variation and cosmetic settlement paths. No new external asset pack or purchase was added.
 
 Raw archives and unused source files are excluded under `.art-source/`. The Ashen
 Marches runtime dependencies are incorporated into Ironvale and must not be offered

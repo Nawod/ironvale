@@ -1,5 +1,5 @@
 import {useEffect,useId,useState,type KeyboardEvent} from 'react';
-import {ArrowRightLeft,ArrowUp,Castle,Coins,Footprints,Hammer,Hand,Leaf,Map,Mountain,Move,Shield,Swords,Trash2,TreePine,Users,Wheat} from 'lucide-react';
+import {ArrowRightLeft,ArrowUp,Castle,Coins,Flag,Footprints,Hammer,Hand,Leaf,Map,Mountain,Move,Shield,Swords,Trash2,TreePine,Users,Wheat} from 'lucide-react';
 import {AGE_COSTS,AGE_NAMES,BUILDINGS,UNITS,wallUpgrade} from '../sim/definitions';
 import {pendingTaskCount} from '../sim/tasks';
 import type {BuildingType,Entity,QueueItem,Resource,Snapshot} from '../sim/types';
@@ -87,6 +87,7 @@ export function CommandPanel({snapshot:s,selected,mode,placement,issue,select,se
      ...(workers.length?[{key:'gather',label:'Gather',Icon:Leaf},{key:'repair',label:'Repair',Icon:Hammer}]:[{key:'garrison',label:'Garrison',Icon:Castle}]),
     ].map(({key,label,Icon})=><button key={key} className={mode===key?'active':''} aria-pressed={key!=='idle'?mode===key:undefined} onClick={()=>{if(key==='idle')stop();else{setPlacement(undefined);setMode(key);}}}><Icon size={18} aria-hidden="true"/>{label}</button>)}</div>
     {!!soldiers.length&&<label className="stance-control">Army stance<select aria-label="Army stance" value={soldiers[0].stance} onChange={event=>issue({type:'stance',ids:soldiers.map(entity=>entity.id),stance:event.target.value})}><option value="aggressive">Aggressive</option><option value="defensive">Defensive</option><option value="hold">Hold position</option></select></label>}
+    {!!soldiers.length&&<label className="stance-control">Formation<select aria-label="Army formation" value={soldiers[0].formation??'line'} onChange={event=>issue({type:'formation',ids:soldiers.map(entity=>entity.id),formation:event.target.value})}><option value="line">Line · melee in front</option><option value="box">Box · compact ranks</option><option value="spread">Spread · wider spacing</option></select></label>}
     <p className="command-guidance">Choose an order, then a destination or target on the battlefield.</p>
    </>}
 
@@ -100,7 +101,7 @@ export function CommandPanel({snapshot:s,selected,mode,placement,issue,select,se
     <button className="clear-tasks" onClick={stop}><Hand size={18} aria-hidden="true"/>Stop</button><p className="command-guidance">Stop clears current orders and all saved tasks.</p>
    </>}
 
-   {activeTab==='train'&&building&&<div className="action-buttons">{definition?.trains?.map(unit=><button key={unit} className="asset-button" aria-label={`Recruit ${UNITS[unit].name}`} title={`${UNITS[unit].name}: ${costText(UNITS[unit].cost)} · ${UNITS[unit].seconds}s training`} disabled={player.age<UNITS[unit].age} onClick={()=>issue({type:'recruit',building:building.id,unit})}><img src={entityImage(unit,pid)} alt=""/><span>{UNITS[unit].name}<ResourceCost cost={UNITS[unit].cost}/><small className="duration">{UNITS[unit].seconds}s training</small></span></button>)}</div>}
+   {activeTab==='train'&&building&&<div className="action-buttons">{definition?.trains?.map(unit=><button key={unit} className="asset-button" aria-label={`Recruit ${UNITS[unit].name}`} title={`${UNITS[unit].name}: ${costText(UNITS[unit].cost)} · ${UNITS[unit].seconds}s training`} disabled={player.age<UNITS[unit].age} onClick={()=>issue({type:'recruit',building:building.id,unit})}><img src={entityImage(unit,pid)} alt=""/><span>{UNITS[unit].name}<ResourceCost cost={UNITS[unit].cost}/><small className="duration">{UNITS[unit].seconds}s training</small></span></button>)}<button className="asset-button rally-set" aria-label="Set rally point" aria-pressed={mode==='rally'} onClick={()=>{setPlacement(undefined);setMode('rally');}}><Flag size={23}/><span>Set rally point<small className="duration">Choose ground or a resource</small></span></button>{building.rally&&<button className="asset-button" aria-label="Clear rally point" onClick={()=>issue({type:'clearRally',building:building.id})}><Hand size={23}/><span>Clear rally point<small className="duration">New recruits stay here</small></span></button>}</div>}
 
    {activeTab==='improve'&&building&&<div className="action-buttons">
     {building.id===player.capital&&player.age<3&&<button className="asset-button research-button" onClick={()=>issue({type:'research',building:building.id,research:'age'})}><ArrowUp size={24} aria-hidden="true"/><span>Advance to {AGE_NAMES[player.age+1]}<ResourceCost cost={AGE_COSTS[player.age]}/><small className="duration">45s research</small></span></button>}

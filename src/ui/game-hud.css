@@ -44,3 +44,6 @@
 
 .game-screen .voice-buttons{display:flex;gap:3px}.game-screen .voice-quick-mute{height:44px;min-width:52px;padding:2px 5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;border:1px solid var(--hud-edge);background:var(--hud-panel);border-radius:3px}.game-screen .voice-quick-mute span{font-size:14px;line-height:16px}.game-screen .voice-quick-mute[data-live="true"]{border-color:#e6a17d;color:#ffd2b8;background:#52382ff5}
 @media(max-width:360px){.game-screen[data-hud-compact="true"] .quick-tools button[aria-label="Realm status"]{display:none}}
+
+
+.game-screen .stance-control select{min-width:0;max-width:100%}

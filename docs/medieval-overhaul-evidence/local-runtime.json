@@ -1,0 +1,48 @@
+{
+  "verifiedAt": "2026-10-15T22:17:46.835Z",
+  "origin": "http://localhost:8180",
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "layouts": [
+    {
+      "device": "desktop",
+      "width": 1440,
+      "height": 900,
+      "battlefieldInputFraction": 0.7395833333333334,
+      "buildTargetingClosesCommands": false
+    },
+    {
+      "device": "phone",
+      "width": 390,
+      "height": 844,
+      "battlefieldInputFraction": 0.8385416666666666,
+      "buildTargetingClosesCommands": true
+    },
+    {
+      "device": "phone",
+      "width": 844,
+      "height": 390,
+      "battlefieldInputFraction": 0.7135416666666666,
+      "buildTargetingClosesCommands": true
+    },
+    {
+      "device": "tablet",
+      "width": 768,
+      "height": 1024,
+      "battlefieldInputFraction": 0.8541666666666666,
+      "buildTargetingClosesCommands": true
+    },
+    {
+      "device": "tablet",
+      "width": 1024,
+      "height": 768,
+      "battlefieldInputFraction": 0.8619791666666666,
+      "buildTargetingClosesCommands": true
+    }
+  ],
+  "browserErrors": [],
+  "limits": "Desktop Chromium with touch emulation; physical phones not verified."
+}

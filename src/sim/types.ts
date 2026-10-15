@@ -5,6 +5,7 @@ export type FoodSourceType = AnimalType | 'berries';
 export type UnitType = 'villager' | 'scout' | 'spearman' | 'swordsman' | 'archer' | 'cavalry' | 'ram' | 'trebuchet' | 'pikeman' | 'crossbowman' | 'heavyCavalry' | 'zombie';
 export type BuildingType = 'capital' | 'outpost' | 'house' | 'storage' | 'farm' | 'barracks' | 'palisade' | 'range' | 'stable' | 'smithy' | 'market' | 'wall' | 'gate' | 'tower' | 'fortress' | 'workshop';
 export type Position = { x: number; y: number };
+export type Formation = 'line' | 'box' | 'spread';
 export type Order = { kind: 'idle' | 'move' | 'gather' | 'build' | 'repair' | 'attack' | 'attackMove' | 'patrol' | 'garrison'; target?: number; point?: Position; origin?: Position; returning?: boolean };
 export type QueueItem = { kind: 'unit' | 'age' | 'weapons' | 'armor' | 'wall'; unit?: UnitType; remaining: number; total: number; cost: Partial<Resources> };
 export interface WorkerTask { order: Order; buildQueue?: number[]; lastKnown?: Position }
@@ -15,6 +16,8 @@ export interface Entity extends Position {
   stance: 'aggressive' | 'defensive' | 'hold'; home?: Position; garrisoned?: number; garrison: number[];
   buildQueue?: number[];
   taskQueue?: WorkerTask[];
+  formation?: Formation;
+  rally?: { point: Position; target?: number };
   wallTier?: 3;
   visualAge?: 1 | 2 | 3;
   lastDamagedTick?: number;
@@ -30,6 +33,9 @@ export interface GameState { version: 2; config: MatchConfig; tick: number; zomb
 export interface Snapshot { playerId:number; tick: number; size: number; terrain: number[]; entities: Entity[]; players: Player[]; fog: number[]; events: GameEvent[]; winner: number | null; paused: boolean; config: MatchConfig; population: number; capacity: number }
 export type Command =
  | { type: 'order'; ids: number[]; order: Order; player: number }
+ | { type: 'formation'; ids: number[]; formation: Formation; player: number }
+ | { type: 'rally'; building: number; point: Position; target?: number; player: number }
+ | { type: 'clearRally'; building: number; player: number }
  | { type: 'build'; building: BuildingType; point: Position; workers: number[]; player: number }
  | { type: 'recruit'; building: number; unit: UnitType; player: number }
  | { type: 'upgradeWall'; building: number; player: number }

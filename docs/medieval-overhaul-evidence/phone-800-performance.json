@@ -1,0 +1,14 @@
+{
+  "device": "phone",
+  "viewport": {
+    "width": 390,
+    "height": 664
+  },
+  "units": 800,
+  "cpuThrottle": 4,
+  "rendering": "ANGLE (Intel, Intel(R) UHD Graphics (0x000046A3) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "renderScale": 0.8487179487179487,
+  "fps": 56.69469904563925,
+  "p95": 33.30000000000018,
+  "frames": 120
+}

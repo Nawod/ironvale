@@ -8,6 +8,7 @@ import {FOOD_SOURCES,harvestedResource} from './nature';
 import type {FoodSourceType} from './types';
 import {assign,assignTask,canAssignTask,pendingTaskCount,resumeWorkerTask,resumeWithoutStore,MAX_WORKER_TASKS} from './tasks';
 import {applyBuildingAction} from './building-actions';
+import {FORMATIONS,formationDestinations,validSelection} from './formations';
 export {assign} from './tasks';
 export function event(s:GameState,player:number,text:string,kind:'info'|'attack'|'capture'|'error'|'complete'='info',p?:Position):void {s.events.push({id:s.nextEvent++,tick:s.tick,player,text,kind,...(p?{x:p.x,y:p.y}:{})});if(s.events.length>80)s.events.splice(0,s.events.length-80);}
 export function affordable(s:GameState,player:number,cost:Partial<Resources>):boolean {return Object.entries(cost).every(([r,n])=>s.players[player].resources[r as Resource]>=n!);}
@@ -16,6 +17,20 @@ export function applyCommand(s:GameState,c:Command):string|null {
  const p=s.players[c.player];if(!p?.alive||s.winner!==null)return 'This empire is no longer in the match.';
  if(c.type==='moveBuilding'||c.type==='removeBuilding')return applyBuildingAction(s,c);
  const owned=(id:number)=>{const e=s.entities[id];return e?.owner===c.player?e:undefined;};
+ if(c.type==='formation'){
+  if(!FORMATIONS.includes(c.formation)||!validSelection(c.ids))return 'Choose a valid formation and unit selection.';
+  const units=[...new Set(c.ids)].map(owned).filter((e):e is Entity=>!!e&&e.kind==='unit'&&e.type!=='villager'&&e.hp>0&&!e.garrisoned);
+  if(!units.length)return 'Select soldiers you own.';
+  for(const e of units)e.formation=c.formation;return null;
+ }
+ if(c.type==='rally'||c.type==='clearRally'){
+  const b=Number.isSafeInteger(c.building)&&c.building>0?owned(c.building):undefined;
+  if(!b||b.kind!=='building'||b.hp<=0||b.progress!==1||!BUILDINGS[b.type as keyof typeof BUILDINGS]?.trains?.length)return 'Select a completed production building you own.';
+  if(c.type==='clearRally'){b.rally=undefined;return null;}
+  if(!c.point||!bounds(s,c.point))return 'Choose a rally point within the map.';
+  if(c.target!==undefined&&(!Number.isSafeInteger(c.target)||c.target<1||!rallySource(s,p.id,s.entities[c.target])))return 'Choose a visible resource or your completed farm.';
+  b.rally={point:{x:c.point.x,y:c.point.y},...(c.target!==undefined?{target:c.target}:{})};return null;
+ }
  if(c.type==='build'){
   const d=BUILDINGS[c.building];if(!d||c.building==='capital'||c.building==='outpost')return 'Use your original town center.';
   if(p.age<d.age)return 'Advance your empire to unlock this building.';
@@ -76,6 +91,7 @@ export function applyCommand(s:GameState,c:Command):string|null {
  }
  if(c.type==='stance'){for(const id of c.ids){const e=owned(id);if(e?.kind==='unit'){e.stance=c.stance;e.home={x:e.x,y:e.y};}}return null;}
  if(c.type==='order'){
+  if(!validSelection(c.ids)||!c.order||typeof c.order!=='object')return 'Choose a valid unit selection and order.';
   if(!['idle','move','gather','build','repair','attack','attackMove','patrol','garrison'].includes(c.order.kind))return 'Unknown order.';
   const units=[...new Set(c.ids)].map(owned).filter((e):e is Entity=>!!e&&e.kind==='unit'&&!e.garrisoned);if(!units.length)return 'Select units you own.';
   if(c.order.point&&!bounds(s,c.order.point))return 'That location is outside the map.';
@@ -91,15 +107,19 @@ export function applyCommand(s:GameState,c:Command):string|null {
   if(c.order.kind==='repair'&&target!.progress<1)return 'Finish construction before repairing this building.';
   if(c.order.kind==='garrison'&&(!target||!BUILDINGS[target.type as keyof typeof BUILDINGS]?.slots||target.progress<1))return 'Garrison in a completed tower or fortress.';
   if(c.order.kind==='repair'&&target?.hp===0)return 'Use rebuild to restore your capital.';
+  const military=units.filter(e=>e.type!=='villager'),slots=c.order.point&&['move','attackMove','patrol'].includes(c.order.kind)&&military.length>1?formationDestinations(s,military,c.order.point):new Map<number,Position>();
   const columns=Math.ceil(Math.sqrt(units.length)),assignments=units.flatMap((e,index)=>{
    if(['gather','build','repair'].includes(c.order.kind)&&e.type!=='villager'||c.order.kind==='garrison'&&e.type==='villager')return [];
-   const point=c.order.point&&units.length>1?{x:Math.max(1,Math.min(s.size-2,c.order.point.x+(index%columns-(columns-1)/2)*1.15)),y:Math.max(1,Math.min(s.size-2,c.order.point.y+(Math.floor(index/columns)-(Math.ceil(units.length/columns)-1)/2)*1.15))}:c.order.point;
+   const point=slots.get(e.id)??(c.order.point&&units.length>1?{x:Math.max(1,Math.min(s.size-2,c.order.point.x+(index%columns-(columns-1)/2)*1.15)),y:Math.max(1,Math.min(s.size-2,c.order.point.y+(Math.floor(index/columns)-(Math.ceil(units.length/columns)-1)/2)*1.15))}:c.order.point);
    return [{e,order:{...c.order,point,origin:c.order.kind==='patrol'?{x:e.x,y:e.y}:undefined}}];
   });
   if(!assignments.length)return 'These units cannot perform that task.';
   if(assignments.some(({e,order})=>!canAssignTask(e,order)))return 'Worker task list is full. Finish tasks or use Stop to clear it.';
   for(const {e,order}of assignments)assignTask(s,e,order);return null;
  }return 'Unknown command.';
+}
+function rallySource(s:GameState,owner:number,target:Entity|undefined):boolean{
+ return !!target&&seen(s,owner,target)&&target.hp>0&&target.amount>0&&!!harvestedResource(target)&&(target.kind==='resource'||target.kind==='building'&&target.type==='farm'&&target.owner===owner&&target.progress===1);
 }
 function nextConstruction(s:GameState,w:Entity):void{
  const queue=w.buildQueue??[];let id:number|undefined;while(queue.length){const candidate=queue.shift()!,site=s.entities[candidate];if(site?.owner===w.owner&&site.kind==='building'&&site.hp>0&&site.progress<1){id=candidate;break;}}
@@ -115,6 +135,7 @@ export function updateEconomy(s:GameState,dt:number,grids:Uint8Array[]):void{
  for(const e of Object.values(s.entities)){
   if(e.kind==='building'&&e.hp>0&&e.progress===1&&e.queue.length){const q=e.queue[0];if(q.kind==='unit'&&population(s,e.owner)>=capacity(s,e.owner))continue;q.remaining-=dt;if(q.remaining>0)continue;
    if(q.kind==='unit'){const grid=grids[e.owner];let point:Position|undefined;const n=BUILDINGS[e.type as keyof typeof BUILDINGS].size;for(let r=1;r<=5&&!point;r++){const exits:Position[]=[];for(let dx=-r;dx<=n+r;dx++)for(let dy=-r;dy<=n+r;dy++){if(dx!==-r&&dx!==n+r&&dy!==-r&&dy!==n+r)continue;const x=Math.floor(e.x+dx),y=Math.floor(e.y+dy);if(bounds(s,{x,y})&&!grid[y*s.size+x]&&!Object.values(s.entities).some(v=>(v.kind==='unit'&&!v.garrisoned||v.kind==='resource'&&v.amount>0)&&Math.floor(v.x)===x&&Math.floor(v.y)===y))exits.push({x:x+.5,y:y+.5});}exits.sort((a,b)=>(b.x+b.y)-(a.x+a.y)||Math.abs((a.x-e.x)-(a.y-e.y))-Math.abs((b.x-e.x)-(b.y-e.y)));point=exits[0];}if(!point)continue;const unit=spawn(s,'unit',q.unit as UnitType,e.owner,point);if(unit.type!=='villager')unit.home=point;
+    if(e.rally)assignTask(s,unit,unit.type==='villager'&&rallySource(s,e.owner,s.entities[e.rally.target??0])?{kind:'gather',target:e.rally.target}:{kind:'move',point:{...e.rally.point}});
    }else if(q.kind==='wall'){const d=wallUpgrade(e);if(d){const health=e.hp/e.maxHp;e.type='wall';if(d.age===3)e.wallTier=3;e.maxHp=d.hp;e.hp=Math.min(1,health)*d.hp;event(s,e.owner,`${d.name} completed.`,'complete',e);}}
    else if(q.kind==='age'){s.players[e.owner].age=(s.players[e.owner].age+1)as 2|3;event(s,e.owner,'Your empire has advanced. New buildings and troops are available.','complete');}
    else{s.players[e.owner][q.kind]++;event(s,e.owner,`${q.kind==='weapons'?'Weapons':'Armor'} upgraded.`,'complete');}e.queue.shift();

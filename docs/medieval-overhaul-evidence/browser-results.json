@@ -1,0 +1,556 @@
+{
+  "unitTests": {
+    "filesPassed": 44,
+    "testsPassed": 372
+  },
+  "browserRuns": [
+    {
+      "report": "medieval-browser.json",
+      "stats": {
+        "startTime": "2026-10-15T22:02:36.095Z",
+        "duration": 696544.308,
+        "expected": 72,
+        "skipped": 15,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    {
+      "report": "medieval-final-browser.json",
+      "stats": {
+        "startTime": "2026-10-15T22:14:33.446Z",
+        "duration": 147849.204,
+        "expected": 12,
+        "skipped": 6,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "latestUniquePassed": 72,
+  "latestUniqueSkipped": 15,
+  "checks": [
+    {
+      "file": "buildings-zombies.spec.ts",
+      "title": "move and remove an owned building with preserved health and a removal confirmation",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "title": "night zombies render and daylight zombies retreat without attacking",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "title": "an online host enables zombie mode and the guest receives the shared setting",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "title": "move and remove an owned building with preserved health and a removal confirmation",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "title": "night zombies render and daylight zombies retreat without attacking",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "title": "an online host enables zombie mode and the guest receives the shared setting",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "title": "move and remove an owned building with preserved health and a removal confirmation",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "title": "night zombies render and daylight zombies retreat without attacking",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "title": "an online host enables zombie mode and the guest receives the shared setting",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "starts a match, recruits villagers, saves and resumes",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "four empires and tutorial remain usable at the device viewport",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "assigns gathering and places a house through the battlefield",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "phone landscape has usable setup and command panels",
+      "project": "desktop",
+      "status": "skipped"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "400-unit rendering stress measurement",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "800-unit rendering stress measurement",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "starts a match, recruits villagers, saves and resumes",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "four empires and tutorial remain usable at the device viewport",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "assigns gathering and places a house through the battlefield",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "phone landscape has usable setup and command panels",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "400-unit rendering stress measurement",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "800-unit rendering stress measurement",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "starts a match, recruits villagers, saves and resumes",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "four empires and tutorial remain usable at the device viewport",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "assigns gathering and places a house through the battlefield",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "phone landscape has usable setup and command panels",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "400-unit rendering stress measurement",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "game.spec.ts",
+      "title": "800-unit rendering stress measurement",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "highlighted friends button and one-click army selection are available",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch workers gather and move through direct battlefield taps",
+      "project": "desktop",
+      "status": "skipped"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "two-finger rotation retains accurate 3D selection",
+      "project": "desktop",
+      "status": "skipped"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "selected villagers finish a half-built house by clicking or tapping it",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch soldiers attack an enemy directly without a command button",
+      "project": "desktop",
+      "status": "skipped"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "highlighted friends button and one-click army selection are available",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch workers gather and move through direct battlefield taps",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "two-finger rotation retains accurate 3D selection",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "selected villagers finish a half-built house by clicking or tapping it",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch soldiers attack an enemy directly without a command button",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "highlighted friends button and one-click army selection are available",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch workers gather and move through direct battlefield taps",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "two-finger rotation retains accurate 3D selection",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "selected villagers finish a half-built house by clicking or tapping it",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch soldiers attack an enemy directly without a command button",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "a production rally sends the next paid villager to work and can be cleared",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "medieval cities render with working group formations and mobile access",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "rally targeting uses the displayed producer after buildings are selected in reverse order",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "online formation and rally commands survive reconnect without sharing resources",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "a production rally sends the next paid villager to work and can be cleared",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "medieval cities render with working group formations and mobile access",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "rally targeting uses the displayed producer after buildings are selected in reverse order",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "online formation and rally commands survive reconnect without sharing resources",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "a production rally sends the next paid villager to work and can be cleared",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "medieval cities render with working group formations and mobile access",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "rally targeting uses the displayed producer after buildings are selected in reverse order",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "online formation and rally commands survive reconnect without sharing resources",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated 3D building picking and ground placement preserve gameplay",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated drag panning and touch pinch retain accurate model selection",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated 3D building picking and ground placement preserve gameplay",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated drag panning and touch pinch retain accurate model selection",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated 3D building picking and ground placement preserve gameplay",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated drag panning and touch pinch retain accurate model selection",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "wooden walls start unlocked and explain the next town-hall requirement",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "an owned wooden wall upgrades to stone with a paid visible timer",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "third-age reinforcement keeps existing wall damage",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "wooden walls start unlocked and explain the next town-hall requirement",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "an owned wooden wall upgrades to stone with a paid visible timer",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "third-age reinforcement keeps existing wall damage",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "wooden walls start unlocked and explain the next town-hall requirement",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "an owned wooden wall upgrades to stone with a paid visible timer",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "third-age reinforcement keeps existing wall damage",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "worker-tasks.spec.ts",
+      "title": "a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "worker-tasks.spec.ts",
+      "title": "online workers retain and resume their own assignments through server snapshots",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "worker-tasks.spec.ts",
+      "title": "a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "worker-tasks.spec.ts",
+      "title": "online workers retain and resume their own assignments through server snapshots",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "worker-tasks.spec.ts",
+      "title": "a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "worker-tasks.spec.ts",
+      "title": "online workers retain and resume their own assignments through server snapshots",
+      "project": "tablet",
+      "status": "skipped"
+    }
+  ]
+}
