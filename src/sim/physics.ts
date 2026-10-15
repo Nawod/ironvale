@@ -14,7 +14,7 @@ export function separateUnits(s:GameState,grids:Uint8Array[]):void{
  }
  const move=(e:Entity,dx:number,dy:number)=>{
   const used=displaced.get(e.id)??0,length=Math.hypot(dx,dy),factor=Math.min(1,Math.max(0,.09-used)/Math.max(.00001,length));
-  const x=e.x+dx*factor,y=e.y+dy*factor,grid=grids[e.owner];
+  const x=e.x+dx*factor,y=e.y+dy*factor,grid=grids[e.owner<0?s.players.length:e.owner];
   if(x>1&&y>1&&x<s.size-1&&y<s.size-1&&!grid[Math.floor(y)*s.size+Math.floor(x)]&&!grid[Math.floor(e.y)*s.size+Math.floor(x)]&&!grid[Math.floor(y)*s.size+Math.floor(e.x)]){
    e.x=x;e.y=y;displaced.set(e.id,used+length*factor);
   }

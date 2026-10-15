@@ -10,6 +10,7 @@ export function spawn(s:GameState,kind:Entity['kind'],type:Entity['type'],owner:
  const e:Entity={id:s.nextId++,kind,type,owner,...p,hp:def?.hp??100,maxHp:def?.hp??100,order:{kind:'idle'},path:[],cooldown:0,progress:1,queue:[],amount:type==='farm'?900:kind==='resource'?FOOD_SOURCES[type as FoodSourceType]?.amount??500:0,stance:'aggressive',garrison:[]};s.entities[e.id]=e;return e;
 }
 export function createGame(config:MatchConfig):GameState {
+ if(config.zombies!==undefined&&typeof config.zombies!=='boolean')throw new Error('Choose a valid zombie mode setting.');
  const n=config.opponents+1;if(!Number.isInteger(n)||n<2||n>8||config.participants&&config.participants.length!==n)throw new Error('Choose between two and eight empires.');validateTeams(config.participants);const size=n===2?96:n<=4?128:n<=6?160:192;
  const s:GameState={version:2,config:{...config},tick:0,rng:(config.seed>>>0)||1,nextId:1,nextEvent:1,size,terrain:[],entities:{},players:[],explored:Array.from({length:n},()=>Array(size*size).fill(0)),visible:Array.from({length:n},()=>Array(size*size).fill(0)),intel:Array.from({length:n},()=>({})),events:[],winner:null,paused:false};
  for(let y=0;y<size;y++)for(let x=0;x<size;x++){const v=Math.sin(x*.18)+Math.cos(y*.14)+Math.sin((x+y)*.09);s.terrain.push(v>1.3?2:random(s)>.87?1:0);}

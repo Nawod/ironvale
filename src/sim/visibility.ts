@@ -14,7 +14,7 @@ export function updateVisibility(s:GameState):void {
  const groups=new Map<string,number[]>();for(const p of s.players){const key=allianceKey(p);groups.set(key,[...(groups.get(key)??[]),p.id]);}
  for(const members of groups.values())if(members.length>1){for(let i=0;i<s.size*s.size;i++){let visible=0,explored=0;for(const id of members){visible|=s.visible[id][i];explored|=s.explored[id][i];}for(const id of members){s.visible[id][i]=visible;s.explored[id][i]=explored;}}}
  for(const p of s.players){for(const e of Object.values(s.entities))if((e.kind==='building'||e.kind==='resource')&&e.owner!==p.id&&seen(s,p.id,e))s.intel[p.id][e.id]={...structuredClone(e),ghost:true,queue:[],visualAge:e.kind==='building'?s.players[e.owner]?.age:undefined};
-  for(const [id,e] of Object.entries(s.intel[p.id]))if(s.visible[p.id][Math.floor(e.y)*s.size+Math.floor(e.x)]&&(!s.entities[+id]||isAnimal(e)&&(Math.floor(s.entities[+id].x)!==Math.floor(e.x)||Math.floor(s.entities[+id].y)!==Math.floor(e.y))))delete s.intel[p.id][+id];
+  for(const [id,e] of Object.entries(s.intel[p.id]))if(s.visible[p.id][Math.floor(e.y)*s.size+Math.floor(e.x)]&&(!s.entities[+id]||(isAnimal(e)||e.kind==='building')&&(Math.floor(s.entities[+id].x)!==Math.floor(e.x)||Math.floor(s.entities[+id].y)!==Math.floor(e.y))))delete s.intel[p.id][+id];
  }
 }
 export function population(s:GameState,player:number):number{return Object.values(s.entities).filter(e=>e.owner===player&&e.kind==='unit').length;}

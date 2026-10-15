@@ -41,7 +41,7 @@ export class ModelLibrary {
   return result;
  }
 
- get(type:Entity['type'],owner:number,variant=0):ModelPart[]{const key=`${type}:${owner}:${type==='wood'?variant%4:0}`;const cached=this.cache.get(key);if(cached)return cached;const parts:ModelPart[]=[],team=COLORS[Math.max(0,owner)]??COLORS[0];
+ get(type:Entity['type'],owner:number,variant=0):ModelPart[]{const key=`${type}:${type==='zombie'?-2:owner}:${type==='wood'?variant%4:0}`;const cached=this.cache.get(key);if(cached)return cached;const parts:ModelPart[]=[],team=COLORS[Math.max(0,owner)]??COLORS[0];
   const add=(shape:keyof typeof this.geometries,color:string,p:[number,number,number],s:[number,number,number],r:[number,number,number]=[0,0,0],motion?:ModelPart['motion'])=>parts.push({geometry:this.geometries[shape],material:this.material(color),position:p,scale:s,rotation:r,motion});
   const box=(color:string,x:number,y:number,z:number,w:number,h:number,d:number,motion?:ModelPart['motion'])=>add('box',color,[x,y,z],[w,h,d],[0,0,0],motion);
   const post=(x:number,z:number,h:number,color='#705139')=>add('cylinder',color,[x,h/2,z],[.1,h,.1]);
@@ -76,6 +76,24 @@ export class ModelLibrary {
   }
   else if(type==='berries'){for(let i=0;i<5;i++){const a=i*2.4;add('foliage',i%2?'#496c37':'#64823f',[Math.cos(a)*.35,.35+i%2*.15,Math.sin(a)*.3],[.95,.65,.85],[0,a,0]);}for(let i=0;i<18;i++){const a=i*2.4,r=.38+(i%3)*.08;add('sphere',i%3?'#a93148':'#d15154',[Math.cos(a)*r,.45+i%4*.1,Math.sin(a)*r],[.11,.12,.11]);}}
   else if(type==='stone'||type==='gold'){for(let i=0;i<4;i++)add('rock',type==='gold'?(i%2?'#c8a84e':'#9b8a55'):'#89958c',[(i%2-.5)*.5,.24+(i===3?.15:0),(Math.floor(i/2)-.5)*.5],[.75,.55,.7],[0,i*.9,.15]);}
+  else if(type==='zombie'){
+   // Anatomical fallback shares the same slumped, unarmed silhouette and neutral
+   // palette while the imported pose banks load. No city cloth or team badge.
+   add('torso','#373c30',[0,.73,.03],[.94,1,.72],[.37,0,.045]);
+   add('sphere','#818f72',[0,1.31,.19],[.23,.3,.24],[.18,0,-.12]);
+   add('cylinder','#929e7d',[0,1.17,.15],[.1,.16,.1],[.4,0,0]);
+   add('sphere','#67775e',[.055,1.28,.3],[.075,.1,.045]);
+   for(const side of [-1,1]){
+    add('limb','#45483a',[side*.105,.76,0],[.145,.69,.16],[side*.09,0,side*.06],side<0?'legL':'legR');
+    add('sphere','#30352d',[side*.105,.09,.065],[.18,.15,.28]);
+    add('sphere','#49513e',[side*.22,1.1,.09],[.18,.2,.21]);
+    add('limb','#929e7d',[side*.24,1.08,.15],[.11,.42,.12],[-1.16,0,side*.12],'arm');
+    add('sphere','#818f72',[side*.28,.91,.51],[.105,.14,.11],[-.65,0,0],'arm');
+    add('sphere','#222b22',[side*.05,1.34,.3],[.035,.028,.018]);
+    add('cone','#373c30',[side*.115,.71,.075],[.15,.25,.1],[Math.PI,0,side*.2]);
+   }
+   add('sphere','#41483a',[0,1.42,.16],[.22,.12,.22],[.12,0,-.12]);
+  }
   else if(type==='deer'){
    add('sphere','#997654',[0,.79,0],[1.05,.47,.4]);add('sphere','#b18c65',[-.25,.77,0],[.4,.43,.38]);add('sphere','#dab78a',[0,.65,0],[.65,.16,.28]);
    for(const x of [-.31,.3])for(const z of [-.13,.13]){add('limb','#6f5039',[x,.72,z],[.075,.65,.075],[0,0,x<0?-.07:.09],x<0?'legL':'legR');}

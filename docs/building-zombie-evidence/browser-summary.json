@@ -1,0 +1,17 @@
+{
+  "passed": 20,
+  "failed": 0,
+  "skipped": 4,
+  "flaky": 0,
+  "durationMs": 234160.835,
+  "projects": [
+    "desktop",
+    "phone",
+    "tablet"
+  ],
+  "specs": [
+    "buildings-zombies",
+    "readable-interface",
+    "worker-tasks"
+  ]
+}

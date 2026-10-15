@@ -5,7 +5,7 @@ export function allied(s:Diplomacy,a:number,b:number):boolean {
  if(a<0||b<0)return false;
  return a===b||s.players[a]?.team!==undefined&&s.players[a].team===s.players[b]?.team;
 }
-export const hostile=(s:Diplomacy,a:number,b:number):boolean=>a>=0&&b>=0&&!allied(s,a,b);
+export const hostile=(s:Diplomacy,a:number,b:number):boolean=>a===-2?b>=0:b===-2?a>=0:a>=0&&b>=0&&!allied(s,a,b);
 export const allianceKey=(p:Pick<Player,'id'|'team'>):string=>p.team===undefined?`player:${p.id}`:`team:${p.team}`;
 export function validateTeams(participants:MatchConfig['participants']):void{
  if(!participants?.some(p=>p.team!==undefined))return;

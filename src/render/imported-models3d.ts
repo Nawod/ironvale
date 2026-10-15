@@ -131,12 +131,13 @@ export class ImportedModels {
  private paletteSkin = new MeshStandardMaterial({ name: 'Skin', vertexColors: true, roughness: .87 });
  private paletteTrim = new MeshStandardMaterial({ name: 'Leather and trim', vertexColors: true, roughness: .94 });
  private paletteMetal = new MeshStandardMaterial({ name: 'Metal', vertexColors: true, roughness: .48, metalness: .65 });
+ private undeadSkin = new MeshStandardMaterial({ name: 'Undead skin', color: '#92a582', vertexColors: true, roughness: .99 });
  private steel = new MeshStandardMaterial({ color: '#a4afb1', roughness: .49, metalness: .7 });
  private wood = new MeshStandardMaterial({ color: '#72513a', roughness: .94 });
  private poseCount = 0;
 
  constructor(private loader: AssetLoader = url => new GLTFLoader().loadAsync(url), private textureLoader: TextureAssetLoader = url => new TextureLoader().loadAsync(url)) {
-  for (const material of [this.accent, this.steel, this.wood, this.paletteSkin, this.paletteTrim, this.paletteMetal]) this.materials.add(material);
+  for (const material of [this.accent, this.steel, this.wood, this.paletteSkin, this.paletteTrim, this.paletteMetal, this.undeadSkin]) this.materials.add(material);
   this.teams = COLORS.map(color => { const material = new MeshStandardMaterial({ name: 'City cloth', color, vertexColors: true, roughness: .9 }); this.materials.add(material); return material; });
  }
 
@@ -169,6 +170,9 @@ export class ImportedModels {
    const pause=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
    for (const outfit of Object.keys(ARMY_OUTFITS)) for (const detail of ['full', 'crowd'] as const) {
     this.bakeArmy(outfit, assets, detail);await pause();if((this.status as string)==='disposed')return;
+   }
+   for (const detail of ['full', 'crowd'] as const) {
+    this.bakeZombie(assets.get('ashen/alchemist')!, detail);await pause();if((this.status as string)==='disposed')return;
    }
    for (const detail of ['full', 'crowd'] as const) {
     this.bakeMounted(assets, detail);await pause();if((this.status as string)==='disposed')return;
@@ -240,6 +244,66 @@ export class ImportedModels {
     });
    }
   } finally { this.releaseRig(model, mixer); }
+ }
+
+ /** One unarmed undead bank reuses a shipped free rig, independent of city/ID.
+  * Mutate private source copies once so mottling and torn hems follow the skinning
+  * consistently through every frame, without modifying any living army outfit. */
+ private bakeZombie(source: GLTF, detail: 'full' | 'crowd'): void {
+  const model = clone(source.scene), root = new Group(), copies = new Set<BufferGeometry>();
+  root.scale.setScalar(.9); root.add(model);
+  model.traverse(node => {
+   if (!(node instanceof Mesh)) return;
+   const geometry = node.geometry.clone(); node.geometry = geometry; copies.add(geometry);
+   node.userData.importedDetailCell = .025; node.userData.importedCrowdCell = .14;
+   const positions = geometry.getAttribute('position'), colors = geometry.getAttribute('color');
+   const materials = Array.isArray(node.material) ? node.material : [node.material];
+   const ranges = geometry.groups.length ? geometry.groups : [{ start: 0, count: geometry.index?.count ?? positions.count, materialIndex: 0 }];
+   for (const range of ranges) {
+    const material = materials[range.materialIndex ?? 0], cloth = material === this.accent, skin = material === this.paletteSkin;
+    const vertices = new Set<number>();
+    for (let i = range.start; i < range.start + range.count; i++) vertices.add(geometry.index ? geometry.index.getX(i) : i);
+    let hem = Infinity; for (const vertex of vertices) hem = Math.min(hem, positions.getY(vertex));
+    for (const vertex of vertices) {
+     const x = positions.getX(vertex), y = positions.getY(vertex), z = positions.getZ(vertex);
+     const mottling = .72 + .15 * Math.sin(x * 37 + y * 29 + z * 19) * Math.cos(y * 53 - z * 31);
+     // Neutralize the living skin/colored wardrobe palette, retaining baked form.
+     if (colors) {
+      // Reuse the neutral trim shader for all rags/leather; their own baked
+      // linear colors make them dark and unowned without another material bank.
+      const shade = skin ? [1, 1, 1] : cloth ? [.038, .045, .029] : [.063, .065, .044];
+      for (let axis = 0; axis < 3; axis++) colors.setComponent(vertex, axis, mottling * shade[axis]);
+     }
+     if (cloth && y < hem + .07) positions.setY(vertex, y + .045 * (.5 + .5 * Math.sin(x * 77 + z * 43)));
+    }
+   }
+   const palette = (material: MeshStandardMaterial) => material === this.paletteSkin ? this.undeadSkin : this.paletteTrim;
+   node.material = Array.isArray(node.material) ? node.material.map(material => palette(material as MeshStandardMaterial)) : palette(node.material as MeshStandardMaterial);
+  });
+  const mixer = new AnimationMixer(model);
+  try {
+   for (const [kind, animation] of [['idle', 'idle'], ['walk', 'move_slow'], ['attack', 'attack_01']] as const) {
+    const clip = source.animations.find(clip => clip.name === animation);
+    if (!clip) throw new Error(`Missing zombie source animation ${animation}`);
+    mixer.stopAllAction(); const action = mixer.clipAction(clip).reset().play();
+    const cycle: PoseCycle = { duration: clip.duration * (kind === 'walk' ? 1.35 : 1), frames: [] };
+    for (let i = 0; i < (kind === 'idle' ? 1 : SAMPLES); i++) {
+     action.time = clip.duration * i / SAMPLES; mixer.update(0);
+     model.getObjectByName('spine')!.rotateX(.24);
+     model.getObjectByName('chest')!.rotateX(.2);
+     model.getObjectByName('head')!.rotateZ(-.12);
+     const sway = Math.sin(i / SAMPLES * Math.PI * 2);
+     for (const [side, sign] of [['L', 1], ['R', -1]] as const) {
+      this.pointBone(model, `upper_arm${side}`, new Vector3(sign * .18, -.28 + (kind === 'attack' ? sway * .4 : sign * sway * .06), .9));
+      this.pointBone(model, `forearm${side}`, new Vector3(-sign * .04, -.15, .94));
+     }
+     const parts = this.remember(bakeStaticPose(root, detail === 'crowd' ? 'crowd' : true)); this.ground(parts);
+     cycle.frames.push({ parts, right: new Matrix4(), left: new Matrix4() }); this.poseCount++;
+    }
+    this.cycles.set(`zombie:${kind}${detail === 'crowd' ? ':crowd' : ''}`, cycle);
+    if (kind === 'attack') this.cycles.set(`zombie:work${detail === 'crowd' ? ':crowd' : ''}`, cycle);
+   }
+  } finally { this.releaseRig(model, mixer); for (const geometry of copies) geometry.dispose(); }
  }
 
  /** Riders are baked on the existing horse in its native +Z orientation. Wildlife
@@ -421,7 +485,7 @@ export class ImportedModels {
   const seconds = Number.isFinite(options.time) ? options.time : 0;
   const phase = ((seconds + (entity.id % 17) * .073) % cycle.duration + cycle.duration) % cycle.duration;
   const index = Math.min(cycle.frames.length - 1, Math.floor(phase / cycle.duration * cycle.frames.length));
-  const frame = cycle.frames[index]; if (animal) return frame.parts;
+  const frame = cycle.frames[index]; if (animal || type === 'zombie') return frame.parts;
   const owner = Math.max(0, entity.owner) % this.teams.length, key = `${type}:${kind}:${index}:${owner}:${detail}`;
   let result = this.cached.get(key);
   if (!result) { result = frame.parts.map(p => p.material === this.accent ? { ...p, material: this.teams[owner] } : p); this.cached.set(key, result); }

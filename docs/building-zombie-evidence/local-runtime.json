@@ -1,0 +1,42 @@
+{
+  "url": "http://127.0.0.1:8180",
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "assets": [
+    {
+      "path": "/models/ashen/guard.glb",
+      "type": "model/gltf-binary",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/models/realm/BirchTree_1.glb",
+      "type": "model/gltf-binary",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/models/deer.glb",
+      "type": "model/gltf-binary",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/models/materials/twig_alpha.png",
+      "type": "image/png",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/models/materials/bark_diff.jpg",
+      "type": "image/jpeg",
+      "cache": "no-cache"
+    }
+  ],
+  "zombieMode": "enabled",
+  "multiplayerWelcome": "welcome",
+  "models": "ready",
+  "scenery": "ready",
+  "forestTextures": "ready",
+  "recruitmentFood": 300,
+  "pageErrors": []
+}

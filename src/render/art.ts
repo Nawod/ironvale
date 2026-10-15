@@ -83,7 +83,7 @@ export function paintEntity(type:Entity['type'],owner=0):HTMLCanvasElement{
   ellipse(c,0,3,39,10,'#263a2e55');box(c,-19,-8,65,25,19,'#8b6f43','#665236','#ac8c57');for(const x of [-27,8,33])ellipse(c,x,6,8,10,'#584c35');
   if(type==='ram'){line(c,-28,-23,38,-5,'#b09c6c',10);polygon(c,[[-25,-38],[22,-32],[48,-10],[-1,-16]],team,'#5d4d30');}
   else{line(c,-18,-7,0,-63,'#b49761',7);line(c,25,9,0,-63,'#93723f',7);line(c,-27,-52,42,-81,'#b9a371',7);line(c,40,-79,45,-44,'#ded0a6',1);ellipse(c,45,-42,8,6,'#706d5b');}
- }else person(c,0,0,team,type);
+ }else if(type==='zombie'){person(c,0,0,'#46503d',type);ellipse(c,0,-41,6,7,'#91a779');line(c,-8,-28,-22,-35,'#91a779',4);line(c,8,-28,22,-35,'#91a779',4);ellipse(c,-2,-43,1,1,'#e4df91');ellipse(c,2,-43,1,1,'#e4df91');}else person(c,0,0,team,type);
  return canvas;
 }
 export function entityImage(type:Entity['type'],owner=0):string{const key=`${type}:${owner}`;if(!images.has(key))images.set(key,paintEntity(type,owner).toDataURL());return images.get(key)!;}

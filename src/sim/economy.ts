@@ -7,12 +7,14 @@ import {hostile} from './teams';
 import {FOOD_SOURCES,harvestedResource} from './nature';
 import type {FoodSourceType} from './types';
 import {assign,assignTask,canAssignTask,pendingTaskCount,resumeWorkerTask,resumeWithoutStore,MAX_WORKER_TASKS} from './tasks';
+import {applyBuildingAction} from './building-actions';
 export {assign} from './tasks';
 export function event(s:GameState,player:number,text:string,kind:'info'|'attack'|'capture'|'error'|'complete'='info',p?:Position):void {s.events.push({id:s.nextEvent++,tick:s.tick,player,text,kind,...(p?{x:p.x,y:p.y}:{})});if(s.events.length>80)s.events.splice(0,s.events.length-80);}
 export function affordable(s:GameState,player:number,cost:Partial<Resources>):boolean {return Object.entries(cost).every(([r,n])=>s.players[player].resources[r as Resource]>=n!);}
 export function pay(s:GameState,player:number,cost:Partial<Resources>):boolean {if(!affordable(s,player,cost))return false;for(const[r,n]of Object.entries(cost))s.players[player].resources[r as Resource]-=n!;return true;}
 export function applyCommand(s:GameState,c:Command):string|null {
  const p=s.players[c.player];if(!p?.alive||s.winner!==null)return 'This empire is no longer in the match.';
+ if(c.type==='moveBuilding'||c.type==='removeBuilding')return applyBuildingAction(s,c);
  const owned=(id:number)=>{const e=s.entities[id];return e?.owner===c.player?e:undefined;};
  if(c.type==='build'){
   const d=BUILDINGS[c.building];if(!d||c.building==='capital'||c.building==='outpost')return 'Use your original town center.';

@@ -29,6 +29,7 @@ export const UNITS: Record<UnitType,UnitDef> = {
  pikeman:{name:'Pikeman',cost:{food:65,wood:35,gold:15},age:2,hp:160,speed:2.05,damage:16,range:1.9,seconds:20,armor:3,sight:7},
  crossbowman:{name:'Crossbowman',cost:{wood:65,gold:45},age:3,hp:105,speed:2,damage:22,range:7,seconds:24,armor:2,sight:9},
  heavyCavalry:{name:'Heavy cavalry',cost:{food:130,gold:80},age:3,hp:320,speed:3.1,damage:30,range:1.6,seconds:32,armor:7,sight:8},
+ zombie:{name:'Zombie',cost:{},age:1,hp:105,speed:1.45,damage:11,range:1.25,seconds:0,armor:1,sight:9},
  ram:{name:'Battering ram',cost:{wood:130,gold:60},age:3,hp:350,speed:1.3,damage:48,range:1.8,seconds:28,armor:10,sight:6},
  trebuchet:{name:'Trebuchet',cost:{wood:160,gold:100},age:3,hp:200,speed:1.1,damage:70,range:12,seconds:35,armor:3,sight:9},
 };
