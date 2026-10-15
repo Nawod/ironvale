@@ -1,11 +1,22 @@
 import type { Entity, GameState, Position } from './types';
 import { distance } from './types';
 import { BUILDINGS,UNITS } from './definitions';
+import {allied} from './teams';
+import {environmentFor} from './environment';
+import {FOOD_SOURCES} from './nature';
+import type {FoodSourceType} from './types';
+const navigationCache=new WeakMap<GameState,{signature:string;grids:Uint8Array[]}>();
+export function navigationGrids(s:GameState):Uint8Array[]{
+ const buildings=Object.values(s.entities).filter(e=>e.kind==='building'&&e.type!=='farm');
+ const signature=s.size+'|'+s.players.map(p=>p.team??`p${p.id}`).join(',')+'|'+buildings.map(e=>`${e.id}:${e.type}:${e.x}:${e.y}:${e.owner}`).join('|');
+ const prior=navigationCache.get(s);if(prior?.signature===signature)return prior.grids;
+ const shared=new Map<string,Uint8Array>(),grids=[...s.players.map(p=>p.id),-1].map(owner=>{const key=owner<0?'neutral':s.players[owner].team===undefined?`p${owner}`:`t${s.players[owner].team}`;let grid=shared.get(key);if(!grid){grid=blockedGrid(s,owner);shared.set(key,grid);}return grid;});navigationCache.set(s,{signature,grids});return grids;
+}
 export function bounds(s:GameState,p:Position):boolean{return Number.isFinite(p.x)&&Number.isFinite(p.y)&&p.x>=1&&p.y>=1&&p.x<s.size-1&&p.y<s.size-1;}
 export function buildingSize(e:Entity):number{return e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].size:0;}
 export function blockedGrid(s:GameState,owner:number):Uint8Array{
  const grid=new Uint8Array(s.size*s.size);
- for(const e of Object.values(s.entities))if(e.kind==='building'&&e.type!=='farm'&&!(e.type==='gate'&&e.owner===owner)){
+ for(const e of Object.values(s.entities))if(e.kind==='building'&&e.type!=='farm'&&!(e.type==='gate'&&allied(s,e.owner,owner))){
   const n=buildingSize(e);for(let y=Math.floor(e.y);y<e.y+n;y++)for(let x=Math.floor(e.x);x<e.x+n;x++)if(x>=0&&y>=0&&x<s.size&&y<s.size)grid[y*s.size+x]=1;
  }return grid;
 }
@@ -41,6 +52,6 @@ export function travel(s:GameState,e:Entity,goal:Position,dt:number,grid:Uint8Ar
  if(!changed&&!e.path.length&&s.tick<(e.nextPathTick??0))return false;
  const next=e.path[0];if(changed||!e.path.length||next&&grid[Math.floor(next.y)*s.size+Math.floor(next.x)]){e.path=pathfind(s,e,goal,e.owner,grid);e.pathGoal={...goal};e.nextPathTick=s.tick+(e.path.length?0:40);}
  if(!e.path.length)return false;
- const p=e.path[0],d=distance(e,p),speed=(e.type==='deer'?1.1:UNITS[e.type as keyof typeof UNITS]?.speed??2.25)*dt;
+ const p=e.path[0],d=distance(e,p),speed=(FOOD_SOURCES[e.type as FoodSourceType]?.speed??UNITS[e.type as keyof typeof UNITS]?.speed??2.25)*environmentFor(s).movement*dt;
  if(d<=speed){e.x=p.x;e.y=p.y;e.path.shift();}else{e.x+=(p.x-e.x)*speed/d;e.y+=(p.y-e.y)*speed/d;}return distance(e,goal)<.35;
 }

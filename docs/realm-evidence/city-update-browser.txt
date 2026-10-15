@@ -1,0 +1,56 @@
+
+[WebServer] (node:19452) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+[WebServer] (node:6552) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 27 tests using 1 worker
+
+(node:22720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/27] [desktop] › tests\browser\ecology.spec.ts:3:1 › villagers gather fruit bushes into the food stock through map commands
+[2/27] [desktop] › tests\browser\ecology.spec.ts:17:1 › missing detailed assets leave a playable battlefield with an explicit fallback
+[3/27] [desktop] › tests\browser\ecology.spec.ts:28:1 › missing optional foliage texture preserves realm scenery and detailed actors
+[4/27] [desktop] › tests\browser\ecology.spec.ts:36:1 › unavailable realm assets retain playable scenery without losing army models
+[5/27] [desktop] › tests\browser\multiplayer.spec.ts:18:1 › eight separate browsers join one host-started map
+[6/27] [desktop] › tests\browser\readable-interface.spec.ts:24:1 › campaign setup stays readable and preserves the chosen match options
+[7/27] [desktop] › tests\browser\wall-progression.spec.ts:17:1 › wooden walls start unlocked and explain the next town-hall requirement
+[8/27] [desktop] › tests\browser\wall-progression.spec.ts:21:1 › an owned wooden wall upgrades to stone with a paid visible timer
+[9/27] [desktop] › tests\browser\wall-progression.spec.ts:25:1 › third-age reinforcement keeps existing wall damage
+
+
+(node:38416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[10/27] [phone] › tests\browser\ecology.spec.ts:3:1 › villagers gather fruit bushes into the food stock through map commands
+[11/27] [phone] › tests\browser\ecology.spec.ts:17:1 › missing detailed assets leave a playable battlefield with an explicit fallback
+[12/27] [phone] › tests\browser\ecology.spec.ts:28:1 › missing optional foliage texture preserves realm scenery and detailed actors
+[13/27] [phone] › tests\browser\ecology.spec.ts:36:1 › unavailable realm assets retain playable scenery without losing army models
+[14/27] [phone] › tests\browser\multiplayer.spec.ts:18:1 › eight separate browsers join one host-started map
+[15/27] [phone] › tests\browser\readable-interface.spec.ts:24:1 › campaign setup stays readable and preserves the chosen match options
+[16/27] [phone] › tests\browser\wall-progression.spec.ts:17:1 › wooden walls start unlocked and explain the next town-hall requirement
+[17/27] [phone] › tests\browser\wall-progression.spec.ts:21:1 › an owned wooden wall upgrades to stone with a paid visible timer
+[18/27] [phone] › tests\browser\wall-progression.spec.ts:25:1 › third-age reinforcement keeps existing wall damage
+
+
+(node:25828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[19/27] [tablet] › tests\browser\ecology.spec.ts:3:1 › villagers gather fruit bushes into the food stock through map commands
+[20/27] [tablet] › tests\browser\ecology.spec.ts:17:1 › missing detailed assets leave a playable battlefield with an explicit fallback
+[21/27] [tablet] › tests\browser\ecology.spec.ts:28:1 › missing optional foliage texture preserves realm scenery and detailed actors
+[22/27] [tablet] › tests\browser\ecology.spec.ts:36:1 › unavailable realm assets retain playable scenery without losing army models
+[23/27] [tablet] › tests\browser\multiplayer.spec.ts:18:1 › eight separate browsers join one host-started map
+[24/27] [tablet] › tests\browser\readable-interface.spec.ts:24:1 › campaign setup stays readable and preserves the chosen match options
+[25/27] [tablet] › tests\browser\wall-progression.spec.ts:17:1 › wooden walls start unlocked and explain the next town-hall requirement
+[26/27] [tablet] › tests\browser\wall-progression.spec.ts:21:1 › an owned wooden wall upgrades to stone with a paid visible timer
+[27/27] [tablet] › tests\browser\wall-progression.spec.ts:25:1 › third-age reinforcement keeps existing wall damage
+  2 skipped
+  25 passed (5.3m)

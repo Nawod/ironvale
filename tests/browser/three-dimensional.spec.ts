@@ -8,13 +8,15 @@ test('rotated 3D building picking and ground placement preserve gameplay',async(
  const viewport=page.viewportSize()!,camera=new RTSCamera(),zoom=viewport.width<600?.92:1.1;
  const tap=async(p:{x:number;y:number})=>{if(info.project.name==='desktop')await page.mouse.click(p.x,p.y);else await page.touchscreen.tap(p.x,p.y);};
  await page.getByRole('button',{name:'Rotate camera right'}).click();await page.getByRole('button',{name:'Rotate camera right'}).click();
- camera.configure({...viewport,focus:{x:19.5,y:21},zoom,yaw:Math.PI/2,origin:viewport.width<700?.35:.42});
+ camera.configure({...viewport,focus:{x:19.5,y:21},zoom,yaw:Math.PI/2,origin:viewport.width<700?.44:.42});
  await tap(camera.project({x:19.5,y:19.5},1));await expect(page.getByRole('button',{name:'Recruit Villager',exact:true})).toBeVisible();
- await page.getByRole('button',{name:'Idle villagers'}).click();camera.configure({...viewport,focus:{x:17,y:22},zoom,yaw:Math.PI/2,origin:viewport.width<700?.35:.42});
+ await page.getByRole('button',{name:'Idle villagers'}).click();camera.configure({...viewport,focus:{x:17,y:22},zoom,yaw:Math.PI/2,origin:viewport.width<700?.44:.42});
  const site=info.project.name==='phone'?{x:18.2,y:25.2}:{x:22.2,y:22.2};
  await page.getByRole('button',{name:'Build House',exact:true}).click();const screen=camera.project(site);
+ if(info.project.name==='phone')await expect(page.getByRole('button',{name:'Idle villagers',exact:true})).toBeHidden();
  expect(await page.evaluate(p=>document.elementFromPoint(p.x,p.y)?.tagName,screen)).toBe('CANVAS');
  await tap(screen);await expect(page.getByTestId('population')).toContainText('/ 25',{timeout:20000});
+ await expect(page.getByRole('button',{name:'Idle villagers',exact:true})).toBeVisible();
  await page.getByRole('button',{name:'Reset camera'}).click();await page.screenshot({path:`test-results/${info.project.name}-3d.png`});expect(errors).toEqual([]);
 });
 
@@ -31,9 +33,9 @@ test('rotated drag panning and touch pinch retain accurate model selection',asyn
   await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:start.x-40,y:start.y},{x:start.x+40,y:start.y}]});
   await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:start.x-48,y:start.y},{x:start.x+48,y:start.y}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});finalZoom*=1.2;
  }
- camera.configure({...viewport,focus:{x:19.5,y:21},zoom,yaw:Math.PI/2,origin:viewport.width<700?.35:.42});
- const focus=camera.ground({x:viewport.width/2-dx,y:viewport.height*(viewport.width<700?.35:.42)-dy});
- camera.configure({...viewport,focus,zoom:finalZoom,yaw:Math.PI/2,origin:viewport.width<700?.35:.42});
+ camera.configure({...viewport,focus:{x:19.5,y:21},zoom,yaw:Math.PI/2,origin:viewport.width<700?.44:.42});
+ const focus=camera.ground({x:viewport.width/2-dx,y:viewport.height*(viewport.width<700?.44:.42)-dy});
+ camera.configure({...viewport,focus,zoom:finalZoom,yaw:Math.PI/2,origin:viewport.width<700?.44:.42});
  const target=camera.project({x:19.5,y:19.5},.8);
  if(info.project.name==='desktop')await page.mouse.click(target.x,target.y);else await page.touchscreen.tap(target.x,target.y);
  await expect(page.getByRole('button',{name:'Recruit Villager',exact:true})).toBeVisible();

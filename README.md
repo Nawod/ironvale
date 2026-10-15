@@ -2,7 +2,7 @@
 
 An original 3D medieval RTS for your browser, with single-player and server-authoritative online multiplayer. Build a city, assign workers, gather food/wood/stone/gold, hunt and cultivate, research three development stages, recruit armies, defend with walls and garrisons, and capture rival capitals.
 
-**Two to eight empires** share one map. Online matches support public matchmaking and private invitation rooms. Single-player supports one to seven computer rivals. There are no alliances or time limits. Computer opponents fight each other, use the same resources and fog rules, and can capture cities. Last empire standing wins.
+**Two to eight empires** share one map. Online matches support public matchmaking and private invitation rooms. Single-player supports one to seven computer rivals. Choose free-for-all or online teams of up to four commanders. Teams may have unequal sizes, such as 2 versus 4. There are no time limits. Computer opponents fight each other, use the same resources and fog rules, and can capture cities. The last empire or allied team standing wins.
 
 ## Play locally
 
@@ -15,9 +15,9 @@ npm run build
 npm start
 ```
 
-Open http://localhost:5180. The same Node server serves the game and its online connections. Alternatively, double-click **Play Ironvale.cmd** to build and launch the production game at http://localhost:5180. Close its server window or press Ctrl+C to stop it.
+Open http://localhost:8180. The same Node server serves the game and its online connections. Alternatively, double-click **Play Ironvale.cmd** to build and launch the production game at http://localhost:8180. Close its server window or press Ctrl+C to stop it.
 
-For friends or a phone/tablet on the same Wi-Fi, open http://YOUR-COMPUTER-LAN-IP:5180 on each device. Open that LAN address on the host too before copying the invite, so the invitation points to the reachable computer rather than localhost. The game server listens on the local network. Browser/device firewalls can affect access. Saves are separate on each device and each origin.
+For friends or a phone/tablet on the same Wi-Fi, open http://YOUR-COMPUTER-LAN-IP:8180 on each device. Open that LAN address on the host too before copying the invite, so the invitation points to the reachable computer rather than localhost. The game server listens on the local network. Browser/device firewalls can affect access. Saves are separate on each device and each origin.
 
 ## Online matches
 
@@ -25,13 +25,14 @@ Choose **Play with Freinds** and enter your guest name. Accounts are not require
 
 - **Create room:** share the room code or invitation link. At least two humans must join. Each participant presses **Ready**. Only the creator/host sees the **Start match** button; joining and readiness never start a private game automatically. No player count is chosen when creating a private room: up to eight humans can join, and Start match uses the actual joined count (2–8). The host can optionally fill remaining seats with AI for an eight-empire match. Changing room settings clears readiness so everyone can confirm them.
 - **Join room:** use a friend's invitation link or enter their code, then press Ready and wait for the host.
-- **Find a match:** select the number of human players2–8. Public queues fill that exact count and start after a short countdown. There is no ranked ladder, party matchmaking or artificial queue timeout.
+- **Teams:** select Teams when creating a room, or change Match type in the lobby. Each commander chooses a team; the host can arrange every seat. Each team holds at most four players and at least two opposing teams must remain. Unequal sizes are allowed. Changing teams or room settings clears readiness. Allies start in nearby cities, share scouting, use each other's gates and fight together without friendly fire. Resources, buildings, recruitment, upgrades and unit commands stay independently owned. Allied troops cooperate in enemy occupation and defend friendly ruins; conquered cities go to the occupying commander. Team membership persists through refresh, reconnect, AI takeover and server saves.
+- **Find a match:** choose free-for-all or teams and select the number of human players2–8. Team and free-for-all queues remain separate. Public team games assign balanced groups of at most four; private rooms support custom unequal groups. Public queues fill that exact count and start after a short countdown. There is no ranked ladder, party matchmaking or artificial queue timeout.
 
 Online games keep running when you open menus, switch tabs or lose your connection. Reconnect within120 seconds to recover the same empire. After the deadline, or when you choose Leave match, the computer takes over permanently. Refresh recovery uses a private credential in this tab's session storage; it is not part of the invitation link. A second connection using that credential replaces the old connection. Guest names are display labels, not accounts.
 
 The server validates every order and only sends your own fog-of-war view. Clients cannot spend another empire's resources, command its troops, or load a local save to rewind a shared match. Server checkpoints use the configured data directory and recover after a normal restart; browser-local saves remain for single-player games.
 
-For local development use `npm run dev` plus `npm run server` in a second terminal. Vite proxies `/ws` to the Node server on5180. The production launcher runs a single combined server.
+For local development use `npm run dev` plus `npm run server` in a second terminal. Vite proxies `/ws` to the Node server on8180. The production launcher runs a single combined server.
 
 ## Controls
 
@@ -50,7 +51,13 @@ Select villagers to place buildings. Building buttons show their costs and remai
 
 With villagers selected, click or tap an unfinished friendly building to assign them to finish construction. Completed buildings remain selectable; Shift-click can select an unfinished building without assigning workers.
 
-Stone-wall placement queues successive sites for the selected builders. They finish them in placement order; a new move, gather, attack or Stop order cancels their remaining assignments. Each site is paid for when placed and stays available for reassignment. Queues are saved with the match.
+Workers remember interrupted tasks automatically. A newly assigned task runs first, then the worker returns to the most recently interrupted task and continues through their saved work. Gathering lasts until that source is exhausted; pending assignments take priority over automatically finding another source or farming a newly completed farm. Distant jobs return to their last known location before checking the target. Completed, destroyed or no-longer-owned jobs are skipped. Each selected worker keeps their own tasks; expand the pending-task count to inspect the list. Stop clears the task list. Task memory is saved and retained in online matches.
+
+Select an owned building to **Move building** or **Remove building** in solo and online games. Moving a completed building preserves its health, upgrades, farm food and identity; choose clear, currently scouted land. Empty its production/upgrade queue and garrison first. Visible enemies must be more than ten tiles away and ten seconds must pass after damage. Removal requires confirmation and gives no resource refund; workers resume their remaining valid tasks. Original town centers remain fixed and cannot be removed because they are conquest objectives.
+
+Enable **Zombie mode** before a single-player match, when creating an online room, or in public matchmaking. Private hosts can change it before starting; everyone must ready again. Zombie and ordinary public queues stay separate. Neutral undead attack human and computer cities regardless of teams from **18:00 until 06:00**, then stop attacking and return to their original forest refuges. The 24-minute world day starts at 08:00, so the first raid begins after ten minutes of match time. Hordes refill once per night, from eight toward twelve per surviving city, capped at 96 globally. They use no player resources or population, grant no scouting, and cannot capture cities or win the match. Players and AI can fight them, and zombies can breach walls. Normal conquest remains the objective; mode, wave cycle and refuge positions survive saves and server recovery.
+
+Consecutive stone-wall placement keeps its construction order. Interrupting that work pauses the entire remaining wall sequence; it resumes after the newer task. Each site is paid for once when placed. Saved work is limited to 128 pending tasks/segments per worker; a full list rejects further assignments before spending resources.
 
 Wild deer roam near their original habitat in the authoritative simulation and pause while a nearby villager hunts them. Pikemen train at barracks in Town; crossbowmen and heavy cavalry unlock in Fortified Empire at archery ranges and stables. Spears counter mounted troops, mounted troops counter archers, and bows/crossbows counter spear infantry.
 
@@ -60,7 +67,21 @@ Destroy an original capital and occupy its ruins with soldiers for **30 seconds*
 
 Manual saves and a rolling autosave every 60 simulation seconds use IndexedDB. All simulation state is retained, including AI plans, fog, queues, and randomness. Loading starts paused. Leaving the tab pauses single-player automatically; online matches continue. Saves remain in this browser on this device; clearing site data removes them. Local saves are not cloud accounts.
 
-Music and sound effects are synthesized locally and adjustable in Settings. Audio unlocks on your first tap, click or keypress; Settings includes a Test sound button. There are no external asset requests. The battlefield uses original locally generated 3D medieval meshes, animated workers and troops, directional lighting, desktop shadows and visible projectile trajectories. UI icons retain the original code-drawn artwork.
+Music and sound effects are synthesized locally and adjustable in Settings. Audio unlocks on your first tap, click or keypress; Settings includes a Test sound button. All models and textures are served locally. Free Ashen Marches characters provide three civilian outfits and distinct infantry and mounted classes, with full garments colored for each city. Riders sit on the existing Quaternius horses. Buildings and walls use their previous Ironvale models. Ultimate Nature supplies varied trees, berry bushes, rocks and mountain formations; the Quaternius gold resource remains active. Animals keep their existing appearance. Shared sampled poses and instanced scenery avoid a skeleton per unit. Procedural models remain available during loading or asset failure. Credits, license differences and model mappings are in [THIRD_PARTY_ASSETS.md](THIRD_PARTY_ASSETS.md). These are stylized RTS assets.
+
+Wooden walls are available at town hall level 1. Select an owned wall to purchase its stone upgrade at level 2, then reinforced stone at level 3. Each upgrade shows its cost and timer and preserves the wall's damage percentage. AI armies commit to destroying the town hall, breach defenses blocking occupation, and still obey the normal resource, training and contested capture rules.
+
+Oak, birch, pine and fir silhouettes vary the woodland. Berry bushes provide food alongside the four animal species; all empires receive the same starting animal yield and two fruit bushes. Villagers carry food to storage using the same economy rules as farms and hunting. The menu and HUD use larger text, separate resource/world/camera rows, visible training/construction times, and a persistent larger-text option in Settings.
+
+## AI fairness
+
+AI and humans pay the same costs and use the same gathering, construction, research and training timers. Difficulty changes decision frequency, worker targets and the army size before raids. The AI can build an army earlier through immediate worker assignments and consistent queueing; it receives no extra starting stock or production-speed multiplier. A mirrored-controller test suite and six ordinary 180-second seeded openings found no unexplained resource changes or shortened timers. See [the audit and reproduction steps](docs/ai-fairness-audit.md).
+
+## Time, weather and movement
+
+A world day lasts 24 simulation minutes, starting at 08:00. The world clock appears beside the match timer. Dawn, daylight, dusk and moonlit night change the lighting; windows glow at night. Weather targets change every three simulation minutes and blend over 30 seconds between clear, overcast, fog, rain and storms. Clouds drift with wind, rain is visible, and mist reduces distant contrast. Rain slows ground movement by at most 12 percent. All players use the same seed and authoritative match tick, so pauses, saves, refreshes and reconnects preserve the same weather and time.
+
+Units use local crowd separation that respects building footprints, with bounded neighbor checks. Navigation grids are reused until buildings or gate ownership change. Repeated scenery uses shared textures and instancing, static mesh parts are merged, terrain uploads are skipped when visibility is unchanged, and sustained rendering load reduces optional pixel density/shadows. Detailed actor shadows are omitted above 180 visible troops while scenery shadows remain; clouds and soft ground shadows use bounded shared layers.
 
 ## Build and verification
 
@@ -80,7 +101,7 @@ npm run build
 
 The simulation is browser-independent TypeScript, running at20 Hz in a browser worker offline or a Node worker thread online. React handles menus/controls; Three.js WebGL handles the 3D battlefield. Human and AI commands share validation. Rendering receives player-visible snapshots; saved matches retain full state. Online rooms use WebSockets, player-specific snapshots, and server-controlled human/AI seats. Accounts, ranked play, chat, spectators, and cross-device guest identity are not implemented.
 
-The benchmark uses a controlled 400- and 800-unit fixtures with AI thinking delayed to isolate the load; rendering includes nearby combat, with enlarged unit health to keep the count stable. Browser benchmarks use native Windows Direct3D where available. Phone layouts/controls and CPU-throttled performance are emulated on the desktop GPU, **not physical-phone verification**. Test results, screenshots, headless diagnostic states and performance measurements are in `test-results/` after running the checks. Latest gameplay and gesture verification is in `docs/gameplay-refinements.md`; initial 3D conversion evidence is in `docs/3d-verification.md`. Original verification is in `docs/verification.md`; multiplayer evidence and current limits are in `docs/multiplayer-verification.md`.
+The benchmark uses controlled 400- and 800-unit fixtures with AI thinking delayed to isolate the load; rendering includes nearby combat, with enlarged unit health to keep the count stable. Rendering measurements wait for detailed models and forest maps to load, and record the adaptive render scale. Browser benchmarks use native Windows Direct3D where available. Phone layouts/controls and CPU-throttled performance are emulated on the desktop GPU, **not physical-phone verification**. Test results, screenshots, diagnostic states and performance measurements are in `test-results/` after running the checks. Latest ecology, model, interface and fairness verification is in [docs/fair-ai-living-realm-verification.md](docs/fair-ai-living-realm-verification.md). Earlier team verification is in `docs/living-world-teams-verification.md`; gameplay and gesture evidence is in `docs/gameplay-refinements.md`; initial 3D evidence is in `docs/3d-verification.md`. Multiplayer evidence and hosting limits are in `docs/multiplayer-verification.md`.
 
 
 ## Public hosting
@@ -91,7 +112,7 @@ Set environment variables in your host settings or shell; `.env.example` is a co
 
 | Variable | Default | Purpose |
 |---|---|---|
-| PORT |5180| HTTP/WebSocket port |
+| PORT |8180| HTTP/WebSocket port |
 | HOST |0.0.0.0| Listen address |
 | DATA_DIR |./server-data| Private persistent match checkpoints |
 | MAX_ROOMS |32| Room admission limit; size according to host resources |
@@ -103,7 +124,7 @@ A Dockerfile is included:
 
 ```text
 docker build -t ironvale .
-docker run --rm -p 5180:5180 -v ironvale-data:/data ironvale
+docker run --rm -p 8180:8180 -v ironvale-data:/data ironvale
 ```
 
 The Docker recipe is provided for hosting; Docker execution is not part of the Windows verification. Use a single instance for this release. Multiple independent instances would have separate queues and rooms; a distributed match router is future work. MAX_ROOMS is an admission ceiling, not a claim that32 eight-player games have been load-tested simultaneously.

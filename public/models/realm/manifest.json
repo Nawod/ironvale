@@ -1,0 +1,348 @@
+{
+  "license": "CC0-1.0",
+  "author": "Quaternius",
+  "assets": [
+    {
+      "file": "TownCenter_FirstAge_Level1.glb",
+      "pack": "rts",
+      "sourceFile": "TownCenter_FirstAge_Level1.gltf",
+      "sourceId": "1HfAS4folrYwiZla5h4oaX96PKg3cW1rW",
+      "sourceSha256": "433f30a5d58103e404e2ef631593033bd64c8d97323414541d0864803159ccc3",
+      "sha256": "23033283c521587110adab7b925869b4bc7ec47006381f20cebc42e91691ceff",
+      "bytes": 48412
+    },
+    {
+      "file": "TownCenter_FirstAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "TownCenter_FirstAge_Level3.gltf",
+      "sourceId": "1L6L_nByO0mo9gfRrRfb4dIoebwX3YJSb",
+      "sourceSha256": "652df3034ff5d838621e2f16ccca885aad23e5468d250312ae1f005b66084491",
+      "sha256": "05d091cdae04c3b8b72b8173856318c7b310063a386aba303926a701a67804fa",
+      "bytes": 238928
+    },
+    {
+      "file": "TownCenter_SecondAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "TownCenter_SecondAge_Level3.gltf",
+      "sourceId": "1y1AtgLu7B9AFgfohwZ5LvtN-_XUH5veX",
+      "sourceSha256": "b9409cd1b8bd0fa808cf8f7df214f84058cb6c82d74edba0306c19e20a120d95",
+      "sha256": "79589002cdf8126c2150fb4d063c4872c69cfbbe442229cd792bd0d9cce3ae6b",
+      "bytes": 397428
+    },
+    {
+      "file": "Houses_FirstAge_1_Level1.glb",
+      "pack": "rts",
+      "sourceFile": "Houses_FirstAge_1_Level1.gltf",
+      "sourceId": "1ITHANc2S6cJxNRx0O0wDfEmYC4nXBBVg",
+      "sourceSha256": "3f35bc42544f0f26f69bbd1bb5a4716d4d4d9a9298fad8410f0169f1e428866e",
+      "sha256": "6da2f1238db5bb34de686f82206b3055f2bc60505e279f1be3c9781eab2433ac",
+      "bytes": 23216
+    },
+    {
+      "file": "Houses_FirstAge_1_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Houses_FirstAge_1_Level3.gltf",
+      "sourceId": "1Q7aztg9fpyNhgle0tzmK_duyMur4_zaW",
+      "sourceSha256": "808c952be57a1778b7ac860de3b30d24fa55592e89ce922d52543f2669e26b55",
+      "sha256": "195c8e4b90f353a1c6a61479d8eec7dcb7e9d8e6ed366c9dba9294a02783c562",
+      "bytes": 56868
+    },
+    {
+      "file": "Houses_SecondAge_1_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Houses_SecondAge_1_Level3.gltf",
+      "sourceId": "1ob8us6X4jWX5D-5K8BVAJFjXtt77Cy7Q",
+      "sourceSha256": "a3abdaf6287ef1f71622775d72198c2e7ebac1a4b77dd1ded3a6780f353889f2",
+      "sha256": "0d6d2053d734118875d130e1db9ce80bf0f0c2fa088be3e8b63340c2976e0c66",
+      "bytes": 150388
+    },
+    {
+      "file": "Storage_FirstAge_Level1.glb",
+      "pack": "rts",
+      "sourceFile": "Storage_FirstAge_Level1.gltf",
+      "sourceId": "1gTOKxkeaD-foMDHbCEsfgn8o1gHkZux5",
+      "sourceSha256": "baca6e2b0be3b8a85381e6f62cacb08e5875dbbd767d7acd97c65e4250f9d2d3",
+      "sha256": "d1205be8887bd008b7e57ad2e80a78c4ba098202cb85c0e40095d4bd4d4af70d",
+      "bytes": 199228
+    },
+    {
+      "file": "Storage_FirstAge_Leve3.glb",
+      "pack": "rts",
+      "sourceFile": "Storage_FirstAge_Leve3.gltf",
+      "sourceId": "10XeobPS4Ifs1i3qZeGaYLP4qTLufyr5n",
+      "sourceSha256": "6f640c51cc8949c75a3c7a3d7d268189e82a05c0c1c040d91b97614d86adf026",
+      "sha256": "029f00ec1de7872cf6249943ba771aa3dff76f150b53518bc58c05de060f0443",
+      "bytes": 357052
+    },
+    {
+      "file": "Storage_SecondAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Storage_SecondAge_Level3.gltf",
+      "sourceId": "1TI5nyQ4USrH8c2McSAFMR2riJPwjQg4A",
+      "sourceSha256": "b79cdc5099ead15734ca6bafea8758b1d90c79953516a7c831590db687836339",
+      "sha256": "8cc57753f8432bb96e4800038a0d9f4a25f5fcf9f3826f9c71e3e90617e5ad9d",
+      "bytes": 526816
+    },
+    {
+      "file": "Barracks_FirstAge_Level1.glb",
+      "pack": "rts",
+      "sourceFile": "Barracks_FirstAge_Level1.gltf",
+      "sourceId": "1qMCMZi-luDJhdMJCQjZfTjsB5iF4hFva",
+      "sourceSha256": "5cf25a470f743b8ed9824b5e66af30c1521f1bed06efdc9070cb32bc57ad554b",
+      "sha256": "9db5aa40d8cf3f9342f045e9406e1cd1847fec9f83ce055bb97ee486c4ffd915",
+      "bytes": 76192
+    },
+    {
+      "file": "Barracks_FirstAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Barracks_FirstAge_Level3.gltf",
+      "sourceId": "1Xsx_0Kn-Sw5U8iGnfPKKRgkwErC7eIQP",
+      "sourceSha256": "d553c7c54fc6fe2104af19ed06eb437b62642414b4644f67e0c867ab75f3901d",
+      "sha256": "68bb0ff2ffb7814c8682b8537843a24425accfaa789eded67cbaae2e1aef43b4",
+      "bytes": 270516
+    },
+    {
+      "file": "Barracks_SecondAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Barracks_SecondAge_Level3.gltf",
+      "sourceId": "1Yh-YB_Ft0uy_3DcJqKXR1UNlcH1Y5UPb",
+      "sourceSha256": "7b961ec2083c8a1f7058028500798071b922e37ed4a90f954a1452c09d132e70",
+      "sha256": "b8fbcd8741e785d6507aeced73f6f37daeeecc8e6356f8066179d9e55d87b9bf",
+      "bytes": 583992
+    },
+    {
+      "file": "Archery_FirstAge_Level1.glb",
+      "pack": "rts",
+      "sourceFile": "Archery_FirstAge_Level1.gltf",
+      "sourceId": "1-XDduQ7MN-uGlcenuHkTOyeN5u4-Ch31",
+      "sourceSha256": "767e779a2942921df8aed9f5eeb76c74ca834a5d4ec6c078b09ad94e32147b31",
+      "sha256": "cfce1ce20d0ded1d7785aafe38ae84ad054a5d0df2339588d51a7d998ee7231b",
+      "bytes": 249132
+    },
+    {
+      "file": "Archery_FirstAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Archery_FirstAge_Level3.gltf",
+      "sourceId": "18gmb8BX2BSdZpM2-is8BGD5UnmtMvuc2",
+      "sourceSha256": "2f4b8fc290c6a66d835f38c5993b8f4350a2e3efb9adcffd0eab44df9afb3122",
+      "sha256": "a7ce53bf6702d441cae4bda62ee5592d2de92afec30d615cc6b76bf688e5ece3",
+      "bytes": 397284
+    },
+    {
+      "file": "Archery_SecondAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Archery_SecondAge_Level3.gltf",
+      "sourceId": "1AP5ranSvjfZ-ItNNoTzahHdsz3Z1JQfy",
+      "sourceSha256": "c5ed3c3f36886297f2d6064c4f3f01c02d9ce377bd6dbec49cf014e309dbcc88",
+      "sha256": "f1ec344e5e720f5b51a81f3adebcdc35ae6135fc826c0d55b3d81ba061f22c30",
+      "bytes": 623548
+    },
+    {
+      "file": "Market_FirstAge_Level1.glb",
+      "pack": "rts",
+      "sourceFile": "Market_FirstAge_Level1.gltf",
+      "sourceId": "1alq0Zr4qJs7Qmz1be5ow3qvnjBZ0bCMH",
+      "sourceSha256": "920868a92d5430271fd3e270dd5b4179e62f61b64fa6fbe6a92226b1fdf5a7ca",
+      "sha256": "3503e0086f387f90ccf1b5a55dc14b09c6bee3767f04e774ac2f61393e727320",
+      "bytes": 140644
+    },
+    {
+      "file": "Market_FirstAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Market_FirstAge_Level3.gltf",
+      "sourceId": "1Jv_K00v8C_B7bwM4318H07z7B7deGqiQ",
+      "sourceSha256": "67ffc668c0f3bd61da183df70382979b2edcda867c1d1ca83ac81eb03e78e9a5",
+      "sha256": "8f19c5bab7c602d6fa1fb7c1381f07106040753265ebbf1a464f8879baddddcf",
+      "bytes": 382720
+    },
+    {
+      "file": "Market_SecondAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Market_SecondAge_Level3.gltf",
+      "sourceId": "1ONGCq5vijwzM0liqdG645Y0GvmrJM1I9",
+      "sourceSha256": "514f06abbb1c8fc5336302942744ca7dad3abdf3d1daabaad6bd4180be1cf90d",
+      "sha256": "7baeb015113da478265098ab6eace903ed3429a9423315463863e2ca78e0f1be",
+      "bytes": 985604
+    },
+    {
+      "file": "WatchTower_FirstAge_Level1.glb",
+      "pack": "rts",
+      "sourceFile": "WatchTower_FirstAge_Level1.gltf",
+      "sourceId": "1ffynJQq0rDyaAL_0APkOGSRY631zWIzG",
+      "sourceSha256": "780da8a1d2a9a30419dabaa48115555cf95816a750dde9163fd07c8fdf37f430",
+      "sha256": "78b7bd54a5e52a236555c5d5ebc426f031d7e9510f29306b8f214db03830bcff",
+      "bytes": 37272
+    },
+    {
+      "file": "WatchTower_FirstAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "WatchTower_FirstAge_Level3.gltf",
+      "sourceId": "1P8beAJOrM38HXOcDJql50D41BMN3R1_e",
+      "sourceSha256": "45727c99db1aeba5852c8d7c6e136ae0ebd14824942cbc3ebceab8894147b46b",
+      "sha256": "c0d50fe4dc640c903a3039685d766ca3febb4c84778fdc3f56b8cc981e2035ba",
+      "bytes": 95404
+    },
+    {
+      "file": "WatchTower_SecondAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "WatchTower_SecondAge_Level3.gltf",
+      "sourceId": "1IIWAbdsApMVU6mOzMBRKlnRL2KjunFgp",
+      "sourceSha256": "bc4aeb816375fb20db076af4ebcba1a1d495baa9d27a6c9d03100402acad5273",
+      "sha256": "85af16ee6c5bf73d9f9e5cb5e89fa08cd6e383bd055a85f4b0b8701cd109bc0e",
+      "bytes": 189308
+    },
+    {
+      "file": "Wonder_FirstAge_Level1.glb",
+      "pack": "rts",
+      "sourceFile": "Wonder_FirstAge_Level1.gltf",
+      "sourceId": "1qH50K_RTEmkgyfV1YZXhUTKIHrl6kkhR",
+      "sourceSha256": "24d87d0d4d1b974a2496a2a79d20b32c475957aabf8b5c081a4484f79eb8a12e",
+      "sha256": "bab123e011cad5d3d2badb8eeb20ccc2778eec01002e6ee73f2b9d2a7111de8d",
+      "bytes": 244424
+    },
+    {
+      "file": "Wonder_FirstAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Wonder_FirstAge_Level3.gltf",
+      "sourceId": "13txr9sbOD5zVZxQ_5kBF4a6kG-x_LqW2",
+      "sourceSha256": "e588ae8a0fb3c78bc080e53837b14e501191ed6bbec6e5d2494ff2f7afc84941",
+      "sha256": "47a1258f0bdf32045786b2dc440bb8dcdceff740b7807e7c3dd6dd469d436418",
+      "bytes": 632072
+    },
+    {
+      "file": "Wonder_SecondAge_Level3.glb",
+      "pack": "rts",
+      "sourceFile": "Wonder_SecondAge_Level3.gltf",
+      "sourceId": "1ANbbuTKmYeeXP-Vl5FSuTaLo9Z-u5cto",
+      "sourceSha256": "6d68a9945eca89b73850af8df0e8dbe0d7eac17b8a9b2dbcd35a6fde6252054a",
+      "sha256": "fa128ff4d5d351cad2241ef5408e8ce61d1ed6e71d9721d6537de764acb8412d",
+      "bytes": 595840
+    },
+    {
+      "file": "Wall_FirstAge.glb",
+      "pack": "rts",
+      "sourceFile": "Wall_FirstAge.gltf",
+      "sourceId": "1pv5TpbAz1ija4CbiQlqQwRs4f1KvaYel",
+      "sourceSha256": "544bc334bb1888d7fa9e4536cae3b72e5febeb8b00c8dcf451eec935cead3432",
+      "sha256": "48bc710dbeaa9a01da54c0d1fe5bacb520a7a84def14ba5425d39103f1d404b4",
+      "bytes": 17644
+    },
+    {
+      "file": "Wall_SecondAge.glb",
+      "pack": "rts",
+      "sourceFile": "Wall_SecondAge.gltf",
+      "sourceId": "1v7m072pr_t4v-ZWbPgSlhL3hk1wbXHin",
+      "sourceSha256": "2f89edd4d11f7b69b64ad4127cafdd6b314f4458888601e6c0d8f3fb73ae0d5a",
+      "sha256": "a57534d4f6cd9d2320ecfcbe8bbe12195ff67446e51319efe9b1a86ad92889cd",
+      "bytes": 16532
+    },
+    {
+      "file": "WallTowers_SecondAge.glb",
+      "pack": "rts",
+      "sourceFile": "WallTowers_SecondAge.gltf",
+      "sourceId": "1p-uX3X-jP-sHUrT0_OWQlxQuVXRLImSq",
+      "sourceSha256": "b74071d518e2252e37a1b3e4d4dacc245abef067b31c076132fbd79c5748c9a2",
+      "sha256": "17fbdac2a72e7f9d7fbbdf674585a9a219bbc0d1f9c14a57070a309d73c7416c",
+      "bytes": 125240
+    },
+    {
+      "file": "Mountain_Single.glb",
+      "pack": "rts",
+      "sourceFile": "Mountain_Single.gltf",
+      "sourceId": "1_9xhFTfiSO5d4v6SHvoce810Gz9iYjtA",
+      "sourceSha256": "e83e8ba6cd7653815610a3ee38a7203846481dc686f4185b74d53f1d40d9cb86",
+      "sha256": "5310ee00c0aa1d9fc9ec05c93f8c69e1d149622835665b129b58726a6d9eb27d",
+      "bytes": 16376
+    },
+    {
+      "file": "Mountain_Group_1.glb",
+      "pack": "rts",
+      "sourceFile": "Mountain_Group_1.gltf",
+      "sourceId": "14JnT07AVnEXFkqpd0rxbgVdoBjWL5hp2",
+      "sourceSha256": "6ef17e6fa6885cdfed1531b72381555665e4bf29a050579c98c7b1f0a03189f0",
+      "sha256": "f7e14de3780aa84eb6c0060c36eebd2e9cc9953a869ed8c25e792bc13494a96f",
+      "bytes": 153136
+    },
+    {
+      "file": "Resource_Gold_1.glb",
+      "pack": "rts",
+      "sourceFile": "Resource_Gold_1.gltf",
+      "sourceId": "1Zfz6cBOVppUsHWcYlkO5FTZosao12gh7",
+      "sourceSha256": "d0e7204301e30e75e4d3bfa32b4ae812827d55788b7cf5d876d884b5fbbf2afd",
+      "sha256": "71513b239dd2ee26c264f9827716ac3f4875179dfcd4180e3a7cf7c96426dbae",
+      "bytes": 48288
+    },
+    {
+      "file": "CommonTree_1.glb",
+      "pack": "nature",
+      "sourceFile": "CommonTree_1.obj",
+      "sourceId": "1mZ9G3T_F76NU2ug3CmsMv-hLoomVrD6K",
+      "sourceSha256": "babaf5b74df8f66aab2e75f32c25c606fa1a851bb17b496033810a58975bf729",
+      "sha256": "5e7d39be77ee8d3a2bd9d83f06195585e3f6010fd83e3e1d7e6542331dbd27dc",
+      "bytes": 104980
+    },
+    {
+      "file": "BirchTree_1.glb",
+      "pack": "nature",
+      "sourceFile": "BirchTree_1.obj",
+      "sourceId": "19lLkbTbCwvjgXNwnWDfI6ulLvzp-H_w7",
+      "sourceSha256": "b4a09e49ecba2550d2ed04a7c1f1c11a5b04a63cc0e34341a8c820d1f9a41a47",
+      "sha256": "6b5e32e5d083f2574e4423e41e72bdc66533f93cc071df358cc6bd014d610245",
+      "bytes": 63116
+    },
+    {
+      "file": "PineTree_1.glb",
+      "pack": "nature",
+      "sourceFile": "PineTree_1.obj",
+      "sourceId": "1SqKX1q_xhefo4zhONjye2g-nP-1nUC4o",
+      "sourceSha256": "21ff41e3dd50abee4ffb1d1f884aad68f251a81bf4d05fed15d5d7db15201561",
+      "sha256": "0506476f1a0519948b8924ec5c508baac65c46d18a28094aaa4a202a6a47619a",
+      "bytes": 70128
+    },
+    {
+      "file": "CommonTree_3.glb",
+      "pack": "nature",
+      "sourceFile": "CommonTree_3.obj",
+      "sourceId": "1uEywi_dDOmNNJWPG-iGsQeeYqCr-J95k",
+      "sourceSha256": "d58d9969f30abf819404d28f8ec506e8f9a52a79c3728cde676b0da04b8e8487",
+      "sha256": "58f6535474140dea78745238aa6a753991c76c4d1c160241d62d44f8236dbddd",
+      "bytes": 58420
+    },
+    {
+      "file": "BushBerries_1.glb",
+      "pack": "nature",
+      "sourceFile": "BushBerries_1.obj",
+      "sourceId": "1QEO1Ej1OuqXjjjhJ0fgW8aTEvk1-tYWa",
+      "sourceSha256": "0c71ca411304b0a2240df649b470a5d171dd5a821a2b6bf3096e4d5d76496028",
+      "sha256": "2d51c7262d72624b9d52b4c938246ac518702520e47899a2c4c0e10b5919795f",
+      "bytes": 33128
+    },
+    {
+      "file": "Rock_1.glb",
+      "pack": "nature",
+      "sourceFile": "Rock_1.obj",
+      "sourceId": "1ZJuH8zh-jiUmQ9nHd1vK-EGhZFsV-W-d",
+      "sourceSha256": "34d20ae0234a88b5cf1ceb1e5140b46ece28e6e7d72beb7e2e3a7e1fe8a8708e",
+      "sha256": "ea4518e722f04a8880de18d726f7d13293213461ce2b40c3fb5ff56de6b0c971",
+      "bytes": 3152
+    },
+    {
+      "file": "Rock_3.glb",
+      "pack": "nature",
+      "sourceFile": "Rock_3.obj",
+      "sourceId": "1BXIq8EAela0BjNnYDaRnoUkAAb8sI1U3",
+      "sourceSha256": "e6abbb3e7ae4ebda85209622ffc63cf288a3f78da99f7557bfabe0584497b07a",
+      "sha256": "281a4f550be269c531ed73814cb9d65628a0ab81353fe68adfd9ca9709f99edb",
+      "bytes": 3220
+    },
+    {
+      "file": "Rock_Moss_2.glb",
+      "pack": "nature",
+      "sourceFile": "Rock_Moss_2.obj",
+      "sourceId": "1cA8cIAwByqRFghfmb0ha8p1tew3sYJe3",
+      "sourceSha256": "157c7146fa7d65ac0d1608083e1a71605a4c4773d535be20377ad2fd356a322c",
+      "sha256": "57aa04fe277502908da3602b7fed4a76c2f041b5f3aed44f0c90de955a52f2e3",
+      "bytes": 3812
+    }
+  ]
+}

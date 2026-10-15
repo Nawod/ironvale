@@ -1,11 +1,12 @@
-import type {Command,Difficulty,Snapshot} from '../sim/types';
-export interface RoomSettings {capacity:number;fillAI:boolean;difficulty:Difficulty;seed:number}
-export interface LobbyPlayer {id:string;name:string;seat:number;ready:boolean;connected:boolean;controller:'human'|'ai'}
+import type {Command,Difficulty,Snapshot,MatchMode} from '../sim/types';
+export interface RoomSettings {capacity:number;fillAI:boolean;difficulty:Difficulty;seed:number;mode?:MatchMode;zombies?:boolean}
+export interface LobbyPlayer {id:string;name:string;seat:number;ready:boolean;connected:boolean;controller:'human'|'ai';team?:number}
 export interface RoomView extends RoomSettings {code:string;kind:'private'|'public';phase:'lobby'|'countdown'|'playing'|'finished';hostId:string;players:LobbyPlayer[];countdownEnds?:number}
 export type ClientMessage =
  | ({type:'create';name:string}&RoomSettings)
  | {type:'join';name:string;code:string}
- | {type:'queue';name:string;count:number}
+ | {type:'queue';name:string;count:number;mode?:MatchMode;zombies?:boolean}
+ | {type:'team';team:number;seat?:number}
  | {type:'ready';ready:boolean}
  | ({type:'settings'}&RoomSettings)
  | {type:'start'|'cancel'|'leave'}

@@ -1,0 +1,37 @@
+
+[WebServer] (node:31956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+[WebServer] (node:37784) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:6360) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/9] [desktop] › tests\browser\game.spec.ts:18:1 › assigns gathering and places a house through the battlefield
+[2/9] [desktop] › tests\browser\readable-interface.spec.ts:47:1 › resource ledger, world clock and production controls remain legible without covering each other
+[3/9] [desktop] › tests\browser\worker-tasks.spec.ts:5:1 › a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop
+(node:33816) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[4/9] [phone] › tests\browser\game.spec.ts:18:1 › assigns gathering and places a house through the battlefield
+[5/9] [phone] › tests\browser\readable-interface.spec.ts:47:1 › resource ledger, world clock and production controls remain legible without covering each other
+[6/9] [phone] › tests\browser\worker-tasks.spec.ts:5:1 › a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop
+(node:7808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[7/9] [tablet] › tests\browser\game.spec.ts:18:1 › assigns gathering and places a house through the battlefield
+[8/9] [tablet] › tests\browser\readable-interface.spec.ts:47:1 › resource ledger, world clock and production controls remain legible without covering each other
+[9/9] [tablet] › tests\browser\worker-tasks.spec.ts:5:1 › a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop
+  9 passed (2.6m)

@@ -1,0 +1,43 @@
+
+[WebServer] (node:36696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+
+[WebServer] (node:12512) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 15 tests using 1 worker
+
+(node:6936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/15] [desktop] › tests\browser\game.spec.ts:6:1 › starts a match, recruits villagers, saves and resumes
+[2/15] [desktop] › tests\browser\three-dimensional.spec.ts:4:1 › rotated 3D building picking and ground placement preserve gameplay
+[3/15] [desktop] › tests\browser\wall-progression.spec.ts:17:1 › wooden walls start unlocked and explain the next town-hall requirement
+[4/15] [desktop] › tests\browser\wall-progression.spec.ts:21:1 › an owned wooden wall upgrades to stone with a paid visible timer
+[5/15] [desktop] › tests\browser\wall-progression.spec.ts:25:1 › third-age reinforcement keeps existing wall damage
+(node:15768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[6/15] [phone] › tests\browser\game.spec.ts:6:1 › starts a match, recruits villagers, saves and resumes
+[7/15] [phone] › tests\browser\three-dimensional.spec.ts:4:1 › rotated 3D building picking and ground placement preserve gameplay
+[8/15] [phone] › tests\browser\wall-progression.spec.ts:17:1 › wooden walls start unlocked and explain the next town-hall requirement
+[9/15] [phone] › tests\browser\wall-progression.spec.ts:21:1 › an owned wooden wall upgrades to stone with a paid visible timer
+[10/15] [phone] › tests\browser\wall-progression.spec.ts:25:1 › third-age reinforcement keeps existing wall damage
+(node:29048) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[11/15] [tablet] › tests\browser\game.spec.ts:6:1 › starts a match, recruits villagers, saves and resumes
+[12/15] [tablet] › tests\browser\three-dimensional.spec.ts:4:1 › rotated 3D building picking and ground placement preserve gameplay
+[13/15] [tablet] › tests\browser\wall-progression.spec.ts:17:1 › wooden walls start unlocked and explain the next town-hall requirement
+[14/15] [tablet] › tests\browser\wall-progression.spec.ts:21:1 › an owned wooden wall upgrades to stone with a paid visible timer
+[15/15] [tablet] › tests\browser\wall-progression.spec.ts:25:1 › third-age reinforcement keeps existing wall damage
+  15 passed (3.5m)

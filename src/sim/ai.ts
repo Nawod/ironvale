@@ -3,15 +3,17 @@ import { distance, military } from './types';
 import { BUILDINGS, AGE_COSTS, UNITS } from './definitions';
 import { applyCommand, affordable } from './economy';
 import { capacity,population,seen } from './visibility';
-import { canPlace } from './navigation';
+import { canPlace, navigationGrids, pathfind, approach, adjacentDistance } from './navigation';
 import { random } from './world';
+import {hostile} from './teams';
+import {harvestedResource} from './nature';
 export function updateAI(s:GameState,includeHuman=false):void{
  const interval=s.config.difficulty==='easy'?100:s.config.difficulty==='normal'?50:25;
  for(const p of s.players){
   if(!p.alive||p.controller==='human'&&!includeHuman||s.tick<p.ai.nextThink)continue;p.ai.nextThink=s.tick+interval;
   const all=Object.values(s.entities),own=all.filter(e=>e.owner===p.id),cap=s.entities[p.capital];if(!cap)continue;
   const workers=own.filter(e=>e.type==='villager'),army=own.filter(e=>military(e)&&e.type!=='scout'&&!e.garrisoned),scouts=own.filter(e=>e.type==='scout');
-  const buildings=own.filter(e=>e.kind==='building'),idle=workers.filter(e=>e.order.kind==='idle'),ready=(t:string)=>buildings.some(e=>e.type===t&&e.progress===1&&e.hp>0),count=(t:string)=>buildings.filter(e=>e.type===t).length;
+  const buildings=own.filter(e=>e.kind==='building'),idle=workers.filter(e=>e.order.kind==='idle'&&!e.taskQueue?.length),ready=(t:string)=>buildings.some(e=>e.type===t&&e.progress===1&&e.hp>0),count=(t:string)=>buildings.filter(e=>e.type===t).length;
   const submit=(c:any)=>applyCommand(s,{...c,player:p.id});
   if(cap.hp<=0){submit({type:'rebuild',workers:workers.slice(0,3).map(e=>e.id)});continue;}
   const build=(type:BuildingType):boolean=>{
@@ -26,11 +28,11 @@ export function updateAI(s:GameState,includeHuman=false):void{
   if(workers.length>=9&&count('farm')<Math.min(7,Math.floor(workers.length/3))&&!buildings.some(e=>e.type==='farm'&&e.progress<1))build('farm');
   if(cap.queue.length<1&&!scouts.length)submit({type:'recruit',building:cap.id,unit:'scout'});
   else if(cap.queue.length<1&&workers.length<(s.config.difficulty==='easy'?18:26))submit({type:'recruit',building:cap.id,unit:'villager'});
-  const gathering=workers.filter(w=>w.order.kind==='gather'),onResource=(w:Entity):Resource|undefined=>{const t=w.order.target?s.entities[w.order.target]:undefined;return t?.type==='farm'||t?.type==='deer'?'food':t?.type as Resource|undefined;};
-  for(const worker of workers.filter(w=>w.order.kind==='idle')){
+  const gathering=workers.filter(w=>w.order.kind==='gather'),onResource=(w:Entity):Resource|undefined=>{const t=w.order.target?s.entities[w.order.target]:undefined;return t?harvestedResource(t):undefined;};
+  for(const worker of workers.filter(w=>w.order.kind==='idle'&&!w.taskQueue?.length)){
    const priorities:Resource[]=['food','wood','gold','stone'];const weights={food:.47,wood:.30,gold:p.age===1?.13:.16,stone:.10};
    priorities.sort((a,b)=>gathering.filter(w=>onResource(w)===a).length/weights[a]-gathering.filter(w=>onResource(w)===b).length/weights[b]);
-   for(const r of priorities){const choices=all.filter(e=>e.amount>0&&seen(s,p.id,e)&&(r==='food'?(e.type==='deer'||e.type==='farm'&&e.owner===p.id&&e.progress===1):e.kind==='resource'&&e.type===r)).sort((a,b)=>distance(worker,a)+workers.filter(w=>w.order.target===a.id).length*4-(distance(worker,b)+workers.filter(w=>w.order.target===b.id).length*4));
+   for(const r of priorities){const choices=all.filter(e=>e.amount>0&&seen(s,p.id,e)&&harvestedResource(e)===r&&(e.kind==='resource'||e.type==='farm'&&e.owner===p.id&&e.progress===1)).sort((a,b)=>distance(worker,a)+workers.filter(w=>w.order.target===a.id).length*4-(distance(worker,b)+workers.filter(w=>w.order.target===b.id).length*4));
     if(choices[0]&&submit({type:'order',ids:[worker.id],order:{kind:'gather',target:choices[0].id}})===null){gathering.push(worker);break;}
    }
   }
@@ -48,12 +50,45 @@ export function updateAI(s:GameState,includeHuman=false):void{
   for(const scout of scouts)if(scout.order.kind==='idle'){
    for(let tries=0;tries<12;tries++){const point={x:5+Math.floor(random(s)*(s.size-10)),y:5+Math.floor(random(s)*(s.size-10))};if(!s.explored[p.id][point.y*s.size+point.x]||tries===11){submit({type:'order',ids:[scout.id],order:{kind:'move',point}});break;}}
   }
-  const threats=all.filter(e=>military(e)&&e.owner!==p.id&&e.owner>=0&&seen(s,p.id,e)&&distance(e,cap)<18);
+  const threats=all.filter(e=>military(e)&&hostile(s,p.id,e.owner)&&seen(s,p.id,e)&&distance(e,cap)<18);
   if(threats.length){submit({type:'order',ids:army.map(e=>e.id),order:{kind:'attackMove',point:{x:threats[0].x,y:threats[0].y}}});for(const w of workers.slice(0,2))if(cap.hp<cap.maxHp*.75)submit({type:'order',ids:[w.id],order:{kind:'repair',target:cap.id}});continue;}
-  const known=Object.values(s.intel[p.id]).filter(e=>e.type==='capital'&&e.owner!==p.id&&s.players[e.owner]?.alive).sort((a,b)=>distance(cap,a)-distance(cap,b));
-  const target=known.find(e=>e.id===p.ai.target)??known[0];if(!target||army.length<(s.config.difficulty==='easy'?12:8))continue;
+  const known=Object.values(s.intel[p.id]).filter(e=>e.type==='capital'&&hostile(s,p.id,e.owner)&&s.players[e.owner]?.alive).sort((a,b)=>distance(cap,a)-distance(cap,b));
+  const target=known.find(e=>e.id===p.ai.target)??known[0];if(!target||!army.length||p.ai.target!==target.id&&army.length<(s.config.difficulty==='easy'?12:8))continue;
   p.ai.target=target.id;const live=s.entities[target.id],fallen=live&&seen(s,p.id,live)&&live.hp<=0;
-  const available=army.filter(e=>e.order.kind==='idle'||fallen&&e.stance!=='hold'||e.order.kind==='attackMove'&&e.order.point&&distance(e.order.point,{x:target.x-1,y:target.y+1})>Math.max(3,Math.sqrt(army.length)*1.5));
-  if(available.length){const point={x:target.x-1,y:target.y+1};submit({type:'order',ids:available.map(e=>e.id),order:{kind:'attackMove',point}});p.ai.raids++;if(fallen){submit({type:'stance',ids:available.slice(0,3).map(e=>e.id),stance:'hold'});submit({type:'order',ids:available.slice(0,3).map(e=>e.id),order:{kind:'move',point}});}}
+  const point={x:target.x-1,y:target.y+1};
+  if(fallen){
+   // Keep a stable occupying guard; resetting its movement each think prevents arrival.
+   const guards=army.slice(0,3),grid=navigationGrids(s)[p.id];
+   for(const e of guards){
+    if(distance(e,{x:target.x+1.5,y:target.y+1.5})>=5&&!pathfind(s,e,point,p.id,grid).length){
+     const current=e.order.target?s.entities[e.order.target]:undefined;
+     if(e.order.kind==='attack'&&current&&current.hp>0&&['palisade','wall','gate'].includes(current.type)&&hostile(s,p.id,current.owner)&&seen(s,p.id,current)&&(adjacentDistance(e,current)<=UNITS[e.type as UnitType].range||pathfind(s,e,approach(s,e,current,grid),p.id,grid).length))continue;
+     const breach=all.filter(t=>t.kind==='building'&&['palisade','wall','gate'].includes(t.type)&&t.hp>0&&hostile(s,p.id,t.owner)&&seen(s,p.id,t)).sort((a,b)=>distance(e,a)-distance(e,b)).find(t=>adjacentDistance(e,t)<=UNITS[e.type as UnitType].range||pathfind(s,e,approach(s,e,t,grid),p.id,grid).length);
+     if(breach){submit({type:'stance',ids:[e.id],stance:'aggressive'});submit({type:'order',ids:[e.id],order:{kind:'attack',target:breach.id}});}
+     continue;
+    }
+    if(e.stance!=='hold'||e.order.kind!=='move'&&distance(e,{x:target.x+1.5,y:target.y+1.5})>=5){submit({type:'stance',ids:[e.id],stance:'hold'});submit({type:'order',ids:[e.id],order:{kind:'move',point}});}
+   }
+   const screen=army.slice(3).filter(e=>e.order.kind==='idle'&&distance(e,target)>7);if(screen.length)submit({type:'order',ids:screen.map(e=>e.id),order:{kind:'attackMove',point}});
+   continue;
+  }
+  if(live&&seen(s,p.id,live)&&live.hp>0){
+   // A small screen fights defenders while the main force finishes the capital.
+   const assault=army.filter(e=>e.type==='ram'||e.type==='trebuchet'||army.indexOf(e)<Math.max(1,Math.ceil(army.length*.75))),grid=navigationGrids(s)[p.id];
+   for(const e of assault){
+    const current=e.order.target?s.entities[e.order.target]:undefined;
+    if(e.stance==='hold')submit({type:'stance',ids:[e.id],stance:'aggressive'});
+    if(e.order.kind==='attack'&&current&&current.hp>0&&seen(s,p.id,current)&&hostile(s,p.id,current.owner)&&(current.id===live.id||['palisade','wall','gate'].includes(current.type))&&(adjacentDistance(e,current)<=UNITS[e.type as UnitType].range||pathfind(s,e,approach(s,e,current,grid),p.id,grid).length))continue;
+    let objective=live;
+    if(adjacentDistance(e,live)>UNITS[e.type as UnitType].range&&!pathfind(s,e,approach(s,e,live,grid),p.id,grid).length){
+     const breach=all.filter(t=>t.kind==='building'&&['palisade','wall','gate'].includes(t.type)&&t.hp>0&&hostile(s,p.id,t.owner)&&seen(s,p.id,t)).sort((a,b)=>distance(e,a)-distance(e,b)).find(t=>adjacentDistance(e,t)<=UNITS[e.type as UnitType].range||pathfind(s,e,approach(s,e,t,grid),p.id,grid).length);
+     if(breach)objective=breach;
+    }
+    if(submit({type:'order',ids:[e.id],order:{kind:'attack',target:objective.id}})===null)p.ai.raids++;
+   }
+   const screen=army.filter(e=>!assault.includes(e)&&e.order.kind==='idle');if(screen.length)submit({type:'order',ids:screen.map(e=>e.id),order:{kind:'attackMove',point}});
+  }else{
+   const available=army.filter(e=>e.order.kind==='idle');if(available.length){submit({type:'order',ids:available.map(e=>e.id),order:{kind:'attackMove',point}});p.ai.raids++;}
+  }
  }
 }

@@ -1,0 +1,143 @@
+[WebServer] (node:2768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:37960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 87 tests using 1 worker
+
+(node:23796) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [desktop] › tests\browser\ecology.spec.ts:3:1 › villagers gather fruit bushes into the food stock through map commands (14.5s)
+  ok  2 [desktop] › tests\browser\ecology.spec.ts:17:1 › missing detailed assets leave a playable battlefield with an explicit fallback (1.1s)
+  ok  3 [desktop] › tests\browser\ecology.spec.ts:28:1 › missing foliage texture preserves complete original trees and detailed actors (5.6s)
+  ok  4 [desktop] › tests\browser\game.spec.ts:6:1 › starts a match, recruits villagers, saves and resumes (14.8s)
+  ok  5 [desktop] › tests\browser\game.spec.ts:17:1 › four empires and tutorial remain usable at the device viewport (5.9s)
+  ok  6 [desktop] › tests\browser\game.spec.ts:18:1 › assigns gathering and places a house through the battlefield (18.9s)
+  -   7 [desktop] › tests\browser\game.spec.ts:28:1 › phone landscape has usable setup and command panels
+STRESS desktop: {"fps":59.50609937518595,"p95":16.800000000000182,"frames":120,"renderScale":1,"gpu":"ANGLE (Intel, Intel(R) UHD Graphics (0x000046A3) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+  ok  8 [desktop] › tests\browser\game.spec.ts:29:32 › 400-unit rendering stress measurement (9.3s)
+STRESS desktop: {"fps":56.694699045639226,"p95":16.80000000000109,"frames":120,"renderScale":0.85,"gpu":"ANGLE (Intel, Intel(R) UHD Graphics (0x000046A3) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+  ok  9 [desktop] › tests\browser\game.spec.ts:29:32 › 800-unit rendering stress measurement (11.7s)
+  ok 10 [desktop] › tests\browser\gameplay-refinements.spec.ts:7:1 › highlighted friends button and one-click army selection are available (5.2s)
+  -  11 [desktop] › tests\browser\gameplay-refinements.spec.ts:11:1 › touch workers gather and move through direct battlefield taps
+  -  12 [desktop] › tests\browser\gameplay-refinements.spec.ts:18:1 › two-finger rotation retains accurate 3D selection
+  ok 13 [desktop] › tests\browser\gameplay-refinements.spec.ts:25:1 › selected villagers finish a half-built house by clicking or tapping it (11.1s)
+  -  14 [desktop] › tests\browser\gameplay-refinements.spec.ts:33:1 › touch soldiers attack an enemy directly without a command button
+  ok 15 [desktop] › tests\browser\interaction-fixes.spec.ts:2:1 › first online interaction unlocks audio and produces a measurable signal (2.6s)
+  -  16 [desktop] › tests\browser\interaction-fixes.spec.ts:14:1 › touch hold and drag selects several villagers
+  ok 17 [desktop] › tests\browser\living-world-teams.spec.ts:7:1 › online allies choose uneven teams, confirm changes and retain teams after refresh (26.3s)
+  ok 18 [desktop] › tests\browser\living-world-teams.spec.ts:22:52 › natural world day presentation (10.8s)
+  ok 19 [desktop] › tests\browser\living-world-teams.spec.ts:22:52 › natural world night presentation (11.2s)
+  ok 20 [desktop] › tests\browser\living-world-teams.spec.ts:22:52 › natural world rain presentation (11.0s)
+  ok 21 [desktop] › tests\browser\multiplayer.spec.ts:3:1 › Ctrl plus mouse drag rotates while keeping the town center selected (5.6s)
+  ok 22 [desktop] › tests\browser\multiplayer.spec.ts:8:1 › host manually starts a private match after friends join; both seats recruit and reconnect (18.2s)
+  ok 23 [desktop] › tests\browser\multiplayer.spec.ts:17:1 › two humans find each other through public matchmaking (12.2s)
+  ok 24 [desktop] › tests\browser\multiplayer.spec.ts:18:1 › eight separate browsers join one host-started map (1.3m)
+  ok 25 [desktop] › tests\browser\readable-interface.spec.ts:24:1 › campaign setup stays readable and preserves the chosen match options (7.4s)
+  ok 26 [desktop] › tests\browser\readable-interface.spec.ts:47:1 › resource ledger, world clock and production controls remain legible without covering each other (6.6s)
+  ok 27 [desktop] › tests\browser\readable-interface.spec.ts:71:1 › interface text preference and online entry remain usable (6.6s)
+  ok 28 [desktop] › tests\browser\three-dimensional.spec.ts:4:1 › rotated 3D building picking and ground placement preserve gameplay (9.6s)
+  ok 29 [desktop] › tests\browser\three-dimensional.spec.ts:21:1 › rotated drag panning and touch pinch retain accurate model selection (5.8s)
+(node:24796) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 30 [phone] › tests\browser\ecology.spec.ts:3:1 › villagers gather fruit bushes into the food stock through map commands (14.9s)
+  ok 31 [phone] › tests\browser\ecology.spec.ts:17:1 › missing detailed assets leave a playable battlefield with an explicit fallback (855ms)
+  ok 32 [phone] › tests\browser\ecology.spec.ts:28:1 › missing foliage texture preserves complete original trees and detailed actors (5.4s)
+  ok 33 [phone] › tests\browser\game.spec.ts:6:1 › starts a match, recruits villagers, saves and resumes (11.9s)
+  ok 34 [phone] › tests\browser\game.spec.ts:17:1 › four empires and tutorial remain usable at the device viewport (5.7s)
+  ok 35 [phone] › tests\browser\game.spec.ts:18:1 › assigns gathering and places a house through the battlefield (18.7s)
+  ok 36 [phone] › tests\browser\game.spec.ts:28:1 › phone landscape has usable setup and command panels (6.9s)
+STRESS phone: {"fps":48.32279627914467,"p95":33.399999999999636,"frames":120,"renderScale":0.8487179487179487,"gpu":"ANGLE (Intel, Intel(R) UHD Graphics (0x000046A3) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+  ok 37 [phone] › tests\browser\game.spec.ts:29:32 › 400-unit rendering stress measurement (12.6s)
+STRESS phone: {"fps":32.144005143040815,"p95":50,"frames":120,"renderScale":0.7487179487179487,"gpu":"ANGLE (Intel, Intel(R) UHD Graphics (0x000046A3) Direct3D11 vs_5_0 ps_5_0, D3D11)"}
+  ok 38 [phone] › tests\browser\game.spec.ts:29:32 › 800-unit rendering stress measurement (15.3s)
+  ok 39 [phone] › tests\browser\gameplay-refinements.spec.ts:7:1 › highlighted friends button and one-click army selection are available (5.4s)
+  ok 40 [phone] › tests\browser\gameplay-refinements.spec.ts:11:1 › touch workers gather and move through direct battlefield taps (15.5s)
+  ok 41 [phone] › tests\browser\gameplay-refinements.spec.ts:18:1 › two-finger rotation retains accurate 3D selection (6.9s)
+  ok 42 [phone] › tests\browser\gameplay-refinements.spec.ts:25:1 › selected villagers finish a half-built house by clicking or tapping it (14.6s)
+  ok 43 [phone] › tests\browser\gameplay-refinements.spec.ts:33:1 › touch soldiers attack an enemy directly without a command button (9.7s)
+  ok 44 [phone] › tests\browser\interaction-fixes.spec.ts:2:1 › first online interaction unlocks audio and produces a measurable signal (2.7s)
+  ok 45 [phone] › tests\browser\interaction-fixes.spec.ts:14:1 › touch hold and drag selects several villagers (6.0s)
+  -  46 [phone] › tests\browser\living-world-teams.spec.ts:7:1 › online allies choose uneven teams, confirm changes and retain teams after refresh
+  ok 47 [phone] › tests\browser\living-world-teams.spec.ts:22:52 › natural world day presentation (10.7s)
+  ok 48 [phone] › tests\browser\living-world-teams.spec.ts:22:52 › natural world night presentation (10.4s)
+  ok 49 [phone] › tests\browser\living-world-teams.spec.ts:22:52 › natural world rain presentation (10.7s)
+  -  50 [phone] › tests\browser\multiplayer.spec.ts:3:1 › Ctrl plus mouse drag rotates while keeping the town center selected
+  ok 51 [phone] › tests\browser\multiplayer.spec.ts:8:1 › host manually starts a private match after friends join; both seats recruit and reconnect (16.6s)
+  ok 52 [phone] › tests\browser\multiplayer.spec.ts:17:1 › two humans find each other through public matchmaking (10.7s)
+  -  53 [phone] › tests\browser\multiplayer.spec.ts:18:1 › eight separate browsers join one host-started map
+  ok 54 [phone] › tests\browser\readable-interface.spec.ts:24:1 › campaign setup stays readable and preserves the chosen match options (6.1s)
+  ok 55 [phone] › tests\browser\readable-interface.spec.ts:47:1 › resource ledger, world clock and production controls remain legible without covering each other (6.3s)
+  ok 56 [phone] › tests\browser\readable-interface.spec.ts:71:1 › interface text preference and online entry remain usable (11.6s)
+  x  57 [phone] › tests\browser\three-dimensional.spec.ts:4:1 › rotated 3D building picking and ground placement preserve gameplay (6.0s)
+(node:11768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 58 [phone] › tests\browser\three-dimensional.spec.ts:21:1 › rotated drag panning and touch pinch retain accurate model selection (6.3s)
+(node:21860) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 59 [tablet] › tests\browser\ecology.spec.ts:3:1 › villagers gather fruit bushes into the food stock through map commands (15.4s)
+  ok 60 [tablet] › tests\browser\ecology.spec.ts:17:1 › missing detailed assets leave a playable battlefield with an explicit fallback (1.1s)
+  ok 61 [tablet] › tests\browser\ecology.spec.ts:28:1 › missing foliage texture preserves complete original trees and detailed actors (5.8s)
+  ok 62 [tablet] › tests\browser\game.spec.ts:6:1 › starts a match, recruits villagers, saves and resumes (12.4s)
+  ok 63 [tablet] › tests\browser\game.spec.ts:17:1 › four empires and tutorial remain usable at the device viewport (5.6s)
+  ok 64 [tablet] › tests\browser\game.spec.ts:18:1 › assigns gathering and places a house through the battlefield (19.5s)
+  -  65 [tablet] › tests\browser\game.spec.ts:28:1 › phone landscape has usable setup and command panels
+  -  66 [tablet] › tests\browser\game.spec.ts:29:32 › 400-unit rendering stress measurement
+  -  67 [tablet] › tests\browser\game.spec.ts:29:32 › 800-unit rendering stress measurement
+  ok 68 [tablet] › tests\browser\gameplay-refinements.spec.ts:7:1 › highlighted friends button and one-click army selection are available (5.6s)
+  ok 69 [tablet] › tests\browser\gameplay-refinements.spec.ts:11:1 › touch workers gather and move through direct battlefield taps (16.2s)
+  ok 70 [tablet] › tests\browser\gameplay-refinements.spec.ts:18:1 › two-finger rotation retains accurate 3D selection (5.6s)
+  ok 71 [tablet] › tests\browser\gameplay-refinements.spec.ts:25:1 › selected villagers finish a half-built house by clicking or tapping it (11.2s)
+  ok 72 [tablet] › tests\browser\gameplay-refinements.spec.ts:33:1 › touch soldiers attack an enemy directly without a command button (8.5s)
+  ok 73 [tablet] › tests\browser\interaction-fixes.spec.ts:2:1 › first online interaction unlocks audio and produces a measurable signal (2.8s)
+  ok 74 [tablet] › tests\browser\interaction-fixes.spec.ts:14:1 › touch hold and drag selects several villagers (6.6s)
+  -  75 [tablet] › tests\browser\living-world-teams.spec.ts:7:1 › online allies choose uneven teams, confirm changes and retain teams after refresh
+  -  76 [tablet] › tests\browser\living-world-teams.spec.ts:22:52 › natural world day presentation
+  -  77 [tablet] › tests\browser\living-world-teams.spec.ts:22:52 › natural world night presentation
+  -  78 [tablet] › tests\browser\living-world-teams.spec.ts:22:52 › natural world rain presentation
+  -  79 [tablet] › tests\browser\multiplayer.spec.ts:3:1 › Ctrl plus mouse drag rotates while keeping the town center selected
+  ok 80 [tablet] › tests\browser\multiplayer.spec.ts:8:1 › host manually starts a private match after friends join; both seats recruit and reconnect (21.1s)
+  ok 81 [tablet] › tests\browser\multiplayer.spec.ts:17:1 › two humans find each other through public matchmaking (13.7s)
+  -  82 [tablet] › tests\browser\multiplayer.spec.ts:18:1 › eight separate browsers join one host-started map
+  ok 83 [tablet] › tests\browser\readable-interface.spec.ts:24:1 › campaign setup stays readable and preserves the chosen match options (6.6s)
+  ok 84 [tablet] › tests\browser\readable-interface.spec.ts:47:1 › resource ledger, world clock and production controls remain legible without covering each other (7.1s)
+  ok 85 [tablet] › tests\browser\readable-interface.spec.ts:71:1 › interface text preference and online entry remain usable (6.6s)
+  ok 86 [tablet] › tests\browser\three-dimensional.spec.ts:4:1 › rotated 3D building picking and ground placement preserve gameplay (9.9s)
+  ok 87 [tablet] › tests\browser\three-dimensional.spec.ts:21:1 › rotated drag panning and touch pinch retain accurate model selection (6.3s)
+
+
+  1) [phone] › tests\browser\three-dimensional.spec.ts:4:1 › rotated 3D building picking and ground placement preserve gameplay 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "CANVAS"
+    Received: "BUTTON"
+
+      14 |  const site=info.project.name==='phone'?{x:18.2,y:25.2}:{x:22.2,y:22.2};
+      15 |  await page.getByRole('button',{name:'Build House',exact:true}).click();const screen=camera.project(site);
+    > 16 |  expect(await page.evaluate(p=>document.elementFromPoint(p.x,p.y)?.tagName,screen)).toBe('CANVAS');
+         |                                                                                     ^
+      17 |  await tap(screen);await expect(page.getByTestId('population')).toContainText('/ 25',{timeout:20000});
+      18 |  await page.getByRole('button',{name:'Reset camera'}).click();await page.screenshot({path:`test-results/${info.project.name}-3d.png`});expect(errors).toEqual([]);
+      19 | });
+        at N:\Projects\GPT\ironvale\tests\browser\three-dimensional.spec.ts:16:85
+
+    Error Context: test-results-realm-verified\three-dimensional-rotated--c9ffc-placement-preserve-gameplay-phone\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results-realm-verified\three-dimensional-rotated--c9ffc-placement-preserve-gameplay-phone\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results-realm-verified\three-dimensional-rotated--c9ffc-placement-preserve-gameplay-phone\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [phone] › tests\browser\three-dimensional.spec.ts:4:1 › rotated 3D building picking and ground placement preserve gameplay 
+  17 skipped
+  69 passed (12.7m)
