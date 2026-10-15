@@ -89,7 +89,7 @@ export class Battlefield {
  private cancelPointer=(e:PointerEvent)=>{this.clearHold();this.pointers.delete(e.pointerId);this.drag=undefined;};
  private context=(e:Event)=>e.preventDefault();
  private wheel=(e:WheelEvent)=>{if(!this.interactive)return;e.preventDefault();const p=this.screenPoint(e),before=this.screenToWorld(p);this.zoom=Math.max(.4,Math.min(2,this.zoom*Math.exp(-e.deltaY*.001)));const after=this.screenToWorld(p),a=iso(before),b=iso(after);this.camera.x+=a.x-b.x;this.camera.y+=a.y-b.y;};
- private keydown=(e:KeyboardEvent)=>{if(e.target instanceof HTMLInputElement||e.target instanceof HTMLSelectElement||e.ctrlKey||e.metaKey)return;if(!e.repeat&&e.code==='KeyQ')this.rotate(-Math.PI/8);if(!e.repeat&&e.code==='KeyE')this.rotate(Math.PI/8);this.keys.add(e.code);if(e.code.startsWith('Arrow'))e.preventDefault();};
+ private keydown=(e:KeyboardEvent)=>{if(e.defaultPrevented||e.target instanceof HTMLElement&&e.target.closest('button,input,select,textarea,summary,[role=tab],[contenteditable=true]')||e.ctrlKey||e.metaKey)return;if(!e.repeat&&e.code==='KeyQ')this.rotate(-Math.PI/8);if(!e.repeat&&e.code==='KeyE')this.rotate(Math.PI/8);this.keys.add(e.code);if(e.code.startsWith('Arrow'))e.preventDefault();};
  private keyup=(e:KeyboardEvent)=>this.keys.delete(e.code);
  private blur=()=>{this.clearHold();this.keys.clear();this.drag=undefined;this.pointers.clear();};
 
