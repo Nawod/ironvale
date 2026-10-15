@@ -5,6 +5,8 @@ import { applyCommand, affordable } from './economy';
 import { capacity,population,seen } from './visibility';
 import { canPlace } from './navigation';
 import { random } from './world';
+import {hostile} from './teams';
+import {harvestedResource} from './nature';
 export function updateAI(s:GameState,includeHuman=false):void{
  const interval=s.config.difficulty==='easy'?100:s.config.difficulty==='normal'?50:25;
  for(const p of s.players){
@@ -26,11 +28,11 @@ export function updateAI(s:GameState,includeHuman=false):void{
   if(workers.length>=9&&count('farm')<Math.min(7,Math.floor(workers.length/3))&&!buildings.some(e=>e.type==='farm'&&e.progress<1))build('farm');
   if(cap.queue.length<1&&!scouts.length)submit({type:'recruit',building:cap.id,unit:'scout'});
   else if(cap.queue.length<1&&workers.length<(s.config.difficulty==='easy'?18:26))submit({type:'recruit',building:cap.id,unit:'villager'});
-  const gathering=workers.filter(w=>w.order.kind==='gather'),onResource=(w:Entity):Resource|undefined=>{const t=w.order.target?s.entities[w.order.target]:undefined;return t?.type==='farm'||t?.type==='deer'?'food':t?.type as Resource|undefined;};
+  const gathering=workers.filter(w=>w.order.kind==='gather'),onResource=(w:Entity):Resource|undefined=>{const t=w.order.target?s.entities[w.order.target]:undefined;return t?harvestedResource(t):undefined;};
   for(const worker of workers.filter(w=>w.order.kind==='idle')){
    const priorities:Resource[]=['food','wood','gold','stone'];const weights={food:.47,wood:.30,gold:p.age===1?.13:.16,stone:.10};
    priorities.sort((a,b)=>gathering.filter(w=>onResource(w)===a).length/weights[a]-gathering.filter(w=>onResource(w)===b).length/weights[b]);
-   for(const r of priorities){const choices=all.filter(e=>e.amount>0&&seen(s,p.id,e)&&(r==='food'?(e.type==='deer'||e.type==='farm'&&e.owner===p.id&&e.progress===1):e.kind==='resource'&&e.type===r)).sort((a,b)=>distance(worker,a)+workers.filter(w=>w.order.target===a.id).length*4-(distance(worker,b)+workers.filter(w=>w.order.target===b.id).length*4));
+   for(const r of priorities){const choices=all.filter(e=>e.amount>0&&seen(s,p.id,e)&&harvestedResource(e)===r&&(e.kind==='resource'||e.type==='farm'&&e.owner===p.id&&e.progress===1)).sort((a,b)=>distance(worker,a)+workers.filter(w=>w.order.target===a.id).length*4-(distance(worker,b)+workers.filter(w=>w.order.target===b.id).length*4));
     if(choices[0]&&submit({type:'order',ids:[worker.id],order:{kind:'gather',target:choices[0].id}})===null){gathering.push(worker);break;}
    }
   }
@@ -48,9 +50,9 @@ export function updateAI(s:GameState,includeHuman=false):void{
   for(const scout of scouts)if(scout.order.kind==='idle'){
    for(let tries=0;tries<12;tries++){const point={x:5+Math.floor(random(s)*(s.size-10)),y:5+Math.floor(random(s)*(s.size-10))};if(!s.explored[p.id][point.y*s.size+point.x]||tries===11){submit({type:'order',ids:[scout.id],order:{kind:'move',point}});break;}}
   }
-  const threats=all.filter(e=>military(e)&&e.owner!==p.id&&e.owner>=0&&seen(s,p.id,e)&&distance(e,cap)<18);
+  const threats=all.filter(e=>military(e)&&hostile(s,p.id,e.owner)&&seen(s,p.id,e)&&distance(e,cap)<18);
   if(threats.length){submit({type:'order',ids:army.map(e=>e.id),order:{kind:'attackMove',point:{x:threats[0].x,y:threats[0].y}}});for(const w of workers.slice(0,2))if(cap.hp<cap.maxHp*.75)submit({type:'order',ids:[w.id],order:{kind:'repair',target:cap.id}});continue;}
-  const known=Object.values(s.intel[p.id]).filter(e=>e.type==='capital'&&e.owner!==p.id&&s.players[e.owner]?.alive).sort((a,b)=>distance(cap,a)-distance(cap,b));
+  const known=Object.values(s.intel[p.id]).filter(e=>e.type==='capital'&&hostile(s,p.id,e.owner)&&s.players[e.owner]?.alive).sort((a,b)=>distance(cap,a)-distance(cap,b));
   const target=known.find(e=>e.id===p.ai.target)??known[0];if(!target||army.length<(s.config.difficulty==='easy'?12:8))continue;
   p.ai.target=target.id;const live=s.entities[target.id],fallen=live&&seen(s,p.id,live)&&live.hp<=0;
   const available=army.filter(e=>e.order.kind==='idle'||fallen&&e.stance!=='hold'||e.order.kind==='attackMove'&&e.order.point&&distance(e.order.point,{x:target.x-1,y:target.y+1})>Math.max(3,Math.sqrt(army.length)*1.5));

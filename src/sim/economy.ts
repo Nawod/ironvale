@@ -3,6 +3,9 @@ import { BUILDINGS, UNITS, AGE_COSTS } from './definitions';
 import { capacity, population, seen } from './visibility';
 import { adjacentDistance, approach, bounds, canPlace, travel } from './navigation';
 import { spawn } from './world';
+import {hostile} from './teams';
+import {FOOD_SOURCES,harvestedResource} from './nature';
+import type {FoodSourceType} from './types';
 export function event(s:GameState,player:number,text:string,kind:'info'|'attack'|'capture'|'error'|'complete'='info',p?:Position):void {s.events.push({id:s.nextEvent++,tick:s.tick,player,text,kind,...(p?{x:p.x,y:p.y}:{})});if(s.events.length>80)s.events.splice(0,s.events.length-80);}
 export function affordable(s:GameState,player:number,cost:Partial<Resources>):boolean {return Object.entries(cost).every(([r,n])=>s.players[player].resources[r as Resource]>=n!);}
 export function pay(s:GameState,player:number,cost:Partial<Resources>):boolean {if(!affordable(s,player,cost))return false;for(const[r,n]of Object.entries(cost))s.players[player].resources[r as Resource]-=n!;return true;}
@@ -51,7 +54,7 @@ export function applyCommand(s:GameState,c:Command):string|null {
  if(c.type==='rebuild'){
   const cap=s.entities[p.capital],workers=c.workers.map(owned).filter((e):e is Entity=>!!e&&e.type==='villager');
   if(!cap||cap.hp>0||!workers.length)return 'Select villagers to rebuild your fallen capital.';
-  if(Object.values(s.entities).some(e=>e.kind==='unit'&&e.owner!==p.id&&e.owner>=0&&e.type!=='villager'&&Math.hypot(e.x-cap.x,e.y-cap.y)<6))return 'Clear enemy soldiers from your capital first.';
+  if(Object.values(s.entities).some(e=>e.kind==='unit'&&hostile(s,p.id,e.owner)&&e.type!=='villager'&&Math.hypot(e.x-cap.x,e.y-cap.y)<6))return 'Clear enemy soldiers from your capital first.';
   if(!pay(s,p.id,BUILDINGS.capital.cost))return 'Not enough resources to rebuild.';
   cap.hp=1;cap.progress=0;cap.occupation=undefined;for(const w of workers)assign(w,{kind:'build',target:cap.id});return null;
  }
@@ -67,7 +70,7 @@ export function applyCommand(s:GameState,c:Command):string|null {
   const target=c.order.target===undefined?undefined:s.entities[c.order.target];
   if(['attack','gather','build','repair','garrison'].includes(c.order.kind)&&!target)return 'That target is no longer available.';
   if(target&&!seen(s,p.id,target))return 'Your units cannot see that target.';
-  if(c.order.kind==='attack'&&(!target||target.owner===p.id||target.owner<0||target.hp<=0))return 'Choose a living enemy target.';
+  if(c.order.kind==='attack'&&(!target||!hostile(s,p.id,target.owner)||target.hp<=0))return 'Choose a living enemy target.';
   if(c.order.kind==='gather'&&(!target||target.kind!=='resource'&&!(target.type==='farm'&&target.owner===p.id&&target.progress===1)))return 'Choose a resource or your completed farm.';
   if(['build','repair','garrison'].includes(c.order.kind)&&target?.owner!==p.id)return 'Choose your own building.';
   if(['build','repair'].includes(c.order.kind)&&target?.kind!=='building')return 'Choose your own building.';
@@ -105,11 +108,11 @@ export function updateEconomy(s:GameState,dt:number,grids:Uint8Array[]):void{
   if(!target&&o.kind==='build'){nextConstruction(s,e);continue;}
   if(!target){if(e.carry)dropoff(s,e,dt,grids[e.owner]);else assign(e,{kind:'idle'});continue;}
   if(o.kind==='gather'){
-   const resource:Resource=target.type==='deer'||target.type==='farm'?'food':target.type as Resource;
+   const resource=harvestedResource(target);if(!resource){assign(e,{kind:'idle'});continue;}
    if(e.carry&&(e.carry.amount>=15||o.returning||e.carry.resource!==resource||target.amount<=0)){o.returning=true;dropoff(s,e,dt,grids[e.owner]);continue;}
-   if(target.amount<=0){if(target.type==='farm'&&pay(s,e.owner,{wood:35})){target.amount=900;event(s,e.owner,'A farm has been replanted.');}else{const another=Object.values(s.entities).filter(r=>r.kind==='resource'&&r.type===target.type&&r.amount>0&&seen(s,e.owner,r)).sort((a,b)=>Math.hypot(a.x-e.x,a.y-e.y)-Math.hypot(b.x-e.x,b.y-e.y))[0];assign(e,another?{kind:'gather',target:another.id}:{kind:'idle'});continue;}}
+   if(target.amount<=0){if(target.type==='farm'&&pay(s,e.owner,{wood:35})){target.amount=900;event(s,e.owner,'A farm has been replanted.');}else{const another=Object.values(s.entities).filter(r=>r.kind==='resource'&&harvestedResource(r)===resource&&r.amount>0&&seen(s,e.owner,r)).sort((a,b)=>Math.hypot(a.x-e.x,a.y-e.y)-Math.hypot(b.x-e.x,b.y-e.y))[0];assign(e,another?{kind:'gather',target:another.id}:{kind:'idle'});continue;}}
    if(adjacentDistance(e,target)>1.4){travel(s,e,target,dt,grids[e.owner]);continue;}
-   const n=Math.min(dt*(resource==='food'?3.6:2.8),target.amount,15-(e.carry?.amount??0));target.amount-=n;if(!e.carry)e.carry={resource,amount:0};e.carry.amount+=n;if(e.carry.amount>=14.999)o.returning=true;
+   const rate=FOOD_SOURCES[target.type as FoodSourceType]?.gatherRate??(resource==='food'?3.6:2.8),n=Math.min(dt*rate,target.amount,15-(e.carry?.amount??0));target.amount-=n;if(!e.carry)e.carry={resource,amount:0};e.carry.amount+=n;if(e.carry.amount>=14.999)o.returning=true;
   }else{
    if(target.owner!==e.owner||target.hp<=0||target.kind!=='building'||(o.kind==='build'&&target.progress>=1)||(o.kind==='repair'&&target.progress<1)){if(o.kind==='build')nextConstruction(s,e);else assign(e,{kind:'idle'});continue;}
    if(adjacentDistance(e,target)>1.7){travel(s,e,approach(s,e,target,grids[e.owner]),dt,grids[e.owner]);continue;}

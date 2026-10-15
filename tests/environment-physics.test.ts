@@ -1,0 +1,13 @@
+import {it,expect} from 'vitest';
+import {environmentAt,environmentFor} from '../src/sim/environment';
+import {createGame,spawn} from '../src/sim/world';
+import {step} from '../src/sim/engine';
+import {navigationGrids,blockedGrid} from '../src/sim/navigation';
+import {decodeSave,encodeSave} from '../src/sim/save';
+import {separateUnits} from '../src/sim/physics';
+const game=()=>createGame({opponents:1,difficulty:'normal',seed:42});
+it('runs a deterministic 24-minute day from 08:00 with readable nights',()=>{const dawn=environmentAt(0,42);expect(dawn.hour).toBeCloseTo(8);expect(environmentAt(20*60*24,42).hour).toBeCloseTo(8);expect(environmentAt(20*60*12,42).daylight).toBeLessThan(dawn.daylight);expect(dawn).toEqual(environmentAt(0,42));});
+it('changes weather gradually without changing gameplay RNG or pause/save continuity',()=>{const s=game(),rng=s.rng,env=environmentFor(s);expect(env.weather).toBe('clear');let changes=0;for(let t=1;t<36000;t+=100){const a=environmentAt(t,42),b=environmentAt(t+1,42);expect(Math.abs(a.rain-b.rain)).toBeLessThan(.01);if(a.weather!=='clear')changes++;}expect(changes).toBeGreaterThan(0);expect(s.rng).toBe(rng);s.tick=12345;s.paused=true;const before=environmentFor(s);step(s,80);expect(environmentFor(decodeSave(encodeSave(s)))).toEqual(before);});
+it('reuses obstruction grids until a footprint changes, including construction and capture',()=>{const s=game(),a=navigationGrids(s);expect(navigationGrids(s)[0]).toBe(a[0]);const b=spawn(s,'building','gate',0,{x:40,y:40}),c=navigationGrids(s);expect(c[0]).not.toBe(a[0]);expect(c[0][40*s.size+40]).toBe(0);b.owner=1;expect(navigationGrids(s)[0][40*s.size+40]).toBe(1);delete s.entities[b.id];expect(navigationGrids(s)[0][40*s.size+40]).toBe(0);});
+it('separates moving crowds without pushing units through buildings',()=>{const s=game();spawn(s,'building','wall',0,{x:41,y:40});const a=spawn(s,'unit','spearman',0,{x:40.4,y:40.5}),b=spawn(s,'unit','spearman',0,{x:40.41,y:40.5});a.order=b.order={kind:'move',point:{x:45,y:45}};step(s,8,false);expect(Math.hypot(a.x-b.x,a.y-b.y)).toBeGreaterThan(.15);const grid=blockedGrid(s,0);expect(grid[Math.floor(a.y)*s.size+Math.floor(a.x)]).toBe(0);expect(grid[Math.floor(b.y)*s.size+Math.floor(b.x)]).toBe(0);});
+it('does not starve moving contacts behind a dense prefix of idle units',()=>{const s=game();for(let i=0;i<24;i++)spawn(s,'unit','spearman',0,{x:40.02,y:40.02});const a=spawn(s,'unit','spearman',0,{x:40.8,y:40.8}),b=spawn(s,'unit','spearman',0,{x:40.8,y:40.8});a.order=b.order={kind:'move',point:{x:45,y:45}};const grids=navigationGrids(s);for(let i=0;i<100;i++)separateUnits(s,grids);expect(Math.hypot(a.x-b.x,a.y-b.y)).toBeGreaterThan(.2);});

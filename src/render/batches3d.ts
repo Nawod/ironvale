@@ -3,12 +3,13 @@ import type {ModelPart} from './models3d';
 interface Batch {mesh:InstancedMesh;capacity:number;count:number;part:ModelPart;ids:number[];colors:number[];colorDirty:boolean}
 export class ModelBatches {
  private batches=new Map<string,Batch>();private local=new Object3D();private world=new Matrix4();private tint=new Color();
- private transforms=new WeakMap<ModelPart,Matrix4>();private keys=new WeakMap<ModelPart,string>();private colors=new Map<number,Color>();
+ private transforms=new WeakMap<ModelPart,Matrix4>();private keys=new WeakMap<ModelPart,string>();private colors=new Map<number,Color>();private actorShadows=true;
  constructor(private scene:Scene){}
  begin():void{for(const b of this.batches.values()){b.count=0;b.colorDirty=false;}}
+ setActorShadows(enabled:boolean):void{if(enabled===this.actorShadows)return;this.actorShadows=enabled;for(const b of this.batches.values())if(b.part.geometry.userData.importedActor){b.mesh.castShadow=enabled;b.mesh.receiveShadow=enabled;}}
  add(part:ModelPart,root:Matrix4,tint:number,time:number,walk:number,work:boolean,attack:boolean,gateOpen:boolean,entityId=0):void{
   let key=this.keys.get(part);if(!key){key=`${part.geometry.uuid}:${part.material.uuid}`;this.keys.set(part,key);}let b=this.batches.get(key);
-  if(!b||b.count===b.capacity){const capacity=b?b.capacity*2:16,mesh=new InstancedMesh(part.geometry,part.material,capacity);mesh.instanceMatrix.setUsage(DynamicDrawUsage);mesh.castShadow=true;mesh.receiveShadow=true;mesh.frustumCulled=false;
+  if(!b||b.count===b.capacity){const capacity=b?b.capacity*2:16,mesh=new InstancedMesh(part.geometry,part.material,capacity);mesh.instanceMatrix.setUsage(DynamicDrawUsage);mesh.castShadow=mesh.receiveShadow=!part.geometry.userData.importedActor||this.actorShadows;mesh.frustumCulled=false;
    if(b){for(let i=0;i<b.count;i++){b.mesh.getMatrixAt(i,this.world);mesh.setMatrixAt(i,this.world);b.mesh.getColorAt(i,this.tint);mesh.setColorAt(i,this.tint);}this.scene.remove(b.mesh);b.mesh.dispose();}
    const next={mesh,capacity,count:b?.count??0,part,ids:b?.ids??[],colors:b?.colors??[],colorDirty:true};this.scene.add(mesh);this.batches.set(key,next);b=next;
   }

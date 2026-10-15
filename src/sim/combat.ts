@@ -1,5 +1,6 @@
 import type {Entity,GameState} from './types';
 import {distance,military} from './types';
+import {allied,hostile,allianceKey} from './teams';
 import {BUILDINGS,UNITS} from './definitions';
 import {adjacentDistance,travel} from './navigation';
 import {seen} from './visibility';
@@ -28,9 +29,9 @@ export function updateCombat(s:GameState,dt:number,grids:Uint8Array[]):void{
   e.cooldown=Math.max(0,e.cooldown-dt);
   const def=e.kind==='unit'?UNITS[e.type as keyof typeof UNITS]:BUILDINGS[e.type as keyof typeof BUILDINGS];
   const order=e.order;let target=order.kind==='attack'&&order.target?s.entities[order.target]:undefined;
-  if(target&&(target.hp<=0||target.owner===e.owner||target.owner<0||target.garrisoned||!seen(s,e.owner,target))){target=undefined;assign(e,{kind:'idle'});}
+  if(target&&(target.hp<=0||!hostile(s,e.owner,target.owner)||target.garrisoned||!seen(s,e.owner,target))){target=undefined;assign(e,{kind:'idle'});}
   const auto=e.kind==='building'?!!(def as typeof BUILDINGS.capital).damage:e.type!=='villager'&&!['move','garrison'].includes(order.kind);
-  if(!target&&auto){const r=e.kind==='building'||e.stance==='hold'?(def.range??0):Math.max(6,def.range??0);target=nearby(e,r).filter(t=>t.owner!==e.owner&&t.hp>0&&!t.garrisoned&&s.entities[t.id]&&seen(s,e.owner,t)&&adjacentDistance(e,t)<=r&&!(e.stance==='defensive'&&e.home&&distance(t,e.home)>7)).sort((a,b)=>(a.kind==='unit'?0:3)+adjacentDistance(e,a)-((b.kind==='unit'?0:3)+adjacentDistance(e,b)))[0];}
+  if(!target&&auto){const r=e.kind==='building'||e.stance==='hold'?(def.range??0):Math.max(6,def.range??0);let best=Infinity;for(const t of nearby(e,r)){if(!hostile(s,e.owner,t.owner)||t.hp<=0||t.garrisoned||!s.entities[t.id]||!seen(s,e.owner,t))continue;const d=adjacentDistance(e,t);if(d>r||e.stance==='defensive'&&e.home&&distance(t,e.home)>7)continue;const score=(t.kind==='unit'?0:3)+d;if(score<best){best=score;target=t;}}}
   if(target){const range=def.range??0;if(adjacentDistance(e,target)<=range){if(e.cooldown<=0){target.hp-=attackDamage(s,e,target);e.attackFx={x:target.x,y:target.y,tick:s.tick};e.cooldown=e.type==='trebuchet'?3:e.type==='ram'?2:1.15;
     const latest=[...s.events].reverse().find(v=>v.player===target!.owner&&v.kind==='attack');if(!latest||s.tick-latest.tick>200)event(s,target.owner,'Your empire is under attack.','attack',target);
     if(target.hp<=0)kill(s,target);
@@ -46,10 +47,10 @@ export function updateConquest(s:GameState,dt:number):void{
  for(const p of s.players){
   if(!p.alive)continue;const cap=s.entities[p.capital];if(!cap||cap.hp>0)continue;
   const nearby=Object.values(s.entities).filter(e=>military(e)&&!e.garrisoned&&e.hp>0&&distance(e,{x:cap.x+1.5,y:cap.y+1.5})<6);
-  const factions=[...new Set(nearby.map(e=>e.owner))],attackers=factions.filter(id=>id!==p.id&&s.players[id]?.alive);
+  const factions=[...new Set(nearby.map(e=>e.owner))],attackers=factions.filter(id=>hostile(s,id,p.id)&&s.players[id]?.alive);
   if(cap.occupation&&!attackers.includes(cap.occupation.owner))cap.occupation=undefined;
-  if(!cap.occupation&&attackers.length===1)cap.occupation={owner:attackers[0],progress:0};
-  if(!cap.occupation||factions.length!==1)continue;
+  if(!cap.occupation&&attackers.length&&attackers.every(id=>allied(s,id,attackers[0])))cap.occupation={owner:attackers[0],progress:0};
+  if(!cap.occupation||factions.some(id=>!allied(s,id,cap.occupation!.owner)))continue;
   cap.occupation.progress+=dt;if(cap.occupation.progress<30-1e-8)continue;
   const conqueror=cap.occupation.owner;p.alive=false;
   for(const e of Object.values(s.entities))if(e.owner===p.id){
@@ -58,6 +59,6 @@ export function updateConquest(s:GameState,dt:number):void{
   }
   cap.type='outpost';cap.hp=BUILDINGS.outpost.hp;cap.maxHp=cap.hp;cap.progress=1;cap.occupation=undefined;
   event(s,-1,`${s.players[conqueror].name} conquered ${p.name}.`,'capture',cap);
-  const alive=s.players.filter(v=>v.alive);if(alive.length===1){s.winner=alive[0].id;event(s,-1,`${alive[0].name} controls Ironvale.`,'capture');return;}
+  const alive=s.players.filter(v=>v.alive);if(new Set(alive.map(allianceKey)).size===1){s.winner=alive[0].id;event(s,-1,alive[0].team===undefined?`${alive[0].name} controls Ironvale.`:`Team ${alive[0].team+1} controls Ironvale.`,'capture');return;}
  }
 }

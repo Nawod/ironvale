@@ -71,6 +71,10 @@ export function paintEntity(type:Entity['type'],owner=0):HTMLCanvasElement{
  }else if(type==='wood'){pine(c,-12,-2,.9);pine(c,17,3,1.05);}
  else if(type==='gold'||type==='stone'){
   ellipse(c,0,3,34,11,'#233b2a44');for(const[x,y,w]of [[-20,0,21],[5,5,25],[21,-5,16],[-3,-10,18]]){polygon(c,[[x-w,y],[x-w*.4,y-w],[x+w*.5,y-w*.8],[x+w,y],[x,y+w*.4]],type==='gold'?'#aaa071':'#8a9388','#546255');polygon(c,[[x-w*.4,y-w],[x+w*.5,y-w*.8],[x,y-w*.3]],type==='gold'?'#d2bd74':'#b2b9a9');}
+ }else if(type==='berries'){
+  ellipse(c,0,3,32,9,'#233b2a44');for(let i=0;i<5;i++)ellipse(c,(i-2)*12,-14-(i%2)*9,18,18,i%2?'#587a3e':'#355c35');for(let i=0;i<15;i++)ellipse(c,Math.sin(i*2.4)*28,-11-(i%4)*7,3.3,3.5,i%3?'#b63d51':'#d96a62');
+ }else if(type==='cow'||type==='alpaca'||type==='fox'){
+  const fox=type==='fox',alpaca=type==='alpaca',color=fox?'#bb794b':alpaca?'#d6c7a7':'#a89a7d';ellipse(c,0,3,30,7,'#233b2a44');ellipse(c,-3,-21,24,fox?9:14,color);for(const x of [-20,12])line(c,x,-17,x-1,0,'#6e5a43',fox?3:5);line(c,14,-24,17,alpaca?-55:-34,color,fox?6:10);ellipse(c,22,alpaca?-54:-33,fox?10:12,fox?5:8,color);for(const x of [17,24])line(c,x,alpaca?-59:-40,x-2,alpaca?-69:-48,color,3);if(fox){line(c,-23,-22,-36,-29,color,9);line(c,-36,-29,-42,-23,'#ddd0b1',7);}
  }else if(type==='deer'){
   ellipse(c,0,2,20,5,'#31452955');ellipse(c,-3,-18,16,8,'#9b784f');for(const x of [-14,9])line(c,x,-13,x-2,0,'#765b3c',3);line(c,9,-20,14,-39,'#af8c5b',6);ellipse(c,18,-39,8,4,'#ae8957');line(c,16,-43,13,-54,'#725337',2);line(c,14,-48,8,-52,'#725337',2);line(c,18,-44,23,-54,'#725337',2);
  }else if(type==='cavalry'||type==='heavyCavalry'||type==='scout'){

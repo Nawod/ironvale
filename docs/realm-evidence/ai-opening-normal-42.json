@@ -1,0 +1,932 @@
+{
+  "difficulty": "normal",
+  "seed": 42,
+  "simulatedSeconds": 180,
+  "wallMilliseconds": 810,
+  "player": 1,
+  "sourceHashes": {
+    "src/sim/ai.ts": "c6e8207d71f2613d18384e7b42abc37c1eaaf0f45d5772be899d8f90df46263b",
+    "src/sim/economy.ts": "8fc1fd4d4b38606467ab7fac7b054756edec8d9eb39624b9bb4edda3c33b6471",
+    "src/sim/engine.ts": "3d57c79c3ad20bb68d123e7f4fddf7fba1bca6bc6f7462dbae6b13c4af19adbf",
+    "src/sim/definitions.ts": "17abee6238aa29c73b04240559fc5b476bd7d3e692c38f0b4727fa4822e9a96b",
+    "src/sim/world.ts": "0fd47094a4e307781b2419718cf7d1e38227d6a85e6afa2a3584fa459c620893",
+    "src/sim/nature.ts": "61c5b3f56d9ca3bcb18c3cb4f8f16a7b728f2d7b327032035490575199757b6e",
+    "src/sim/wildlife.ts": "bf989bbc758124fc006b6f5783f483ed3823d412e80542d873f13c2c033790a6",
+    "src/sim/navigation.ts": "0c6d199dd3752b463ea43c0af2ed55c69531fffe2aedd5bc06dcf13fd9f138de"
+  },
+  "startStock": {
+    "food": 350,
+    "wood": 450,
+    "stone": 200,
+    "gold": 150
+  },
+  "first": {
+    "capitalComplete": 0.05,
+    "storagePlaced": 1.5,
+    "barracksPlaced": 4,
+    "villagerProduced": 11.45,
+    "storageComplete": 18,
+    "barracksComplete": 28,
+    "farmPlaced": 31.5,
+    "spearmanProduced": 40.95,
+    "housePlaced": 41.5,
+    "farmComplete": 42.35,
+    "houseComplete": 55.9,
+    "smithyPlaced": 159,
+    "marketPlaced": 161.5,
+    "rangePlaced": 164,
+    "stablePlaced": 166.5
+  },
+  "endStock": {
+    "food": 1180,
+    "wood": 15,
+    "stone": 800,
+    "gold": 530
+  },
+  "acceptedCatalogPurchases": {
+    "food": 1660,
+    "wood": 1455,
+    "stone": 0,
+    "gold": 205
+  },
+  "observedDropoffs": {
+    "food": 2490,
+    "wood": 1020,
+    "stone": 600,
+    "gold": 585
+  },
+  "replantCosts": {
+    "food": 0,
+    "wood": 0,
+    "stone": 0,
+    "gold": 0
+  },
+  "accountedEndStock": {
+    "food": 1180,
+    "wood": 15,
+    "stone": 800,
+    "gold": 530
+  },
+  "unexplainedStockDelta": {
+    "food": 0,
+    "wood": 0,
+    "stone": 0,
+    "gold": 0
+  },
+  "minimumStock": 0,
+  "anomalies": [],
+  "snapshots": [
+    {
+      "seconds": 30,
+      "stock": {
+        "food": 245,
+        "wood": 245,
+        "stone": 230,
+        "gold": 210
+      },
+      "catalogPurchases": {
+        "food": 195,
+        "wood": 250,
+        "stone": 0,
+        "gold": 0
+      },
+      "observedDropoffs": {
+        "food": 90,
+        "wood": 45,
+        "stone": 30,
+        "gold": 60
+      },
+      "units": 9,
+      "soldiers": 0
+    },
+    {
+      "seconds": 60,
+      "stock": {
+        "food": 290,
+        "wood": 155,
+        "stone": 305,
+        "gold": 270
+      },
+      "catalogPurchases": {
+        "food": 435,
+        "wood": 475,
+        "stone": 0,
+        "gold": 0
+      },
+      "observedDropoffs": {
+        "food": 375,
+        "wood": 180,
+        "stone": 105,
+        "gold": 120
+      },
+      "units": 14,
+      "soldiers": 2
+    },
+    {
+      "seconds": 90,
+      "stock": {
+        "food": 455,
+        "wood": 220,
+        "stone": 395,
+        "gold": 375
+      },
+      "catalogPurchases": {
+        "food": 675,
+        "wood": 560,
+        "stone": 0,
+        "gold": 0
+      },
+      "observedDropoffs": {
+        "food": 780,
+        "wood": 330,
+        "stone": 195,
+        "gold": 225
+      },
+      "units": 19,
+      "soldiers": 4
+    },
+    {
+      "seconds": 120,
+      "stock": {
+        "food": 435,
+        "wood": 280,
+        "stone": 470,
+        "gold": 360
+      },
+      "catalogPurchases": {
+        "food": 1265,
+        "wood": 695,
+        "stone": 0,
+        "gold": 150
+      },
+      "observedDropoffs": {
+        "food": 1350,
+        "wood": 525,
+        "stone": 270,
+        "gold": 360
+      },
+      "units": 24,
+      "soldiers": 6
+    },
+    {
+      "seconds": 150,
+      "stock": {
+        "food": 975,
+        "wood": 475,
+        "stone": 635,
+        "gold": 495
+      },
+      "catalogPurchases": {
+        "food": 1400,
+        "wood": 755,
+        "stone": 0,
+        "gold": 150
+      },
+      "observedDropoffs": {
+        "food": 2025,
+        "wood": 780,
+        "stone": 435,
+        "gold": 495
+      },
+      "units": 27,
+      "soldiers": 9
+    },
+    {
+      "seconds": 180,
+      "stock": {
+        "food": 1180,
+        "wood": 15,
+        "stone": 800,
+        "gold": 530
+      },
+      "catalogPurchases": {
+        "food": 1660,
+        "wood": 1455,
+        "stone": 0,
+        "gold": 205
+      },
+      "observedDropoffs": {
+        "food": 2490,
+        "wood": 1020,
+        "stone": 600,
+        "gold": 585
+      },
+      "units": 31,
+      "soldiers": 11
+    }
+  ],
+  "purchases": [
+    {
+      "tick": 30,
+      "seconds": 1.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 300,
+        "wood": 370,
+        "stone": 200,
+        "gold": 150
+      }
+    },
+    {
+      "tick": 30,
+      "seconds": 1.5,
+      "building": 478,
+      "kind": "build",
+      "type": "storage",
+      "cost": {
+        "wood": 80
+      },
+      "totalSeconds": 14,
+      "stockAtEndTick": {
+        "food": 300,
+        "wood": 370,
+        "stone": 200,
+        "gold": 150
+      }
+    },
+    {
+      "tick": 80,
+      "seconds": 4,
+      "building": 479,
+      "kind": "build",
+      "type": "barracks",
+      "cost": {
+        "wood": 150
+      },
+      "totalSeconds": 24,
+      "stockAtEndTick": {
+        "food": 300,
+        "wood": 220,
+        "stone": 200,
+        "gold": 150
+      }
+    },
+    {
+      "tick": 230,
+      "seconds": 11.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 265,
+        "wood": 235,
+        "stone": 200,
+        "gold": 165
+      }
+    },
+    {
+      "tick": 430,
+      "seconds": 21.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 260,
+        "wood": 250,
+        "stone": 200,
+        "gold": 180
+      }
+    },
+    {
+      "tick": 580,
+      "seconds": 29,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 245,
+        "wood": 230,
+        "stone": 215,
+        "gold": 210
+      }
+    },
+    {
+      "tick": 630,
+      "seconds": 31.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 210,
+        "wood": 215,
+        "stone": 230,
+        "gold": 210
+      }
+    },
+    {
+      "tick": 630,
+      "seconds": 31.5,
+      "building": 483,
+      "kind": "build",
+      "type": "farm",
+      "cost": {
+        "wood": 45
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 210,
+        "wood": 215,
+        "stone": 230,
+        "gold": 210
+      }
+    },
+    {
+      "tick": 830,
+      "seconds": 41.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 190,
+        "wood": 175,
+        "stone": 260,
+        "gold": 225
+      }
+    },
+    {
+      "tick": 830,
+      "seconds": 41.5,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 190,
+        "wood": 175,
+        "stone": 260,
+        "gold": 225
+      }
+    },
+    {
+      "tick": 830,
+      "seconds": 41.5,
+      "building": 486,
+      "kind": "build",
+      "type": "house",
+      "cost": {
+        "wood": 50
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 190,
+        "wood": 175,
+        "stone": 260,
+        "gold": 225
+      }
+    },
+    {
+      "tick": 880,
+      "seconds": 44,
+      "building": 487,
+      "kind": "build",
+      "type": "farm",
+      "cost": {
+        "wood": 45
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 205,
+        "wood": 130,
+        "stone": 260,
+        "gold": 240
+      }
+    },
+    {
+      "tick": 1030,
+      "seconds": 51.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 230,
+        "wood": 160,
+        "stone": 290,
+        "gold": 255
+      }
+    },
+    {
+      "tick": 1130,
+      "seconds": 56.5,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 245,
+        "wood": 110,
+        "stone": 290,
+        "gold": 255
+      }
+    },
+    {
+      "tick": 1130,
+      "seconds": 56.5,
+      "building": 490,
+      "kind": "build",
+      "type": "farm",
+      "cost": {
+        "wood": 45
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 245,
+        "wood": 110,
+        "stone": 290,
+        "gold": 255
+      }
+    },
+    {
+      "tick": 1230,
+      "seconds": 61.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 240.00000000000188,
+        "wood": 155,
+        "stone": 305,
+        "gold": 270
+      }
+    },
+    {
+      "tick": 1380,
+      "seconds": 69,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 315.0000000000019,
+        "wood": 180,
+        "stone": 335,
+        "gold": 285
+      }
+    },
+    {
+      "tick": 1430,
+      "seconds": 71.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 280.0000000000019,
+        "wood": 135,
+        "stone": 335,
+        "gold": 315
+      }
+    },
+    {
+      "tick": 1430,
+      "seconds": 71.5,
+      "building": 494,
+      "kind": "build",
+      "type": "farm",
+      "cost": {
+        "wood": 45
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 280.0000000000019,
+        "wood": 135,
+        "stone": 335,
+        "gold": 315
+      }
+    },
+    {
+      "tick": 1630,
+      "seconds": 81.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 320.0000000000037,
+        "wood": 160,
+        "stone": 365,
+        "gold": 345
+      }
+    },
+    {
+      "tick": 1630,
+      "seconds": 81.5,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 320.0000000000037,
+        "wood": 160,
+        "stone": 365,
+        "gold": 345
+      }
+    },
+    {
+      "tick": 1830,
+      "seconds": 91.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 405.0000000000037,
+        "wood": 190,
+        "stone": 395,
+        "gold": 390
+      }
+    },
+    {
+      "tick": 1830,
+      "seconds": 91.5,
+      "building": 498,
+      "kind": "build",
+      "type": "farm",
+      "cost": {
+        "wood": 45
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 405.0000000000037,
+        "wood": 190,
+        "stone": 395,
+        "gold": 390
+      }
+    },
+    {
+      "tick": 1930,
+      "seconds": 96.5,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 465.0000000000037,
+        "wood": 185,
+        "stone": 410,
+        "gold": 405
+      }
+    },
+    {
+      "tick": 2030,
+      "seconds": 101.5,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 505.00000000000364,
+        "wood": 180,
+        "stone": 425,
+        "gold": 435
+      }
+    },
+    {
+      "tick": 2030,
+      "seconds": 101.5,
+      "building": 501,
+      "kind": "build",
+      "type": "house",
+      "cost": {
+        "wood": 50
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 505.00000000000364,
+        "wood": 180,
+        "stone": 425,
+        "gold": 435
+      }
+    },
+    {
+      "tick": 2180,
+      "seconds": 109,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 595.0000000000036,
+        "wood": 220,
+        "stone": 440,
+        "gold": 465
+      }
+    },
+    {
+      "tick": 2230,
+      "seconds": 111.5,
+      "building": 41,
+      "kind": "research",
+      "type": "age",
+      "cost": {
+        "food": 400,
+        "gold": 150
+      },
+      "totalSeconds": 45,
+      "stockAtEndTick": {
+        "food": 255.00000000000364,
+        "wood": 220,
+        "stone": 455,
+        "gold": 315
+      }
+    },
+    {
+      "tick": 2430,
+      "seconds": 121.5,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 434.9999999999992,
+        "wood": 290,
+        "stone": 470,
+        "gold": 375
+      }
+    },
+    {
+      "tick": 2680,
+      "seconds": 134,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 674.9999999999992,
+        "wood": 345,
+        "stone": 545,
+        "gold": 435
+      }
+    },
+    {
+      "tick": 2930,
+      "seconds": 146.5,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 884.9999999999992,
+        "wood": 445,
+        "stone": 620,
+        "gold": 465
+      }
+    },
+    {
+      "tick": 3180,
+      "seconds": 159,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 1089.9999999999948,
+        "wood": 425,
+        "stone": 680,
+        "gold": 485
+      }
+    },
+    {
+      "tick": 3180,
+      "seconds": 159,
+      "building": 479,
+      "kind": "recruit",
+      "type": "spearman",
+      "cost": {
+        "food": 45,
+        "wood": 20
+      },
+      "totalSeconds": 12,
+      "stockAtEndTick": {
+        "food": 1089.9999999999948,
+        "wood": 425,
+        "stone": 680,
+        "gold": 485
+      }
+    },
+    {
+      "tick": 3180,
+      "seconds": 159,
+      "building": 508,
+      "kind": "build",
+      "type": "smithy",
+      "cost": {
+        "wood": 120,
+        "gold": 40
+      },
+      "totalSeconds": 20,
+      "stockAtEndTick": {
+        "food": 1089.9999999999948,
+        "wood": 425,
+        "stone": 680,
+        "gold": 485
+      }
+    },
+    {
+      "tick": 3230,
+      "seconds": 161.5,
+      "building": 509,
+      "kind": "build",
+      "type": "market",
+      "cost": {
+        "wood": 140
+      },
+      "totalSeconds": 22,
+      "stockAtEndTick": {
+        "food": 1134.9999999999948,
+        "wood": 285,
+        "stone": 695,
+        "gold": 500
+      }
+    },
+    {
+      "tick": 3280,
+      "seconds": 164,
+      "building": 510,
+      "kind": "build",
+      "type": "range",
+      "cost": {
+        "wood": 160
+      },
+      "totalSeconds": 25,
+      "stockAtEndTick": {
+        "food": 1149.9999999999948,
+        "wood": 140,
+        "stone": 710,
+        "gold": 500
+      }
+    },
+    {
+      "tick": 3330,
+      "seconds": 166.5,
+      "building": 511,
+      "kind": "build",
+      "type": "stable",
+      "cost": {
+        "wood": 180
+      },
+      "totalSeconds": 28,
+      "stockAtEndTick": {
+        "food": 1179.9999999999948,
+        "wood": 5,
+        "stone": 725,
+        "gold": 500
+      }
+    },
+    {
+      "tick": 3380,
+      "seconds": 169,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 1159.9999999999948,
+        "wood": 20,
+        "stone": 740,
+        "gold": 515
+      }
+    },
+    {
+      "tick": 3480,
+      "seconds": 174,
+      "building": 479,
+      "kind": "recruit",
+      "type": "pikeman",
+      "cost": {
+        "food": 65,
+        "wood": 35,
+        "gold": 15
+      },
+      "totalSeconds": 20,
+      "stockAtEndTick": {
+        "food": 1169.9999999999948,
+        "wood": 0,
+        "stone": 770,
+        "gold": 500
+      }
+    },
+    {
+      "tick": 3480,
+      "seconds": 174,
+      "building": 514,
+      "kind": "build",
+      "type": "farm",
+      "cost": {
+        "wood": 45
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 1169.9999999999948,
+        "wood": 0,
+        "stone": 770,
+        "gold": 500
+      }
+    },
+    {
+      "tick": 3580,
+      "seconds": 179,
+      "building": 41,
+      "kind": "recruit",
+      "type": "villager",
+      "cost": {
+        "food": 50
+      },
+      "totalSeconds": 10,
+      "stockAtEndTick": {
+        "food": 1164.9999999999948,
+        "wood": 15,
+        "stone": 800,
+        "gold": 530
+      }
+    }
+  ]
+}

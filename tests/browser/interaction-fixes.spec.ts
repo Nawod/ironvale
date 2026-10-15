@@ -13,7 +13,7 @@ test('first online interaction unlocks audio and produces a measurable signal',a
 });
 test('touch hold and drag selects several villagers',async({page,context},info)=>{
  test.skip(info.project.name==='desktop');await page.goto('/');await page.getByRole('button',{name:'Begin your reign'}).click();await expect(page.getByTestId('population')).toContainText('7 / 15');
- const box=(await page.locator('[data-testid="battlefield"] canvas').boundingBox())!,zoom=info.project.name==='phone'?.92:1.1,origin=box.y+box.height*(box.width<700?.35:.42);
+ const box=(await page.locator('[data-testid="battlefield"] canvas').boundingBox())!,zoom=info.project.name==='phone'?.92:1.1,origin=box.y+box.height*(box.width<700?.44:.42);
  const x=box.x+box.width/2-5.3*32*zoom,y=origin-3*16*zoom,endX=box.x+box.width/2+16*zoom,endY=origin+5*16*zoom;
  const cdp=await context.newCDPSession(page);await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:endX,y:endY}]});await page.waitForTimeout(550);await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x,y}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
  await expect(page.getByRole('button',{name:'Build House',exact:true})).toBeVisible();await expect(page.locator('.selection-panel')).toContainText('6');await expect(page.locator('.building-buttons .active')).toHaveCount(0);

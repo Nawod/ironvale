@@ -1,0 +1,13 @@
+Poly Haven material provenance record
+
+Pine bark and twig textures: https://polyhaven.com/a/pine_tree_01
+Forest floor textures: https://polyhaven.com/a/forest_floor
+Creator/distributor: Poly Haven
+Asset license: CC0 1.0 Universal (Public Domain Dedication)
+https://polyhaven.com/license
+https://creativecommons.org/publicdomain/zero/1.0/
+
+These selected maps were reused from the locally licensed Hearthguard project
+and reduced to a maximum dimension of 512 pixels for Ironvale. This file records
+the upstream asset license and provenance; it is not a copy of the full CC0 legal
+instrument, which is available at the Creative Commons link above.

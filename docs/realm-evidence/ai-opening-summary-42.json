@@ -1,0 +1,652 @@
+[
+  {
+    "difficulty": "easy",
+    "seed": 42,
+    "simulatedSeconds": 180,
+    "wallMilliseconds": 1156,
+    "player": 1,
+    "sourceHashes": {
+      "src/sim/ai.ts": "c6e8207d71f2613d18384e7b42abc37c1eaaf0f45d5772be899d8f90df46263b",
+      "src/sim/economy.ts": "8fc1fd4d4b38606467ab7fac7b054756edec8d9eb39624b9bb4edda3c33b6471",
+      "src/sim/engine.ts": "3d57c79c3ad20bb68d123e7f4fddf7fba1bca6bc6f7462dbae6b13c4af19adbf",
+      "src/sim/definitions.ts": "17abee6238aa29c73b04240559fc5b476bd7d3e692c38f0b4727fa4822e9a96b",
+      "src/sim/world.ts": "0fd47094a4e307781b2419718cf7d1e38227d6a85e6afa2a3584fa459c620893",
+      "src/sim/nature.ts": "61c5b3f56d9ca3bcb18c3cb4f8f16a7b728f2d7b327032035490575199757b6e",
+      "src/sim/wildlife.ts": "bf989bbc758124fc006b6f5783f483ed3823d412e80542d873f13c2c033790a6",
+      "src/sim/navigation.ts": "0c6d199dd3752b463ea43c0af2ed55c69531fffe2aedd5bc06dcf13fd9f138de"
+    },
+    "startStock": {
+      "food": 350,
+      "wood": 450,
+      "stone": 200,
+      "gold": 150
+    },
+    "first": {
+      "capitalComplete": 0.05,
+      "storagePlaced": 1.5,
+      "barracksPlaced": 6.5,
+      "villagerProduced": 11.45,
+      "storageComplete": 18,
+      "farmPlaced": 31.5,
+      "barracksComplete": 31.8,
+      "farmComplete": 42.35,
+      "spearmanProduced": 48.45,
+      "housePlaced": 51.5,
+      "houseComplete": 63.5,
+      "smithyPlaced": 176.5
+    },
+    "endStock": {
+      "food": 1656.88,
+      "wood": 555,
+      "stone": 875,
+      "gold": 560
+    },
+    "acceptedCatalogPurchases": {
+      "food": 1405,
+      "wood": 900,
+      "stone": 0,
+      "gold": 190
+    },
+    "observedDropoffs": {
+      "food": 2711.88,
+      "wood": 1005,
+      "stone": 675,
+      "gold": 600
+    },
+    "replantCosts": {
+      "food": 0,
+      "wood": 0,
+      "stone": 0,
+      "gold": 0
+    },
+    "accountedEndStock": {
+      "food": 1656.88,
+      "wood": 555,
+      "stone": 875,
+      "gold": 560
+    },
+    "unexplainedStockDelta": {
+      "food": 0,
+      "wood": 0,
+      "stone": 0,
+      "gold": 0
+    },
+    "minimumStock": 150,
+    "anomalies": [],
+    "snapshots": [
+      {
+        "seconds": 30,
+        "stock": {
+          "food": 260,
+          "wood": 250,
+          "stone": 230,
+          "gold": 210
+        },
+        "catalogPurchases": {
+          "food": 150,
+          "wood": 230,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 60,
+          "wood": 30,
+          "stone": 30,
+          "gold": 60
+        },
+        "units": 9,
+        "soldiers": 0
+      },
+      {
+        "seconds": 60,
+        "stock": {
+          "food": 299.1,
+          "wood": 220,
+          "stone": 320,
+          "gold": 270
+        },
+        "catalogPurchases": {
+          "food": 390,
+          "wood": 410,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 339.1,
+          "wood": 180,
+          "stone": 120,
+          "gold": 120
+        },
+        "units": 13,
+        "soldiers": 1
+      },
+      {
+        "seconds": 90,
+        "stock": {
+          "food": 446.88,
+          "wood": 255,
+          "stone": 395,
+          "gold": 360
+        },
+        "catalogPurchases": {
+          "food": 630,
+          "wood": 540,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 726.88,
+          "wood": 345,
+          "stone": 195,
+          "gold": 210
+        },
+        "units": 18,
+        "soldiers": 3
+      },
+      {
+        "seconds": 120,
+        "stock": {
+          "food": 731.88,
+          "wood": 330,
+          "stone": 545,
+          "gold": 510
+        },
+        "catalogPurchases": {
+          "food": 870,
+          "wood": 675,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 1251.88,
+          "wood": 555,
+          "stone": 345,
+          "gold": 360
+        },
+        "units": 23,
+        "soldiers": 5
+      },
+      {
+        "seconds": 150,
+        "stock": {
+          "food": 1041.88,
+          "wood": 490,
+          "stone": 710,
+          "gold": 480
+        },
+        "catalogPurchases": {
+          "food": 1315,
+          "wood": 740,
+          "stone": 0,
+          "gold": 150
+        },
+        "observedDropoffs": {
+          "food": 2006.88,
+          "wood": 780,
+          "stone": 510,
+          "gold": 480
+        },
+        "units": 26,
+        "soldiers": 7
+      },
+      {
+        "seconds": 180,
+        "stock": {
+          "food": 1656.88,
+          "wood": 555,
+          "stone": 875,
+          "gold": 560
+        },
+        "catalogPurchases": {
+          "food": 1405,
+          "wood": 900,
+          "stone": 0,
+          "gold": 190
+        },
+        "observedDropoffs": {
+          "food": 2711.88,
+          "wood": 1005,
+          "stone": 675,
+          "gold": 600
+        },
+        "units": 28,
+        "soldiers": 9
+      }
+    ],
+    "purchaseCount": 33
+  },
+  {
+    "difficulty": "normal",
+    "seed": 42,
+    "simulatedSeconds": 180,
+    "wallMilliseconds": 810,
+    "player": 1,
+    "sourceHashes": {
+      "src/sim/ai.ts": "c6e8207d71f2613d18384e7b42abc37c1eaaf0f45d5772be899d8f90df46263b",
+      "src/sim/economy.ts": "8fc1fd4d4b38606467ab7fac7b054756edec8d9eb39624b9bb4edda3c33b6471",
+      "src/sim/engine.ts": "3d57c79c3ad20bb68d123e7f4fddf7fba1bca6bc6f7462dbae6b13c4af19adbf",
+      "src/sim/definitions.ts": "17abee6238aa29c73b04240559fc5b476bd7d3e692c38f0b4727fa4822e9a96b",
+      "src/sim/world.ts": "0fd47094a4e307781b2419718cf7d1e38227d6a85e6afa2a3584fa459c620893",
+      "src/sim/nature.ts": "61c5b3f56d9ca3bcb18c3cb4f8f16a7b728f2d7b327032035490575199757b6e",
+      "src/sim/wildlife.ts": "bf989bbc758124fc006b6f5783f483ed3823d412e80542d873f13c2c033790a6",
+      "src/sim/navigation.ts": "0c6d199dd3752b463ea43c0af2ed55c69531fffe2aedd5bc06dcf13fd9f138de"
+    },
+    "startStock": {
+      "food": 350,
+      "wood": 450,
+      "stone": 200,
+      "gold": 150
+    },
+    "first": {
+      "capitalComplete": 0.05,
+      "storagePlaced": 1.5,
+      "barracksPlaced": 4,
+      "villagerProduced": 11.45,
+      "storageComplete": 18,
+      "barracksComplete": 28,
+      "farmPlaced": 31.5,
+      "spearmanProduced": 40.95,
+      "housePlaced": 41.5,
+      "farmComplete": 42.35,
+      "houseComplete": 55.9,
+      "smithyPlaced": 159,
+      "marketPlaced": 161.5,
+      "rangePlaced": 164,
+      "stablePlaced": 166.5
+    },
+    "endStock": {
+      "food": 1180,
+      "wood": 15,
+      "stone": 800,
+      "gold": 530
+    },
+    "acceptedCatalogPurchases": {
+      "food": 1660,
+      "wood": 1455,
+      "stone": 0,
+      "gold": 205
+    },
+    "observedDropoffs": {
+      "food": 2490,
+      "wood": 1020,
+      "stone": 600,
+      "gold": 585
+    },
+    "replantCosts": {
+      "food": 0,
+      "wood": 0,
+      "stone": 0,
+      "gold": 0
+    },
+    "accountedEndStock": {
+      "food": 1180,
+      "wood": 15,
+      "stone": 800,
+      "gold": 530
+    },
+    "unexplainedStockDelta": {
+      "food": 0,
+      "wood": 0,
+      "stone": 0,
+      "gold": 0
+    },
+    "minimumStock": 0,
+    "anomalies": [],
+    "snapshots": [
+      {
+        "seconds": 30,
+        "stock": {
+          "food": 245,
+          "wood": 245,
+          "stone": 230,
+          "gold": 210
+        },
+        "catalogPurchases": {
+          "food": 195,
+          "wood": 250,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 90,
+          "wood": 45,
+          "stone": 30,
+          "gold": 60
+        },
+        "units": 9,
+        "soldiers": 0
+      },
+      {
+        "seconds": 60,
+        "stock": {
+          "food": 290,
+          "wood": 155,
+          "stone": 305,
+          "gold": 270
+        },
+        "catalogPurchases": {
+          "food": 435,
+          "wood": 475,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 375,
+          "wood": 180,
+          "stone": 105,
+          "gold": 120
+        },
+        "units": 14,
+        "soldiers": 2
+      },
+      {
+        "seconds": 90,
+        "stock": {
+          "food": 455,
+          "wood": 220,
+          "stone": 395,
+          "gold": 375
+        },
+        "catalogPurchases": {
+          "food": 675,
+          "wood": 560,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 780,
+          "wood": 330,
+          "stone": 195,
+          "gold": 225
+        },
+        "units": 19,
+        "soldiers": 4
+      },
+      {
+        "seconds": 120,
+        "stock": {
+          "food": 435,
+          "wood": 280,
+          "stone": 470,
+          "gold": 360
+        },
+        "catalogPurchases": {
+          "food": 1265,
+          "wood": 695,
+          "stone": 0,
+          "gold": 150
+        },
+        "observedDropoffs": {
+          "food": 1350,
+          "wood": 525,
+          "stone": 270,
+          "gold": 360
+        },
+        "units": 24,
+        "soldiers": 6
+      },
+      {
+        "seconds": 150,
+        "stock": {
+          "food": 975,
+          "wood": 475,
+          "stone": 635,
+          "gold": 495
+        },
+        "catalogPurchases": {
+          "food": 1400,
+          "wood": 755,
+          "stone": 0,
+          "gold": 150
+        },
+        "observedDropoffs": {
+          "food": 2025,
+          "wood": 780,
+          "stone": 435,
+          "gold": 495
+        },
+        "units": 27,
+        "soldiers": 9
+      },
+      {
+        "seconds": 180,
+        "stock": {
+          "food": 1180,
+          "wood": 15,
+          "stone": 800,
+          "gold": 530
+        },
+        "catalogPurchases": {
+          "food": 1660,
+          "wood": 1455,
+          "stone": 0,
+          "gold": 205
+        },
+        "observedDropoffs": {
+          "food": 2490,
+          "wood": 1020,
+          "stone": 600,
+          "gold": 585
+        },
+        "units": 31,
+        "soldiers": 11
+      }
+    ],
+    "purchaseCount": 41
+  },
+  {
+    "difficulty": "hard",
+    "seed": 42,
+    "simulatedSeconds": 180,
+    "wallMilliseconds": 780,
+    "player": 1,
+    "sourceHashes": {
+      "src/sim/ai.ts": "c6e8207d71f2613d18384e7b42abc37c1eaaf0f45d5772be899d8f90df46263b",
+      "src/sim/economy.ts": "8fc1fd4d4b38606467ab7fac7b054756edec8d9eb39624b9bb4edda3c33b6471",
+      "src/sim/engine.ts": "3d57c79c3ad20bb68d123e7f4fddf7fba1bca6bc6f7462dbae6b13c4af19adbf",
+      "src/sim/definitions.ts": "17abee6238aa29c73b04240559fc5b476bd7d3e692c38f0b4727fa4822e9a96b",
+      "src/sim/world.ts": "0fd47094a4e307781b2419718cf7d1e38227d6a85e6afa2a3584fa459c620893",
+      "src/sim/nature.ts": "61c5b3f56d9ca3bcb18c3cb4f8f16a7b728f2d7b327032035490575199757b6e",
+      "src/sim/wildlife.ts": "bf989bbc758124fc006b6f5783f483ed3823d412e80542d873f13c2c033790a6",
+      "src/sim/navigation.ts": "0c6d199dd3752b463ea43c0af2ed55c69531fffe2aedd5bc06dcf13fd9f138de"
+    },
+    "startStock": {
+      "food": 350,
+      "wood": 450,
+      "stone": 200,
+      "gold": 150
+    },
+    "first": {
+      "capitalComplete": 0.05,
+      "storagePlaced": 1.5,
+      "barracksPlaced": 2.75,
+      "villagerProduced": 11.45,
+      "storageComplete": 18.15,
+      "barracksComplete": 27.85,
+      "farmPlaced": 31.5,
+      "spearmanProduced": 40.95,
+      "housePlaced": 41.5,
+      "farmComplete": 42.35,
+      "houseComplete": 55.9
+    },
+    "endStock": {
+      "food": 1275,
+      "wood": 615,
+      "stone": 875,
+      "gold": 705
+    },
+    "acceptedCatalogPurchases": {
+      "food": 1745,
+      "wood": 915,
+      "stone": 0,
+      "gold": 150
+    },
+    "observedDropoffs": {
+      "food": 2670,
+      "wood": 1080,
+      "stone": 675,
+      "gold": 705
+    },
+    "replantCosts": {
+      "food": 0,
+      "wood": 0,
+      "stone": 0,
+      "gold": 0
+    },
+    "accountedEndStock": {
+      "food": 1275,
+      "wood": 615,
+      "stone": 875,
+      "gold": 705
+    },
+    "unexplainedStockDelta": {
+      "food": 0,
+      "wood": 0,
+      "stone": 0,
+      "gold": 0
+    },
+    "minimumStock": 110,
+    "anomalies": [],
+    "snapshots": [
+      {
+        "seconds": 30,
+        "stock": {
+          "food": 245,
+          "wood": 245,
+          "stone": 230,
+          "gold": 210
+        },
+        "catalogPurchases": {
+          "food": 195,
+          "wood": 250,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 90,
+          "wood": 45,
+          "stone": 30,
+          "gold": 60
+        },
+        "units": 9,
+        "soldiers": 0
+      },
+      {
+        "seconds": 60,
+        "stock": {
+          "food": 275,
+          "wood": 155,
+          "stone": 305,
+          "gold": 270
+        },
+        "catalogPurchases": {
+          "food": 435,
+          "wood": 475,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 360,
+          "wood": 180,
+          "stone": 105,
+          "gold": 120
+        },
+        "units": 14,
+        "soldiers": 2
+      },
+      {
+        "seconds": 90,
+        "stock": {
+          "food": 395,
+          "wood": 250,
+          "stone": 395,
+          "gold": 390
+        },
+        "catalogPurchases": {
+          "food": 675,
+          "wood": 560,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 720,
+          "wood": 360,
+          "stone": 195,
+          "gold": 240
+        },
+        "units": 19,
+        "soldiers": 4
+      },
+      {
+        "seconds": 120,
+        "stock": {
+          "food": 680,
+          "wood": 310,
+          "stone": 545,
+          "gold": 525
+        },
+        "catalogPurchases": {
+          "food": 915,
+          "wood": 695,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 1245,
+          "wood": 555,
+          "stone": 345,
+          "gold": 375
+        },
+        "units": 24,
+        "soldiers": 6
+      },
+      {
+        "seconds": 150,
+        "stock": {
+          "food": 1115,
+          "wood": 465,
+          "stone": 725,
+          "gold": 675
+        },
+        "catalogPurchases": {
+          "food": 1155,
+          "wood": 780,
+          "stone": 0,
+          "gold": 0
+        },
+        "observedDropoffs": {
+          "food": 1920,
+          "wood": 795,
+          "stone": 525,
+          "gold": 525
+        },
+        "units": 29,
+        "soldiers": 8
+      },
+      {
+        "seconds": 180,
+        "stock": {
+          "food": 1275,
+          "wood": 615,
+          "stone": 875,
+          "gold": 705
+        },
+        "catalogPurchases": {
+          "food": 1745,
+          "wood": 915,
+          "stone": 0,
+          "gold": 150
+        },
+        "observedDropoffs": {
+          "food": 2670,
+          "wood": 1080,
+          "stone": 675,
+          "gold": 705
+        },
+        "units": 34,
+        "soldiers": 10
+      }
+    ],
+    "purchaseCount": 41
+  }
+]

@@ -1,0 +1,6 @@
+import {it,expect} from 'vitest';
+import {Scene,Mesh,Sprite,LineSegments} from 'three';
+import {Atmosphere} from '../src/render/atmosphere3d';
+import {environmentAt} from '../src/sim/environment';
+it('renders high cloud banks and soft ground shadows with bounded scene objects',()=>{const scene=new Scene(),sky=new Atmosphere(scene,false);try{sky.update(environmentAt(0,42),{x:30,y:30},0);const clouds=scene.children.filter(e=>e instanceof Sprite),shadows=scene.children.filter(e=>e instanceof Mesh);expect(clouds.length).toBeGreaterThanOrEqual(8);expect(clouds.length).toBeLessThanOrEqual(24);expect(clouds.every(c=>c.position.y>=10)).toBe(true);expect(shadows.length).toBeGreaterThan(0);expect(scene.children.length).toBeLessThan(60);}finally{sky.dispose();}expect(scene.children).toHaveLength(0);});
+it('changes precipitation with the shared weather clock',()=>{const scene=new Scene(),sky=new Atmosphere(scene,true);try{sky.update({...environmentAt(0,42),weather:'rain',rain:.7},{x:30,y:30},4400);const rain=scene.children.find(e=>e instanceof LineSegments)!;expect(rain).toBeDefined();expect(rain.visible).toBe(true);sky.update(environmentAt(0,42),{x:30,y:30},0);expect(rain.visible).toBe(false);}finally{sky.dispose();}});

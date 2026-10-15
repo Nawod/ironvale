@@ -1,0 +1,74 @@
+{
+  "license": "CC0-1.0",
+  "assets": [
+    {
+      "file": "character.glb",
+      "source": "hearthguard/public/models/character.glb",
+      "bytes": 698440,
+      "sha256": "0cf08fcaec7061056055b299965a05a9b566551a1799d78771ff9bd29922881a"
+    },
+    {
+      "file": "ranger.glb",
+      "source": "hearthguard/public/models/ranger.glb",
+      "bytes": 1777012,
+      "sha256": "d7037a58874fb32526dbc527c96cebb9ac97d43ceb5d3b6e51e73446782f8402"
+    },
+    {
+      "file": "head.glb",
+      "source": "hearthguard/public/models/head.glb",
+      "bytes": 288224,
+      "sha256": "0ef8d7b0218e05c29cbad1acbe4f0adc050533bf1e3b2d4dd1cf37813b3d34d8"
+    },
+    {
+      "file": "hair.glb",
+      "source": "hearthguard/public/models/hair.glb",
+      "bytes": 67912,
+      "sha256": "0280df3e91d58a2d9708bf99fb4792aa87f57fa3e1e29f7644d522ebd1f375af"
+    },
+    {
+      "file": "animations.glb",
+      "source": "hearthguard/public/models/animations.glb",
+      "bytes": 569360,
+      "sha256": "e54f1070f90e9ab67c6a711721b84c5602fc4aeb876345599ffa28c077b0c5b9"
+    },
+    {
+      "file": "actions.glb",
+      "source": "hearthguard/public/models/actions.glb",
+      "bytes": 134672,
+      "sha256": "7847767953fe49798a19d1a7aae12e3b361ad1a2fc5bc2fd8985073611e31f3f"
+    },
+    {
+      "file": "deer.glb",
+      "source": "hearthguard/public/models/deer.glb",
+      "bytes": 998072,
+      "sha256": "61591e1925839372a633471e8baf478c4a1c657ec422f72b5069f1dce22bb5a2"
+    },
+    {
+      "file": "horse.glb",
+      "source": "hearthguard/public/models/horse.glb",
+      "bytes": 1039300,
+      "sha256": "36e6ac311f3cc7e961e1a2c92a01e1db57a466dc6c3d28a93ae8f00679f47aa4"
+    },
+    {
+      "file": "cow.glb",
+      "source": "https://drive.google.com/file/d/1lS3t1Sof0FVne1C1WXfdX48qaHES_pDG/view",
+      "downloadMirror": "https://github.com/agentkaerf/FreeModels/tree/main/Ultimate%20Animated%20Animals%20-%20July%202021",
+      "bytes": 933576,
+      "sha256": "f3a9275ef564bb62fe4e6053ff14282ec9500afc0e2ddbdb0ff118c1525b08b2"
+    },
+    {
+      "file": "alpaca.glb",
+      "source": "https://drive.google.com/file/d/13dxCPosR1tVx24LKXr6gN44sIOY4hZgo/view",
+      "downloadMirror": "https://github.com/agentkaerf/FreeModels/tree/main/Ultimate%20Animated%20Animals%20-%20July%202021",
+      "bytes": 426064,
+      "sha256": "51bbe7fec6a92375642eb69d7cf36d8363ad72e1d0e9187bba901adb840cd194"
+    },
+    {
+      "file": "fox.glb",
+      "source": "https://drive.google.com/file/d/1z-CWoUC2vJxrqgGFTYlMaywpE1ooV-bA/view",
+      "downloadMirror": "https://github.com/agentkaerf/FreeModels/tree/main/Ultimate%20Animated%20Animals%20-%20July%202021",
+      "bytes": 801648,
+      "sha256": "5f2df62face38eae1746ea76fcccc0a94a95184283f2ae7e0848ee2bf9dcd1de"
+    }
+  ]
+}
