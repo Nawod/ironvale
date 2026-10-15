@@ -1,3 +1,4 @@
+import {VoicePanel} from './VoicePanel';
 import {useState} from 'react';
 import {Users,Link,Copy,Check,ArrowLeft,Play,Shield,X,Globe,LoaderCircle} from 'lucide-react';
 import type {OnlineSession,OnlineState} from '../net/online';
@@ -22,6 +23,7 @@ export function OnlineLobby({client,state,onClose}:{client?:OnlineSession;state:
    {room.zombies&&<p className="team-rules">Zombie mode: the undead attack every city from 18:00 to 06:00 and return to the forest at dawn. No team is spared.</p>}
    {room.mode==='teams'&&<p className="team-rules">Up to 4 per team  |  nearby cities  |  shared scouting  |  no friendly fire.<br/>Each commander keeps their own resources, buildings and army. Changing teams clears everyone's readiness.</p>}
    {room.phase==='countdown'?<p className="queue-status"><LoaderCircle size={19}/>Preparing a shared realm…</p>:<div className="lobby-controls"><button className={'ready-button '+(me?.ready?'is-ready':'')} aria-label={me?.ready?'Not ready':'Ready'} onClick={()=>client?.send({type:'ready',ready:!me?.ready})} disabled={busy}><Check size={18}/>{me?.ready?'Ready — change':'Ready'}</button>{host?<button className="begin" disabled={!readyToStart} onClick={()=>client?.send({type:'start'})}><Play size={18}/>Start match</button>:<p>Waiting for the host to start.</p>}</div>}
+   {client&&<VoicePanel voice={client.voice} room={room}/>}
    <div className="lobby-bottom"><button onClick={leave}><ArrowLeft size={15}/>Leave room</button><span>{room.players.length} humans · {room.kind==='private'&&!room.fillAI?'up to 8 players':`${room.capacity} total empires`}</span></div>
   </>:state.queued?<div className="queue-screen"><Globe size={37}/><h2>Finding your rivals</h2><p>{state.queued.waiting} of {state.queued.count} commanders queued.<br/>The match starts when all players are found.</p><div className="queue-bar"><span style={{width:`${state.queued.waiting/state.queued.count*100}%`}}/></div><button onClick={leave}>Cancel matchmaking</button></div>:<>
    <h2>{mode==='choose'?'Claim a shared realm':mode==='create'?'Invite your friends':mode==='join'?'Join your friends':'Find your rivals'}</h2><p className="online-intro">Two to eight empires. One surviving banner.</p>
