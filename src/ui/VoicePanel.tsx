@@ -4,8 +4,9 @@ import type {VoiceChat} from '../net/voice';
 import type {RoomView,VoiceChannel} from '../net/protocol';
 import './voice.css';
 
-export function VoicePanel({voice,room,floating=false}:{voice:VoiceChat;room:RoomView;floating?:boolean}){
- const state=useSyncExternalStore(voice.subscribe,voice.getSnapshot),[expanded,setExpanded]=useState(!floating),[choice,setChoice]=useState<VoiceChannel>('open');
+export function VoicePanel({voice,room,floating=false,expanded:controlledExpanded,onExpandedChange}:{voice:VoiceChat;room:RoomView;floating?:boolean;expanded?:boolean;onExpandedChange?:(expanded:boolean)=>void}){
+ const state=useSyncExternalStore(voice.subscribe,voice.getSnapshot),[localExpanded,setLocalExpanded]=useState(!floating),[choice,setChoice]=useState<VoiceChannel>('open');
+ const expanded=controlledExpanded??localExpanded,setExpanded=(next:boolean)=>{setLocalExpanded(next);onExpandedChange?.(next);};
  const active=state.status!=='idle',channel=active?state.channel:choice,teams=room.mode==='teams';
  const change=(next:VoiceChannel)=>{setChoice(next);if(active)voice.switchChannel(next);};
  return <section className={'voice-panel '+(floating?'voice-floating':'voice-lobby')} aria-label="Voice chat">

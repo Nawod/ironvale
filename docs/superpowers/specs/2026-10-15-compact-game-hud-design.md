@@ -1,0 +1,11 @@
+# Compact in-game HUD
+
+The user wants the in-game interface to keep the battlefield playable and every game action reachable, especially on phones in landscape. Their Age of Empires II/III references put resources in compact bars and selected-entity actions beside a minimap. Additional reference: AoE IV principal UX designer Kevin Hustler describes reducing permanent HUD space, making construction discoverable, and preserving text scaling (https://kevinhustler.me/aoe4). Borrow information hierarchy rather than copying artwork.
+
+Keep Ironvale's pine (#17251f), forest (#21362a), brass (#b9a06e), parchment text (#eee6ce) and danger accent (#d78870). Use existing Segoe UI for functional text and numbers, Georgia only for selected-entity names. Controls have at least 44px targets and meaningful labels; normal action text stays at least 14px. No new art or dependencies.
+
+Desktop: slim resource bar and secondary world-status line; bottom minimap and a bounded context dock. Workers group Orders / Build / Tasks; buildings group Train / Improve / Manage. Keep queue progress discoverable. Compact screens: one resource bar, quick worker/army/map shortcuts, a small selection summary and a clearly labeled Commands button. Commands open only when requested, rather than permanently occupying the field. Portrait uses a bounded bottom sheet; short landscape uses a scrollable right drawer, leaving most of the map playable. Choosing a world-targeted action closes the drawer. Cancel remains reachable.
+
+Minimap, camera tools, expanded voice, world status and tutorial details are on-demand and must not stack over Commands. Preserve status information through a Realm status view. Keep save/settings/help/resume in the game menu. Online remains unpaused in menus. Keep microphone mute reachable while menus are open and maintain shared voice lifetime through lobby/game. Rotation/resizing must not drop selection or pending orders.
+
+Preserve every existing action, original building appearance, worker-task memory, building relocation/removal, teams and separate resources, zombie/day-night/weather simulation, voice privacy and all simulation rules. Verify actual hit testing, accessible controls and real world taps in portrait and landscape, not just screenshot dimensions.

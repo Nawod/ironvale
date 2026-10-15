@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {openCommands} from './hud-helpers';
 test('first online interaction unlocks audio and produces a measurable signal',async({page})=>{
  await page.addInitScript(()=>{
   const Native=window.AudioContext;
@@ -16,6 +17,6 @@ test('touch hold and drag selects several villagers',async({page,context},info)=
  const box=(await page.locator('[data-testid="battlefield"] canvas').boundingBox())!,zoom=info.project.name==='phone'?.92:1.1,origin=box.y+box.height*(box.width<700?.44:.42);
  const x=box.x+box.width/2-5.3*32*zoom,y=origin-3*16*zoom,endX=box.x+box.width/2+16*zoom,endY=origin+5*16*zoom;
  const cdp=await context.newCDPSession(page);await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:endX,y:endY}]});await page.waitForTimeout(550);await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x,y}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
- await expect(page.getByRole('button',{name:'Build House',exact:true})).toBeVisible();await expect(page.locator('.selection-panel')).toContainText('6');await expect(page.locator('.building-buttons .active')).toHaveCount(0);
+ await openCommands(page,'Build');await expect(page.getByRole('button',{name:'Build House',exact:true})).toBeVisible();await expect(page.locator('.selection-panel')).toContainText('6');await expect(page.locator('.building-buttons .active')).toHaveCount(0);
  await page.screenshot({path:`test-results/${info.project.name}-touch-group.png`});
 });

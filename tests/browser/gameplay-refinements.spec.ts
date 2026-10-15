@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {openCommands} from './hud-helpers';
 import {createGame,spawn} from '../../src/sim/world';
 import {updateVisibility} from '../../src/sim/visibility';
 import {encodeSave} from '../../src/sim/save';
@@ -18,7 +19,7 @@ test('touch workers gather and move through direct battlefield taps',async({page
 test('two-finger rotation retains accurate 3D selection',async({page,context},info)=>{
  test.skip(info.project.name==='desktop');await page.goto('/');await page.getByRole('button',{name:'Begin your reign'}).click();const v=page.viewportSize()!,x=v.width/2,y=v.height*.4,cdp=await context.newCDPSession(page);
  await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:x-40,y},{x:x+40,y}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x,y:y-40},{x,y:y+40}]});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
- const camera=new RTSCamera();camera.configure({...v,focus:{x:19.5,y:21},zoom:v.width<600?.92:1.1,yaw:3*Math.PI/4,origin:v.width<700?.44:.42});const cap=camera.project({x:19.5,y:19.5},.8);await page.touchscreen.tap(cap.x,cap.y);await expect(page.getByRole('button',{name:'Recruit Villager',exact:true})).toBeVisible();
+ const camera=new RTSCamera();camera.configure({...v,focus:{x:19.5,y:21},zoom:v.width<600?.92:1.1,yaw:3*Math.PI/4,origin:v.width<700?.44:.42});const cap=camera.project({x:19.5,y:19.5},.8);await page.touchscreen.tap(cap.x,cap.y);await openCommands(page,'Train');await expect(page.getByRole('button',{name:'Recruit Villager',exact:true})).toBeVisible();
 });
 
 async function recordOrders(page:any){await page.addInitScript(()=>{(window as any).__orders=[];const send=Worker.prototype.postMessage;Worker.prototype.postMessage=function(message:any,...rest:any[]){if(message?.type==='command'&&message.command?.type==='order')(window as any).__orders.push(message.command);return (send as any).call(this,message,...rest);};});}
