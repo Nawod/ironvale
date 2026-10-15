@@ -17,6 +17,7 @@ export function validateCommand(value:unknown):Command{
   case 'order':{const o=object(m.order),kind=oneOf(o.kind,['idle','move','gather','build','repair','attack','attackMove','patrol','garrison'] as const);return{type:'order',player,ids:ids(m.ids),order:{kind,...(o.point!==undefined?{point:point(o.point)}:{}),...(o.target!==undefined?{target:integer(o.target,1)}:{})}};}
   case 'build':return{type:'build',player,workers:ids(m.workers),building:oneOf(m.building,Object.keys(BUILDINGS)) as any,point:point(m.point)};
   case 'recruit':return{type:'recruit',player,building:integer(m.building,1),unit:oneOf(m.unit,Object.keys(UNITS)) as any};
+  case 'upgradeWall':return{type:'upgradeWall',player,building:integer(m.building,1)};
   case 'research':return{type:'research',player,building:integer(m.building,1),research:oneOf(m.research,['age','weapons','armor'] as const)};
   case 'trade':return{type:'trade',player,sell:oneOf(m.sell,['food','wood','stone','gold'] as const),buy:oneOf(m.buy,['food','wood','stone','gold'] as const)};
   case 'stance':return{type:'stance',player,ids:ids(m.ids),stance:oneOf(m.stance,['aggressive','defensive','hold'] as const)};

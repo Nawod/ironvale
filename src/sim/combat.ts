@@ -55,7 +55,7 @@ export function updateConquest(s:GameState,dt:number):void{
   const conqueror=cap.occupation.owner;p.alive=false;
   for(const e of Object.values(s.entities))if(e.owner===p.id){
    if(e.kind==='unit'&&e.type!=='villager'){delete s.entities[e.id];continue;}
-   e.owner=conqueror;e.queue=[];e.garrison=[];e.garrisoned=undefined;assign(e,{kind:'idle'});
+   e.owner=conqueror;e.queue=[];e.garrison=[];e.garrisoned=undefined;e.taskQueue=undefined;assign(e,{kind:'idle'});
   }
   cap.type='outpost';cap.hp=BUILDINGS.outpost.hp;cap.maxHp=cap.hp;cap.progress=1;cap.occupation=undefined;
   event(s,-1,`${s.players[conqueror].name} conquered ${p.name}.`,'capture',cap);

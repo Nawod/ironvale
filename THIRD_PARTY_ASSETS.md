@@ -1,14 +1,13 @@
 # Ironvale bundled 3D asset credits
 
-All models and textures below are **CC0 1.0 / public domain**. They are bundled
-locally under `public/models`; gameplay does not contact an asset service.
-Only freely offered Standard content is included. Original kit license notices
-are retained beside the models. `public/models/manifest.json` records model sizes
-and SHA-256 hashes.
+All runtime assets are bundled locally under `public/models`; gameplay does not contact an asset service. Only freely offered content is included. **Ashen Marches uses its own license; the Quaternius and Poly Haven assets use CC0.** Original license notices are retained beside the models. The manifests record provenance, sizes and hashes.
 
 | Assets | Creator and original source | Packaging |
 | --- | --- | --- |
-| Peasant and ranger outfits | [Quaternius Modular Character Outfits Fantasy](https://quaternius.com/packs/modularcharacteroutfitsfantasy.html) | Reused from the locally licensed sibling Hearthguard project; compatible skinned bodies retained. |
+| Army characters and equipment | [ChillLands Ashen Marches FREE 100](https://chilllands.itch.io/ashen-marches) | Custom Ashen Marches license, retained at `public/models/ashen/AshenMarches_LICENSE.txt`. Seven character bodies and five equipment models adapted for Ironvale. Finished-game use and modification permitted; standalone asset redistribution prohibited. [Detailed provenance](docs/army-asset-provenance.md). |
+| Gold resource and inactive building archive | [Quaternius Ultimate Fantasy RTS](https://quaternius.com/packs/ultimatefantasyrts.html) | CC0; gold is active. Building/wall imports were disabled at the user's request; their files remain available locally. [Detailed provenance](docs/realm-asset-provenance.md). |
+| Trees, berry bushes, rocks and mountain formations | [Quaternius Ultimate Nature](https://quaternius.com/packs/ultimatenature.html) | CC0; selected original geometry and natural material colors. |
+| Legacy fallback asset archive: peasant and ranger outfits | [Quaternius Modular Character Outfits Fantasy](https://quaternius.com/packs/modularcharacteroutfitsfantasy.html) | Reused from the locally licensed sibling Hearthguard project; compatible skinned bodies retained. |
 | Cropped head, eyes, eyebrows and hair | [Quaternius Universal Base Characters](https://quaternius.com/packs/universalbasecharacters.html) | Reused Hearthguard head separation. Head and hair rebind to the outfit skeleton by bone name and original inverse binds. |
 | Idle, walk and sword attack | [Quaternius Universal Animation Library](https://quaternius.com/packs/universalanimationlibrary.html) | Three clips only; mannequin geometry and unused animation buffers removed. |
 | Tree chopping | [Quaternius Universal Animation Library 2](https://quaternius.com/packs/universalanimationlibrary2.html) | One work clip only; mannequin geometry and unused animation buffers removed. |
@@ -22,17 +21,22 @@ textures are copied, image dimensions are limited to 512px, and unreferenced GLB
 accessors/buffers are removed. Packaged animal GLBs remain available for ordinary
 local repacks without internet access. Source archives are not runtime dependencies.
 
-At load time Ironvale samples six walking, working and attack poses, plus one idle
-pose, per outfit; animals have six walk poses and one idle pose. These are static
-geometries merged by material for instanced rendering. There is no per-entity
-skeleton or animation mixer. Dense outfit meshes use deterministic bind-space
-vertex clustering with finer face/hair cells, preserving UV islands and source
-vertex colors. Team badges and authored tools preserve skin/eye
-materials and attach to the sampled skeleton. Humans face +Z; animals face +X.
-An additional shared crowd bank uses coarser bind-space cells for dense battles,
-retaining materials/anatomy at roughly one third of full human triangles. The
-combined banks contain 111 sampled poses and about 28.4 MB of geometry locally.
-Feet are grounded separately for each sampled pose. Mounted troop composition
-continues to use Ironvale's authored model fallback; the bundled horse is ready for
-future rider composition. Buildings, tools, badges and tree variant geometry are
-authored in Ironvale. These are detailed game assets rather than photoreal models.
+At load time Ironvale samples shared poses for the free Ashen Marches infantry,
+three civilian outfits and three mounted classes. Clothing uses eight city colors;
+skin, leather and metal retain distinct materials. Mounted units combine the
+existing Quaternius horse with seated riders, reins, saddles and class equipment.
+Wildlife uses its existing model and animation path. There are no per-entity
+skeletons or animation mixers. Full and crowd geometry banks are bounded and
+instanced by material; all sampling and equipment assembly happen during loading.
+
+The static realm provider imports trees, berry bushes, rocks, mountain formations
+and gold only. Buildings, walls and capital ruins use the previous Ironvale model
+library, restored at the user's request. Natural scenery stays grounded and shared;
+unused imported building files are not fetched or prepared during gameplay.
+Wooden-to-stone-to-reinforced upgrades retain their new rules, costs and timers.
+The supplied assets retain their stylized game appearance.
+
+Raw archives and unused source files are excluded under `.art-source/`. The Ashen
+Marches runtime dependencies are incorporated into Ironvale and must not be offered
+as a separate asset download. The legacy CC0 human archive remains locally bundled
+for provenance/repacking compatibility; active armies use Ashen Marches.

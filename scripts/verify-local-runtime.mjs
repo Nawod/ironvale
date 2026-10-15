@@ -6,7 +6,7 @@ const base=process.env.IRONVALE_VERIFY_URL??'http://127.0.0.1:8180';
 const health=await (await fetch(`${base}/health`)).json();
 if(!health.ok)throw new Error('Game server is not ready');
 const assets=[];
-for(const [path,type]of [['/models/deer.glb','model/gltf-binary'],['/models/materials/twig_alpha.png','image/png'],['/models/materials/bark_diff.jpg','image/jpeg']]){
+for(const [path,type]of [['/models/ashen/guard.glb','model/gltf-binary'],['/models/realm/BirchTree_1.glb','model/gltf-binary'],['/models/deer.glb','model/gltf-binary'],['/models/materials/twig_alpha.png','image/png'],['/models/materials/bark_diff.jpg','image/jpeg']]){
  const response=await fetch(base+path,{method:'HEAD'});
  if(!response.ok||response.headers.get('content-type')!==type||response.headers.get('cache-control')!=='no-cache')throw new Error(`Incorrect asset response: ${path}`);
  assets.push({path,type,cache:response.headers.get('cache-control')});
@@ -21,11 +21,11 @@ try{
  const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto(base);await page.getByRole('button',{name:'Begin your reign',exact:true}).click();
  const canvas=page.locator('[data-testid="battlefield"] canvas');await canvas.waitFor();
- await page.waitForFunction(()=>{const canvas=document.querySelector('[data-testid="battlefield"] canvas');return canvas?.dataset.modelDetail==='ready'&&canvas.dataset.textureDetail==='ready';},{},{timeout:30000});
+ await page.waitForFunction(()=>{const canvas=document.querySelector('[data-testid="battlefield"] canvas');return canvas?.dataset.modelDetail==='ready'&&canvas.dataset.textureDetail==='ready'&&canvas.dataset.sceneryDetail==='ready';},{},{timeout:30000});
  await page.getByRole('button',{name:'Town center',exact:true}).click();await page.getByRole('button',{name:'Recruit Villager',exact:true}).click();
  await expect(page.locator('.resource.food > span')).toHaveText('300');
  if(errors.length)throw new Error(errors.join('\n'));
  await mkdir('docs/realm-evidence',{recursive:true});await page.screenshot({path:'docs/realm-evidence/local-runtime.png'});
- const report={url:base,health,assets,multiplayerWelcome:welcome.type,models:'ready',forestTextures:'ready',recruitmentFood:300,pageErrors:errors};
+ const report={url:base,health,assets,multiplayerWelcome:welcome.type,models:'ready',scenery:'ready',forestTextures:'ready',recruitmentFood:300,pageErrors:errors};
  await writeFile('docs/realm-evidence/local-runtime.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
 }finally{await browser.close();}

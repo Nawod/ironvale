@@ -1,7 +1,7 @@
 import {
- AnimationClip, AnimationMixer, Bone, BoxGeometry, BufferGeometry, CylinderGeometry,
+ AnimationMixer, BoxGeometry, BufferGeometry, CylinderGeometry,
  Float32BufferAttribute, Group, Matrix4, Mesh, MeshStandardMaterial, Object3D,
- RepeatWrapping, Skeleton, SkinnedMesh, SphereGeometry, SRGBColorSpace, Texture,
+ Quaternion, RepeatWrapping, Skeleton, SkinnedMesh, SRGBColorSpace, Texture,
  TextureLoader, TorusGeometry, Vector3,
 } from 'three';
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
@@ -25,9 +25,11 @@ type AssetLoader = (url: string) => Promise<GLTF>;
 type TextureAssetLoader = (url: string) => Promise<Texture>;
 interface PoseFrame { parts: ModelPart[]; right: Matrix4; left: Matrix4 }
 interface PoseCycle { duration: number; frames: PoseFrame[] }
-const HUMAN_TYPES = ['villager', 'swordsman', 'spearman', 'pikeman', 'archer', 'crossbowman'];
+const MOUNTED_TYPES = ['scout', 'cavalry', 'heavyCavalry'];
+const ARMY_OUTFITS: Record<string, string[]> = { apothecary: ['villager.v0'], falconer: ['villager.v1'], alchemist: ['villager.v2'], guard: ['swordsman', 'spearman'], marshal: ['pikeman'], ranger: ['archer'], executioner: ['crossbowman'] };
+const ARMY_EQUIPMENT = ['sword', 'shield', 'kite', 'pike', 'helm'];
 const ANIMAL_TYPES = ['deer', 'cow', 'alpaca', 'fox', 'horse'];
-const ASSETS = ['character', 'ranger', 'head', 'hair', 'animations', 'actions', ...ANIMAL_TYPES];
+const ASSETS = [...Object.keys(ARMY_OUTFITS).map(name => `ashen/${name}`), ...ARMY_EQUIPMENT.map(name => `ashen/${name}`), ...ANIMAL_TYPES];
 const SAMPLES = 6;
 const zero: [number, number, number] = [0, 0, 0];
 const one: [number, number, number] = [1, 1, 1];
@@ -125,14 +127,17 @@ export class ImportedModels {
  private closedImages = new WeakSet<object>();
  private skeletons = new Set<Skeleton>();
  private teams: MeshStandardMaterial[] = [];
- private accent = new MeshStandardMaterial({ color: '#ffffff', roughness: .92 });
+ private accent = new MeshStandardMaterial({ name: 'City cloth', color: '#ffffff', vertexColors: true, roughness: .92 });
+ private paletteSkin = new MeshStandardMaterial({ name: 'Skin', vertexColors: true, roughness: .87 });
+ private paletteTrim = new MeshStandardMaterial({ name: 'Leather and trim', vertexColors: true, roughness: .94 });
+ private paletteMetal = new MeshStandardMaterial({ name: 'Metal', vertexColors: true, roughness: .48, metalness: .65 });
  private steel = new MeshStandardMaterial({ color: '#a4afb1', roughness: .49, metalness: .7 });
  private wood = new MeshStandardMaterial({ color: '#72513a', roughness: .94 });
  private poseCount = 0;
 
  constructor(private loader: AssetLoader = url => new GLTFLoader().loadAsync(url), private textureLoader: TextureAssetLoader = url => new TextureLoader().loadAsync(url)) {
-  for (const material of [this.accent, this.steel, this.wood]) this.materials.add(material);
-  this.teams = COLORS.map(color => { const material = new MeshStandardMaterial({ color, roughness: .9 }); this.materials.add(material); return material; });
+  for (const material of [this.accent, this.steel, this.wood, this.paletteSkin, this.paletteTrim, this.paletteMetal]) this.materials.add(material);
+  this.teams = COLORS.map(color => { const material = new MeshStandardMaterial({ name: 'City cloth', color, vertexColors: true, roughness: .9 }); this.materials.add(material); return material; });
  }
 
  load(): Promise<void> {
@@ -151,9 +156,26 @@ export class ImportedModels {
   try {
    const failure = results.findIndex(result => result.status === 'rejected');
    if (failure >= 0) throw new Error(`${ASSETS[failure]}.glb: ${(results[failure] as PromiseRejectedResult).reason}`);
-   const humanClips = [...assets.get('animations')!.animations, ...assets.get('actions')!.animations];
-   for (const outfit of ['character', 'ranger']) for (const detail of ['full', 'crowd'] as const) this.bakeHuman(outfit, assets, humanClips, detail);
-   for (const animal of ANIMAL_TYPES) this.bakeAnimal(animal, assets.get(animal)!);
+   for (const [name, asset] of assets) if (name.startsWith('ashen/')) asset.scene.traverse(node => {
+    if (!(node instanceof Mesh)) return;
+    const palette = (material: MeshStandardMaterial) => {
+     const shared = { 'City cloth': this.accent, Skin: this.paletteSkin, 'Leather and trim': this.paletteTrim, Metal: this.paletteMetal }[material.name] ?? material;
+     if (shared !== material && this.materials.delete(material)) material.dispose();
+     return shared;
+    };
+    node.material = Array.isArray(node.material) ? node.material.map(material => palette(material as MeshStandardMaterial)) : palette(node.material as MeshStandardMaterial);
+   });
+   // Let input, rendering and screen disposal run between shared pose banks.
+   const pause=()=>new Promise<void>(resolve=>setTimeout(resolve,0));
+   for (const outfit of Object.keys(ARMY_OUTFITS)) for (const detail of ['full', 'crowd'] as const) {
+    this.bakeArmy(outfit, assets, detail);await pause();if((this.status as string)==='disposed')return;
+   }
+   for (const detail of ['full', 'crowd'] as const) {
+    this.bakeMounted(assets, detail);await pause();if((this.status as string)==='disposed')return;
+   }
+   for (const animal of ANIMAL_TYPES) {
+    this.bakeAnimal(animal, assets.get(animal)!);await pause();if((this.status as string)==='disposed')return;
+   }
    this.status = 'ready';
   } catch (error) {
    this.error = `Imported asset loading failed: ${error instanceof Error ? error.message : String(error)}`;
@@ -185,62 +207,131 @@ export class ImportedModels {
   return parts;
  }
 
- private bakeHuman(outfit: string, assets: Map<string, GLTF>, clips: AnimationClip[], detail: 'full' | 'crowd'): void {
-  const model = clone(assets.get(outfit)!.scene), root = new Group(), bones = new Map<string, Bone>();
+ /** The free Ashen sampler has its own complete, compatible per-outfit rigs. */
+ private bakeArmy(outfit: string, assets: Map<string, GLTF>, detail: 'full' | 'crowd'): void {
+  const source = assets.get(`ashen/${outfit}`)!, model = clone(source.scene), root = new Group();
   root.scale.setScalar(.9); root.add(model);
-  model.traverse(node => { if (node instanceof Bone) bones.set(node.name, node); });
-  for (const name of ['head', 'hair']) {
-   const source = assets.get(name)!.scene; source.updateMatrixWorld(true);
-   source.traverse(node => {
-    if (!(node instanceof SkinnedMesh)) return;
-    const mapped = node.skeleton.bones.map(bone => bones.get(bone.name));
-    if (mapped.some(bone => !bone)) throw new Error(`${name} skeleton does not match ${outfit}`);
-    const mesh = node.clone(false) as SkinnedMesh;
-    mesh.userData.importedDetailCell = name === 'head' ? .009 : .015;
-    mesh.userData.importedCrowdCell = name === 'head' ? .018 : .03;
-    source.matrixWorld.clone().invert().multiply(node.matrixWorld).decompose(mesh.position, mesh.quaternion, mesh.scale);
-    const skeleton = new Skeleton(mapped as Bone[], node.skeleton.boneInverses.map(matrix => matrix.clone()));
-    mesh.bind(skeleton, node.bindMatrix.clone()); model.add(mesh);
-   });
-  }
-  const accentGeometry: BufferGeometry[] = [];
-  for (const side of ['l', 'r']) {
-   const shoulder = bones.get(`upperarm_${side}`);
-   if (!shoulder) continue;
-   const geometry = new SphereGeometry(.078, 8, 5), badge = new Mesh(geometry, this.accent);
-   accentGeometry.push(geometry); badge.scale.set(1, .65, 1.25); shoulder.add(badge);
-  }
-  const chest = bones.get('spine_03');
-  if (chest) for (const z of [-.125, .125]) {
-   const geometry = new BoxGeometry(.29, .13, .018), badge = new Mesh(geometry, this.accent);
-   accentGeometry.push(geometry); badge.position.set(0, .015, z); chest.add(badge);
-  }
+  model.traverse(node => { if (node instanceof Mesh) { node.userData.importedDetailCell = .025; node.userData.importedCrowdCell = .14; } });
   const mixer = new AnimationMixer(model);
   try {
-   for (const [kind, name] of Object.entries({ idle: 'Idle_Loop', walk: 'Walk_Loop', work: 'TreeChopping_Loop', attack: 'Sword_Attack' }) as [PoseKind, string][]) {
-    const source = clips.find(clip => clip.name === name);
-    if (!source) throw new Error(`Missing human animation ${name}`);
-    const clip = source.clone();
-    for (const track of clip.tracks) if (track.name === 'root.position') for (let i = 0; i < track.values.length; i += 3) { track.values[i] = 0; track.values[i + 2] = 0; }
+   for (const [kind, animation] of Object.entries({ idle: 'idle', walk: 'move_slow', work: 'attack_01', attack: 'attack_01' }) as [PoseKind, string][]) {
+    const clip = source.animations.find(clip => clip.name === animation);
+    if (!clip) throw new Error(`Missing ${outfit} animation ${animation}`);
     mixer.stopAllAction(); const action = mixer.clipAction(clip).reset().play();
     const cycle: PoseCycle = { duration: clip.duration, frames: [] };
     for (let i = 0; i < (kind === 'idle' ? 1 : SAMPLES); i++) {
-     action.time = clip.duration * i / SAMPLES; mixer.update(0); root.updateMatrixWorld(true);
+     action.time = clip.duration * i / SAMPLES; mixer.update(0);
+     if (outfit === 'ranger' || outfit === 'executioner') {
+      // Ranged troops carry their weapon ready in front of the chest, while the
+      // source lower-body animation continues to walk and the torso still turns.
+      for (const [side, sign] of [['L', 1], ['R', -1]] as const) {
+       this.pointBone(model, `upper_arm${side}`, new Vector3(sign * .12, -.8, .35));
+       this.pointBone(model, `forearm${side}`, new Vector3(-sign * .2, .12, .9));
+      }
+     }
+     root.updateMatrixWorld(true);
      const parts = this.remember(bakeStaticPose(root, detail === 'crowd' ? 'crowd' : true)), floor = this.ground(parts);
-     const shift = new Matrix4().makeTranslation(0, -floor, 0);
-     const frame: PoseFrame = { parts, right: shift.clone().multiply((bones.get('hand_r') ?? model).matrixWorld), left: shift.clone().multiply((bones.get('hand_l') ?? model).matrixWorld) };
-     cycle.frames.push(frame); this.poseCount++;
+     const right = model.getObjectByName('handR')!.getWorldPosition(new Vector3()), left = model.getObjectByName('handL')!.getWorldPosition(new Vector3());
+     right.y -= floor; left.y -= floor;
+     cycle.frames.push({ parts, right: new Matrix4().setPosition(right), left: new Matrix4().setPosition(left) }); this.poseCount++;
     }
-    for (const type of HUMAN_TYPES.filter(type => (type === 'villager') === (outfit === 'character'))) {
-     this.cycles.set(`${type}:${kind}${detail === 'crowd' ? ':crowd' : ''}`, { duration: cycle.duration, frames: cycle.frames.map(frame => ({ ...frame, parts: [...frame.parts, ...this.equipment(type, frame)] })) });
+    for (const type of ARMY_OUTFITS[outfit]) this.cycles.set(`${type}:${kind}${detail === 'crowd' ? ':crowd' : ''}`, {
+     duration: cycle.duration, frames: cycle.frames.map(frame => ({ ...frame, parts: [...frame.parts, ...this.equipment(type.split('.')[0], frame, assets, detail)] })),
+    });
+   }
+  } finally { this.releaseRig(model, mixer); }
+ }
+
+ /** Riders are baked on the existing horse in its native +Z orientation. Wildlife
+  * retains the separate +X convention in bakeAnimal, including the original maps. */
+ private bakeMounted(assets: Map<string, GLTF>, detail: 'full' | 'crowd'): void {
+  const horseSource = assets.get('horse')!, horse = clone(horseSource.scene), horseRoot = new Group();
+  horseRoot.scale.setScalar(.4); horseRoot.add(horse);
+  const horseMixer = new AnimationMixer(horse);
+  try {
+   for (const [kind, animation] of [['idle', 'Idle'], ['walk', 'Gallop'], ['attack', 'Idle']] as const) {
+    const clip = horseSource.animations.find(clip => clip.name === animation)!;
+    horseMixer.stopAllAction(); const action = horseMixer.clipAction(clip).reset().play();
+    const horseFrames: { parts: ModelPart[]; seat: Vector3 }[] = [];
+    for (let i = 0; i < (kind === 'idle' ? 1 : SAMPLES); i++) {
+     action.time = clip.duration * i / SAMPLES; horseMixer.update(0); horseRoot.updateMatrixWorld(true);
+     const parts = this.remember(bakeStaticPose(horseRoot)); const floor = this.ground(parts);
+     for (const part of parts) part.geometry.userData.importedMount = true;
+     const seat = horse.getObjectByName('Torso2')!.getWorldPosition(new Vector3()); seat.y += .19 - floor; seat.z -= .1;
+     horseFrames.push({ parts, seat }); this.poseCount++;
+    }
+    for (const type of MOUNTED_TYPES) {
+     const outfit = type === 'scout' ? 'ranger' : type === 'heavyCavalry' ? 'marshal' : 'guard';
+     const model = clone(assets.get(`ashen/${outfit}`)!.scene), root = new Group(); root.scale.setScalar(.9); root.add(model);
+     model.traverse(node => { if (node instanceof Mesh) { node.userData.importedDetailCell = .025; node.userData.importedCrowdCell = .14; } });
+     const mixer = new AnimationMixer(model), idle = assets.get(`ashen/${outfit}`)!.animations.find(clip => clip.name === 'idle')!;
+     const action = mixer.clipAction(idle).play(), frames: PoseFrame[] = [];
+     try {
+      for (let i = 0; i < horseFrames.length; i++) {
+       action.time = idle.duration * i / SAMPLES; mixer.update(0); root.position.set(0, 0, 0);
+       // Replace walking lower-body motion with a true straddling seat. Bone local
+       // Y points down the leg. Construct each thigh/shin direction explicitly.
+       for (const [side, sign] of [['L', 1], ['R', -1]] as const) {
+        this.pointBone(model, `thigh${side}`, new Vector3(sign * .52, -.48, .52));
+        this.pointBone(model, `shin${side}`, new Vector3(sign * .05, -.92, -.25));
+        this.pointBone(model, `foot${side}`, new Vector3(0, -.2, 1));
+        this.pointBone(model, `upper_arm${side}`, new Vector3(sign * .12, -.8, .3));
+        this.pointBone(model, `forearm${side}`, new Vector3(-sign * .12, -.12, .8));
+       }
+       root.updateMatrixWorld(true);
+       const pelvis = model.getObjectByName('pelvis')!.getWorldPosition(new Vector3());
+       root.position.copy(horseFrames[i].seat).sub(pelvis); root.updateMatrixWorld(true);
+       const parts = this.remember(bakeStaticPose(root, detail === 'crowd' ? 'crowd' : true));
+       const right = new Matrix4().setPosition(model.getObjectByName('handR')!.getWorldPosition(new Vector3())), left = new Matrix4().setPosition(model.getObjectByName('handL')!.getWorldPosition(new Vector3()));
+       const frame: PoseFrame = { parts, right, left };
+       frames.push({ ...frame, parts: [...horseFrames[i].parts, ...parts, ...this.equipment(type, frame, assets, detail), ...this.saddle(horseFrames[i].seat, type, frame)] }); this.poseCount++;
+      }
+      const cycle = { duration: clip.duration, frames };
+      this.cycles.set(`${type}:${kind}${detail === 'crowd' ? ':crowd' : ''}`, cycle);
+      if (kind === 'idle') this.cycles.set(`${type}:work${detail === 'crowd' ? ':crowd' : ''}`, cycle);
+     } finally { this.releaseRig(model, mixer); }
     }
    }
-  } finally {
-   mixer.stopAllAction(); mixer.uncacheRoot(model);
-   const skeletons = new Set<Skeleton>(); model.traverse(node => { if (node instanceof SkinnedMesh) skeletons.add(node.skeleton); });
-   for (const skeleton of skeletons) skeleton.dispose();
-   for (const geometry of accentGeometry) geometry.dispose();
+  } finally { this.releaseRig(horse, horseMixer); }
+ }
+
+ private pointBone(model: Object3D, name: string, target: Vector3): void {
+  const bone = model.getObjectByName(name)!; bone.parent!.updateWorldMatrix(true, false);
+  const parent = bone.parent!.getWorldQuaternion(new Quaternion());
+  bone.quaternion.copy(parent.invert().multiply(new Quaternion().setFromUnitVectors(new Vector3(0, 1, 0), target.normalize())));
+ }
+
+ private releaseRig(model: Object3D, mixer: AnimationMixer): void {
+  mixer.stopAllAction(); mixer.uncacheRoot(model);
+  const skeletons = new Set<Skeleton>(); model.traverse(node => { if (node instanceof SkinnedMesh) skeletons.add(node.skeleton); });
+  for (const skeleton of skeletons) skeleton.dispose();
+ }
+
+ private saddle(seat: Vector3, type: string, frame: PoseFrame): ModelPart[] {
+  const root = new Group(), temporaries: BufferGeometry[] = [];
+  const add = (geometry: BufferGeometry, material: MeshStandardMaterial, x: number, y: number, z: number) => {
+   temporaries.push(geometry); const mesh = new Mesh(geometry, material); mesh.position.set(seat.x + x, seat.y + y, seat.z + z); root.add(mesh);
+  };
+  // Reins connect both hands to the bridle; no loose poles beside the rider.
+  for (const [matrix, side] of [[frame.left, 1], [frame.right, -1]] as const) {
+   const hand = new Vector3().setFromMatrixPosition(matrix), bridle = new Vector3(side * .105, seat.y + .12, seat.z + 1.12);
+   const direction = bridle.clone().sub(hand), geometry = new CylinderGeometry(.012, .012, direction.length(), 5);
+   temporaries.push(geometry); const rein = new Mesh(geometry, this.wood);
+   rein.position.copy(hand).add(bridle).multiplyScalar(.5); rein.quaternion.setFromUnitVectors(new Vector3(0, 1, 0), direction.normalize()); root.add(rein);
   }
+  // Broad city-colored saddle cloth, leather seat, and visible stirrups.
+  add(new BoxGeometry(.65, .12, .68), this.accent, 0, -.12, 0);
+  for (const sign of [-1, 1]) {
+   add(new BoxGeometry(.045, .43, .63), this.accent, sign * .29, -.31, 0);
+   add(new BoxGeometry(.025, .42, .045), this.wood, sign * .34, -.4, .06);
+   add(new TorusGeometry(.075, .014, 4, 8), this.steel, sign * .34, -.63, .06);
+  }
+  add(new BoxGeometry(.39, .08, .5), this.wood, 0, -.03, 0);
+  if (type === 'heavyCavalry') for (const sign of [-1, 1]) add(new BoxGeometry(.035, .32, .5), this.steel, sign * .285, -.2, .43);
+  const parts = this.remember(bakeStaticPose(root));
+  for (const part of parts) part.geometry.userData.importedAttachment = true;
+  for (const geometry of temporaries) geometry.dispose();
+  return parts;
  }
 
  private bakeAnimal(type: string, source: GLTF): void {
@@ -274,28 +365,48 @@ export class ImportedModels {
   return floor;
  }
 
- private equipment(type: string, frame: PoseFrame): ModelPart[] {
+ private equipment(type: string, frame: PoseFrame, assets: Map<string, GLTF>, detail: 'full' | 'crowd'): ModelPart[] {
   const root = new Group(), temps: BufferGeometry[] = [];
   const add = (geometry: BufferGeometry, material: MeshStandardMaterial, x: number, y: number, z = 0, matrix = frame.right) => {
    temps.push(geometry); const mesh = new Mesh(geometry, material); mesh.position.set(x, y, z); mesh.updateMatrix(); mesh.matrix.premultiply(matrix); mesh.matrix.decompose(mesh.position, mesh.quaternion, mesh.scale); root.add(mesh); return mesh;
   };
-  if (type === 'spearman' || type === 'pikeman') {
-   const length = type === 'pikeman' ? 2.55 : 1.95;
+  const imported = (name: string, matrix: Matrix4, scale = 1, y = 0, rotation = 0) => {
+   const model = assets.get(`ashen/${name}`)!.scene.clone(true);
+   model.scale.setScalar(scale); model.rotation.y = rotation; model.position.y = y;
+   model.updateMatrix(); model.matrix.premultiply(matrix); model.matrix.decompose(model.position, model.quaternion, model.scale);
+   model.traverse(node => { if (node instanceof Mesh) { node.userData.importedDetailCell = .018; node.userData.importedCrowdCell = .035; } }); root.add(model);
+  };
+  if (type === 'pikeman') {
+   imported('pike', frame.right, .9, Math.max(.36, 1.23 - frame.right.elements[13]));
+   imported('kite', frame.left, .65, -.03, Math.PI / 2);
+  } else if (type === 'spearman' || type === 'heavyCavalry') {
+   const length = type === 'heavyCavalry' ? 2.6 : 1.95;
    add(new CylinderGeometry(.019, .024, length, 6), this.wood, 0, .28);
    add(new CylinderGeometry(0, .07, .25, 6), this.steel, 0, .28 + length / 2 + .1);
   } else if (type === 'archer') {
-   const bow = add(new TorusGeometry(.28, .021, 4, 12, Math.PI), this.wood, 0, 0, .03, frame.left); bow.rotateY(Math.PI / 2);
+   const bow = add(new TorusGeometry(.46, .022, 4, 14, Math.PI), this.wood, 0, 0, .03, frame.left); bow.rotation.set(0, Math.PI / 2, Math.PI / 2);
+   add(new CylinderGeometry(.006, .006, .92, 4), this.wood, 0, 0, .03, frame.left);
+   const arrow = add(new CylinderGeometry(.009, .009, .68, 4), this.wood, 0, 0, .34, frame.left); arrow.rotateX(Math.PI / 2);
   } else if (type === 'crossbowman') {
    add(new BoxGeometry(.085, .12, .53), this.wood, 0, 0, .12);
    add(new BoxGeometry(.58, .045, .05), this.steel, 0, 0, .28);
   } else if (type === 'villager') {
    add(new CylinderGeometry(.024, .027, .65, 6), this.wood, 0, .18);
    add(new BoxGeometry(.32, .14, .055), this.steel, .07, .46);
+  } else if (type === 'scout') {
+   add(new CylinderGeometry(.025, .03, .55, 6), this.wood, 0, .15);
+   add(new BoxGeometry(.18, .1, .06), this.steel, .03, .41);
   } else {
-   add(new BoxGeometry(.055, .69, .035), this.steel, 0, .45);
-   add(new BoxGeometry(.23, .045, .06), this.steel, 0, .12);
+   imported('sword', frame.right, .85, .1);
+   imported('shield', frame.left, .7, -.03, Math.PI / 2);
   }
-  const baked = this.remember(bakeStaticPose(root));
+  if (type === 'heavyCavalry') {
+   imported('kite', frame.left, .75, -.03, Math.PI / 2);
+   // Helmet follows the rider head instead of being placed on the horse.
+   const head = frame.parts.filter(p => p.material.name === 'Skin').flatMap(p => [p.geometry.boundingBox!.max.y]);
+   imported('helm', new Matrix4().makeTranslation(0, Math.max(...head) - .12, frame.right.elements[14] - .3), .8);
+  }
+  const baked = this.remember(bakeStaticPose(root, detail === 'crowd' ? 'crowd' : true));
   for (const p of baked) p.geometry.userData.importedAttachment = true;
   for (const geometry of temps) geometry.dispose();
   return baked;
@@ -303,7 +414,7 @@ export class ImportedModels {
 
  get(entity: Entity, options: ImportedPoseOptions): ModelPart[] | undefined {
   if (this.status !== 'ready') return;
-  const type = String(entity.type), animal = ANIMAL_TYPES.includes(type);
+  const rawType = String(entity.type), type = rawType === 'villager' ? `villager.v${((entity.id % 3) + 3) % 3}` : rawType, animal = ANIMAL_TYPES.includes(type);
   const kind: PoseKind = animal ? options.moving ? 'walk' : 'idle' : options.attacking ? 'attack' : options.working ? 'work' : options.moving ? 'walk' : 'idle';
   const detail = options.detail === 'crowd' && !animal ? 'crowd' : 'full';
   const cycle = this.cycles.get(`${type}:${kind}${detail === 'crowd' ? ':crowd' : ''}`); if (!cycle) return;

@@ -1,0 +1,20 @@
+
+> ironvale@1.0.0 test
+> npm run build:server && vitest run
+
+
+> ironvale@1.0.0 build:server
+> node scripts/build-server.mjs
+
+
+ RUN  v5.0.4 N:/Projects/GPT/ironvale
+
+
+ Test Files  28 passed (28)
+      Tests  217 passed (217)
+   Start at  17:05:53
+   Duration  9.02s (tests 91%, import 5%, transform 2%, worker 1%)
+
+    Isolate  28 workers spawned · ~548ms startup each (spawn + environment, per file)
+             at least ~846ms faster with isolate: false — reuses workers across files instead of one per file
+

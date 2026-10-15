@@ -8,7 +8,7 @@
   "cpuThrottle": 1,
   "rendering": "ANGLE (Intel, Intel(R) UHD Graphics (0x000046A3) Direct3D11 vs_5_0 ps_5_0, D3D11)",
   "renderScale": 1,
-  "fps": 59.50609937518595,
-  "p95": 16.800000000000182,
+  "fps": 60.00600060005997,
+  "p95": 16.799999999999272,
   "frames": 120
 }

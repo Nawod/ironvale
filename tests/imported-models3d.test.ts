@@ -63,16 +63,17 @@ describe('imported shared pose models', () => {
   expect(opponent[0].geometry).toBe(a[0].geometry);
   expect(opponent[0].material).toBe(a[0].material);
   expect(opponent.some((part, i) => part.material !== a[i]?.material)).toBe(true);
-  expect(models.get(entity('cavalry'), idle)).toBeUndefined();
+  expect(models.get(entity('cavalry'), idle)).toBeDefined();
   expect(models.get(entity('wood'), idle)).toBeUndefined();
  });
 
  it('keeps startup geometry bounded independently of the number of entities', () => {
   const before = models.stats();
-  for (let id = 1; id <= 800; id++) models.get(entity(id % 2 ? 'villager' : 'swordsman', id, id % 8), { ...idle, moving: true, time: id / 10 });
+  for (let id = 1; id <= 800; id++) models.get(entity(['villager', 'swordsman', 'scout', 'cavalry', 'heavyCavalry'][id % 5], id, id % 8), { ...idle, moving: true, time: id / 10 });
   const after = models.stats();
   expect(after.bakedGeometries).toBe(before.bakedGeometries);
   expect(after.liveMixers).toBe(0);
+  expect(after.materials).toBeLessThan(50);
   expect(after.poseFrames).toBeGreaterThanOrEqual(38);
  });
 
@@ -98,14 +99,87 @@ describe('imported shared pose models', () => {
   expect(models.get(entity('deer'), { ...idle, detail: 'crowd' })).toBe(models.get(entity('deer'), idle));
  });
 
+ it('colors substantial clothing for every city while preserving skin, leather and metal', () => {
+  for (const type of ['villager', 'swordsman', 'spearman', 'pikeman', 'archer', 'crossbowman', 'scout', 'cavalry', 'heavyCavalry']) {
+   const baseline = models.get(entity(type), idle)!;
+   expect(baseline, type).toBeDefined();
+   const cloth = baseline.filter(p => p.material.name === 'City cloth');
+   const skin = baseline.filter(p => p.material.name === 'Skin');
+   expect(cloth.length, `${type} needs full clothing`).toBeGreaterThan(0);
+   expect(skin.length, `${type} needs natural skin`).toBeGreaterThan(0);
+   const area = (parts: typeof baseline) => parts.reduce((sum, p) => {
+    const a = p.geometry.getAttribute('position'), indices = p.geometry.index!;
+    const v = new Vector3(), w = new Vector3(), u = new Vector3();
+    for (let i = 0; i < indices.count; i += 3) { v.fromBufferAttribute(a, indices.getX(i)); w.fromBufferAttribute(a, indices.getX(i + 1)).sub(v); u.fromBufferAttribute(a, indices.getX(i + 2)).sub(v); sum += w.cross(u).length() / 2; }
+    return sum;
+   }, 0);
+   const humanoid = baseline.filter(p => !p.geometry.userData.importedMount && !p.geometry.userData.importedAttachment);
+   expect(area(cloth), type).toBeGreaterThan(area(humanoid) * .25);
+   const colors = new Set<string>();
+   for (let owner = 0; owner < 8; owner++) {
+    const parts = models.get(entity(type, 1, owner), idle)!;
+    colors.add(parts.find(p => p.material.name === 'City cloth')!.material.color.getHexString());
+    expect(parts.filter(p => p.material.name === 'Skin').map(p => p.material)).toEqual(skin.map(p => p.material));
+    expect(parts.map(p => p.geometry)).toEqual(baseline.map(p => p.geometry));
+   }
+   expect(colors.size).toBe(8);
+  }
+ });
+
+ it('uses different real human outfits and class equipment instead of one army costume', () => {
+  const types = ['swordsman', 'pikeman', 'archer', 'crossbowman'];
+  const bodies = types.map(type => models.get(entity(type), idle)!.find(p => p.material.name === 'City cloth')!.geometry);
+  expect(new Set(bodies).size).toBe(4);
+  const first = models.get(entity('villager', 1), idle)!, second = models.get(entity('villager', 2), idle)!;
+  expect(first.find(p => p.material.name === 'City cloth')!.geometry).not.toBe(second.find(p => p.material.name === 'City cloth')!.geometry);
+  const weaponLengths = ['spearman', 'pikeman'].map(type => Math.max(...models.get(entity(type), idle)!.filter(p => p.geometry.userData.importedAttachment).map(p => p.geometry.boundingBox!.max.y - p.geometry.boundingBox!.min.y)));
+  expect(weaponLengths[1]).toBeGreaterThan(weaponLengths[0]);
+  for (const type of ['archer', 'crossbowman']) {
+   const attachments = models.get(entity(type), idle)!.filter(p => p.geometry.userData.importedAttachment);
+   expect(Math.max(...attachments.map(p => p.geometry.boundingBox!.max.z)), `${type} readied weapon projects in front of torso`).toBeGreaterThan(.55);
+  }
+
+ });
+
+ it('composes grounded animated horses and seated riders facing human positive Z in both detail banks', () => {
+  for (const type of ['scout', 'cavalry', 'heavyCavalry']) for (const detail of ['full', 'crowd'] as const) {
+   const a = models.get(entity(type), { ...idle, detail })!;
+   expect(a, type).toBeDefined();
+   const horse = a.filter(p => p.geometry.userData.importedMount), rider = a.filter(p => !p.geometry.userData.importedMount && !p.geometry.userData.importedAttachment);
+   expect(horse.length).toBeGreaterThan(0); expect(rider.length).toBeGreaterThan(0);
+   expect(Math.min(...horse.map(p => p.geometry.boundingBox!.min.y))).toBeCloseTo(0, 4);
+   expect(Math.min(...rider.map(p => p.geometry.boundingBox!.min.y))).toBeGreaterThan(.45);
+   expect(Math.max(...rider.map(p => p.geometry.boundingBox!.max.y))).toBeGreaterThan(Math.max(...horse.map(p => p.geometry.boundingBox!.max.y)));
+   const allX = horse.map(p => p.geometry.boundingBox!.max.x - p.geometry.boundingBox!.min.x), allZ = horse.map(p => p.geometry.boundingBox!.max.z - p.geometry.boundingBox!.min.z);
+   expect(Math.max(...allZ)).toBeGreaterThan(Math.max(...allX) * 2);
+   const walkA = models.get(entity(type), { ...idle, moving: true, time: 0, detail })!, walkB = models.get(entity(type), { ...idle, moving: true, time: .4, detail })!;
+   expect(walkA.find(p => p.geometry.userData.importedMount)!.geometry).not.toBe(walkB.find(p => p.geometry.userData.importedMount)!.geometry);
+   expect(walkA.find(p => p.material.name === 'City cloth')!.geometry).not.toBe(walkB.find(p => p.material.name === 'City cloth')!.geometry);
+   for (let sample = 0; sample < 12; sample++) {
+    const pose = models.get(entity(type, 0), { ...idle, moving: true, time: sample * .09, detail })!;
+    const rider = pose.filter(p => !p.geometry.userData.importedMount && !p.geometry.userData.importedAttachment);
+    const horse = pose.filter(p => p.geometry.userData.importedMount);
+    expect(Math.min(...rider.map(p => p.geometry.boundingBox!.min.y)), `${type} rider feet remain raised at sample ${sample}`).toBeGreaterThan(.45);
+    expect(Math.max(...rider.map(p => p.geometry.boundingBox!.max.y)), `${type} rider remains seated at sample ${sample}`).toBeGreaterThan(Math.max(...horse.map(p => p.geometry.boundingBox!.max.y)));
+   }
+
+  }
+ });
+
  it('owns and disposes each geometry and material once, with no stale access', () => {
   const parts = models.get(entity('villager'), idle)!;
+  const mounted = models.get(entity('heavyCavalry'), { ...idle, moving: true })!;
+  const mountDisposed = vi.fn(), clothDisposed = vi.fn();
+  mounted.find(p => p.geometry.userData.importedMount)!.geometry.addEventListener('dispose', mountDisposed);
+  mounted.find(p => p.material.name === 'City cloth')!.material.addEventListener('dispose', clothDisposed);
   const geometryDisposed = vi.fn(), materialDisposed = vi.fn();
   parts[0].geometry.addEventListener('dispose', geometryDisposed);
   parts[0].material.addEventListener('dispose', materialDisposed);
   models.dispose(); models.dispose();
   expect(geometryDisposed).toHaveBeenCalledTimes(1); expect(materialDisposed).toHaveBeenCalledTimes(1);
   expect(models.get(entity('villager'), idle)).toBeUndefined();
+  expect(mountDisposed).toHaveBeenCalledTimes(1); expect(clothDisposed).toHaveBeenCalledTimes(1);
+  expect(models.stats().geometryBytes).toBe(0);
  });
 });
 
@@ -182,4 +256,24 @@ it('rejects failed optional maps with their path and safely releases late images
  library.dispose(); finish(texture); await loading;
  expect(library.texture('bark')).toBeUndefined(); expect(disposed).toHaveBeenCalledTimes(1); expect(close).toHaveBeenCalledTimes(1);
  expect(library.status).toBe('disposed');
+});
+
+
+it('uses cool iron vertex colors on the heavy cavalry helmet rather than wood colors', async () => {
+ const asset = await geometryAsset('/models/ashen/helm.glb');
+ let red = 0, blue = 0, vertices = 0;
+ asset.scene.traverse(node => {
+  if (!(node instanceof SkinnedMesh) && !('isMesh' in node)) return;
+  const mesh = node as SkinnedMesh;
+  if (Array.isArray(mesh.material) || mesh.material.name !== 'Metal') return;
+  const colors = mesh.geometry.getAttribute('color');
+  for (let i = 0; i < colors.count; i++) { red += colors.getX(i); blue += colors.getZ(i); vertices++; }
+ });
+ expect(vertices).toBeGreaterThan(100); expect(blue).toBeGreaterThan(red * 1.1);
+});
+
+it('yields during pose preparation and can leave the screen without retaining partial banks', async () => {
+ const library=new ImportedModels(geometryAsset);let yielded=false;
+ const timer=setInterval(()=>{if(library.status==='loading'&&library.stats().poseFrames>0){yielded=true;library.dispose();}},0);
+ try{await library.load();expect(yielded).toBe(true);expect(library.status).toBe('disposed');expect(library.stats().bakedGeometries).toBe(0);}finally{clearInterval(timer);library.dispose();}
 });

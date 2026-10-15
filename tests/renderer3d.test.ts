@@ -55,3 +55,10 @@ it('gives touch input a small target margin around visible food without selectin
  const point=field.view.project(bush,.45);point.y+=9;
  try{expect(field.hit(point)).toBeUndefined();expect(field.hit(point,true)?.id).toBe(12);bush.ghost=true;expect(field.hit(point,true)).toBeUndefined();bush.ghost=false;bush.amount=0;expect(field.hit(point,true)).toBeUndefined();}finally{field.models.dispose();field.batches.dispose();}
 });
+it('selects the footprint inside open wall meshes without selecting fog memories or empty ground',()=>{
+ const field=new Battlefield({} as HTMLElement,{select:vi.fn(),action:vi.fn(),cancel:vi.fn(),error:vi.fn()}) as any;
+ field.app.screen={width:900,height:600};field.ready=true;field.center({x:18,y:18});
+ const wall={id:13,kind:'building',type:'palisade',x:22,y:22,hp:100,ghost:false};field.snapshot={entities:[wall]};
+ const point=field.view.project({x:22.5,y:22.5},.5);
+ try{expect(field.hit(point)?.id).toBe(13);wall.ghost=true;expect(field.hit(point)).toBeUndefined();wall.ghost=false;expect(field.hit(field.view.project({x:25,y:25}))).toBeUndefined();}finally{field.models.dispose();field.batches.dispose();}
+});

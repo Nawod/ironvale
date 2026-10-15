@@ -7,6 +7,16 @@
   },
   "assets": [
     {
+      "path": "/models/ashen/guard.glb",
+      "type": "model/gltf-binary",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/models/realm/BirchTree_1.glb",
+      "type": "model/gltf-binary",
+      "cache": "no-cache"
+    },
+    {
       "path": "/models/deer.glb",
       "type": "model/gltf-binary",
       "cache": "no-cache"
@@ -24,6 +34,7 @@
   ],
   "multiplayerWelcome": "welcome",
   "models": "ready",
+  "scenery": "ready",
   "forestTextures": "ready",
   "recruitmentFood": 300,
   "pageErrors": []

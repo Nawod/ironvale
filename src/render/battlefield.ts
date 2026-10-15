@@ -1,4 +1,4 @@
-import {Scene,WebGLRenderer,HemisphereLight,DirectionalLight,Color,DataTexture,RGBAFormat,SRGBColorSpace,LinearFilter,PlaneGeometry,BoxGeometry,Mesh,MeshStandardMaterial,MeshBasicMaterial,Object3D,Raycaster,Vector2,RingGeometry,SphereGeometry,Group,PCFShadowMap,ACESFilmicToneMapping} from 'three';
+import {Scene,Box3,Vector3,WebGLRenderer,HemisphereLight,DirectionalLight,Color,DataTexture,RGBAFormat,SRGBColorSpace,LinearFilter,PlaneGeometry,BoxGeometry,Mesh,MeshStandardMaterial,MeshBasicMaterial,Object3D,Raycaster,Vector2,RingGeometry,SphereGeometry,Group,PCFShadowMap,ACESFilmicToneMapping} from 'three';
 import type {Entity,Position,Snapshot,BuildingType} from '../sim/types';
 import {BUILDINGS} from '../sim/definitions';
 import {RTSCamera} from './camera3d';
@@ -9,6 +9,7 @@ import {allied} from '../sim/teams';
 import {Atmosphere} from './atmosphere3d';
 import {terrainSurfacePixels} from './terrain3d';
 import {ImportedModels} from './imported-models3d';
+import {ImportedScenery} from './imported-scenery3d';
 import {isAnimal} from '../sim/nature';
 export const iso=(p:Position):Position=>({x:(p.x-p.y)*32,y:(p.x+p.y)*16});
 export const uniso=(p:Position):Position=>({x:p.x/64+p.y/32,y:p.y/32-p.x/64});
@@ -17,7 +18,7 @@ export class Battlefield {
  app={canvas:undefined as unknown as HTMLCanvasElement,screen:{width:1,height:1}};
  snapshot?:Snapshot;selection:number[]=[];placement?:BuildingType;mode='';camera={x:0,y:0};zoom=1;ready=false;destroyed=false;
  private yaw=Math.PI/4;private scene=new Scene();private view=new RTSCamera();private renderer?:WebGLRenderer;private models=new ModelLibrary();private batches=new ModelBatches(this.scene);private ray=new Raycaster();private root=new Object3D();
- private imported?:ImportedModels;private assetStatus?:HTMLDivElement;private createdAt=performance.now();private atmosphere?:Atmosphere;private ambient?:HemisphereLight;private snapshotAt=0;private fogBytes?:Uint8Array;private terrainDirty=true;private pixelRatio=1;private qualityFrames=0;private frameAverage=16.7;private terrain?:Mesh<PlaneGeometry,MeshStandardMaterial>;private texture?:DataTexture;private terrainSize=0;private sun?:DirectionalLight;private raf=0;private selectionBox?:HTMLDivElement;
+ private imported?:ImportedModels;private scenery?:ImportedScenery;private assetStatus?:HTMLDivElement;private createdAt=performance.now();private atmosphere?:Atmosphere;private ambient?:HemisphereLight;private snapshotAt=0;private fogBytes?:Uint8Array;private terrainDirty=true;private pixelRatio=1;private qualityFrames=0;private frameAverage=16.7;private terrain?:Mesh<PlaneGeometry,MeshStandardMaterial>;private texture?:DataTexture;private terrainSize=0;private sun?:DirectionalLight;private raf=0;private selectionBox?:HTMLDivElement;
  private poses=new Map<number,{x:number;y:number;heading:number;seenAt:number}>();private indicators=new Group();private indicatorPool:Mesh[]=[];private indicatorCount=0;
  private ring=new RingGeometry(.8,1,24);private bar=new PlaneGeometry(1,1);private barMaterials=[new MeshBasicMaterial({color:0x27352c,depthTest:false}),new MeshBasicMaterial({color:0xb8d491,depthTest:false}),new MeshBasicMaterial({color:0xe2a17b,depthTest:false})];
  private preview=new Mesh(new BoxGeometry(1,.14,1),new MeshBasicMaterial({color:0xb8d491,transparent:true,opacity:.5,depthWrite:false}));private projectiles:Mesh[]=[];private projectileGeometry=new SphereGeometry(.08,6,4);private projectileMaterial=new MeshStandardMaterial({color:0xd4bc81});
@@ -34,13 +35,17 @@ export class Battlefield {
   if(this.interactive){window.addEventListener('keydown',this.keydown);window.addEventListener('keyup',this.keyup);window.addEventListener('blur',this.blur);}if(this.snapshot)this.update(this.snapshot,true);this.lastTime=performance.now();this.loop();void this.loadModels();
  }
  private async loadModels():Promise<void>{
-  this.imported=new ImportedModels();this.assetStatus=document.createElement('div');this.assetStatus.className='asset-loading-status';this.assetStatus.setAttribute('role','status');this.assetStatus.textContent='Loading detailed models…';this.host.appendChild(this.assetStatus);this.app.canvas.dataset.modelDetail='loading';this.app.canvas.dataset.textureDetail='loading';
-  try{await this.imported.load();if(this.destroyed)return;
+  this.imported=new ImportedModels();this.scenery=new ImportedScenery();this.assetStatus=document.createElement('div');this.assetStatus.className='asset-loading-status';this.assetStatus.setAttribute('role','status');this.assetStatus.textContent='Loading armies and realm models…';this.host.appendChild(this.assetStatus);this.app.canvas.dataset.modelDetail='loading';this.app.canvas.dataset.textureDetail='loading';this.app.canvas.dataset.sceneryDetail='loading';
+  const [army,realm]=await Promise.allSettled([this.imported.load(),this.scenery.load()]);if(this.destroyed)return;const messages:string[]=[];
+  this.app.canvas.dataset.sceneryDetail=realm.status==='fulfilled'?'ready':'fallback';
+  if(realm.status==='rejected')messages.push('Detailed realm models unavailable. Original buildings and scenery are active; reload to retry.');
+  if(army.status==='fulfilled'){
    try{await this.imported.loadTextures(['bark','barkNormal','barkArm','twig','twigNormal','twigAlpha']);if(this.destroyed)return;
-    const map=new Map();for(const [target,source]of [['bark_diff','bark'],['bark_nor_gl','barkNormal'],['bark_arm','barkArm'],['twig_diff','twig'],['twig_nor_gl','twigNormal'],['twig_alpha','twigAlpha']] as const){const texture=this.imported.texture(source);if(texture)map.set(target,texture);}this.models.setNaturalTextures(map);this.assetStatus.remove();this.app.canvas.dataset.textureDetail='ready';
-   }catch{if(this.destroyed)return;this.app.canvas.dataset.textureDetail='fallback';this.assetStatus.textContent='Detailed forest textures unavailable. Original trees are active; reload to retry.';}
+    const map=new Map();for(const [target,source]of [['bark_diff','bark'],['bark_nor_gl','barkNormal'],['bark_arm','barkArm'],['twig_diff','twig'],['twig_nor_gl','twigNormal'],['twig_alpha','twigAlpha']] as const){const texture=this.imported.texture(source);if(texture)map.set(target,texture);}this.models.setNaturalTextures(map);this.app.canvas.dataset.textureDetail='ready';
+   }catch{if(this.destroyed)return;this.app.canvas.dataset.textureDetail='fallback';messages.push(realm.status==='fulfilled'?'Extra surface textures unavailable. Detailed realm models are active.':'Detailed forest textures unavailable. Original trees are active; reload to retry.');}
    this.app.canvas.dataset.modelDetail='ready';
-  }catch(error){if(this.destroyed)return;this.app.canvas.dataset.modelDetail='fallback';this.app.canvas.dataset.textureDetail='fallback';this.assetStatus.textContent='Detailed models unavailable. Basic models are active; reload to retry.';this.hooks.error(error instanceof Error?error.message:'The detailed models could not be loaded.');}
+  }else{this.app.canvas.dataset.modelDetail='fallback';this.app.canvas.dataset.textureDetail='fallback';messages.push('Detailed characters unavailable. Basic models are active; reload to retry.');}
+  if(messages.length)this.assetStatus.textContent=messages.join(' ');else this.assetStatus.remove();
  }
  private resizeView():void{this.app.screen={width:Math.max(1,this.host.clientWidth),height:Math.max(1,this.host.clientHeight)};this.renderer?.setSize(this.app.screen.width,this.app.screen.height);this.configureCamera();}
  private configureCamera():void{this.view.configure({width:this.app.screen.width,height:this.app.screen.height,focus:uniso(this.camera),zoom:this.zoom,yaw:this.yaw,origin:this.interactive?(this.app.screen.width<700?.44:.42):(this.app.screen.width<700?.16:.5)});}
@@ -57,7 +62,9 @@ export class Battlefield {
  private screenPoint(e:PointerEvent|WheelEvent):Position{const r=this.app.canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
  screenToWorld(p:Position):Position{this.configureCamera();return this.view.ground(p);}
  worldToScreen(p:Position):Position{this.configureCamera();return this.view.project(p);}
- private hit(p:Position,coarse=false):Entity|undefined{if(!this.snapshot||!this.ready)return;this.configureCamera();this.ray.setFromCamera(new Vector2(p.x/this.app.screen.width*2-1,1-p.y/this.app.screen.height*2),this.view.camera);const id=this.batches.pick(this.ray),exact=this.snapshot.entities.find(e=>e.id===id&&!e.ghost);if(exact||!coarse)return exact;
+ private hit(p:Position,coarse=false):Entity|undefined{if(!this.snapshot||!this.ready)return;this.configureCamera();this.ray.setFromCamera(new Vector2(p.x/this.app.screen.width*2-1,1-p.y/this.app.screen.height*2),this.view.camera);const id=this.batches.pick(this.ray),exact=this.snapshot.entities.find(e=>e.id===id&&!e.ghost);if(exact)return exact;
+  // Open courtyards and gaps between wall posts still belong to the building.
+  const building=this.snapshot.entities.find(e=>e.kind==='building'&&!e.ghost&&e.hp>0&&this.ray.ray.intersectsBox(new Box3(new Vector3(e.x,0,e.y),new Vector3(e.x+BUILDINGS[e.type as BuildingType].size,.65,e.y+BUILDINGS[e.type as BuildingType].size))));if(building)return building;if(!coarse)return;
   let nearest:Entity|undefined,best=16*16;for(const e of this.snapshot.entities){if(e.kind!=='resource'||e.ghost||e.amount<=0)continue;const point=this.view.project(e,e.type==='wood'?1.5:isAnimal(e)?.7:.45),distance=(point.x-p.x)**2+(point.y-p.y)**2;if(distance<best){best=distance;nearest=e;}}return nearest;}
  private down=(e:PointerEvent)=>{if(!this.interactive)return;const p=this.screenPoint(e);this.pointers.set(e.pointerId,p);this.app.canvas.setPointerCapture(e.pointerId);
   if(this.pointers.size===2){this.clearHold();const a=[...this.pointers.values()];this.initialPinch=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);this.initialZoom=this.zoom;this.initialAngle=Math.atan2(a[1].y-a[0].y,a[1].x-a[0].x);this.initialYaw=this.yaw;this.drag=undefined;return;}
@@ -110,7 +117,7 @@ export class Battlefield {
    let pose=this.poses.get(e.id);if(!pose){pose={...point,heading:0,seenAt:now};this.poses.set(e.id,pose);}if(now-pose.seenAt>500){pose.x=point.x;pose.y=point.y;}pose.seenAt=now;const distance=Math.hypot(point.x-pose.x,point.y-pose.y),moving=(e.kind==='unit'||isAnimal(e))&&distance>.015;const factor=1-Math.exp(-dt*12);if(moving)pose.heading=Math.atan2(point.x-pose.x,point.y-pose.y);pose.x+=(point.x-pose.x)*factor;pose.y+=(point.y-pose.y)*factor;
    this.root.position.set(pose.x,0,pose.y);this.root.rotation.set(0,isAnimal(e)?pose.heading-Math.PI/2:e.kind==='unit'?pose.heading:e.type==='wood'?e.id*2.399:0,0);const scale=e.hp<=0?.12:e.kind==='building'?Math.max(.08,e.progress):1;const variation=e.type==='wood'?.85+(e.id*13%17)/40:1;this.root.scale.set(variation,scale*variation,variation);this.root.updateMatrix();const work=e.kind==='unit'&&['gather','build','repair'].includes(e.order.kind),attacking=!!e.attackFx&&s.tick-e.attackFx.tick<8;
    const gateOpen=gateUnits.get(e.id)??false;
-   const animationTime=this.interactive?worldTick/20:(now-this.createdAt)/1000,parts=this.imported?.get(e,{time:animationTime,moving,working:work,attacking,detail:crowd||this.zoom<.7?'crowd':'full'})??this.models.get(e.type,e.owner,e.type==='wood'?e.id%4:0);
+   const animationTime=this.interactive?worldTick/20:(now-this.createdAt)/1000,parts=this.imported?.get(e,{time:animationTime,moving,working:work,attacking,detail:crowd||this.zoom<.7?'crowd':'full'})??this.scenery?.get(e,e.visualAge??s.players[e.owner]?.age??1,e.id)??this.models.get(e.type,e.owner,e.type==='wood'?e.id%4:0);
    for(const part of parts)this.batches.add(part,this.root.matrix,e.ghost?0x697466:e.hp<=0?0x615949:0xffffff,animationTime*12+e.id,moving?1:0,work,attacking,gateOpen,e.ghost?0:e.id);
    const height=e.kind==='building'?(e.type==='fortress'?4.4:3.6):['cavalry','heavyCavalry','scout'].includes(e.type)?2.2:1.7;
    if(selected.has(e.id)){this.indicator(pose,.04,n?n*.56:.44,1,!allied(s,e.owner,s.playerId),true);this.indicator(pose,height,n?1.65:.85,e.hp/e.maxHp,!allied(s,e.owner,s.playerId));}
@@ -128,5 +135,5 @@ export class Battlefield {
   if(this.qualityFrames>90){this.qualityFrames=0;if(this.frameAverage>19&&this.pixelRatio>.75){this.pixelRatio=Math.max(.75,this.pixelRatio-.15);this.renderer.setPixelRatio(this.pixelRatio);}if(this.frameAverage>32&&this.renderer.shadowMap.enabled){this.renderer.shadowMap.enabled=false;}}
  }
  metrics():{fps:number;renderer:string}{return{fps:1000/(this.frameTimes.reduce((a,b)=>a+b,0)/Math.max(1,this.frameTimes.length)),renderer:'3D WebGL'};}
- destroy():void{this.clearHold();this.destroyed=true;cancelAnimationFrame(this.raf);this.resize?.disconnect();window.removeEventListener('keydown',this.keydown);window.removeEventListener('keyup',this.keyup);window.removeEventListener('blur',this.blur);this.atmosphere?.dispose();this.batches.dispose();this.imported?.dispose();this.models.dispose();this.terrain?.geometry.dispose();this.terrain?.material.dispose();this.texture?.dispose();this.ring.dispose();this.bar.dispose();for(const m of this.barMaterials)m.dispose();this.preview.geometry.dispose();this.preview.material.dispose();this.projectileGeometry.dispose();this.projectileMaterial.dispose();this.sun?.shadow.dispose();this.renderer?.dispose();this.renderer?.forceContextLoss();this.app.canvas?.remove();this.selectionBox?.remove();this.assetStatus?.remove();this.poses.clear();this.ready=false;}
+ destroy():void{this.clearHold();this.destroyed=true;cancelAnimationFrame(this.raf);this.resize?.disconnect();window.removeEventListener('keydown',this.keydown);window.removeEventListener('keyup',this.keyup);window.removeEventListener('blur',this.blur);this.atmosphere?.dispose();this.batches.dispose();this.imported?.dispose();this.scenery?.dispose();this.models.dispose();this.terrain?.geometry.dispose();this.terrain?.material.dispose();this.texture?.dispose();this.ring.dispose();this.bar.dispose();for(const m of this.barMaterials)m.dispose();this.preview.geometry.dispose();this.preview.material.dispose();this.projectileGeometry.dispose();this.projectileMaterial.dispose();this.sun?.shadow.dispose();this.renderer?.dispose();this.renderer?.forceContextLoss();this.app.canvas?.remove();this.selectionBox?.remove();this.assetStatus?.remove();this.poses.clear();this.ready=false;}
 }

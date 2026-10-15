@@ -1,0 +1,35 @@
+
+[WebServer] (node:27016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[WebServer] (node:35040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:18872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/6] [desktop] › tests\browser\worker-tasks.spec.ts:5:1 › a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop
+[2/6] [desktop] › tests\browser\worker-tasks.spec.ts:36:1 › online workers retain and resume their own assignments through server snapshots
+
+
+(node:38176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[3/6] [phone] › tests\browser\worker-tasks.spec.ts:5:1 › a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop
+[4/6] [phone] › tests\browser\worker-tasks.spec.ts:36:1 › online workers retain and resume their own assignments through server snapshots
+
+(node:37240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[5/6] [tablet] › tests\browser\worker-tasks.spec.ts:5:1 › a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop
+[6/6] [tablet] › tests\browser\worker-tasks.spec.ts:36:1 › online workers retain and resume their own assignments through server snapshots
+  2 skipped
+  4 passed (1.6m)

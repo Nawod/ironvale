@@ -1,0 +1,46 @@
+ASHEN MARCHES — ITCH.IO ASSET LICENSE
+Publisher: ChillLands (https://chilllands.itch.io) | Version 2.0 | 9 October 2026
+
+Applies to: Ashen Marches Complete 5-Pack Bundle, Environment & Nature Pack,
+Props & Equipment Pack, Dungeon & Magic Pack, Character Pack,
+Animals & Creatures Pack and the Free 100 edition, when obtained from itch.io.
+
+This license replaces any "Unity Asset Store EULA" notice included in earlier
+itch.io downloads. The Unity Asset Store EULA applies only to copies obtained
+from the Unity Asset Store.
+
+1. GRANT
+Your purchase grants you a non-exclusive, perpetual, worldwide license to use
+and modify the included assets in unlimited personal and commercial games,
+applications, films, renders and other finished creative projects.
+No royalties or attribution are required. Credit to ChillLands is appreciated.
+
+2. TEAMS
+You may share the source assets with collaborators and contractors working on
+your projects, provided they do not use or redistribute those source files
+independently of your projects.
+
+3. DISTRIBUTION
+You may distribute the assets only as incorporated into your finished projects,
+including compiled builds and engine-packed data.
+
+4. RESTRICTIONS
+You may not redistribute, sell, give away, sublicense or repackage the assets,
+modified or unmodified, as standalone source files, stock assets, asset packs,
+templates whose main value is these assets, or competing asset libraries.
+You may not claim that you created the original unmodified assets.
+
+5. OWNERSHIP AND PRODUCTION
+This license does not transfer ownership or grant exclusive rights.
+The assets were produced through an AI-assisted procedural Blender workflow
+and inspected and revised as described on the product pages.
+
+6. WARRANTY
+The assets are provided "as is", without warranty of fitness for a particular
+purpose. Mandatory consumer rights remain unaffected.
+
+7. FREE EDITIONS
+The Ashen Marches Free 100 and Free 12 editions are covered by the same terms;
+they are free of charge.
+
+Support and questions: comments on https://chilllands.itch.io/ashen-marches

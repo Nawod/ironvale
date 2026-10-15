@@ -25,10 +25,17 @@ test('missing detailed assets leave a playable battlefield with an explicit fall
  expect(errors).toEqual([]);
 });
 
-test('missing foliage texture preserves complete original trees and detailed actors',async({page})=>{
+test('missing optional foliage texture preserves realm scenery and detailed actors',async({page})=>{
  await page.route('**/models/materials/twig_alpha.png',route=>route.abort());
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto('/');await page.getByRole('button',{name:'Begin your reign',exact:true}).click();
  const canvas=page.locator('[data-testid="battlefield"] canvas');await expect(canvas).toHaveAttribute('data-model-detail','ready',{timeout:30000});await expect(canvas).toHaveAttribute('data-texture-detail','fallback');
- await expect(page.locator('.asset-loading-status')).toContainText('Original trees are active');await page.getByRole('button',{name:'Idle villagers',exact:true}).click();await expect(page.locator('.selection-panel')).toContainText('6 units');expect(errors).toEqual([]);
+ await expect(page.locator('.asset-loading-status')).toContainText('Detailed realm models are active');await page.getByRole('button',{name:'Idle villagers',exact:true}).click();await expect(page.locator('.selection-panel')).toContainText('6 units');expect(errors).toEqual([]);
+});
+
+test('unavailable realm assets retain playable scenery without losing army models',async({page})=>{
+ await page.route('**/models/realm/*.glb',route=>route.abort());const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+ await page.goto('/');await page.getByRole('button',{name:'Begin your reign',exact:true}).click();const canvas=page.locator('[data-testid="battlefield"] canvas');
+ await expect(canvas).toHaveAttribute('data-scenery-detail','fallback',{timeout:7000});await expect(canvas).toHaveAttribute('data-model-detail','ready',{timeout:30000});await expect(page.locator('.asset-loading-status')).toContainText('Original buildings and scenery are active');
+ await page.getByRole('button',{name:'Town center',exact:true}).click();await page.getByRole('button',{name:'Recruit Villager',exact:true}).click();await expect(page.locator('.resource.food > span')).toHaveText('300');expect(errors).toEqual([]);
 });

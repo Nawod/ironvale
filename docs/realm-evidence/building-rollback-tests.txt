@@ -1,0 +1,9 @@
+
+ RUN  v5.0.4 N:/Projects/GPT/ironvale
+
+
+ Test Files  4 passed (4)
+      Tests  37 passed (37)
+   Start at  17:34:06
+   Duration  1.14s (tests 53%, transform 27%, import 18%, worker 2%)
+

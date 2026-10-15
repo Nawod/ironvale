@@ -1,4 +1,4 @@
-import type { BuildingType, UnitType, Resources } from './types';
+import type { BuildingType, UnitType, Resources, Entity } from './types';
 export interface BuildingDef { name: string; cost: Partial<Resources>; age: number; size: number; hp: number; seconds: number; capacity?: number; trains?: UnitType[]; range?: number; damage?: number; slots?: number }
 export interface UnitDef { name: string; cost: Partial<Resources>; age: number; hp: number; speed: number; damage: number; range: number; seconds: number; armor: number; sight: number }
 export const BUILDINGS: Record<BuildingType, BuildingDef> = {
@@ -8,7 +8,7 @@ export const BUILDINGS: Record<BuildingType, BuildingDef> = {
  storage:{name:'Storehouse',cost:{wood:80},age:1,size:2,hp:500,seconds:14},
  farm:{name:'Farm',cost:{wood:45},age:1,size:3,hp:250,seconds:10},
  barracks:{name:'Barracks',cost:{wood:150},age:1,size:3,hp:950,seconds:24,trains:['spearman','swordsman','pikeman']},
- palisade:{name:'Palisade',cost:{wood:8},age:1,size:1,hp:250,seconds:4},
+ palisade:{name:'Wooden wall',cost:{wood:8},age:1,size:1,hp:250,seconds:4},
  range:{name:'Archery range',cost:{wood:160},age:2,size:3,hp:800,seconds:25,trains:['archer','crossbowman']},
  stable:{name:'Stable',cost:{wood:180},age:2,size:3,hp:1000,seconds:28,trains:['cavalry','heavyCavalry']},
  smithy:{name:'Smithy',cost:{wood:120,gold:40},age:2,size:2,hp:700,seconds:20},
@@ -32,7 +32,14 @@ export const UNITS: Record<UnitType,UnitDef> = {
  ram:{name:'Battering ram',cost:{wood:130,gold:60},age:3,hp:350,speed:1.3,damage:48,range:1.8,seconds:28,armor:10,sight:6},
  trebuchet:{name:'Trebuchet',cost:{wood:160,gold:100},age:3,hp:200,speed:1.1,damage:70,range:12,seconds:35,armor:3,sight:9},
 };
-export const COLORS=['#7eb8d0','#db795e','#d9b960','#a28acc','#78bc88','#df91ba','#e8e0cb','#769ce5'];
+export interface WallUpgrade {name:string;age:2|3;cost:Partial<Resources>;seconds:number;hp:number}
+export function wallUpgrade(e:Entity):WallUpgrade|undefined{
+ if(e.kind!=='building')return undefined;
+ if(e.type==='palisade')return{name:'Stone wall',age:2,cost:{stone:12},seconds:6,hp:800};
+ if(e.type==='wall'&&e.wallTier!==3)return{name:'Reinforced stone wall',age:3,cost:{stone:24,gold:8},seconds:10,hp:1400};
+ return undefined;
+}
+export const COLORS=['#2f86d9','#d8483d','#e1b735','#9e60d1','#35a568','#db65a6','#ded6bd','#df882e'];
 export const AGE_NAMES=['','Settlement','Town','Fortified Empire'];
 export const AGE_COSTS=[{}, {food:400,gold:150}, {food:700,gold:350,stone:150}] as Partial<Resources>[];
 export const TICK_RATE=20;
