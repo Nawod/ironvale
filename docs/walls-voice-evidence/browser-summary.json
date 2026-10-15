@@ -1,0 +1,15 @@
+{
+  "passed": 16,
+  "failed": 0,
+  "skipped": 2,
+  "flaky": 0,
+  "durationMs": 146158.875,
+  "projects": [
+    "desktop",
+    "phone",
+    "tablet"
+  ],
+  "microphones": "simulated",
+  "transport": "real WebRTC audio, local browser contexts",
+  "publicInternetAndPhysicalCallsVerified": false
+}

@@ -1,0 +1,7 @@
+{
+  "https": true,
+  "secureWebSocketWelcome": "welcome",
+  "voiceConfig": 200,
+  "selfSignedLocalProbe": true,
+  "browserTrustNotTested": true
+}

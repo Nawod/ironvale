@@ -1,0 +1,20 @@
+{
+  "url": "http://127.0.0.1:8180",
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "voiceConfig": {
+    "iceServers": [
+      {
+        "urls": "stun:stun.cloudflare.com:3478"
+      }
+    ]
+  },
+  "voiceJoinedMuted": true,
+  "captureStoppedOnLeave": true,
+  "models": "ready",
+  "microphone": "simulated",
+  "pageErrors": []
+}

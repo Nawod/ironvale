@@ -34,6 +34,16 @@ The server validates every order and only sends your own fog-of-war view. Client
 
 For local development use `npm run dev` plus `npm run server` in a second terminal. Vite proxies `/ws` to the Node server on8180. The production launcher runs a single combined server.
 
+## Voice chat
+
+The online lobby and match have a **Voice chat** panel. Expand it, choose a channel and press **Join voice**. Allow microphone access; you join muted, then press **Unmute** to talk. **Mute** silences your microphone, the sound button mutes incoming voices independently, and **Leave** stops microphone capture. Voice stays connected when the lobby starts a match. Controls remain accessible over the war council, settings and match-result overlays.
+
+Free-for-all uses **Open**, where everyone in that room using Open can talk. Team games also offer **Team**, where only teammates using Team are connected. Switching channels closes the old connections first and starts muted in the new channel. Teammates using Open do not hear Team chat. Changing team assignments or match type ends voice membership; join again once the new arrangement is settled. Disconnects and seat replacement stop capture and require an explicit rejoin. Voice is not recorded or included in saved games.
+
+Microphones work at localhost or a browser-trusted HTTPS origin. Friends opening the plain HTTP LAN address can still play, but the browser blocks microphone access there. Use HTTPS with a trusted certificate, either through your hosting proxy or the built-in HTTPS options below. This is a [browser requirement](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia). If incoming audio is blocked by the browser, the panel offers **Enable incoming voice audio**.
+
+The game uses an audio-only WebRTC mesh (at most seven peer connections per player), the existing room connection for validated signaling, and [Cloudflare's public STUN server](https://developers.cloudflare.com/realtime/sfu/get-started/connection-patterns/). Some internet networks require a TURN relay; configure your own through `VOICE_ICE_SERVERS` if direct calls cannot connect. No relay service is purchased or bundled. This JSON configuration is delivered to browsers, so use client relay credentials rather than a provider's management API key. For example: `[{"urls":"turn:relay.example.com:3478","username":"client-user","credential":"client-credential"}]`. An empty array selects local/direct connections only. Local automated calls use simulated microphones and real WebRTC audio transport; physical-device and public-internet calls are not part of this verification.
+
 ## Controls
 
 | Action | Desktop | Touch |
@@ -117,6 +127,9 @@ Set environment variables in your host settings or shell; `.env.example` is a co
 | DATA_DIR |./server-data| Private persistent match checkpoints |
 | MAX_ROOMS |32| Room admission limit; size according to host resources |
 | PUBLIC_ORIGIN |unset| Exact allowed browser origin, e.g. https://game.example.com |
+| VOICE_ICE_SERVERS |Cloudflare STUN| JSON array of STUN/TURN servers used by browser voice connections |
+| HTTPS_KEY_FILE |unset| PEM private-key file for built-in HTTPS; set with HTTPS_CERT_FILE |
+| HTTPS_CERT_FILE |unset| PEM certificate chain trusted by players' browsers; set with HTTPS_KEY_FILE |
 
 Build with `npm ci && npm run build`, then run `npm start`. Put HTTPS in front of the server and proxy both ordinary HTTP and WebSocket upgrades on `/ws`. Set PUBLIC_ORIGIN to the browser-visible HTTPS origin. Keep DATA_DIR outside the public `dist` directory, attach durable storage, and restrict its filesystem permissions. Check `/health` for readiness. Stop using SIGINT/SIGTERM so the server flushes its current matches before exit. Unexpected process/power failures recover the most recent60-simulation-second checkpoint, rather than every uncheckpointed command.
 

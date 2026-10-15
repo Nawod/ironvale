@@ -5,6 +5,7 @@ import {ArrowUp,Castle,ChevronDown,ChevronRight,Flag,HelpCircle,Home,Leaf,Map,Mo
 import {BattlefieldView,type ViewHandle} from './ui/BattlefieldView';
 
 import {Minimap} from './ui/Minimap';
+import {VoicePanel} from './ui/VoicePanel';
 import {WorkerTasks} from './ui/WorkerTasks';
 
 import {entityImage} from './render/art';
@@ -195,6 +196,7 @@ export default function App(){
 
    <div className="quick-tools"><button aria-label="Idle villagers" title="Select idle villagers" onClick={selectIdle}><Users size={18}/><span>{s.entities.filter(e=>e.owner===pid&&e.type==='villager'&&e.order.kind==='idle').length}</span></button><button aria-label="Select all army" title="Select your army" onClick={()=>select(s.entities.filter(e=>e.owner===pid&&e.kind==='unit'&&e.type!=='villager').map(e=>e.id))}><Swords size={18}/><span>All</span></button><button aria-label="Help" onClick={()=>setHelp(true)}><HelpCircle size={18}/></button></div>
 
+   {isOnline&&onlineState.room&&onlineSession.current&&<VoicePanel voice={onlineSession.current.voice} room={onlineState.room} floating/>}
    <div className="event-feed">{s.events.filter(e=>e.kind==='attack'||e.kind==='capture').slice(-2).map(e=><button key={e.id} onClick={()=>e.x!==undefined&&center({x:e.x,y:e.y!})}><Flag size={13}/>{e.text}</button>)}</div>
 
    {(mode||placement)&&<div className="order-banner"><Hand size={15}/>{mode==='relocate'?'Move building onto clear, scouted land':placement?`Place ${BUILDINGS[placement].name} on clear land`:`Choose where to ${mode==='attackMove'?'attack-move':mode}`}<button onClick={()=>{setMode('');setPlacement(undefined);}}>Cancel<X size={14}/></button></div>}

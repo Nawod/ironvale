@@ -1,12 +1,14 @@
 import type {ClientMessage,RoomView} from './protocol';
 import type {Snapshot} from '../sim/types';
+import {VoiceChat} from './voice';
 import type {Session} from './session';
 export interface OnlineState {status:'idle'|'connecting'|'connected'|'reconnecting';id?:string;room?:RoomView;queued?:{count:number;waiting:number};error?:string;playerId?:number}
 const STORAGE='ironvale-online-seat';
 export class OnlineSession implements Session {
+ readonly voice=new VoiceChat(message=>{if(this.socket?.readyState!==WebSocket.OPEN)return false;this.socket.send(JSON.stringify(message));return true;});
  onmessage:Session['onmessage']=null;onStart?:(room:RoomView,playerId:number)=>void;onUpdate?:(state:OnlineState)=>void;
  state:OnlineState={status:'idle'};private socket?:WebSocket;private outbox:ClientMessage[]=[];private retry?:ReturnType<typeof setTimeout>;private attempts=0;private ended=false;private seq=0;private awaitingResume=false;private credential?:{code:string;token:string};private lastSnapshot?:Snapshot;
- private emit(){this.onUpdate?.({...this.state});}
+ private emit(){this.voice.attach(this.state.room,this.state.id,this.state.status==='connected');this.onUpdate?.({...this.state});}
  restore(){try{const text=sessionStorage.getItem(STORAGE);if(text){const c=JSON.parse(text);if(typeof c.code==='string'&&typeof c.token==='string'){this.credential=c;this.connect();}}}catch{this.clearCredential();}}
  private persist(){try{if(this.credential)sessionStorage.setItem(STORAGE,JSON.stringify(this.credential));else sessionStorage.removeItem(STORAGE);}catch{/* Reconnection still works until this tab reloads. */}}
  private clearCredential(){this.credential=undefined;this.persist();}
@@ -23,6 +25,7 @@ export class OnlineSession implements Session {
   };
  }
  private receive(m:any){
+  if(m.type==='voicePeers'||m.type==='voiceSignal'){this.voice.receive(m);return;}
   if(m.type==='welcome'){this.state.id=m.id;this.emit();}
   else if(m.type==='joined'){this.awaitingResume=false;this.credential={code:m.room.code,token:m.token};this.seq=m.lastSeq;this.state={...this.state,room:m.room,queued:undefined,playerId:m.playerId,id:m.room.players.find((p:any)=>p.seat===m.playerId)?.id,error:undefined};if(['playing','finished'].includes(m.room.phase))this.persist();this.emit();}
   else if(m.type==='room'){this.state.room=m.room;this.emit();}
@@ -34,7 +37,7 @@ export class OnlineSession implements Session {
    const snapshot:Snapshot={...packet,terrain:packet.terrain??this.lastSnapshot!.terrain,fog};this.lastSnapshot=snapshot;this.onmessage?.({data:{type:'snapshot',snapshot}});
   }else if(m.type==='commandResult')this.onmessage?.({data:m});
   else if(m.type==='error'){this.state.error=m.error;if(this.awaitingResume){this.awaitingResume=false;this.clearCredential();this.state.room=undefined;this.state.playerId=undefined;}this.emit();this.onmessage?.({data:m});}
-  else if(m.type==='closed'){this.state.error=m.error;this.emit();this.onmessage?.({data:{type:'error',error:m.error}});}
+  else if(m.type==='closed'){this.voice.leave(false);this.state.error=m.error;this.emit();this.onmessage?.({data:{type:'error',error:m.error}});}
   else if(m.type==='left'){this.state.room=undefined;this.state.queued=undefined;this.clearCredential();this.emit();}
  }
  send(message:ClientMessage){this.state.error=undefined;if(this.socket?.readyState===WebSocket.OPEN)this.socket.send(JSON.stringify(message));else{this.outbox.push(message);this.connect();}this.emit();}
@@ -43,5 +46,5 @@ export class OnlineSession implements Session {
   if(message.type==='command'){const seq=++this.seq;if(this.socket?.readyState!==WebSocket.OPEN){this.onmessage?.({data:{type:'commandResult',seq,error:'Reconnecting. Wait before issuing orders.'}});return;}this.send({type:'command',seq,command:message.command});}
   else if(message.type==='save')this.onmessage?.({data:{type:'error',error:'Online matches are saved by the server. Local saves are for single-player games.'}});
  }
- terminate(){this.ended=true;if(this.retry)clearTimeout(this.retry);this.socket?.close();}
+ terminate(){this.voice.destroy();this.ended=true;if(this.retry)clearTimeout(this.retry);this.socket?.close();}
 }
