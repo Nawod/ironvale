@@ -1,0 +1,11 @@
+{
+  "verifiedAt": "2026-10-16T10:57:34.166Z",
+  "origin": "http://localhost:8180",
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "errors": [],
+  "limits": "Production Chromium with touch emulation, not physical phones. Lobby screenshot is a real temporary local room, closed after capture."
+}

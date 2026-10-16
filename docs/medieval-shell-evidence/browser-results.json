@@ -1,0 +1,298 @@
+{
+  "verifiedAt": "2026-10-16T10:55:44.139Z",
+  "counts": {
+    "expected": 23,
+    "skipped": 1
+  },
+  "notes": "One explicit skip: compact microphone layout is a phone/tablet test. Desktop voice uses the FFA check. Eight-seat room fixture uses one real UI host and seven real protocol clients.",
+  "results": [
+    {
+      "file": "medieval-shell.spec.ts",
+      "title": "matching menu and pop-ups keep navigation and larger text usable in both orientations",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10244
+        }
+      ]
+    },
+    {
+      "file": "medieval-shell.spec.ts",
+      "title": "eight-player team lobby keeps city portraits, long names, team and voice controls reachable",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 4927
+        }
+      ]
+    },
+    {
+      "file": "medieval-shell.spec.ts",
+      "title": "matching menu and pop-ups keep navigation and larger text usable in both orientations",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 15290
+        }
+      ]
+    },
+    {
+      "file": "medieval-shell.spec.ts",
+      "title": "eight-player team lobby keeps city portraits, long names, team and voice controls reachable",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 5420
+        }
+      ]
+    },
+    {
+      "file": "medieval-shell.spec.ts",
+      "title": "matching menu and pop-ups keep navigation and larger text usable in both orientations",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 19282
+        }
+      ]
+    },
+    {
+      "file": "medieval-shell.spec.ts",
+      "title": "eight-player team lobby keeps city portraits, long names, team and voice controls reachable",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 5920
+        }
+      ]
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "campaign setup stays readable and preserves the chosen match options",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7669
+        }
+      ]
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "resource ledger, world clock and production controls remain legible without covering each other",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 6861
+        }
+      ]
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "interface text preference and online entry remain usable",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7213
+        }
+      ]
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "campaign setup stays readable and preserves the chosen match options",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 6876
+        }
+      ]
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "resource ledger, world clock and production controls remain legible without covering each other",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 6352
+        }
+      ]
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "interface text preference and online entry remain usable",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 12947
+        }
+      ]
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "campaign setup stays readable and preserves the chosen match options",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8099
+        }
+      ]
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "resource ledger, world clock and production controls remain legible without covering each other",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8219
+        }
+      ]
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "interface text preference and online entry remain usable",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7766
+        }
+      ]
+    },
+    {
+      "file": "multiplayer.spec.ts",
+      "title": "host manually starts a private match after friends join; both seats recruit and reconnect",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 22933
+        }
+      ]
+    },
+    {
+      "file": "multiplayer.spec.ts",
+      "title": "host manually starts a private match after friends join; both seats recruit and reconnect",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 22962
+        }
+      ]
+    },
+    {
+      "file": "multiplayer.spec.ts",
+      "title": "host manually starts a private match after friends join; both seats recruit and reconnect",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 26713
+        }
+      ]
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "project": "desktop",
+      "status": "skipped",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 151
+        }
+      ]
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 4568
+        }
+      ]
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 13902
+        }
+      ]
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 3406
+        }
+      ]
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 18377
+        }
+      ]
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 4513
+        }
+      ]
+    }
+  ]
+}
