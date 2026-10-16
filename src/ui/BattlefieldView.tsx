@@ -4,7 +4,7 @@ import {Battlefield} from '../render/battlefield';
 import type {BattlefieldHooks} from '../render/battlefield';
 import type {BuildingType,Position,Snapshot} from '../sim/types';
 import type {WallPlanPreview} from '../render/wall-planning';
-export interface ViewHandle {center:(p:Position)=>void;metrics:()=>{fps:number;renderer:string};worldToScreen:(p:Position)=>Position;rotate:(angle:number)=>void;resetCamera:()=>void}
+export interface ViewHandle {center:(p:Position)=>void;metrics:()=>{fps:number;renderer:string};worldToScreen:(p:Position)=>Position;rotate:(angle:number)=>void;resetCamera:()=>void;viewport:()=>Position[]}
 export function BattlefieldView({snapshot,selection=[],placement,wallPlan,movingBuilding,mode='',hooks,interactive=true,suspended=false,viewRef,cameraOpen=false,onToggleCamera}:{snapshot:Snapshot;selection?:number[];placement?:BuildingType;wallPlan?:{start:Position;preview?:WallPlanPreview};movingBuilding?:number;mode?:string;hooks:BattlefieldHooks;interactive?:boolean;suspended?:boolean;cameraOpen?:boolean;onToggleCamera?:()=>void;viewRef?:React.MutableRefObject<ViewHandle|undefined>}){
  const host=useRef<HTMLDivElement>(null),renderer=useRef<Battlefield|undefined>(undefined),latest=useRef({snapshot,selection,placement,mode,hooks});latest.current={snapshot,selection,placement,mode,hooks};
  useEffect(()=>{const field=new Battlefield(host.current!,{select:(...args)=>latest.current.hooks.select(...args),action:(...args)=>latest.current.hooks.action(...args),cancel:()=>latest.current.hooks.cancel(),error:(text)=>latest.current.hooks.error(text)},interactive);renderer.current=field;field.suspended=suspended;

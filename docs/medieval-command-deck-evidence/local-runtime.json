@@ -1,0 +1,11 @@
+{
+  "verifiedAt": "2026-10-16T10:24:07.111Z",
+  "origin": "http://localhost:8180",
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "errors": [],
+  "limits": "Actual local production browser screenshots of a prepared two-city scene; desktop Chromium with touch emulation, not physical phones. Ordinary buildings, units, health and wall geometry, with the new graphical HUD and model portraits."
+}

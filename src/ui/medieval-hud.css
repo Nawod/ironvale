@@ -1,0 +1,73 @@
+/* Ironvale's command station: carved oak, worn brass and inset slate. */
+.game-screen{--hud-panel:#27271ff8;--hud-edge:#a58d58;--hud-wood:url('/art/oak-panel.svg');--hud-brass:#bfa46b}
+.game-screen .hud,.game-screen .command-deck,.game-screen .minimap-shell,.game-screen .quick-tools,.game-screen .camera-controls,.game-screen .wall-plan-tray{background-color:#30291f;background-image:linear-gradient(#ead1990b,#090f0a33),var(--hud-wood);border-color:#9e8654;box-shadow:inset 0 1px 0 #f1d49a66,inset 0 -2px 0 #0a100ccc,0 2px 6px #10150ec0;border-radius:2px}
+.game-screen .hud{border-top:2px solid #b59b63;border-bottom:2px solid #776342}
+.game-screen .hud-brand .emblem{filter:drop-shadow(0 1px 1px #0c110b)}
+.game-screen .realm-strip{background:#35372af5;border-bottom:1px solid #9a885055;box-shadow:inset 0 1px #e7d19722;color:#e8dfc1}
+.game-screen .hud-tools button,.game-screen .quick-tools button,.game-screen .camera-controls button{color:#e6d5a7;text-shadow:0 1px #0b130c;box-shadow:inset 1px 0 #e2c69011,inset -1px 0 #080e0966}
+.game-screen .hud-tools button:hover,.game-screen .quick-tools button:hover,.game-screen .camera-controls button:hover{background:#c7ad6a22}
+.game-screen .command-tabs{background:linear-gradient(#10191055,#10191099);border-bottom-color:#aa925855;padding:0 7px;gap:4px}
+.game-screen .command-tabs button{color:#ddd7bd;border-right:1px solid #b59b631f}
+.game-screen .command-tabs [aria-selected="true"]{background:linear-gradient(#b7a07133,#8d764b20);border-bottom-color:#e3c788;color:#fff0bf;box-shadow:inset 0 1px #eed6a044}
+.game-screen .command-content{background:linear-gradient(110deg,#30392ced,#232e23f5);box-shadow:inset 0 0 16px #0d150c66}
+.game-screen .asset-button,.game-screen .order-buttons button,.game-screen .management-buttons button,.game-screen .action-buttons>button:not(.asset-button){background:linear-gradient(#58604744,#19271d88);border-top-color:#bba773bb;border-left-color:#8e855ca1;border-right-color:#1b2317;border-bottom-color:#111b13;box-shadow:inset 0 1px #dfd6aa22,1px 1px 1px #0b130b88;border-radius:2px;color:#f0e5c7}
+.game-screen .asset-button:hover:not(:disabled),.game-screen .order-buttons button:hover,.game-screen .management-buttons button:hover:not(:disabled){background:linear-gradient(#8b875444,#384c2ddd);border-top-color:#e8cc8b;border-left-color:#ceba7d}
+.game-screen .asset-button.active,.game-screen .order-buttons button.active{background:linear-gradient(#887c45aa,#4b5f35);border-color:#e4c481;box-shadow:inset 0 0 0 1px #322b18,0 0 5px #ad9a5433}
+.game-screen .asset-button>.entity-portrait{width:48px;height:48px;object-fit:contain;background:radial-gradient(ellipse at 45% 35%,#85876a55,#14211999);border:1px solid #b0a17166;box-shadow:inset 0 1px 3px #0a140b88;flex-shrink:0;filter:none;border-radius:2px}
+.game-screen .selection-panel>.entity-portrait{object-fit:contain;background:radial-gradient(ellipse at 50% 35%,#8b8a6755,#16221b);border:2px ridge #b9a16b;box-shadow:0 1px 5px #11190bb8;filter:none}
+.game-screen .selection-panel h2{font-family:Georgia,'Times New Roman',serif;color:#f5e7ba;text-shadow:0 2px #111a11}
+.game-screen .selection-health{display:block;appearance:none;width:100%;height:9px;margin-top:7px;border:1px solid #bca77a66;background:#111b12;border-radius:0}
+.game-screen .selection-health::-webkit-meter-bar{height:100%;border:0;border-radius:0;background:#151c13}
+.game-screen .selection-health::-webkit-meter-optimum-value{background:linear-gradient(#b4c780,#67854e);border-radius:0}
+.game-screen .selection-health::-moz-meter-bar{background:#91ad65}
+.game-screen .selection-roster{display:flex;gap:4px;overflow-x:auto;scrollbar-width:thin;padding:4px 0;margin-top:4px;min-width:0}
+.game-screen .selection-roster button{position:relative;flex:0 0 44px;width:44px;height:44px;min-height:44px;padding:0;border:1px solid #bba16a;background:linear-gradient(#5c6650,#263526);box-shadow:inset 0 1px #e7d19d44;border-radius:2px}
+.game-screen .selection-roster .entity-portrait{width:42px;height:42px;object-fit:contain}
+.game-screen .selection-roster button>span{position:absolute;right:1px;bottom:0;min-width:16px;padding:0 2px;background:#152118ed;color:#ffedba;font-size:14px;line-height:17px;box-shadow:-1px -1px #c3ad7144}
+.game-screen .selection-roster-mobile{display:none}
+.game-screen .queue{background:#1c261dee;border-color:#ad965c77}
+.game-screen .queue-item{min-height:42px!important;gap:7px!important}
+.game-screen .queue-item>.entity-portrait{width:36px;height:36px;flex-shrink:0;object-fit:contain;border:1px solid #a39162;background:#4a553b55}
+.game-screen .queue-description{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.game-screen .queue-description>span{font-size:14px;line-height:1.25}
+.game-screen .queue-description progress{width:100%;height:7px;max-width:none;margin:0;accent-color:#b4bd76}
+.game-screen .queue-item>small{flex-shrink:0;color:#e5d7ac}
+.game-screen .minimap-shell{padding:5px;border:3px ridge #bba16b;box-shadow:inset 0 0 0 2px #141f14,0 2px 7px #081009c9}
+.game-screen .minimap{background:#182319;border:1px solid #a39262;box-shadow:inset 0 0 7px #0a100aaa;padding:5px}
+.game-screen .minimap-north{position:absolute;right:5px;top:3px;padding:0 3px;background:#182219cc;font:700 12px Georgia,serif;color:#eed89c;pointer-events:none}
+.game-screen[data-hud-compact="false"]{--deck-limit:180px}
+.game-screen[data-hud-compact="false"] .hud{grid-template-columns:180px minmax(0,1fr) 136px;gap:10px}
+.game-screen[data-hud-compact="false"] .hud-brand{width:auto;justify-content:flex-start;gap:10px;text-align:left}
+.game-screen[data-hud-compact="false"] .hud-brand .emblem{width:32px;height:38px}
+.game-screen[data-hud-compact="false"] .realm-identity{display:flex;flex-direction:column;gap:1px;min-width:0}
+.game-screen .realm-identity b{font:21px Georgia,serif;color:#f0dba7;line-height:22px}
+.game-screen .realm-identity small{font:14px 'Segoe UI',sans-serif;color:#d2d6ba;white-space:nowrap}
+.game-screen[data-hud-compact="false"] .resources{gap:clamp(6px,1vw,16px)}
+.game-screen[data-hud-compact="false"] .resource{display:grid;grid-template-columns:23px auto;grid-template-rows:20px 14px;gap:0 6px;min-width:96px;padding:3px 9px;background:linear-gradient(#18241dd9,#303629e6);border:1px solid #96855788;box-shadow:inset 0 1px 4px #0a100b80;border-radius:2px}
+.game-screen[data-hud-compact="false"] .resource>svg{grid-row:1/3;width:22px;height:22px;color:#d9c58d;filter:drop-shadow(0 1px #0b140c)}
+.game-screen[data-hud-compact="false"] .resource>span{font-size:var(--resource-size);font-weight:600;line-height:20px;color:#f1e7c6}
+.game-screen[data-hud-compact="false"] .resource>small{display:block;font-size:14px;line-height:14px;color:#bfcaaa}
+.game-screen[data-hud-compact="false"] .population{min-width:116px}
+.game-screen[data-hud-compact="false"] .minimap-shell{width:180px;height:180px}
+.game-screen[data-hud-compact="false"] .command-deck{left:204px}
+.game-screen[data-hud-compact="false"][data-has-selection="true"] .command-deck:not(.collapsed){height:180px;grid-template-columns:330px minmax(0,1fr)}
+.game-screen[data-hud-compact="false"] .selection-panel{gap:10px;background:linear-gradient(90deg,#201e1788,#35332755)}
+.game-screen[data-hud-compact="false"] .command-deck:not(.collapsed) .selection-panel>.entity-portrait{width:104px;height:148px}
+.game-screen[data-hud-compact="false"] .selection-panel h2{font-size:22px}
+.game-screen[data-hud-compact="false"] .selection-panel p{font-size:14px;line-height:1.35}
+.game-screen[data-hud-compact="false"] .command-deck:not(.collapsed) .selection-panel .command-toggle{width:44px;min-width:44px;align-self:flex-start;height:44px;padding:0;border:none;background:transparent;box-shadow:none}
+.game-screen[data-hud-compact="false"] .command-content:has(.stance-control){display:grid;grid-template-columns:minmax(0,1.7fr) minmax(180px,1fr);align-content:start;gap:5px 10px}
+.game-screen[data-hud-compact="false"] .command-content:has(.stance-control)>.order-buttons{grid-column:1;grid-row:1/3}
+.game-screen[data-hud-compact="false"] .command-content:has(.stance-control)>.stance-control{grid-column:2;margin:0}
+.game-screen[data-hud-compact="false"] .command-content:has(.stance-control)>.command-guidance{grid-column:1/-1}
+.game-screen[data-hud-compact="false"] .command-deck.collapsed .selection-roster,.game-screen[data-hud-compact="false"] .command-deck.collapsed .selection-health{display:none}
+.game-screen[data-hud-compact="true"] .selection-roster-desktop{display:none}
+.game-screen[data-hud-compact="true"] .selection-roster-mobile{display:flex;margin-top:0;margin-bottom:5px}
+.game-screen[data-hud-compact="true"] .selection-health{display:none}
+.game-screen[data-hud-compact="true"] .command-deck.collapsed .selection-panel>.entity-portrait{width:40px;height:44px}
+.game-screen[data-hud-compact="true"] .minimap-shell{padding:0}
+.game-screen[data-hud-compact="true"] .asset-button>.entity-portrait{width:38px;height:44px}
+.game-screen[data-hud-compact="true"] .queue-item>.entity-portrait{width:28px;height:28px}
+.game-screen[data-interface-size="large"] .queue-description>span{font-size:16px}
+@media(max-height:520px) and (orientation:landscape){.game-screen[data-hud-compact="true"] .command-deck.collapsed .selection-panel>.entity-portrait{height:34px}}
+@media(prefers-reduced-motion:reduce){.game-screen button{transition:none}}

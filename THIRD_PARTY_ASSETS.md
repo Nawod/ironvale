@@ -49,3 +49,12 @@ original river shading, stone-crossing textures, bridge geometry, arrow/stone
 projectile geometry and shared character-pose adjustments. No additional external
 asset or license was introduced; animal models and the approved medieval building
 provider are unchanged.
+
+The graphical command-deck portraits in `public/art/portraits` are local renders
+of those same game-model providers: original Ironvale architecture, the licensed
+Ashen Marches characters/equipment and the credited Quaternius scenery/animals.
+They are incorporated game UI, not a separately distributed asset collection.
+The reproducible workshop is `scripts/bake-command-portraits.ts`; no external
+generation service or additional source pack is used. The oak HUD grain is an
+original SVG, with original CSS brass/stone framing. Existing model license
+notices and usage restrictions continue to apply.

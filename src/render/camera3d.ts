@@ -10,4 +10,5 @@ export class RTSCamera {
  }
  project(p:Position,height=0):Position{const v=new Vector3(p.x,height,p.y).project(this.camera);return{x:(v.x+1)*this.width/2,y:(1-v.y)*this.height/2};}
  ground(p:Position):Position{this.ray.setFromCamera(new Vector2(p.x/this.width*2-1,1-p.y/this.height*2),this.camera);const v=this.ray.ray.intersectPlane(this.plane,new Vector3());return v?{x:v.x,y:v.z}:{x:0,y:0};}
+ groundFootprint():Position[]{return[{x:0,y:0},{x:this.width,y:0},{x:this.width,y:this.height},{x:0,y:this.height}].map(p=>this.ground(p));}
 }
