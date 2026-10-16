@@ -1,6 +1,15 @@
 import type {Entity,Snapshot} from '../sim/types';
 import {BUILDINGS} from '../sim/definitions';
 import {TERRAIN} from '../sim/terrain';
+import type {LandscapeFields} from './landscape-surface';
+export interface TerrainRegion {x0:number;y0:number;x1:number;y1:number}
+/** A one-tile halo covers every shoreline/soil neighbor affected by fog changes. */
+export function terrainFogChange(fog:readonly number[]|Uint8Array,previous:Uint8Array|undefined,size:number):{changed:boolean;knowledgeChanged:boolean;region?:TerrainRegion}{
+ if(!previous||previous.length!==fog.length)return{changed:true,knowledgeChanged:true};
+ let x0=size,y0=size,x1=-1,y1=-1,knowledgeChanged=false;
+ for(let i=0;i<fog.length;i++)if(fog[i]!==previous[i]){const x=i%size,y=Math.floor(i/size);x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);if(!!fog[i]!==!!previous[i])knowledgeChanged=true;}
+ return x1<0?{changed:false,knowledgeChanged:false}:{changed:true,knowledgeChanged,region:{x0:Math.max(0,x0-1),y0:Math.max(0,y0-1),x1:Math.min(size,x1+2),y1:Math.min(size,y1+2)}};
+}
 
 /** Check scouting before any preview reads terrain or objects in its footprint. */
 export function scoutedFootprint(s:Pick<Snapshot,'size'|'fog'>,x:number,y:number,n:number):boolean{
@@ -39,12 +48,13 @@ export function terrainPixels(s:Pick<Snapshot,'size'|'terrain'|'fog'>,data:Uint8
  return data;
 }
 /** Sub-tile detail preserves the fog boundary: no surface from an unseen tile is sampled. */
-export function terrainSurfacePixels(s:Pick<Snapshot,'size'|'terrain'|'fog'>,data:Uint8Array,detail=4,settlement?:Uint8Array):Uint8Array{
+export function terrainSurfacePixels(s:Pick<Snapshot,'size'|'terrain'|'fog'>,data:Uint8Array,detail=4,settlement?:Uint8Array,landscape?:LandscapeFields,region?:TerrainRegion):Uint8Array{
  const width=s.size*detail,soil=new Uint8Array(s.size*s.size),samples=new Uint8Array(soil.length),banks=new Uint16Array(soil.length),sinX=new Float64Array(width),cosY=new Float64Array(width);
+ const {x0=0,y0=0,x1=s.size,y1=s.size}=region??{};
  for(let i=0;i<width;i++){sinX[i]=Math.sin(i*.13);cosY[i]=Math.cos(i*.11);}
  // Neighbor and visibility relationships belong to tiles, not texture pixels.
  // Precompute once, rather than repeating these scans for all 16 subpixels.
- for(let ty=0;ty<s.size;ty++)for(let tx=0;tx<s.size;tx++){
+ for(let ty=y0;ty<y1;ty++)for(let tx=x0;tx<x1;tx++){
   const i=ty*s.size+tx;if(!s.fog[i]||s.terrain[i]>=TERRAIN.water)continue;
   for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
    const nx=tx+dx,ny=ty+dy,index=ny*s.size+nx;if(nx<0||ny<0||nx>=s.size||ny>=s.size||!s.fog[index])continue;
@@ -53,7 +63,8 @@ export function terrainSurfacePixels(s:Pick<Snapshot,'size'|'terrain'|'fog'>,dat
   }
  }
  const grass=[111,127,70],earth=[164,141,103],sand=[168,154,117];
- for(let y=0;y<width;y++)for(let x=0;x<width;x++){
+ const meadow=[143,153,83],lush=[91,132,68],forestFloor=[103,111,67],dry=[178,156,111],shore=[203,186,142],stone=[164,156,135];
+ for(let y=y0*detail;y<y1*detail;y++)for(let x=x0*detail;x<x1*detail;x++){
   const tx=Math.floor(x/detail),ty=Math.floor(y/detail),i=ty*s.size+tx,f=s.fog[i],dest=((width-1-y)*width+x)*4;
   if(!f){data[dest]=22;data[dest+1]=37;data[dest+2]=30;data[dest+3]=255;continue;}
   const noise=((Math.imul(x+1,374761393)^Math.imul(y+1,668265263))>>>0)%255/255,wide=sinX[x]*cosY[y],dim=f===1?.42:1;
@@ -68,7 +79,17 @@ export function terrainSurfacePixels(s:Pick<Snapshot,'size'|'terrain'|'fog'>,dat
   for(let bit=0;bit<9&&banks[i];bit++){if(!(banks[i]&(1<<bit)))continue;const nx=tx+bit%3-1,ny=ty+Math.floor(bit/3)-1;
    const d=Math.hypot(Math.max(nx-wx,0,wx-(nx+1)),Math.max(ny-wy,0,wy-(ny+1)));bank=Math.max(bank,Math.max(0,1-d/1.05));
   }
-  for(let c=0;c<3;c++){const land=grass[c]*(1-blend)+earth[c]*blend;data[dest+c]=Math.max(0,(land*(1-bank*.85)+sand[c]*bank*.85+(noise-.5)*20)*dim);}data[dest+3]=255;
+  if(landscape){
+   const stride=s.size+1,climate=landscape.moisture,fx=(x%detail+.5)/detail,fy=(y%detail+.5)/detail,top=climate[ty*stride+tx]*(1-fx)+climate[ty*stride+tx+1]*fx,bottom=climate[(ty+1)*stride+tx]*(1-fx)+climate[(ty+1)*stride+tx+1]*fx,moisture=top*(1-fy)+bottom*fy;
+   const index=y*width+x,litter=landscape.woodland[index]/255,gravel=landscape.rock[index]/255,paving=landscape.paving[index]/255,soilMix=Math.max(yard*.95,soil[i]/Math.max(1,samples[i])*.42+Math.max(0,.55-moisture)*.65);
+   for(let c=0;c<3;c++){
+    let land=meadow[c]*(1-moisture)+lush[c]*moisture;land=land*(1-soilMix)+dry[c]*soilMix;
+    const bed=litter*(1-yard)*.62;land=land*(1-bed)+forestFloor[c]*bed;land=land*(1-gravel*.55)+stone[c]*gravel*.55;
+    land=land*(1-bank*.9)+shore[c]*bank*.9;land=land*(1-paving*.94)+stone[c]*paving*.94;
+    data[dest+c]=Math.max(0,(land+(noise-.5)*16+wide*3)*dim);
+   }
+  }else for(let c=0;c<3;c++){const land=grass[c]*(1-blend)+earth[c]*blend;data[dest+c]=Math.max(0,(land*(1-bank*.85)+sand[c]*bank*.85+(noise-.5)*20)*dim);}
+  data[dest+3]=255;
  }
  return data;
 }

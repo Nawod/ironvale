@@ -60,29 +60,30 @@ export class Riverlands {
   `,fragmentShader:`
    uniform sampler2D riverMask;uniform float riverSize;uniform float riverTime;uniform float riverLight;uniform float riverRain;
    varying vec2 riverUv;
-   float riverShape(vec2 uv){
+   vec2 riverField(vec2 uv){
     vec2 p=uv*riverSize-.5,base=floor(p),f=fract(p);
-    float a=texture2D(riverMask,(base+vec2(.5,.5))/riverSize).r;
-    float b=texture2D(riverMask,(base+vec2(1.5,.5))/riverSize).r;
-    float c=texture2D(riverMask,(base+vec2(.5,1.5))/riverSize).r;
-    float d=texture2D(riverMask,(base+vec2(1.5,1.5))/riverSize).r;
+    vec2 a=texture2D(riverMask,(base+vec2(.5,.5))/riverSize).rb;
+    vec2 b=texture2D(riverMask,(base+vec2(1.5,.5))/riverSize).rb;
+    vec2 c=texture2D(riverMask,(base+vec2(.5,1.5))/riverSize).rb;
+    vec2 d=texture2D(riverMask,(base+vec2(1.5,1.5))/riverSize).rb;
     return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);
    }
    void main(){
     vec4 mask=texture2D(riverMask,riverUv);if(mask.b<0.01)discard;
-    float shape=riverShape(riverUv);if(shape<.5)discard;
+    vec2 field=riverField(riverUv);float shape=field.x;if(shape<.5)discard;
     vec2 p=riverUv*riverSize;
     float wave=sin(p.x*4.0+p.y*1.5+riverTime*.7+sin(p.y*4.0-riverTime*1.2)*.45);
     float wave2=sin(p.y*8.1-p.x*1.4-riverTime*2.1);
     float wide=sin(p.y*1.7+p.x*0.9+riverTime*0.45);
     float ripple=pow(max(0.0,sin((p.x+p.y)*12.0+riverTime*5.0)),18.0)*riverRain;
-    vec3 deep=mix(vec3(0.035,0.17,0.21),vec3(0.06,0.27,0.29),wide*0.5+0.5);
-    vec3 shallow=vec3(0.19,0.3,0.25);
-    vec3 c=mix(deep,shallow,mask.g*.62)+(wave*.007+ripple*.018);
-    c=mix(vec3(.28,.29,.19),c,smoothstep(.5,.85,shape));
-    float glint=pow(max(0.0,wave*.5+wave2*.5),14.0)*.05;
-    c+=vec3(.54,.75,.77)*glint;
-    gl_FragColor=vec4(c*riverLight*mask.b,1.0);
+    vec3 deep=mix(vec3(0.035,0.25,0.39),vec3(0.07,0.40,0.53),wide*0.5+0.5);
+    vec3 shallow=vec3(0.30,0.55,0.47);
+    vec3 c=mix(deep,shallow,mask.g*.72)+(wave*.009+ripple*.022);
+    c=mix(vec3(.43,.58,.46),c,smoothstep(.5,.9,shape));
+    float glint=pow(max(0.0,wave*.5+wave2*.5),12.0)*.085;
+    c+=vec3(.68,.84,.91)*glint;
+    c*=1.0-riverRain*.09;
+    gl_FragColor=vec4(c*riverLight*field.y,1.0);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
    }

@@ -1,0 +1,517 @@
+{
+  "verifiedAt": "2026-10-16T13:00:12.888Z",
+  "counts": {
+    "expected": 35,
+    "skipped": 4
+  },
+  "notes": "Latest case/project results, without duplicate counting. Three batch-layout follow-ups passed after a reproduced desktop card-clipping failure. Four explicit device-specific skips are desktop-only minimap/fallback checks. One visible host and one real protocol guest exercise online batch recruitment and reconnects.",
+  "results": [
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10960
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 4539
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 6934
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7371
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 22071
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 4892
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7831
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8425
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 21636
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 5118
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8148
+        }
+      ]
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9180
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "economy overview finds the right workers and remains reachable in both orientations",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 6810
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "batch recruitment shows full costs and rejects a second batch without partial spending",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-layout-final",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9036
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "housing shortages explain why the training timer is paused",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7864
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "online batches pay for five units and persist after reconnecting",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9555
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "economy overview finds the right workers and remains reachable in both orientations",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 6585
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "batch recruitment shows full costs and rejects a second batch without partial spending",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-layout-final",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9485
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "housing shortages explain why the training timer is paused",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7770
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "online batches pay for five units and persist after reconnecting",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9409
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "economy overview finds the right workers and remains reachable in both orientations",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7542
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "batch recruitment shows full costs and rejects a second batch without partial spending",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-layout-final",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10994
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "housing shortages explain why the training timer is paused",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8516
+        }
+      ]
+    },
+    {
+      "file": "economy-production.spec.ts",
+      "title": "online batches pay for five units and persist after reconnecting",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 11096
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "model portraits and army composition remain usable without extra 3D contexts",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8429
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "an empty selection keeps the command deck compact",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 2665
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the graphical production deck keeps training progress and all commands readable",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8614
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the minimap camera outline follows rotation and zoom while the simulation is paused",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7453
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "a missing portrait falls back to the original artwork",
+      "project": "desktop",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 5318
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "model portraits and army composition remain usable without extra 3D contexts",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8170
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "an empty selection keeps the command deck compact",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 2451
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the graphical production deck keeps training progress and all commands readable",
+      "project": "phone",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8915
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the minimap camera outline follows rotation and zoom while the simulation is paused",
+      "project": "phone",
+      "status": "skipped",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 80
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "a missing portrait falls back to the original artwork",
+      "project": "phone",
+      "status": "skipped",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 88
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "model portraits and army composition remain usable without extra 3D contexts",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9903
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "an empty selection keeps the command deck compact",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 3463
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the graphical production deck keeps training progress and all commands readable",
+      "project": "tablet",
+      "status": "expected",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9134
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the minimap camera outline follows rotation and zoom while the simulation is paused",
+      "project": "tablet",
+      "status": "skipped",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 109
+        }
+      ]
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "a missing portrait falls back to the original artwork",
+      "project": "tablet",
+      "status": "skipped",
+      "source": "economy-production-browser",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 91
+        }
+      ]
+    }
+  ]
+}

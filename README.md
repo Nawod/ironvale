@@ -6,6 +6,12 @@ An original 3D medieval RTS for your browser, with single-player and server-auth
 
 Choose **Riverlands** for rivers, permanent stone bridges and shallow crossings, or **Lowlands** for open land and woodland. Map choice is available in single-player setup, private room settings and public matchmaking. Armies and workers route through crossings; construction and building relocation require dry, fully scouted ground. Older saves keep their original Lowlands map.
 
+The landscape has seeded green/dry meadow variation, woodland leaf litter, gravel
+around deposits and cobbled ground around developed towns. Rivers have blue water,
+green shallows and pale banks, with reeds, lilies, meadow flowers and ferns nearby.
+Scenery follows scouting visibility and uses smaller decoration budgets on compact
+screens. [Landscape verification](docs/river-valley-verification.md).
+
 ## Play locally
 
 Requires Node.js 24. Dependencies are already installed in this workspace.
@@ -84,6 +90,10 @@ The main menu, multiplayer lobby, preferences, help and match pop-ups share the 
 The 442 bundled WebP portraits total about 2.7 MB and load as ordinary images; selecting units does not create another 3D renderer. To regenerate them after changing models, run `npx tsx scripts/bake-command-portraits.ts` locally. The optional `--preview` flag renders a small sample. Normal builds use the bundled portraits and do not run the workshop. Missing images fall back to the earlier artwork. [Command-deck verification and screenshots](docs/medieval-command-deck-verification.md).
 
 Production buildings have **Set rally point** in Train. Tap ground for new recruits to move there, or tap a visible resource/owned completed farm to send newly trained villagers to work. **Clear rally point** restores idle recruitment. Only future recruits follow it; costs, timers and existing units remain unchanged. Rally/formation state survives saves and online reconnects.
+
+The coin button beside the army/map controls opens **Economy overview**. See how many villagers work on each resource, construction and repairs, or are idle/on other orders. Choose a group to select and find those workers; their current jobs continue until you issue a new order. Only your living, ungarrisoned villagers are included. The panel closes with its X or Escape.
+
+In **Train**, choose **Units per order → 5 units** to recruit a batch. Buttons show the full cost and total sequential training time. The whole batch must fit your resources, population reservations and the building's eight-entry queue; otherwise the order spends nothing. Each troop still takes its usual training time. A housing shortage displays **Training paused** until enough capacity is restored. These controls work in single-player and online matches, including saves and reconnects. [Economy and production verification](docs/economy-production-verification.md).
 
 Wild deer roam near their original habitat in the authoritative simulation and pause while a nearby villager hunts them. Pikemen train at barracks in Town; crossbowmen and heavy cavalry unlock in Fortified Empire at archery ranges and stables. Spears counter mounted troops, mounted troops counter archers, and bows/crossbows counter spear infantry.
 

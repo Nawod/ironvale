@@ -1,0 +1,18 @@
+import {expect,test,type Page} from '@playwright/test';
+import {encodeSave} from '../../src/sim/save';
+import {riverValleyScene} from '../fixtures/river-valley';
+
+async function loadScene(page:Page,weather:'day'|'rain'='day'){
+ const{s,focus}=riverValleyScene(weather);await page.goto('/');await page.evaluate(text=>new Promise<void>(resolve=>{const r=indexedDB.open('ironvale-saves',1);r.onupgradeneeded=()=>r.result.createObjectStore('matches',{keyPath:'slot'});r.onsuccess=()=>{const tx=r.result.transaction('matches','readwrite');tx.objectStore('matches').put({slot:'manual',text,date:new Date().toISOString()});tx.oncomplete=()=>{r.result.close();resolve();};};}),encodeSave(s));await page.reload();await page.getByRole('button',{name:'Load saved match',exact:true}).click();await page.getByRole('button',{name:'Resume match',exact:true}).click();
+ const canvas=page.locator('[data-testid="battlefield"] canvas');await expect(canvas).toHaveAttribute('data-model-detail','ready',{timeout:40000});await expect(canvas).toHaveAttribute('data-texture-detail','ready');const map=page.locator('.minimap canvas');if(!await map.isVisible())await page.getByRole('button',{name:'Show minimap',exact:true}).click();const r=(await map.boundingBox())!;await page.mouse.click(r.x+focus.x/s.size*r.width,r.y+focus.y/s.size*r.height);await expect(page.locator('.toast')).toHaveCount(0,{timeout:6000});return canvas;
+}
+
+for(const weather of ['day','rain'] as const)test(`river-valley ${weather} scenery renders within its mobile or desktop budget`,async({page},info)=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});if(info.project.name==='phone')await page.setViewportSize({width:844,height:390});const canvas=await loadScene(page,weather);await expect(canvas).toHaveAttribute('data-landscape-style','river-valley');await expect.poll(async()=>JSON.parse((await canvas.getAttribute('data-landscape-details'))??'{}').reeds??0).toBeGreaterThan(0);
+ const detail=JSON.parse((await canvas.getAttribute('data-landscape-details'))!);expect(detail.lilies).toBeGreaterThan(0);expect(detail.flowers+detail.ferns).toBeGreaterThan(0);expect(detail.total).toBeLessThanOrEqual(detail.limit);expect(detail.limit).toBe(info.project.name==='desktop'?480:180);await page.screenshot({path:`test-results/${info.project.name}-river-valley-${weather}.png`});expect(errors).toEqual([]);
+ if(info.project.name==='phone'&&weather==='day'){await page.setViewportSize({width:390,height:844});await expect(canvas).toHaveAttribute('data-landscape-style','river-valley');await page.screenshot({path:'test-results/phone-portrait-river-valley.png'});}
+});
+
+test('ordinary new games use the landscape and release it when returning to the menu',async({page},info)=>{
+ const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');await page.getByRole('button',{name:'Begin your reign',exact:true}).click();const canvas=page.locator('[data-testid="battlefield"] canvas');await expect(canvas).toHaveAttribute('data-landscape-style','river-valley');await expect(canvas).toHaveAttribute('data-model-detail','ready',{timeout:40000});await page.screenshot({path:`test-results/${info.project.name}-ordinary-river-valley.png`});await page.getByRole('button',{name:'Pause match',exact:true}).click();await page.getByRole('button',{name:'Main menu',exact:true}).click();await expect(page.getByRole('button',{name:'Begin your reign',exact:true})).toBeVisible();await expect(page.locator('.battlefield canvas')).toHaveCount(1);expect(errors).toEqual([]);
+});

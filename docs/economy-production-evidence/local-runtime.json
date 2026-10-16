@@ -1,0 +1,16 @@
+{
+  "verifiedAt": "2026-10-16T13:01:12.748Z",
+  "origin": "http://localhost:8180",
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "errors": [],
+  "onlineBatch": {
+    "initialFood": 350,
+    "remainingFood": 100,
+    "queueLength": 5
+  },
+  "limits": "Actual production browser screenshots. Local prepared city for worker overview; actual two-player room verifies production server charges and queues five. Chromium touch emulation, not physical phones. Temporary room left explicitly and allowed to expire."
+}

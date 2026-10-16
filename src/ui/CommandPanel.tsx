@@ -2,6 +2,7 @@ import {useEffect,useId,useState,type KeyboardEvent} from 'react';
 import {ArrowRightLeft,ArrowUp,Castle,Coins,Flag,Footprints,Hammer,Hand,Leaf,Map,Mountain,Move,Shield,Swords,Trash2,TreePine,Users,Wheat} from 'lucide-react';
 import {AGE_COSTS,AGE_NAMES,BUILDINGS,UNITS,wallUpgrade} from '../sim/definitions';
 import {pendingTaskCount} from '../sim/tasks';
+import {MAX_RECRUIT_BATCH,scaledCost} from '../sim/production';
 import type {BuildingType,Entity,QueueItem,Resource,Snapshot} from '../sim/types';
 import {EntityPortrait} from './EntityPortrait';
 import {SelectionRoster} from './SelectionRoster';
@@ -55,6 +56,7 @@ export function CommandPanel({snapshot:s,selected,mode,placement,issue,select,se
  const activeTab=tabState.context===context&&tabs.includes(tabState.tab)?tabState.tab:tabs[0];
  const [removeConfirmation,setRemoveConfirmation]=useState<number>();
  const [tradeSell,setTradeSell]=useState<Resource>('wood'),[tradeBuy,setTradeBuy]=useState<Resource>('gold');
+ const [recruitBatch,setRecruitBatch]=useState(1);
  const selectionKey=selected.map(entity=>entity.id).join(',');
  const id=useId();
  const pendingCount=workers.reduce((count,worker)=>count+pendingTaskCount(worker),0);
@@ -104,7 +106,7 @@ export function CommandPanel({snapshot:s,selected,mode,placement,issue,select,se
     <button className="clear-tasks" onClick={stop}><Hand size={18} aria-hidden="true"/>Stop</button><p className="command-guidance">Stop clears current orders and all saved tasks.</p>
    </>}
 
-   {activeTab==='train'&&building&&<div className="action-buttons">{definition?.trains?.map(unit=><button key={unit} className="asset-button" aria-label={`Recruit ${UNITS[unit].name}`} title={`${UNITS[unit].name}: ${costText(UNITS[unit].cost)} · ${UNITS[unit].seconds}s training`} disabled={player.age<UNITS[unit].age} onClick={()=>issue({type:'recruit',building:building.id,unit})}><EntityPortrait type={unit} owner={pid} age={player.age}/><span>{UNITS[unit].name}<ResourceCost cost={UNITS[unit].cost}/><small className="duration">{UNITS[unit].seconds}s training</small></span></button>)}<button className="asset-button rally-set" aria-label="Set rally point" aria-pressed={mode==='rally'} onClick={()=>{setPlacement(undefined);setMode('rally');}}><Flag size={23}/><span>Set rally point<small className="duration">Choose ground or a resource</small></span></button>{building.rally&&<button className="asset-button" aria-label="Clear rally point" onClick={()=>issue({type:'clearRally',building:building.id})}><Hand size={23}/><span>Clear rally point<small className="duration">New recruits stay here</small></span></button>}</div>}
+   {activeTab==='train'&&building&&<div className="action-buttons"><label className="recruit-batch">Units per order<select aria-label="Recruitment batch size" value={recruitBatch} onChange={event=>setRecruitBatch(+event.target.value)}><option value={1}>1 unit</option><option value={MAX_RECRUIT_BATCH}>{MAX_RECRUIT_BATCH} units</option></select></label>{definition?.trains?.map(unit=><button key={unit} className="asset-button" aria-label={`Recruit ${recruitBatch===1?'':`${recruitBatch} `}${UNITS[unit].name}`} title={`${recruitBatch} × ${UNITS[unit].name}: ${costText(scaledCost(UNITS[unit].cost,recruitBatch))} · ${UNITS[unit].seconds*recruitBatch}s sequential training`} disabled={player.age<UNITS[unit].age} onClick={()=>issue({type:'recruit',building:building.id,unit,count:recruitBatch})}><EntityPortrait type={unit} owner={pid} age={player.age}/><span>{recruitBatch>1?`${recruitBatch} × `:''}{UNITS[unit].name}<ResourceCost cost={scaledCost(UNITS[unit].cost,recruitBatch)}/><small className="duration">{UNITS[unit].seconds*recruitBatch}s {recruitBatch>1?'total training':'training'}</small></span></button>)}<button className="asset-button rally-set" aria-label="Set rally point" aria-pressed={mode==='rally'} onClick={()=>{setPlacement(undefined);setMode('rally');}}><Flag size={23}/><span>Set rally point<small className="duration">Choose ground or a resource</small></span></button>{building.rally&&<button className="asset-button" aria-label="Clear rally point" onClick={()=>issue({type:'clearRally',building:building.id})}><Hand size={23}/><span>Clear rally point<small className="duration">New recruits stay here</small></span></button>}</div>}
 
    {activeTab==='improve'&&building&&<div className="action-buttons">
     {building.id===player.capital&&player.age<3&&<button className="asset-button research-button" onClick={()=>issue({type:'research',building:building.id,research:'age'})}><ArrowUp size={24} aria-hidden="true"/><span>Advance to {AGE_NAMES[player.age+1]}<ResourceCost cost={AGE_COSTS[player.age]}/><small className="duration">45s research</small></span></button>}
@@ -128,6 +130,6 @@ export function CommandPanel({snapshot:s,selected,mode,placement,issue,select,se
    </>}
   </div>:<div className="command-content command-hint"><Map size={24} aria-hidden="true"/><p>Select your villagers, soldiers, or a building to give orders.</p><small>Explore the land. Shape its future.</small></div>}
 
-  {building&&building.queue.length>0&&<div className="queue" aria-label="Production queue">{queueRow(building.queue[0],0)}{building.queue.length===2?queueRow(building.queue[1],1):building.queue.length>2&&<details className="queue-more"><summary>{building.queue.length-1} more queued</summary>{building.queue.slice(1).map((item,index)=>queueRow(item,index+1))}</details>}</div>}
+  {building&&building.queue.length>0&&<div className="queue" aria-label="Production queue">{building.queue[0].kind==='unit'&&s.population>=s.capacity&&<p className="production-paused" role="status">Training paused: build houses for more population.</p>}{queueRow(building.queue[0],0)}{building.queue.length===2?queueRow(building.queue[1],1):building.queue.length>2&&<details className="queue-more"><summary>{building.queue.length-1} more queued</summary>{building.queue.slice(1).map((item,index)=>queueRow(item,index+1))}</details>}</div>}
  </div>;
 }

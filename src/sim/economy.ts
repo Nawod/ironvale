@@ -10,6 +10,7 @@ import {assign,assignTask,canAssignTask,pendingTaskCount,resumeWorkerTask,resume
 import {applyBuildingAction} from './building-actions';
 import {FORMATIONS,formationDestinations,validSelection} from './formations';
 import {applyWallLine,wallWorkerPlan} from './wall-lines';
+import {MAX_RECRUIT_BATCH,scaledCost} from './production';
 export {assign} from './tasks';
 export function event(s:GameState,player:number,text:string,kind:'info'|'attack'|'capture'|'error'|'complete'='info',p?:Position):void {s.events.push({id:s.nextEvent++,tick:s.tick,player,text,kind,...(p?{x:p.x,y:p.y}:{})});if(s.events.length>80)s.events.splice(0,s.events.length-80);}
 export function affordable(s:GameState,player:number,cost:Partial<Resources>):boolean {return Object.entries(cost).every(([r,n])=>s.players[player].resources[r as Resource]>=n!);}
@@ -56,13 +57,14 @@ export function applyCommand(s:GameState,c:Command):string|null {
   b.queue.push({kind:'wall',remaining:d.seconds,total:d.seconds,cost:d.cost});return null;
  }
  if(c.type==='recruit'){
+  const count=c.count===undefined?1:c.count;if(!Number.isSafeInteger(count)||count<1||count>MAX_RECRUIT_BATCH)return 'Choose a recruitment batch of 1 to 5 units.';
   const b=owned(c.building),d=UNITS[c.unit];if(!b||b.kind!=='building'||b.progress<1||b.hp<=0)return 'Select a completed building you own.';
   if(!d||!BUILDINGS[b.type as keyof typeof BUILDINGS].trains?.includes(c.unit)||p.age<d.age)return 'This troop is not available here yet.';
   const queued=Object.values(s.entities).filter(e=>e.owner===c.player).reduce((n,e)=>n+e.queue.filter(q=>q.kind==='unit').length,0);
-  if(population(s,c.player)+queued>=capacity(s,c.player))return 'Build houses for more population.';
-  if(b.queue.length>=8)return 'The production queue is full.';
-  if(!pay(s,c.player,d.cost))return 'Not enough resources.';
-  b.queue.push({kind:'unit',unit:c.unit,remaining:d.seconds,total:d.seconds,cost:d.cost});return null;
+  if(population(s,c.player)+queued+count>capacity(s,c.player))return 'Build houses for more population.';
+  if(b.queue.length+count>8)return 'The production queue is full.';
+  if(!pay(s,c.player,scaledCost(d.cost,count)))return 'Not enough resources.';
+  for(let i=0;i<count;i++)b.queue.push({kind:'unit',unit:c.unit,remaining:d.seconds,total:d.seconds,cost:d.cost});return null;
  }
  if(c.type==='research'){
   const b=owned(c.building);if(!b||b.kind!=='building'||b.progress<1||b.hp<=0)return 'Select a completed research building.';

@@ -58,3 +58,9 @@ The reproducible workshop is `scripts/bake-command-portraits.ts`; no external
 generation service or additional source pack is used. The oak HUD grain is an
 original SVG, with original CSS brass/stone framing. Existing model license
 notices and usage restrictions continue to apply.
+
+The river-valley landscape pass adds original seeded meadow, leaf-litter and
+gravel coloring, procedural cobblestone joints and river shading. Reeds, lilies,
+small flowers and ferns use original shared, vertex-colored geometry. It reuses
+the existing licensed ground photograph; no additional third-party asset,
+purchase, generation service or runtime download is introduced.
