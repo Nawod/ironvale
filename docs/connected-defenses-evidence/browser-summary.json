@@ -1,0 +1,188 @@
+{
+  "counts": {
+    "passed": 26,
+    "skipped": 4
+  },
+  "latestCases": [
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall lines preview an L corner and charge only new sections after confirmation",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "an earlier wall acknowledgment cannot erase a new plan after cancellation",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall-line planning blocks occupied routes and remains usable in landscape",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall lines preview an L corner and charge only new sections after confirmation",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "an earlier wall acknowledgment cannot erase a new plan after cancellation",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall-line planning blocks occupied routes and remains usable in landscape",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall lines preview an L corner and charge only new sections after confirmation",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "an earlier wall acknowledgment cannot erase a new plan after cancellation",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall-line planning blocks occupied routes and remains usable in landscape",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "wall-alignment.spec.ts",
+      "title": "enclosure walls face along both sides",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "wall-alignment.spec.ts",
+      "title": "enclosure walls face along both sides",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "wall-alignment.spec.ts",
+      "title": "enclosure walls face along both sides",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "wooden walls start unlocked and explain the next town-hall requirement",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "an owned wooden wall upgrades to stone with a paid visible timer",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "third-age reinforcement keeps existing wall damage",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "wooden walls start unlocked and explain the next town-hall requirement",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "an owned wooden wall upgrades to stone with a paid visible timer",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "third-age reinforcement keeps existing wall damage",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "wooden walls start unlocked and explain the next town-hall requirement",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "an owned wooden wall upgrades to stone with a paid visible timer",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "wall-progression.spec.ts",
+      "title": "third-age reinforcement keeps existing wall damage",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "phone",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "tablet",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "online formation and rally commands survive reconnect without sharing resources",
+      "project": "desktop",
+      "status": "passed"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "online formation and rally commands survive reconnect without sharing resources",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "medieval-overhaul.spec.ts",
+      "title": "online formation and rally commands survive reconnect without sharing resources",
+      "project": "tablet",
+      "status": "skipped"
+    }
+  ]
+}

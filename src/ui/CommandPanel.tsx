@@ -15,6 +15,7 @@ interface CommandPanelProps {
  select:(ids:number[])=>void;
  setMode:(mode:string)=>void;
  setPlacement:(building?:BuildingType)=>void;
+ startWallLine?:(building:'palisade'|'wall')=>void;
 }
 
 type Tab='orders'|'build'|'tasks'|'train'|'improve'|'manage';
@@ -36,7 +37,7 @@ function ResourceCost({cost}:{cost:Partial<Record<Resource,number>>}) {
  })}</span>;
 }
 
-export function CommandPanel({snapshot:s,selected,mode,placement,issue,select,setMode,setPlacement}:CommandPanelProps) {
+export function CommandPanel({snapshot:s,selected,mode,placement,issue,select,setMode,setPlacement,startWallLine}:CommandPanelProps) {
  const pid=s.playerId,player=s.players[pid],primary=selected[0];
  const units=selected.filter(entity=>entity.owner===pid&&entity.kind==='unit');
  const workers=units.filter(entity=>entity.type==='villager'),soldiers=units.filter(entity=>entity.type!=='villager');
@@ -91,7 +92,7 @@ export function CommandPanel({snapshot:s,selected,mode,placement,issue,select,se
     <p className="command-guidance">Choose an order, then a destination or target on the battlefield.</p>
    </>}
 
-   {activeTab==='build'&&<div className="building-buttons">{Object.entries(BUILDINGS).filter(([type])=>!['capital','outpost'].includes(type)).map(([type,def])=><button key={type} className={'asset-button '+(placement===type?'active':'')} disabled={player.age<def.age} title={`${def.name}: ${costText(def.cost)} · ${def.seconds}s construction${player.age<def.age?' — unlocks in '+AGE_NAMES[def.age]:''}`} aria-label={`Build ${def.name}`} aria-pressed={placement===type} onClick={()=>{setMode('');setPlacement(type as BuildingType);}}><img src={entityImage(type as BuildingType,pid)} alt=""/><span>{def.name}<ResourceCost cost={def.cost}/><small className="duration">{def.seconds}s construction</small></span></button>)}
+   {activeTab==='build'&&<div className="building-buttons">{startWallLine&&(['palisade','wall'] as const).map(type=><button key={`line-${type}`} className="asset-button wall-line-choice" aria-label={`Build ${BUILDINGS[type].name} line`} disabled={player.age<BUILDINGS[type].age} onClick={()=>startWallLine(type)}><img src={entityImage(type,pid)} alt=""/><span>{BUILDINGS[type].name} line<small className="duration">Choose start and end · Review cost</small></span></button>)}{Object.entries(BUILDINGS).filter(([type])=>!['capital','outpost'].includes(type)).map(([type,def])=><button key={type} className={'asset-button '+(placement===type&&mode!=='wallLine'?'active':'')} disabled={player.age<def.age} title={`${def.name}: ${costText(def.cost)} · ${def.seconds}s construction${player.age<def.age?' — unlocks in '+AGE_NAMES[def.age]:''}`} aria-label={`Build ${def.name}`} aria-pressed={placement===type&&mode!=='wallLine'} onClick={()=>{setMode('');setPlacement(type as BuildingType);}}><img src={entityImage(type as BuildingType,pid)} alt=""/><span>{def.name}<ResourceCost cost={def.cost}/><small className="duration">{def.seconds}s construction</small></span></button>)}
     {s.entities.find(entity=>entity.id===player.capital)?.hp===0&&<button className="asset-button" onClick={()=>issue({type:'rebuild',workers:workers.map(entity=>entity.id)})}><Hammer size={22} aria-hidden="true"/><span>Rebuild capital</span></button>}
    </div>}
 

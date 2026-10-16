@@ -38,6 +38,7 @@ export type Command =
  | { type: 'rally'; building: number; point: Position; target?: number; player: number }
  | { type: 'clearRally'; building: number; player: number }
  | { type: 'build'; building: BuildingType; point: Position; workers: number[]; player: number }
+ | { type: 'buildWallLine'; building: 'palisade' | 'wall'; start: Position; end: Position; workers: number[]; player: number }
  | { type: 'recruit'; building: number; unit: UnitType; player: number }
  | { type: 'upgradeWall'; building: number; player: number }
  | { type: 'moveBuilding'; building: number; point: Position; player: number }

@@ -22,6 +22,7 @@ export class RoomService {
  connect(id:string,peer:Peer){this.peers.set(id,peer);peer.send({type:'welcome',id,protocol:1});}
  private send(id:string|undefined,m:ServerMessage){if(id)this.peers.get(id)?.send(m);}
  private error(id:string,message:string){this.send(id,{type:'error',error:message});}
+ private reject(id:string,m:ClientMessage,error:string){if(m.type==='command')this.send(id,{type:'commandResult',seq:m.seq,error});else this.error(id,error);}
  private view(room:Room):RoomView{return {code:room.code,kind:room.kind,phase:room.phase,capacity:room.capacity,fillAI:room.fillAI,difficulty:room.difficulty,seed:room.seed,mode:room.mode??'ffa',zombies:room.zombies??false,mapType:room.mapType??'lowlands',hostId:room.hostId,countdownEnds:room.countdownEnds,players:room.players.map(p=>({id:p.id,name:p.name,seat:p.seat,team:p.team,ready:p.ready,connected:!!p.connectionId,controller:p.controller}))};}
  private broadcast(room:Room){this.broadcastVoice(room);for(const p of room.players)this.send(p.connectionId,{type:'room',room:this.view(room)});}
  private voiceParticipant(room:Room,p:Participant):VoiceState|undefined{
@@ -44,7 +45,7 @@ export class RoomService {
  private nextTeam(room:Room):number{const counts=[0,0];for(const p of room.players)if(p.team===0||p.team===1)counts[p.team]=(counts[p.team]??0)+1;return counts.indexOf(Math.min(...counts));}
  private add(room:Room,id:string,name:string,ready=false){const token=randomBytes(32).toString('hex'),player:Participant={id,name,connectionId:id,tokenHash:hash(token),ready,seat:room.players.length,team:room.mode==='teams'?this.nextTeam(room):undefined,lastSeq:0,controller:'human'};room.players.push(player);this.bindings.set(id,{room,player});this.send(id,{type:'joined',room:this.view(room),token,playerId:player.seat,lastSeq:0});this.broadcast(room);}
  handle(id:string,m:ClientMessage):void {
-  if(!this.peers.has(id))return;const now=this.now(),voice=m.type==='voiceState'||m.type==='voiceSignal',rates=voice?this.voiceRate:this.rate,bucket=rates.get(id);if(!bucket||now-bucket.at>=1000)rates.set(id,{at:now,count:1});else if(++bucket.count>(voice?100:40)){this.error(id,voice?'Too many voice requests. Please slow down.':'Too many orders. Please slow down.');return;}
+  if(!this.peers.has(id))return;const now=this.now(),voice=m.type==='voiceState'||m.type==='voiceSignal',rates=voice?this.voiceRate:this.rate,bucket=rates.get(id);if(!bucket||now-bucket.at>=1000)rates.set(id,{at:now,count:1});else if(++bucket.count>(voice?100:40)){this.reject(id,m,voice?'Too many voice requests. Please slow down.':'Too many orders. Please slow down.');return;}
   try{
    if(m.type==='create'){if(!this.free(id))throw new Error('Leave your current room or queue first.');const room=this.newRoom('private',{...m,capacity:8},id);this.add(room,id,m.name);return;}
    if(m.type==='join'){if(!this.free(id))throw new Error('Leave your current room or queue first.');const room=this.rooms.get(m.code);if(!room||room.kind!=='private')throw new Error('That room code was not found.');if(room.phase!=='lobby')throw new Error('This match has already started.');if(room.players.length>=room.capacity)throw new Error('This room is full.');this.add(room,id,m.name);return;}
@@ -69,7 +70,7 @@ export class RoomService {
    if(m.type==='ready'){player.ready=m.ready;this.broadcast(room);return;}
    if(m.type==='settings'){if(room.kind!=='private'||room.hostId!==player.id)throw new Error('Only the room host can change settings.');const changed=(room.mode??'ffa')!==(m.mode??'ffa');Object.assign(room,{capacity:8,fillAI:m.fillAI,difficulty:m.difficulty,seed:m.seed,mode:m.mode??'ffa',zombies:m.zombies??false,mapType:m.mapType??room.mapType??'lowlands'});if(changed){room.players.forEach((p,i)=>p.team=room.mode==='teams'?i%2:undefined);this.resetVoice(room);}room.players.forEach(p=>p.ready=false);this.broadcast(room);return;}
    if(m.type==='start'){if(room.kind!=='private'||room.hostId!==player.id)throw new Error('Only the room host can start this match.');if(room.players.length<2)throw new Error('Wait for at least one friend to join.');if(room.players.some(p=>!p.ready||!p.connectionId))throw new Error('Everyone must be ready before starting.');this.start(room);return;}
-  }catch(error){this.error(id,error instanceof Error?error.message:'The request could not be completed.');}
+  }catch(error){this.reject(id,m,error instanceof Error?error.message:'The request could not be completed.');}
  }
  private start(room:Room){
   const capacity=room.kind==='private'&&!room.fillAI?room.players.length:room.capacity;

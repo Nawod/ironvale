@@ -4,6 +4,7 @@ import {BUILDINGS,COLORS} from '../sim/definitions';
 import type {BuildingType,Entity} from '../sim/types';
 import type {ModelPart} from './models3d';
 import {SurfaceLibrary,type Surface} from './surfaces3d';
+import type {WallLayout} from './wall-orientation';
 
 type Vec=[number,number,number];
 type Palette='stone'|'trim'|'mortar'|'plaster'|'wood'|'timber'|'roof'|'slate'|'dark'|'glass'|'metal'|'brass'|'soil'|'leaf'|'wheat'|'red'|'cloth'|'team'|'fire';
@@ -13,7 +14,7 @@ const PALETTE:Record<Palette,[string,Surface?]>={stone:['#9b9b87','stone'],trim:
 const finite=(n:number,fallback:number)=>Number.isFinite(n)?n:fallback;
 
 /** Original architecture. Templates own their geometry; owner variants share it.
- * Only this finite type/age/tier/owner space is cached, never entity identity. */
+ * Only finite type/age/tier/connection/owner variants are cached, never entity identity. */
 export class MedievalBuildings {
  readonly shapes={box:new BoxGeometry(1,1,1),cylinder:new CylinderGeometry(.5,.5,1,12),sphere:new SphereGeometry(.5,10,7),crop:new SphereGeometry(.5,6,4),cone:new ConeGeometry(.5,1,12),ring:new TorusGeometry(.5,.07,5,16),roof:this.roofGeometry()};
  private surfaces=new SurfaceLibrary();
@@ -24,13 +25,17 @@ export class MedievalBuildings {
  private daylight=1;
  private disposed=false;
 
- get(entity:Entity,age:number):ModelPart[]|undefined {
+ get(entity:Entity,age:number,layout?:WallLayout):ModelPart[]|undefined {
   if(this.disposed||entity.kind!=='building'||entity.hp<=0||!Object.hasOwn(BUILDINGS,entity.type))return undefined;
   const type=entity.type as BuildingType,era=Math.min(3,Math.max(1,Math.floor(finite(age,1)))),owner=Math.min(7,Math.max(0,Math.floor(finite(entity.owner,0))));
-  const tier=type==='wall'&&entity.wallTier===3?3:0,templateKey=`${type}:${era}:${tier}`,key=`${templateKey}:${owner}`;
+  const tier=type==='wall'&&entity.wallTier===3?3:0,fortification=type==='palisade'||type==='wall'||type==='gate';
+  const mask=(Math.floor(finite(layout?.mask??10,10))&15)||10,gatePorts=Math.floor(finite(layout?.gatePorts??0,0))&255;
+  // Fortifications have no age-dependent decoration. Their finite connection variants
+  // therefore share geometry across ages as well as across city colors and entities.
+  const templateKey=`${type}:${fortification?1:era}:${tier}:${type==='gate'?gatePorts:fortification?mask:0}`,key=`${templateKey}:${owner}`;
   const cached=this.cache.get(key);if(cached)return cached;
   let template=this.templates.get(templateKey);
-  if(!template){template=this.compile(this.build(type,era,tier));this.templates.set(templateKey,template);}
+  if(!template){template=this.compile(this.build(type,fortification?1:era,tier,mask,gatePorts));this.templates.set(templateKey,template);}
   const result=template.map(part=>({...part,material:this.material(part.color,owner)}));
   this.cache.set(key,result);return result;
  }
@@ -81,7 +86,7 @@ export class MedievalBuildings {
   return result;
  }
 
- private build(type:BuildingType,age:number,tier:number):Detail[] {
+ private build(type:BuildingType,age:number,tier:number,mask:number,gatePorts:number):Detail[] {
   const parts:Detail[]=[],n=BUILDINGS[type].size,upper=age>=2,imperial=age===3;
   const add=(shape:Detail['shape'],color:Palette,p:Vec,s:Vec,r:Vec=[0,0,0],motion?:ModelPart['motion'])=>parts.push({shape,color,p,s,r,motion});
   const box=(c:Palette,x:number,y:number,z:number,w:number,h:number,d:number,r:Vec=[0,0,0],motion?:ModelPart['motion'])=>add('box',c,[x,y,z],[w,h,d],r,motion);
@@ -155,15 +160,38 @@ export class MedievalBuildings {
    if(cap){add('cone',imperial?'slate':'roof',[x,h+.85,z],[w*1.23,1.05,w*1.23]);flag(x,z,h+1.37);}
   };
 
+  // Each arm runs from the shared center to the exact edge port. These are
+  // merged into one material batch, so elbows and junctions add no draw calls.
+  const wallRun=(kind:'palisade'|'wall',a:[number,number],b:[number,number],gateAdapter=false)=>{
+   const dx=b[0]-a[0],dz=b[1]-a[1],length=Math.hypot(dx,dz);if(length<.001)return;
+   const ux=dx/length,uz=dz/length,mx=(a[0]+b[0])/2,mz=(a[1]+b[1])/2,yaw=-Math.atan2(uz,ux);
+   const runBox=(color:Palette,along:number,y:number,side:number,w:number,h:number,d:number)=>box(color,mx+ux*along-uz*side,y,mz+uz*along+ux*side,w,h,d,[0,yaw,0]);
+   if(kind==='palisade'){
+    runBox('soil',0,.04,0,length,.08,.54);
+    const logs=Math.max(1,Math.round(length*6));
+    for(let i=0;i<logs;i++){
+     const along=-length/2+(i+.5)*length/logs,x=mx+ux*along,z=mz+uz*along;
+     add('cylinder','wood',[x,.85,z],[.19,1.62,.19]);add('cone','wood',[x,1.77,z],[.19,.26,.19]);
+    }
+    for(const side of [-.11,.11])for(const y of [.5,1.2])runBox('timber',0,y,side,length,.12,.09);
+   }else{
+    const h=tier===3&&!gateAdapter?2.15:1.65,depth=gateAdapter?.36:tier===3?.63:.48;
+    runBox('mortar',0,.13,0,length,.26,gateAdapter?.46:.7);runBox('stone',0,h/2,0,length,h,depth);
+    for(const y of [.36,h-.12])runBox('trim',0,y,0,length,.1,depth+.07);
+    runBox('dark',0,h+.04,0,length,.06,Math.max(.24,depth-.1));runBox('trim',0,h+.09,0,length,.14,depth+.09);
+    const merlons=Math.max(1,Math.round(length/.25));
+    for(let i=0;i<merlons;i++)for(const side of [-1,1])runBox('trim',-length/2+(i+.5)*length/merlons,h+.31,side*depth*.39,length/merlons*.56,.34,.17);
+   }
+  };
+
   if(type==='palisade'){
-   box('soil',0,.04,0,1.02,.08,.54);
-   for(let i=0;i<6;i++){const x=(i-2.5)/6;add('cylinder','wood',[x,.85,0],[.19,1.62,.19]);add('cone','wood',[x,1.77,0],[.19,.26,.19]);}
-   for(const z of [-.11,.11])for(const y of [.5,1.2])box('timber',0,y,z,1.02,.12,.09);
+   const edges:[number,number][]=[[0,-.5],[.5,0],[0,.5],[-.5,0]];
+   for(let side=0;side<4;side++)if(mask&(1<<side))wallRun('palisade',[0,0],edges[side]);
   }else if(type==='wall'){
-   const h=tier===3?2.15:1.65;box('mortar',0,.13,0,1.025,.26,.7);box('stone',0,h/2,0,1.025,h,tier===3?.63:.48);
-   for(const y of [.36,h-.12])box('trim',0,y,0,1.03,.1,tier===3?.67:.55);
-   box('dark',0,h+.04,0,1.025,.06,.38);crenellations(0,0,1.025,tier===3?.65:.52,h+.09);
-   if(tier===3)for(const x of [-.4,.4])box('trim',x,.9,0,.16,1.8,.72);
+   const h=tier===3?2.15:1.65,depth=tier===3?.63:.48,edges:[number,number][]=[[0,-.5],[.5,0],[0,.5],[-.5,0]];
+   box('mortar',0,.13,0,.7,.26,.7);box('stone',0,h/2,0,depth,h,depth);box('trim',0,h+.09,0,depth+.09,.14,depth+.09);
+   for(let side=0;side<4;side++)if(mask&(1<<side))wallRun('wall',[0,0],edges[side]);
+   if(tier===3)box('trim',0,.9,0,.72,1.8,.72);
   }else if(type==='gate'){
    foundation(2.08,1.2);
    for(const x of [-.77,.77])stoneTower(x,0,.5,2.05);
@@ -171,6 +199,16 @@ export class MedievalBuildings {
    // Merge the real slats by material; no opaque static panel fills the passage.
    for(let i=0;i<7;i++)box('wood',(i-3)*.142,.91,.16,.125,1.54,.09,[0,0,0],'gate');
    for(const y of [.43,1.39])box('metal',0,y,.22,.95,.06,.04,[0,0,0],'gate');
+   for(let port=0;port<8;port++)if(gatePorts&(1<<port)){
+    const side=port>>1,offset=(port&1)?.5:-.5;
+    if(side===1||side===3){
+     const sign=side===1?1:-1;
+     wallRun('wall',[sign*.77,0],[sign*.77,offset],true);wallRun('wall',[sign*.77,offset],[sign,offset],true);
+    }else{
+     const sign=side===0?-1:1,jamb=offset<0?-.77:.77;
+     wallRun('wall',[jamb,0],[jamb,sign],true);wallRun('wall',[jamb,sign],[offset,sign],true);
+    }
+   }
    flag(.76,0,2.55);
   }else if(type==='farm'){
    box('soil',0,.065,0,2.93,.13,2.93);

@@ -1,9 +1,11 @@
 import {expect,it} from 'vitest';
-import {InstancedMesh,Matrix4,Vector3} from 'three';
+import {InstancedMesh,Matrix4,Vector3,Raycaster} from 'three';
 import {Battlefield} from '../src/render/battlefield';
 import {createGame} from '../src/sim/world';
 import {snapshot} from '../src/sim/visibility';
 import type {BuildingType,Entity,Snapshot} from '../src/sim/types';
+import {wallLayouts} from '../src/render/wall-orientation';
+import {MedievalBuildings} from '../src/render/medieval-buildings3d';
 
 function site(id:number,x:number,y:number,type:BuildingType='palisade',extra:Partial<Entity>={}):Entity{
  return{id,kind:'building',type,x,y,owner:0,hp:250,maxHp:250,progress:1,queue:[],order:{kind:'idle'},path:[],cooldown:0,amount:0,stance:'hold',garrison:[],...extra};
@@ -13,7 +15,7 @@ function battlefield(entities:Entity[]){
  const field=new Battlefield({} as HTMLElement,{select:()=>{},action:()=>{},cancel:()=>{},error:()=>{}}) as any;
  field.app.screen={width:1200,height:900};field.center({x:23,y:23});field.update(view(entities));
  // Keep real models, projection, batching and instance transforms; only GPU submission is absent.
- field.renderer={render:()=>{},shadowMap:{enabled:false}};
+ field.renderer={render:()=>{},shadowMap:{enabled:false}};field.medieval=new MedievalBuildings();
  const axis=(id:number)=>{
   field.draw();
   for(const batch of field.batches.batches.values()){
@@ -25,13 +27,25 @@ function battlefield(entities:Entity[]){
   throw new Error(`No rendered instance for ${id}`);
  };
  const update=(entities:Entity[])=>field.update(view(entities));
- const dispose=()=>{field.batches.dispose();field.models.dispose();field.ring.dispose();field.bar.dispose();for(const material of [...field.barMaterials,...field.selectionMaterials])material.dispose();field.preview.geometry.dispose();field.preview.material.dispose();field.battleEffects?.dispose();};
+ const dispose=()=>{field.batches.dispose();field.medieval.dispose();field.models.dispose();field.ring.dispose();field.bar.dispose();for(const material of [...field.barMaterials,...field.selectionMaterials])material.dispose();field.preview.geometry.dispose();field.preview.material.dispose();field.battleEffects?.dispose();};
  return{field,axis,update,dispose};
 }
 
 it.each(['palisade','wall'] as const)('rotates the actual %s instance to follow a north/south wall run',type=>{
  const render=battlefield([site(1,22,21,type),site(2,22,22,type),site(3,22,23,type)]);
  try{expect([1,2,3].map(render.axis)).toEqual(['y','y','y']);}finally{render.dispose();}
+});
+
+it.each(['palisade','wall'] as const)('passes the %s corner layout into the actual instanced building geometry',type=>{
+ const render=battlefield([site(1,22,22,type),site(2,23,22,type),site(3,22,23,type)]);
+ try{
+  render.field.draw();
+  const batches=[...render.field.batches.batches.values()] as any[];
+  for(const batch of batches){batch.mesh.computeBoundingSphere();batch.mesh.updateMatrixWorld();}
+  const ray=new Raycaster(new Vector3(22.5,5,22.99),new Vector3(0,-1,0),0,6);
+  const cornerHits=ray.intersectObjects(batches.map(b=>b.mesh)).filter(hit=>hit.instanceId!==undefined&&batches.find(b=>b.mesh===hit.object)?.ids[hit.instanceId!]===1);
+  expect(cornerHits.some(hit=>hit.point.y>1.3),'the corner must have a southern arm, rather than the default straight template').toBe(true);
+ }finally{render.dispose();}
 });
 
 it('aligns every straight side of a rectangular enclosure and gives corners a stable X tie',()=>{
@@ -80,4 +94,31 @@ it('keeps junction ties deterministic when snapshot entity order changes',()=>{
 it('leaves isolated walls and ordinary buildings at their original X orientation',()=>{
  const render=battlefield([site(1,22,22),site(2,25,25,'house')]);
  try{expect([1,2].map(render.axis)).toEqual(['x','x']);}finally{render.dispose();}
+});
+
+it('retains corner, T and cross topology rather than dropping tied connections',()=>{
+ expect(typeof wallLayouts).toBe('function');
+ const center=site(1,22,22),n=site(2,22,21),e=site(3,23,22),s=site(4,22,23),w=site(5,21,22);
+ expect(wallLayouts([center,n,e]).get(1)).toEqual({yaw:0,mask:3,gatePorts:0});
+ expect(wallLayouts([center,n,e,w]).get(1)).toEqual({yaw:0,mask:11,gatePorts:0});
+ expect(wallLayouts([center,n,e,s,w]).get(1)).toEqual({yaw:0,mask:15,gatePorts:0});
+ expect(wallLayouts([center,n,s]).get(1)).toEqual({yaw:Math.PI/2,mask:10,gatePorts:0});
+});
+
+it('records actual gate edge tile ports and normalizes them with the model yaw',()=>{
+ const gate=site(1,22,22,'gate');
+ const horizontal=wallLayouts([gate,site(2,21,22),site(3,24,23)]).get(1)!;
+ expect(horizontal).toEqual({yaw:0,mask:10,gatePorts:(1<<6)|(1<<3)});
+ const vertical=wallLayouts([gate,site(2,22,21),site(3,23,24)]).get(1)!;
+ expect(vertical).toEqual({yaw:Math.PI/2,mask:10,gatePorts:(1<<2)|(1<<7)});
+ expect(wallLayouts([site(3,23,24),gate,site(2,22,21)]).get(1)).toEqual(vertical);
+});
+
+it('updates topology from same-city living snapshot walls after upgrades, moves and removal without mutating them',()=>{
+ const center=site(1,22,22),known=site(2,22,21,'wall',{ghost:true,progress:.1}),enemy=site(3,21,22,'wall',{owner:1}),dead=site(4,23,22,'wall',{hp:0});
+ const entities=[center,known,enemy,dead],before=structuredClone(entities);
+ expect(wallLayouts(entities).get(1)).toEqual({yaw:Math.PI/2,mask:2,gatePorts:0});
+ expect(wallLayouts([center,{...known,x:23,y:22,type:'palisade'}]).get(1)).toEqual({yaw:0,mask:2,gatePorts:0});
+ expect(wallLayouts([{...center,type:'wall',wallTier:3}]).get(1)).toEqual({yaw:0,mask:0,gatePorts:0});
+ expect(entities).toEqual(before);
 });

@@ -9,6 +9,7 @@ import type {FoodSourceType} from './types';
 import {assign,assignTask,canAssignTask,pendingTaskCount,resumeWorkerTask,resumeWithoutStore,MAX_WORKER_TASKS} from './tasks';
 import {applyBuildingAction} from './building-actions';
 import {FORMATIONS,formationDestinations,validSelection} from './formations';
+import {applyWallLine,wallWorkerPlan} from './wall-lines';
 export {assign} from './tasks';
 export function event(s:GameState,player:number,text:string,kind:'info'|'attack'|'capture'|'error'|'complete'='info',p?:Position):void {s.events.push({id:s.nextEvent++,tick:s.tick,player,text,kind,...(p?{x:p.x,y:p.y}:{})});if(s.events.length>80)s.events.splice(0,s.events.length-80);}
 export function affordable(s:GameState,player:number,cost:Partial<Resources>):boolean {return Object.entries(cost).every(([r,n])=>s.players[player].resources[r as Resource]>=n!);}
@@ -16,6 +17,7 @@ export function pay(s:GameState,player:number,cost:Partial<Resources>):boolean {
 export function applyCommand(s:GameState,c:Command):string|null {
  const p=s.players[c.player];if(!p?.alive||s.winner!==null)return 'This empire is no longer in the match.';
  if(c.type==='moveBuilding'||c.type==='removeBuilding')return applyBuildingAction(s,c);
+ if(c.type==='buildWallLine')return applyWallLine(s,c);
  const owned=(id:number)=>{const e=s.entities[id];return e?.owner===c.player?e:undefined;};
  if(c.type==='formation'){
   if(!FORMATIONS.includes(c.formation)||!validSelection(c.ids))return 'Choose a valid formation and unit selection.';
@@ -40,10 +42,10 @@ export function applyCommand(s:GameState,c:Command):string|null {
   if(!bounds(s,point)||point.x+d.size>=s.size-1||point.y+d.size>=s.size-1)return 'Choose clear land for this building.';
   for(let y=point.y;y<point.y+d.size;y++)for(let x=point.x;x<point.x+d.size;x++)if(!s.visible[c.player][y*s.size+x])return 'Scout this land before building.';
   if(!canPlace(s,c.building,point))return 'Choose clear land for this building.';
-  const continuesWalls=(w:Entity)=>c.building==='wall'&&w.order.kind==='build'&&(s.entities[w.order.target??0]?.type==='wall'&&s.entities[w.order.target??0]?.owner===w.owner||(w.buildQueue??[]).some(id=>s.entities[id]?.owner===w.owner));
-  if(workers.some(w=>continuesWalls(w)?pendingTaskCount(w)>=MAX_WORKER_TASKS:!canAssignTask(w,{kind:'build',target:s.nextId})))return 'Worker task list is full. Finish tasks or use Stop to clear it.';
+  const wallPlans=c.building==='palisade'||c.building==='wall'?workers.map(w=>wallWorkerPlan(s,w,[s.nextId])):undefined;
+  if(wallPlans?wallPlans.some(w=>pendingTaskCount(w)>MAX_WORKER_TASKS):workers.some(w=>!canAssignTask(w,{kind:'build',target:s.nextId})))return 'Worker task list is full. Finish tasks or use Stop to clear it.';
   if(!pay(s,c.player,d.cost))return 'Not enough resources.';
-  const e=spawn(s,'building',c.building,c.player,point);e.progress=0;e.hp=1;for(const w of workers){if(continuesWalls(w)){(w.buildQueue??=[]).push(e.id);}else assignTask(s,w,{kind:'build',target:e.id});}return null;
+  const e=spawn(s,'building',c.building,c.player,point);e.progress=0;e.hp=1;for(const [i,w]of workers.entries()){if(wallPlans)Object.assign(w,wallPlans[i]);else assignTask(s,w,{kind:'build',target:e.id});}return null;
  }
  if(c.type==='upgradeWall'){
   const b=owned(c.building),d=b&&wallUpgrade(b);

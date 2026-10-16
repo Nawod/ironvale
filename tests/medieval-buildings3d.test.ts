@@ -4,6 +4,7 @@ import {MedievalBuildings} from '../src/render/medieval-buildings3d';
 import {BUILDINGS,COLORS} from '../src/sim/definitions';
 import type {BuildingType,Entity} from '../src/sim/types';
 import type {ModelPart} from '../src/render/models3d';
+import {wallLayouts,type WallLayout} from '../src/render/wall-orientation';
 
 const entity=(type:BuildingType,owner=0):Entity=>({id:1,kind:'building',type,owner,x:0,y:0,hp:100,maxHp:100,order:{kind:'idle'},path:[],cooldown:0,progress:1,queue:[],amount:0,stance:'hold',garrison:[]});
 function bounds(parts:ModelPart[]):Box3{
@@ -11,8 +12,82 @@ function bounds(parts:ModelPart[]):Box3{
  for(const part of parts){part.geometry.computeBoundingBox();transform.position.fromArray(part.position);transform.scale.fromArray(part.scale);transform.rotation.set(...part.rotation);transform.updateMatrix();result.union(part.geometry.boundingBox!.clone().applyMatrix4(transform.matrix));}
  return result;
 }
+function solidHeight(parts:ModelPart[],x:number,z:number):number{
+ const ray=new Raycaster(new Vector3(x,5,z),new Vector3(0,-1,0),0,6);let height=0;
+ for(const part of parts.filter(p=>!p.motion)){
+  const mesh=new Mesh(part.geometry,part.material);mesh.position.fromArray(part.position);mesh.scale.fromArray(part.scale);mesh.rotation.set(...part.rotation);mesh.updateMatrixWorld();
+  for(const hit of ray.intersectObject(mesh))height=Math.max(height,hit.point.y);
+ }
+ return height;
+}
+const layout=(mask:number,gatePorts=0):WallLayout=>({yaw:0,mask,gatePorts});
 
 describe('original medieval architecture',()=>{
+ it.each(['palisade','wall'] as const)('joins the actual %s geometry at every required corner, T and cross edge',type=>{
+  const library=new MedievalBuildings(),ports=[[0,-.49],[.49,0],[0,.49],[-.49,0]];
+  for(const mask of [3,6,9,12,7,11,13,14,15]){
+   const parts=library.get(entity(type),2,layout(mask))!;
+   for(let side=0;side<4;side++){
+    const [x,z]=ports[side],height=solidHeight(parts,x,z);
+    if(mask&(1<<side))expect(height,`${type} mask ${mask} edge ${side} must reach its neighbor`).toBeGreaterThan(1.3);
+    else expect(height,`${type} mask ${mask} must not leave a straight wall through an unconnected edge ${side}`).toBeLessThan(.3);
+   }
+   expect(solidHeight(parts,0,0),'the elbow itself has no hole').toBeGreaterThan(1.3);
+  }
+  library.dispose();
+ });
+ it('connects a gate to both offset tile centers on each edge while preserving its central passage',()=>{
+  const library=new MedievalBuildings(),ports=[[-.5,-.99],[.5,-.99],[.99,-.5],[.99,.5],[-.5,.99],[.5,.99],[-.99,-.5],[-.99,.5]];
+  for(let port=0;port<8;port++){
+   const parts=library.get(entity('gate'),2,layout(0,1<<port))!,[x,z]=ports[port];
+   expect(solidHeight(parts,x,z),`gate adapter ${port} reaches the actual adjacent tile center`).toBeGreaterThan(1.3);
+   for(const clearanceX of [-.3,0,.3]){
+    const ray=new Raycaster(new Vector3(clearanceX,1,2),new Vector3(0,0,-1),0,4);
+    for(const part of parts.filter(p=>p.motion!=='gate')){
+     const mesh=new Mesh(part.geometry,part.material);mesh.position.fromArray(part.position);mesh.scale.fromArray(part.scale);mesh.rotation.set(...part.rotation);mesh.updateMatrixWorld();
+     expect(ray.intersectObject(mesh).length,`gate port ${port} blocks the passage at x=${clearanceX}`).toBe(0);
+    }
+   }
+   expect(parts.some(p=>p.motion==='gate')).toBe(true);
+  }
+  library.dispose();
+ });
+ it.each(['x','y'] as const)('closes the real world seam between a wooden wall and an offset gate port along %s',axis=>{
+  const library=new MedievalBuildings(),wall={...entity('palisade'),id:1,x:axis==='x'?-1:0,y:axis==='y'?-1:0},gate={...entity('gate'),id:2},layouts=wallLayouts([wall,gate]);
+  const meshes:Mesh[]=[];
+  for(const building of [wall,gate]){
+   const orientation=layouts.get(building.id)!,root=new Object3D(),n=BUILDINGS[building.type as BuildingType].size;
+   root.position.set(building.x+n/2,0,building.y+n/2);root.rotation.y=orientation.yaw;
+   for(const part of library.get(building,2,orientation)!){
+    const mesh=new Mesh(part.geometry,part.material);mesh.position.fromArray(part.position);mesh.scale.fromArray(part.scale);mesh.rotation.set(...part.rotation);root.add(mesh);meshes.push(mesh);
+   }
+   root.updateMatrixWorld(true);
+  }
+  for(let offset=-.12;offset<=.12;offset+=.02){
+   const ray=new Raycaster(new Vector3(axis==='x'?offset:.5,5,axis==='y'?offset:.5),new Vector3(0,-1,0),0,6);
+   expect(ray.intersectObjects(meshes).some(hit=>hit.point.y>1.3),`open gap at world seam ${offset}`).toBe(true);
+  }
+  library.dispose();
+ });
+ it('bounds all connection variants, shares their geometry between ages and cities and releases them once',()=>{
+  const library=new MedievalBuildings(),geometry=new Set(Object.values(library.shapes)),materials=new Set<ModelPart['material']>();
+  for(const type of ['palisade','wall','gate'] as const)for(const tier of type==='wall'?[undefined,3 as const]:[undefined])for(let variant=0;variant<(type==='gate'?256:16);variant++){
+   const connection=type==='gate'?layout(0,variant):layout(variant),building={...entity(type),wallTier:tier},first=library.get(building,1,connection)!;
+   for(let owner=0;owner<8;owner++){
+    const parts=library.get({...building,owner,id:10000+variant,x:700,y:800},3,connection)!;
+    expect(parts.map(part=>part.geometry)).toEqual(first.map(part=>part.geometry));
+    expect(library.get({...building,owner},2,{yaw:99,mask:connection.mask+256,gatePorts:connection.gatePorts+256})).toBe(parts);
+    for(const part of parts){geometry.add(part.geometry);materials.add(part.material);}
+   }
+  }
+  expect((library as any).templates.size).toBe(301);
+  expect(geometry.size).toBeLessThan(3100);expect(materials.size).toBeLessThan(30);
+  const textures=new Set([...materials].flatMap(material=>[material.map,material.bumpMap].filter(texture=>texture!==null)));
+  const resources=[...geometry,...materials,...textures],counts=new Map<object,number>();
+  for(const resource of resources)resource.addEventListener('dispose',()=>counts.set(resource,(counts.get(resource)??0)+1));
+  library.dispose();library.dispose();
+  expect(resources.every(resource=>counts.get(resource)===1)).toBe(true);
+ });
  it('keeps all sixteen building classes finite and centered on their collision footprints in every age',()=>{
   const library=new MedievalBuildings();
   for(const type of Object.keys(BUILDINGS) as BuildingType[])for(const age of [1,2,3]){
