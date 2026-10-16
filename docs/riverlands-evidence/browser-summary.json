@@ -1,0 +1,1341 @@
+{
+  "recordedAt": "2026-10-16T05:01:57.990142+00:00",
+  "distinctCases": 162,
+  "passed": 132,
+  "skipped": 30,
+  "failed": 0,
+  "runs": [
+    {
+      "file": "broad-browser-results.json",
+      "stats": {
+        "startTime": "2026-10-15T22:47:10.778Z",
+        "duration": 21762477.108000003,
+        "expected": 126,
+        "skipped": 30,
+        "unexpected": 3,
+        "flaky": 0
+      }
+    },
+    {
+      "file": "final-map-browser-results.json",
+      "stats": {
+        "startTime": "2026-10-16T04:51:15.214Z",
+        "duration": 188569.086,
+        "expected": 16,
+        "skipped": 7,
+        "unexpected": 1,
+        "flaky": 0
+      }
+    },
+    {
+      "file": "final-lobby-browser-results.json",
+      "stats": {
+        "startTime": "2026-10-16T04:58:33.442Z",
+        "duration": 123713.75200000001,
+        "expected": 12,
+        "skipped": 9,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "limits": "Latest execution per project/file/title. Broad day/night interrupted by verified Windows sleep; eight-client setup fixed with suspended/limited backdrop. A rapid-host-settings race exposed in the map rerun was fixed before the final lobby/voice run. Physical mobile devices not tested.",
+  "cases": [
+    {
+      "project": "desktop",
+      "file": "buildings-zombies.spec.ts",
+      "title": "move and remove an owned building with preserved health and a removal confirmation",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 8065
+    },
+    {
+      "project": "desktop",
+      "file": "buildings-zombies.spec.ts",
+      "title": "night zombies render and daylight zombies retreat without attacking",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 11803
+    },
+    {
+      "project": "desktop",
+      "file": "buildings-zombies.spec.ts",
+      "title": "an online host enables zombie mode and the guest receives the shared setting",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 15805
+    },
+    {
+      "project": "phone",
+      "file": "buildings-zombies.spec.ts",
+      "title": "move and remove an owned building with preserved health and a removal confirmation",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 11830
+    },
+    {
+      "project": "phone",
+      "file": "buildings-zombies.spec.ts",
+      "title": "night zombies render and daylight zombies retreat without attacking",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 18042
+    },
+    {
+      "project": "phone",
+      "file": "buildings-zombies.spec.ts",
+      "title": "an online host enables zombie mode and the guest receives the shared setting",
+      "status": "skipped",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 103
+    },
+    {
+      "project": "tablet",
+      "file": "buildings-zombies.spec.ts",
+      "title": "move and remove an owned building with preserved health and a removal confirmation",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 12063
+    },
+    {
+      "project": "tablet",
+      "file": "buildings-zombies.spec.ts",
+      "title": "night zombies render and daylight zombies retreat without attacking",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 15781
+    },
+    {
+      "project": "tablet",
+      "file": "buildings-zombies.spec.ts",
+      "title": "an online host enables zombie mode and the guest receives the shared setting",
+      "status": "skipped",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 107
+    },
+    {
+      "project": "desktop",
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 8355
+    },
+    {
+      "project": "desktop",
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 3956
+    },
+    {
+      "project": "desktop",
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 6745
+    },
+    {
+      "project": "desktop",
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 6977
+    },
+    {
+      "project": "phone",
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 24591
+    },
+    {
+      "project": "phone",
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 7292
+    },
+    {
+      "project": "phone",
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 8882
+    },
+    {
+      "project": "phone",
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 8746
+    },
+    {
+      "project": "tablet",
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 22157
+    },
+    {
+      "project": "tablet",
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 5858
+    },
+    {
+      "project": "tablet",
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 9397
+    },
+    {
+      "project": "tablet",
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 10102
+    },
+    {
+      "project": "desktop",
+      "file": "ecology.spec.ts",
+      "title": "villagers gather fruit bushes into the food stock through map commands",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 12448
+    },
+    {
+      "project": "desktop",
+      "file": "ecology.spec.ts",
+      "title": "missing detailed assets leave a playable battlefield with an explicit fallback",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 1443
+    },
+    {
+      "project": "desktop",
+      "file": "ecology.spec.ts",
+      "title": "missing optional foliage texture preserves realm scenery and detailed actors",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 4100
+    },
+    {
+      "project": "desktop",
+      "file": "ecology.spec.ts",
+      "title": "unavailable realm assets retain playable scenery without losing army models",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 4190
+    },
+    {
+      "project": "phone",
+      "file": "ecology.spec.ts",
+      "title": "villagers gather fruit bushes into the food stock through map commands",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 12871
+    },
+    {
+      "project": "phone",
+      "file": "ecology.spec.ts",
+      "title": "missing detailed assets leave a playable battlefield with an explicit fallback",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 1362
+    },
+    {
+      "project": "phone",
+      "file": "ecology.spec.ts",
+      "title": "missing optional foliage texture preserves realm scenery and detailed actors",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 3971
+    },
+    {
+      "project": "phone",
+      "file": "ecology.spec.ts",
+      "title": "unavailable realm assets retain playable scenery without losing army models",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 3990
+    },
+    {
+      "project": "tablet",
+      "file": "ecology.spec.ts",
+      "title": "villagers gather fruit bushes into the food stock through map commands",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 14195
+    },
+    {
+      "project": "tablet",
+      "file": "ecology.spec.ts",
+      "title": "missing detailed assets leave a playable battlefield with an explicit fallback",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 1957
+    },
+    {
+      "project": "tablet",
+      "file": "ecology.spec.ts",
+      "title": "missing optional foliage texture preserves realm scenery and detailed actors",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 5123
+    },
+    {
+      "project": "tablet",
+      "file": "ecology.spec.ts",
+      "title": "unavailable realm assets retain playable scenery without losing army models",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 4896
+    },
+    {
+      "project": "desktop",
+      "file": "game.spec.ts",
+      "title": "starts a match, recruits villagers, saves and resumes",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 8427
+    },
+    {
+      "project": "desktop",
+      "file": "game.spec.ts",
+      "title": "four empires and tutorial remain usable at the device viewport",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 4923
+    },
+    {
+      "project": "desktop",
+      "file": "game.spec.ts",
+      "title": "assigns gathering and places a house through the battlefield",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 17260
+    },
+    {
+      "project": "desktop",
+      "file": "game.spec.ts",
+      "title": "phone landscape has usable setup and command panels",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 101
+    },
+    {
+      "project": "desktop",
+      "file": "game.spec.ts",
+      "title": "400-unit rendering stress measurement",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 8440
+    },
+    {
+      "project": "desktop",
+      "file": "game.spec.ts",
+      "title": "800-unit rendering stress measurement",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 8842
+    },
+    {
+      "project": "phone",
+      "file": "game.spec.ts",
+      "title": "starts a match, recruits villagers, saves and resumes",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 8556
+    },
+    {
+      "project": "phone",
+      "file": "game.spec.ts",
+      "title": "four empires and tutorial remain usable at the device viewport",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 5023
+    },
+    {
+      "project": "phone",
+      "file": "game.spec.ts",
+      "title": "assigns gathering and places a house through the battlefield",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 17617
+    },
+    {
+      "project": "phone",
+      "file": "game.spec.ts",
+      "title": "phone landscape has usable setup and command panels",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 4417
+    },
+    {
+      "project": "phone",
+      "file": "game.spec.ts",
+      "title": "400-unit rendering stress measurement",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 9819
+    },
+    {
+      "project": "phone",
+      "file": "game.spec.ts",
+      "title": "800-unit rendering stress measurement",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 10257
+    },
+    {
+      "project": "tablet",
+      "file": "game.spec.ts",
+      "title": "starts a match, recruits villagers, saves and resumes",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 11262
+    },
+    {
+      "project": "tablet",
+      "file": "game.spec.ts",
+      "title": "four empires and tutorial remain usable at the device viewport",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 6654
+    },
+    {
+      "project": "tablet",
+      "file": "game.spec.ts",
+      "title": "assigns gathering and places a house through the battlefield",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 18804
+    },
+    {
+      "project": "tablet",
+      "file": "game.spec.ts",
+      "title": "phone landscape has usable setup and command panels",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 106
+    },
+    {
+      "project": "tablet",
+      "file": "game.spec.ts",
+      "title": "400-unit rendering stress measurement",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 84
+    },
+    {
+      "project": "tablet",
+      "file": "game.spec.ts",
+      "title": "800-unit rendering stress measurement",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 77
+    },
+    {
+      "project": "desktop",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "highlighted friends button and one-click army selection are available",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 2902
+    },
+    {
+      "project": "desktop",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch workers gather and move through direct battlefield taps",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 68
+    },
+    {
+      "project": "desktop",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "two-finger rotation retains accurate 3D selection",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 58
+    },
+    {
+      "project": "desktop",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "selected villagers finish a half-built house by clicking or tapping it",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 7535
+    },
+    {
+      "project": "desktop",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch soldiers attack an enemy directly without a command button",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 111
+    },
+    {
+      "project": "phone",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "highlighted friends button and one-click army selection are available",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 2923
+    },
+    {
+      "project": "phone",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch workers gather and move through direct battlefield taps",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 13700
+    },
+    {
+      "project": "phone",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "two-finger rotation retains accurate 3D selection",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 3996
+    },
+    {
+      "project": "phone",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "selected villagers finish a half-built house by clicking or tapping it",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 7934
+    },
+    {
+      "project": "phone",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch soldiers attack an enemy directly without a command button",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 5207
+    },
+    {
+      "project": "tablet",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "highlighted friends button and one-click army selection are available",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 3333
+    },
+    {
+      "project": "tablet",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch workers gather and move through direct battlefield taps",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 13344
+    },
+    {
+      "project": "tablet",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "two-finger rotation retains accurate 3D selection",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 5059
+    },
+    {
+      "project": "tablet",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "selected villagers finish a half-built house by clicking or tapping it",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 8743
+    },
+    {
+      "project": "tablet",
+      "file": "gameplay-refinements.spec.ts",
+      "title": "touch soldiers attack an enemy directly without a command button",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 6533
+    },
+    {
+      "project": "desktop",
+      "file": "interaction-fixes.spec.ts",
+      "title": "first online interaction unlocks audio and produces a measurable signal",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 2044
+    },
+    {
+      "project": "desktop",
+      "file": "interaction-fixes.spec.ts",
+      "title": "touch hold and drag selects several villagers",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 81
+    },
+    {
+      "project": "phone",
+      "file": "interaction-fixes.spec.ts",
+      "title": "first online interaction unlocks audio and produces a measurable signal",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 1668
+    },
+    {
+      "project": "phone",
+      "file": "interaction-fixes.spec.ts",
+      "title": "touch hold and drag selects several villagers",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 4406
+    },
+    {
+      "project": "tablet",
+      "file": "interaction-fixes.spec.ts",
+      "title": "first online interaction unlocks audio and produces a measurable signal",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 1923
+    },
+    {
+      "project": "tablet",
+      "file": "interaction-fixes.spec.ts",
+      "title": "touch hold and drag selects several villagers",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 7547
+    },
+    {
+      "project": "desktop",
+      "file": "living-world-teams.spec.ts",
+      "title": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 21474
+    },
+    {
+      "project": "desktop",
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world day presentation",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 9159
+    },
+    {
+      "project": "desktop",
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world night presentation",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 8463
+    },
+    {
+      "project": "desktop",
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world rain presentation",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 8342
+    },
+    {
+      "project": "phone",
+      "file": "living-world-teams.spec.ts",
+      "title": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+      "status": "skipped",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 62
+    },
+    {
+      "project": "phone",
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world day presentation",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 9161
+    },
+    {
+      "project": "phone",
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world night presentation",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 8175
+    },
+    {
+      "project": "phone",
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world rain presentation",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 8433
+    },
+    {
+      "project": "tablet",
+      "file": "living-world-teams.spec.ts",
+      "title": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+      "status": "skipped",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 60
+    },
+    {
+      "project": "tablet",
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world day presentation",
+      "status": "skipped",
+      "source": "final-map-browser-results.json",
+      "durationMs": 101
+    },
+    {
+      "project": "tablet",
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world night presentation",
+      "status": "skipped",
+      "source": "final-map-browser-results.json",
+      "durationMs": 68
+    },
+    {
+      "project": "tablet",
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world rain presentation",
+      "status": "skipped",
+      "source": "final-map-browser-results.json",
+      "durationMs": 69
+    },
+    {
+      "project": "desktop",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "a production rally sends the next paid villager to work and can be cleared",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 28327
+    },
+    {
+      "project": "desktop",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "medieval cities render with working group formations and mobile access",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 16461
+    },
+    {
+      "project": "desktop",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "rally targeting uses the displayed producer after buildings are selected in reverse order",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 9815
+    },
+    {
+      "project": "desktop",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "online formation and rally commands survive reconnect without sharing resources",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 26681
+    },
+    {
+      "project": "phone",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "a production rally sends the next paid villager to work and can be cleared",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 17915
+    },
+    {
+      "project": "phone",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "medieval cities render with working group formations and mobile access",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 12234
+    },
+    {
+      "project": "phone",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "rally targeting uses the displayed producer after buildings are selected in reverse order",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 95
+    },
+    {
+      "project": "phone",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "online formation and rally commands survive reconnect without sharing resources",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 85
+    },
+    {
+      "project": "tablet",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "a production rally sends the next paid villager to work and can be cleared",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 18353
+    },
+    {
+      "project": "tablet",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "medieval cities render with working group formations and mobile access",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 11931
+    },
+    {
+      "project": "tablet",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "rally targeting uses the displayed producer after buildings are selected in reverse order",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 93
+    },
+    {
+      "project": "tablet",
+      "file": "medieval-overhaul.spec.ts",
+      "title": "online formation and rally commands survive reconnect without sharing resources",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 86
+    },
+    {
+      "project": "desktop",
+      "file": "multiplayer.spec.ts",
+      "title": "Ctrl plus mouse drag rotates while keeping the town center selected",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 7771
+    },
+    {
+      "project": "desktop",
+      "file": "multiplayer.spec.ts",
+      "title": "host manually starts a private match after friends join; both seats recruit and reconnect",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 35914
+    },
+    {
+      "project": "desktop",
+      "file": "multiplayer.spec.ts",
+      "title": "two humans find each other through public matchmaking",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 32654
+    },
+    {
+      "project": "desktop",
+      "file": "multiplayer.spec.ts",
+      "title": "eight separate browsers join one host-started map",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 36181
+    },
+    {
+      "project": "phone",
+      "file": "multiplayer.spec.ts",
+      "title": "Ctrl plus mouse drag rotates while keeping the town center selected",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 81
+    },
+    {
+      "project": "phone",
+      "file": "multiplayer.spec.ts",
+      "title": "host manually starts a private match after friends join; both seats recruit and reconnect",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 19129
+    },
+    {
+      "project": "phone",
+      "file": "multiplayer.spec.ts",
+      "title": "two humans find each other through public matchmaking",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 12372
+    },
+    {
+      "project": "phone",
+      "file": "multiplayer.spec.ts",
+      "title": "eight separate browsers join one host-started map",
+      "status": "skipped",
+      "source": "final-map-browser-results.json",
+      "durationMs": 71
+    },
+    {
+      "project": "tablet",
+      "file": "multiplayer.spec.ts",
+      "title": "Ctrl plus mouse drag rotates while keeping the town center selected",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 85
+    },
+    {
+      "project": "tablet",
+      "file": "multiplayer.spec.ts",
+      "title": "host manually starts a private match after friends join; both seats recruit and reconnect",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 23618
+    },
+    {
+      "project": "tablet",
+      "file": "multiplayer.spec.ts",
+      "title": "two humans find each other through public matchmaking",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 14749
+    },
+    {
+      "project": "tablet",
+      "file": "multiplayer.spec.ts",
+      "title": "eight separate browsers join one host-started map",
+      "status": "skipped",
+      "source": "final-map-browser-results.json",
+      "durationMs": 64
+    },
+    {
+      "project": "desktop",
+      "file": "readable-interface.spec.ts",
+      "title": "campaign setup stays readable and preserves the chosen match options",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 15747
+    },
+    {
+      "project": "desktop",
+      "file": "readable-interface.spec.ts",
+      "title": "resource ledger, world clock and production controls remain legible without covering each other",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 12353
+    },
+    {
+      "project": "desktop",
+      "file": "readable-interface.spec.ts",
+      "title": "interface text preference and online entry remain usable",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 17864
+    },
+    {
+      "project": "phone",
+      "file": "readable-interface.spec.ts",
+      "title": "campaign setup stays readable and preserves the chosen match options",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 7141
+    },
+    {
+      "project": "phone",
+      "file": "readable-interface.spec.ts",
+      "title": "resource ledger, world clock and production controls remain legible without covering each other",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 6229
+    },
+    {
+      "project": "phone",
+      "file": "readable-interface.spec.ts",
+      "title": "interface text preference and online entry remain usable",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 12211
+    },
+    {
+      "project": "tablet",
+      "file": "readable-interface.spec.ts",
+      "title": "campaign setup stays readable and preserves the chosen match options",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 7561
+    },
+    {
+      "project": "tablet",
+      "file": "readable-interface.spec.ts",
+      "title": "resource ledger, world clock and production controls remain legible without covering each other",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 6687
+    },
+    {
+      "project": "tablet",
+      "file": "readable-interface.spec.ts",
+      "title": "interface text preference and online entry remain usable",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 7431
+    },
+    {
+      "project": "desktop",
+      "file": "riverlands.spec.ts",
+      "title": "map choice is readable and retained when returning from a paused match",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 10268
+    },
+    {
+      "project": "desktop",
+      "file": "riverlands.spec.ts",
+      "title": "a real army crosses the bridge and construction rejects deep water",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 13337
+    },
+    {
+      "project": "desktop",
+      "file": "riverlands.spec.ts",
+      "title": "private multiplayer retains the selected map through settings changes and reconnect",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 7442
+    },
+    {
+      "project": "phone",
+      "file": "riverlands.spec.ts",
+      "title": "map choice is readable and retained when returning from a paused match",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 9503
+    },
+    {
+      "project": "phone",
+      "file": "riverlands.spec.ts",
+      "title": "a real army crosses the bridge and construction rejects deep water",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 13644
+    },
+    {
+      "project": "phone",
+      "file": "riverlands.spec.ts",
+      "title": "private multiplayer retains the selected map through settings changes and reconnect",
+      "status": "skipped",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 64
+    },
+    {
+      "project": "tablet",
+      "file": "riverlands.spec.ts",
+      "title": "map choice is readable and retained when returning from a paused match",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 10709
+    },
+    {
+      "project": "tablet",
+      "file": "riverlands.spec.ts",
+      "title": "a real army crosses the bridge and construction rejects deep water",
+      "status": "expected",
+      "source": "final-map-browser-results.json",
+      "durationMs": 13994
+    },
+    {
+      "project": "tablet",
+      "file": "riverlands.spec.ts",
+      "title": "private multiplayer retains the selected map through settings changes and reconnect",
+      "status": "skipped",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 67
+    },
+    {
+      "project": "desktop",
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated 3D building picking and ground placement preserve gameplay",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 21211
+    },
+    {
+      "project": "desktop",
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated drag panning and touch pinch retain accurate model selection",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 16939
+    },
+    {
+      "project": "phone",
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated 3D building picking and ground placement preserve gameplay",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 8234
+    },
+    {
+      "project": "phone",
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated drag panning and touch pinch retain accurate model selection",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 4358
+    },
+    {
+      "project": "tablet",
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated 3D building picking and ground placement preserve gameplay",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 9041
+    },
+    {
+      "project": "tablet",
+      "file": "three-dimensional.spec.ts",
+      "title": "rotated drag panning and touch pinch retain accurate model selection",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 4870
+    },
+    {
+      "project": "desktop",
+      "file": "voice-chat.spec.ts",
+      "title": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 19334
+    },
+    {
+      "project": "desktop",
+      "file": "voice-chat.spec.ts",
+      "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "status": "skipped",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 107
+    },
+    {
+      "project": "desktop",
+      "file": "voice-chat.spec.ts",
+      "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 2926
+    },
+    {
+      "project": "phone",
+      "file": "voice-chat.spec.ts",
+      "title": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+      "status": "skipped",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 124
+    },
+    {
+      "project": "phone",
+      "file": "voice-chat.spec.ts",
+      "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 11793
+    },
+    {
+      "project": "phone",
+      "file": "voice-chat.spec.ts",
+      "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 2976
+    },
+    {
+      "project": "tablet",
+      "file": "voice-chat.spec.ts",
+      "title": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+      "status": "skipped",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 124
+    },
+    {
+      "project": "tablet",
+      "file": "voice-chat.spec.ts",
+      "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 13765
+    },
+    {
+      "project": "tablet",
+      "file": "voice-chat.spec.ts",
+      "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 3180
+    },
+    {
+      "project": "desktop",
+      "file": "wall-alignment.spec.ts",
+      "title": "enclosure walls face along both sides",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 19305
+    },
+    {
+      "project": "phone",
+      "file": "wall-alignment.spec.ts",
+      "title": "enclosure walls face along both sides",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 6059
+    },
+    {
+      "project": "tablet",
+      "file": "wall-alignment.spec.ts",
+      "title": "enclosure walls face along both sides",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 6732
+    },
+    {
+      "project": "desktop",
+      "file": "wall-progression.spec.ts",
+      "title": "wooden walls start unlocked and explain the next town-hall requirement",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 15660
+    },
+    {
+      "project": "desktop",
+      "file": "wall-progression.spec.ts",
+      "title": "an owned wooden wall upgrades to stone with a paid visible timer",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 22154
+    },
+    {
+      "project": "desktop",
+      "file": "wall-progression.spec.ts",
+      "title": "third-age reinforcement keeps existing wall damage",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 19600
+    },
+    {
+      "project": "phone",
+      "file": "wall-progression.spec.ts",
+      "title": "wooden walls start unlocked and explain the next town-hall requirement",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 6185
+    },
+    {
+      "project": "phone",
+      "file": "wall-progression.spec.ts",
+      "title": "an owned wooden wall upgrades to stone with a paid visible timer",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 12708
+    },
+    {
+      "project": "phone",
+      "file": "wall-progression.spec.ts",
+      "title": "third-age reinforcement keeps existing wall damage",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 15859
+    },
+    {
+      "project": "tablet",
+      "file": "wall-progression.spec.ts",
+      "title": "wooden walls start unlocked and explain the next town-hall requirement",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 6437
+    },
+    {
+      "project": "tablet",
+      "file": "wall-progression.spec.ts",
+      "title": "an owned wooden wall upgrades to stone with a paid visible timer",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 12845
+    },
+    {
+      "project": "tablet",
+      "file": "wall-progression.spec.ts",
+      "title": "third-age reinforcement keeps existing wall damage",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 16252
+    },
+    {
+      "project": "desktop",
+      "file": "worker-tasks.spec.ts",
+      "title": "a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 23425
+    },
+    {
+      "project": "desktop",
+      "file": "worker-tasks.spec.ts",
+      "title": "online workers retain and resume their own assignments through server snapshots",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 19817
+    },
+    {
+      "project": "phone",
+      "file": "worker-tasks.spec.ts",
+      "title": "a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 20528
+    },
+    {
+      "project": "phone",
+      "file": "worker-tasks.spec.ts",
+      "title": "online workers retain and resume their own assignments through server snapshots",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 95
+    },
+    {
+      "project": "tablet",
+      "file": "worker-tasks.spec.ts",
+      "title": "a worker remembers gathering during construction, saves it, resumes, and can clear it with Stop",
+      "status": "expected",
+      "source": "broad-browser-results.json",
+      "durationMs": 21270
+    },
+    {
+      "project": "tablet",
+      "file": "worker-tasks.spec.ts",
+      "title": "online workers retain and resume their own assignments through server snapshots",
+      "status": "skipped",
+      "source": "broad-browser-results.json",
+      "durationMs": 73
+    },
+    {
+      "project": "desktop",
+      "file": "riverlands.spec.ts",
+      "title": "the menu backdrop stops GPU drawing behind the lobby and resumes when closed",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 2719
+    },
+    {
+      "project": "phone",
+      "file": "riverlands.spec.ts",
+      "title": "the menu backdrop stops GPU drawing behind the lobby and resumes when closed",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 3134
+    },
+    {
+      "project": "tablet",
+      "file": "riverlands.spec.ts",
+      "title": "the menu backdrop stops GPU drawing behind the lobby and resumes when closed",
+      "status": "expected",
+      "source": "final-lobby-browser-results.json",
+      "durationMs": 3320
+    }
+  ]
+}

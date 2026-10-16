@@ -3,6 +3,7 @@ import {TICK_RATE} from './definitions';
 import {bounds,buildingSize} from './navigation';
 import {hostile} from './teams';
 import {seen} from './visibility';
+import {canBuildOnTerrain} from './terrain';
 
 type BuildingAction=Extract<Command,{type:'moveBuilding'|'removeBuilding'}>;
 const SAFE_DISTANCE=10;
@@ -42,6 +43,7 @@ export function applyBuildingAction(s:GameState,c:BuildingAction):string|null{
   const point=c.point;
   if(!point||!Number.isInteger(point.x)||!Number.isInteger(point.y)||!bounds(s,point)||point.x+size>=s.size-1||point.y+size>=s.size-1)return 'Choose clear land inside the map.';
   for(let y=point.y;y<point.y+size;y++)for(let x=point.x;x<point.x+size;x++)if(!s.visible[c.player]?.[y*s.size+x])return 'Scout this land before moving a building.';
+  if(!canBuildOnTerrain(s.terrain,s.size,point.x,point.y,size,s.elevation))return 'Choose level land away from water, mountains and crossings.';
   if(!clear(s,b,point))return 'Choose land clear of buildings, resources and units.';
   if(!safe(s,c.player,point,size))return 'Clear visible enemies away from the destination first.';
   b.x=point.x;b.y=point.y;

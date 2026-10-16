@@ -30,13 +30,37 @@ skeletons or animation mixers. Full and crowd geometry banks are bounded and
 instanced by material; all sampling and equipment assembly happen during loading.
 
 The static realm provider imports trees, berry bushes, rocks, mountain formations
-and gold only. Buildings, walls and capital ruins use the previous Ironvale model
-library, restored at the user's request. Natural scenery stays grounded and shared;
+and gold only. Buildings and walls now use the original Ironvale medieval architecture provider,
+created for the user's 2026-10-16 medieval overhaul. It uses original geometry and
+procedural material textures; the imported fantasy building archive remains
+disabled. Capital ruins retain the earlier Ironvale fallback models. Natural scenery stays grounded and shared;
 unused imported building files are not fetched or prepared during gameplay.
 Wooden-to-stone-to-reinforced upgrades retain their new rules, costs and timers.
-The supplied assets retain their stylized game appearance.
+The supplied characters, animals and natural scenery retain their stylized game appearance. The terrain additionally uses the already licensed Poly Haven ground photograph with original grass/soil variation and cosmetic settlement paths. No new external asset pack or purchase was added.
 
 Raw archives and unused source files are excluded under `.art-source/`. The Ashen
 Marches runtime dependencies are incorporated into Ironvale and must not be offered
 as a separate asset download. The legacy CC0 human archive remains locally bundled
 for provenance/repacking compatibility; active armies use Ashen Marches.
+
+The Riverlands update reuses those same licensed twig photographs for bounded,
+alpha-tested canopy sprigs on twelve shared tree size/species profiles. It adds
+original river shading, stone-crossing textures, bridge geometry, arrow/stone
+projectile geometry and shared character-pose adjustments. No additional external
+asset or license was introduced; animal models and the approved medieval building
+provider are unchanged.
+
+The graphical command-deck portraits in `public/art/portraits` are local renders
+of those same game-model providers: original Ironvale architecture, the licensed
+Ashen Marches characters/equipment and the credited Quaternius scenery/animals.
+They are incorporated game UI, not a separately distributed asset collection.
+The reproducible workshop is `scripts/bake-command-portraits.ts`; no external
+generation service or additional source pack is used. The oak HUD grain is an
+original SVG, with original CSS brass/stone framing. Existing model license
+notices and usage restrictions continue to apply.
+
+The river-valley landscape pass adds original seeded meadow, leaf-litter and
+gravel coloring, procedural cobblestone joints and river shading. Reeds, lilies,
+small flowers and ferns use original shared, vertex-colored geometry. It reuses
+the existing licensed ground photograph; no additional third-party asset,
+purchase, generation service or runtime download is introduced.

@@ -1,0 +1,81 @@
+{
+  "verifiedAt": "2026-10-16T13:53:41.189Z",
+  "origin": "http://localhost:8180",
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "errors": [],
+  "captures": [
+    {
+      "name": "desktop-river-valley-day",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "details": {
+        "reeds": 38,
+        "lilies": 31,
+        "flowers": 97,
+        "ferns": 22,
+        "total": 188,
+        "limit": 480
+      },
+      "models": "ready",
+      "textures": "ready"
+    },
+    {
+      "name": "desktop-river-valley-rain",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "details": {
+        "reeds": 38,
+        "lilies": 31,
+        "flowers": 97,
+        "ferns": 22,
+        "total": 188,
+        "limit": 480
+      },
+      "models": "ready",
+      "textures": "ready"
+    },
+    {
+      "name": "phone-landscape-river-valley-day",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "details": {
+        "reeds": 38,
+        "lilies": 31,
+        "flowers": 90,
+        "ferns": 21,
+        "total": 180,
+        "limit": 180
+      },
+      "models": "ready",
+      "textures": "ready"
+    },
+    {
+      "name": "phone-portrait-river-valley-day",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "details": {
+        "reeds": 38,
+        "lilies": 31,
+        "flowers": 90,
+        "ferns": 21,
+        "total": 180,
+        "limit": 180
+      },
+      "models": "ready",
+      "textures": "ready"
+    }
+  ],
+  "limits": "Actual production browser captures. River-valley images use prepared city/scouting with ordinary units and hit points, not the default start. Ordinary-start image is a normal new game. Phone views are Chromium emulation on a desktop GPU, not physical phones. No temporary multiplayer room was created."
+}

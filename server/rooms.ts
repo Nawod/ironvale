@@ -1,6 +1,6 @@
 import {createHash,randomBytes} from 'node:crypto';
 import {snapshot} from '../src/sim/visibility';
-import type {Command,GameState,MatchConfig,Snapshot} from '../src/sim/types';
+import type {Command,GameState,MatchConfig,Snapshot,MapType,MapSize} from '../src/sim/types';
 import type {ClientMessage,RoomSettings,RoomView,ServerMessage,VoiceChannel,VoicePeer} from '../src/net/protocol';
 import {validateTeams} from '../src/sim/teams';
 export interface Peer {send:(message:ServerMessage)=>void;close:()=>void}
@@ -10,6 +10,7 @@ export interface MatchDriver {submit:(player:number,seq:number,command:Command)=
 export interface DriverCallbacks {snapshot:(player:number,snapshot:Snapshot)=>void;result:(player:number,seq:number,error:string|null)=>void;checkpoint:(state:GameState)=>void;failure:(error:string)=>void}
 export interface RoomOptions {driver:(room:Room,callbacks:DriverCallbacks)=>MatchDriver;now?:()=>number;countdownMs?:number;reconnectMs?:number;maxRooms?:number;persist?:(room:Room)=>void;remove?:(code:string)=>void}
 const hash=(token:string)=>createHash('sha256').update(token).digest('hex');
+const queueKey=(mode:string|undefined,count:number,zombies:boolean|undefined,mapType:MapType|undefined,mapSize:MapSize|undefined)=>`${mode??'ffa'}:${count}:${mapType??'lowlands'}:${zombies?'zombies':'classic'}:${mapSize??'large'}`;
 const AI_NAMES=['Redcliff','Goldmere','Duskwatch','Ashford','Silverfen','Briarhold','Stormreach'];
 interface VoiceState {channel:VoiceChannel|null;muted:boolean;session:number}
 export class RoomService {
@@ -21,7 +22,8 @@ export class RoomService {
  connect(id:string,peer:Peer){this.peers.set(id,peer);peer.send({type:'welcome',id,protocol:1});}
  private send(id:string|undefined,m:ServerMessage){if(id)this.peers.get(id)?.send(m);}
  private error(id:string,message:string){this.send(id,{type:'error',error:message});}
- private view(room:Room):RoomView{return {code:room.code,kind:room.kind,phase:room.phase,capacity:room.capacity,fillAI:room.fillAI,difficulty:room.difficulty,seed:room.seed,mode:room.mode??'ffa',zombies:room.zombies??false,hostId:room.hostId,countdownEnds:room.countdownEnds,players:room.players.map(p=>({id:p.id,name:p.name,seat:p.seat,team:p.team,ready:p.ready,connected:!!p.connectionId,controller:p.controller}))};}
+ private reject(id:string,m:ClientMessage,error:string){if(m.type==='command')this.send(id,{type:'commandResult',seq:m.seq,error});else this.error(id,error);}
+ private view(room:Room):RoomView{return {code:room.code,kind:room.kind,phase:room.phase,capacity:room.capacity,fillAI:room.fillAI,difficulty:room.difficulty,seed:room.seed,mode:room.mode??'ffa',zombies:room.zombies??false,mapType:room.mapType??'lowlands',mapSize:room.mapSize??'large',hostId:room.hostId,countdownEnds:room.countdownEnds,players:room.players.map(p=>({id:p.id,name:p.name,seat:p.seat,team:p.team,ready:p.ready,connected:!!p.connectionId,controller:p.controller}))};}
  private broadcast(room:Room){this.broadcastVoice(room);for(const p of room.players)this.send(p.connectionId,{type:'room',room:this.view(room)});}
  private voiceParticipant(room:Room,p:Participant):VoiceState|undefined{
   if(!p.connectionId||p.controller!=='human'||!this.peers.has(p.connectionId)||this.bindings.get(p.connectionId)?.player!==p)return;
@@ -39,15 +41,15 @@ export class RoomService {
  private removeVoice(id:string){const state=this.voices.get(id);this.send(id,{type:'voicePeers',session:state?.session??0,peers:[]});this.voices.delete(id);}
  private code(){const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let value:string;do{value=[...randomBytes(6)].map(n=>alphabet[n%alphabet.length]).join('');}while(this.rooms.has(value));return value;}
  private free(id:string){return !this.bindings.has(id)&&![...this.queues.values()].some(q=>q.some(p=>p.id===id));}
- private newRoom(kind:Room['kind'],settings:RoomSettings,hostId:string):Room {if(this.rooms.size>=(this.options.maxRooms??32))throw new Error('The server is full. Please try again shortly.');const room:Room={...settings,code:this.code(),kind,hostId,phase:'lobby',players:[],createdAt:this.now()};this.rooms.set(room.code,room);return room;}
+ private newRoom(kind:Room['kind'],settings:RoomSettings,hostId:string):Room {if(this.rooms.size>=(this.options.maxRooms??32))throw new Error('The server is full. Please try again shortly.');const room:Room={...settings,mapSize:settings.mapSize??'large',code:this.code(),kind,hostId,phase:'lobby',players:[],createdAt:this.now()};this.rooms.set(room.code,room);return room;}
  private nextTeam(room:Room):number{const counts=[0,0];for(const p of room.players)if(p.team===0||p.team===1)counts[p.team]=(counts[p.team]??0)+1;return counts.indexOf(Math.min(...counts));}
  private add(room:Room,id:string,name:string,ready=false){const token=randomBytes(32).toString('hex'),player:Participant={id,name,connectionId:id,tokenHash:hash(token),ready,seat:room.players.length,team:room.mode==='teams'?this.nextTeam(room):undefined,lastSeq:0,controller:'human'};room.players.push(player);this.bindings.set(id,{room,player});this.send(id,{type:'joined',room:this.view(room),token,playerId:player.seat,lastSeq:0});this.broadcast(room);}
  handle(id:string,m:ClientMessage):void {
-  if(!this.peers.has(id))return;const now=this.now(),voice=m.type==='voiceState'||m.type==='voiceSignal',rates=voice?this.voiceRate:this.rate,bucket=rates.get(id);if(!bucket||now-bucket.at>=1000)rates.set(id,{at:now,count:1});else if(++bucket.count>(voice?100:40)){this.error(id,voice?'Too many voice requests. Please slow down.':'Too many orders. Please slow down.');return;}
+  if(!this.peers.has(id))return;const now=this.now(),voice=m.type==='voiceState'||m.type==='voiceSignal',rates=voice?this.voiceRate:this.rate,bucket=rates.get(id);if(!bucket||now-bucket.at>=1000)rates.set(id,{at:now,count:1});else if(++bucket.count>(voice?100:40)){this.reject(id,m,voice?'Too many voice requests. Please slow down.':'Too many orders. Please slow down.');return;}
   try{
    if(m.type==='create'){if(!this.free(id))throw new Error('Leave your current room or queue first.');const room=this.newRoom('private',{...m,capacity:8},id);this.add(room,id,m.name);return;}
    if(m.type==='join'){if(!this.free(id))throw new Error('Leave your current room or queue first.');const room=this.rooms.get(m.code);if(!room||room.kind!=='private')throw new Error('That room code was not found.');if(room.phase!=='lobby')throw new Error('This match has already started.');if(room.players.length>=room.capacity)throw new Error('This room is full.');this.add(room,id,m.name);return;}
-   if(m.type==='queue'){if(!this.free(id))throw new Error('Leave your current room or queue first.');const key=`${m.mode??'ffa'}:${m.count}${m.zombies?':zombies':''}`,q=this.queues.get(key)??[];q.push({id,name:m.name});this.queues.set(key,q);this.match(key);return;}
+   if(m.type==='queue'){if(!this.free(id))throw new Error('Leave your current room or queue first.');const key=queueKey(m.mode,m.count,m.zombies,m.mapType,m.mapSize),q=this.queues.get(key)??[];q.push({id,name:m.name});this.queues.set(key,q);this.match(key);return;}
    if(m.type==='resume'){if(!this.free(id))throw new Error('Leave your current room first.');const room=this.rooms.get(m.code),player=room?.players.find(p=>p.tokenHash===hash(m.token)&&p.controller==='human');if(!room||!player||!['playing','finished'].includes(room.phase)||player.disconnectedAt!==undefined&&now-player.disconnectedAt>=(this.options.reconnectMs??120000))throw new Error('This seat can no longer be reconnected.');const old=player.connectionId;if(old){this.removeVoice(old);this.bindings.delete(old);this.peers.get(old)?.close();}player.connectionId=id;player.disconnectedAt=undefined;room.emptySince=undefined;this.bindings.set(id,{room,player});this.send(id,{type:'joined',room:this.view(room),token:m.token,playerId:player.seat,lastSeq:player.lastSeq});this.send(id,{type:'started',room:this.view(room),playerId:player.seat});if(room.phase==='finished'&&room.lastState)this.send(id,{type:'snapshot',snapshot:snapshot(room.lastState,player.seat)});room.driver?.checkpoint();this.broadcast(room);return;}
    if(m.type==='cancel'||m.type==='leave'){this.leave(id,true);this.send(id,{type:'left'});return;}
    const binding=this.bindings.get(id);if(!binding)throw new Error('Join a match first.');const {room,player}=binding;
@@ -66,16 +68,16 @@ export class RoomService {
    if(room.phase!=='lobby')throw new Error('Match settings are locked after starting.');
    if(m.type==='team'){if(room.kind!=='private'||room.mode!=='teams')throw new Error('Team choices are only available in team rooms.');const seat=m.seat??player.seat;if(seat!==player.seat&&room.hostId!==player.id)throw new Error('Only the host can arrange another player.');const target=room.players.find(p=>p.seat===seat);if(!target)throw new Error('That seat is no longer available.');if(room.players.filter(p=>p!==target&&p.team===m.team).length>=4)throw new Error('A team can have at most four players.');if(target.team!==m.team){target.team=m.team;room.players.forEach(p=>p.ready=false);this.resetVoice(room);}this.broadcast(room);return;}
    if(m.type==='ready'){player.ready=m.ready;this.broadcast(room);return;}
-   if(m.type==='settings'){if(room.kind!=='private'||room.hostId!==player.id)throw new Error('Only the room host can change settings.');const changed=(room.mode??'ffa')!==(m.mode??'ffa');Object.assign(room,{capacity:8,fillAI:m.fillAI,difficulty:m.difficulty,seed:m.seed,mode:m.mode??'ffa',zombies:m.zombies??false});if(changed){room.players.forEach((p,i)=>p.team=room.mode==='teams'?i%2:undefined);this.resetVoice(room);}room.players.forEach(p=>p.ready=false);this.broadcast(room);return;}
+   if(m.type==='settings'){if(room.kind!=='private'||room.hostId!==player.id)throw new Error('Only the room host can change settings.');const changed=(room.mode??'ffa')!==(m.mode??'ffa');Object.assign(room,{capacity:8,fillAI:m.fillAI,difficulty:m.difficulty,seed:m.seed,mode:m.mode??'ffa',zombies:m.zombies??false,mapType:m.mapType??room.mapType??'lowlands',mapSize:m.mapSize??room.mapSize??'large'});if(changed){room.players.forEach((p,i)=>p.team=room.mode==='teams'?i%2:undefined);this.resetVoice(room);}room.players.forEach(p=>p.ready=false);this.broadcast(room);return;}
    if(m.type==='start'){if(room.kind!=='private'||room.hostId!==player.id)throw new Error('Only the room host can start this match.');if(room.players.length<2)throw new Error('Wait for at least one friend to join.');if(room.players.some(p=>!p.ready||!p.connectionId))throw new Error('Everyone must be ready before starting.');this.start(room);return;}
-  }catch(error){this.error(id,error instanceof Error?error.message:'The request could not be completed.');}
+  }catch(error){this.reject(id,m,error instanceof Error?error.message:'The request could not be completed.');}
  }
  private start(room:Room){
   const capacity=room.kind==='private'&&!room.fillAI?room.players.length:room.capacity;
   const participants:NonNullable<MatchConfig['participants']>=room.players.map(p=>({name:p.name,controller:p.controller,team:room.mode==='teams'?p.team:undefined}));
   for(let i=participants.length;i<capacity;i++){let team:number|undefined;if(room.mode==='teams'){const teams=[...new Set(participants.map(p=>p.team!))];if(teams.length<2)teams.push(teams[0]===0?1:0);team=teams.sort((a,b)=>participants.filter(p=>p.team===a).length-participants.filter(p=>p.team===b).length||a-b).find(t=>participants.filter(p=>p.team===t).length<4);if(team===undefined)throw new Error('Every team is full.');}participants.push({name:AI_NAMES[(i-room.players.length)%AI_NAMES.length],controller:'ai',team});}
   validateTeams(participants);room.capacity=capacity;
-  room.config={opponents:(room.capacity-1) as MatchConfig['opponents'],difficulty:room.difficulty,seed:room.seed,participants,zombies:room.zombies??false};room.phase='playing';room.countdownEnds=undefined;
+  room.config={opponents:(room.capacity-1) as MatchConfig['opponents'],difficulty:room.difficulty,seed:room.seed,participants,zombies:room.zombies??false,mapType:room.mapType??'lowlands',mapSize:room.mapSize??'large',worldGeneration:2};room.phase='playing';room.countdownEnds=undefined;
   room.driver=this.options.driver(room,this.callbacks(room));for(const p of room.players)this.send(p.connectionId,{type:'started',room:this.view(room),playerId:p.seat});this.broadcast(room);
  }
  private callbacks(room:Room):DriverCallbacks{return{
@@ -84,14 +86,14 @@ export class RoomService {
   checkpoint:s=>{room.lastState=s;this.options.persist?.(room);},
   failure:error=>{for(const p of room.players)this.send(p.connectionId,{type:'closed',error});this.delete(room);}
  };}
- private match(key:string){const [mode,number,variant]=key.split(':'),count=Number(number),q=this.queues.get(key)??[];while(q.length>=count&&this.rooms.size<(this.options.maxRooms??32)){const entries=q.splice(0,count),room=this.newRoom('public',{capacity:count,fillAI:false,zombies:variant==='zombies',mode:mode as 'ffa'|'teams',difficulty:'normal',seed:randomBytes(4).readUInt32LE()},entries[0].id);for(const e of entries)this.add(room,e.id,e.name,true);room.phase='countdown';room.countdownEnds=this.now()+(this.options.countdownMs??3000);this.broadcast(room);}this.queueUpdate(key);}
+ private match(key:string){const [mode,number,mapType,variant,mapSize]=key.split(':'),count=Number(number),q=this.queues.get(key)??[];while(q.length>=count&&this.rooms.size<(this.options.maxRooms??32)){const entries=q.splice(0,count),room=this.newRoom('public',{capacity:count,fillAI:false,zombies:variant==='zombies',mapType:mapType as MapType,mapSize:mapSize as MapSize,mode:mode as 'ffa'|'teams',difficulty:'normal',seed:randomBytes(4).readUInt32LE()},entries[0].id);for(const e of entries)this.add(room,e.id,e.name,true);room.phase='countdown';room.countdownEnds=this.now()+(this.options.countdownMs??3000);this.broadcast(room);}this.queueUpdate(key);}
  private queueUpdate(key:string){const count=Number(key.split(':')[1]),q=this.queues.get(key)??[];for(const e of q)this.send(e.id,{type:'queued',count,waiting:q.length});}
  private leave(id:string,explicit:boolean){
   for(const [count,q]of this.queues){const i=q.findIndex(e=>e.id===id);if(i>=0){q.splice(i,1);this.queueUpdate(count);}}
   const b=this.bindings.get(id);if(!b)return;this.removeVoice(id);this.bindings.delete(id);const {room,player}=b;
   if(room.phase==='playing'||room.phase==='finished'){player.connectionId=undefined;player.disconnectedAt=this.now();if(explicit)this.takeover(room,player);if(!room.players.some(p=>p.connectionId))room.emptySince=this.now();room.driver?.checkpoint();this.broadcast(room);return;}
   room.players=room.players.filter(p=>p!==player);
-  if(room.phase==='countdown'){for(const p of room.players){this.removeVoice(p.connectionId!);this.bindings.delete(p.connectionId!);const key=`${room.mode??'ffa'}:${room.capacity}${room.zombies?':zombies':''}`,q=this.queues.get(key)??[];q.push({id:p.connectionId!,name:p.name});this.queues.set(key,q);this.send(p.connectionId,{type:'left'});}this.delete(room);this.match(`${room.mode??'ffa'}:${room.capacity}${room.zombies?':zombies':''}`);return;}
+  if(room.phase==='countdown'){for(const p of room.players){this.removeVoice(p.connectionId!);this.bindings.delete(p.connectionId!);const key=queueKey(room.mode,room.capacity,room.zombies,room.mapType,room.mapSize),q=this.queues.get(key)??[];q.push({id:p.connectionId!,name:p.name});this.queues.set(key,q);this.send(p.connectionId,{type:'left'});}this.delete(room);this.match(queueKey(room.mode,room.capacity,room.zombies,room.mapType,room.mapSize));return;}
   room.players.forEach((p,i)=>p.seat=i);if(room.hostId===player.id)room.hostId=room.players[0]?.id??'';if(!room.players.length)this.delete(room);else this.broadcast(room);
  }
  private takeover(room:Room,p:Participant){if(p.connectionId)this.removeVoice(p.connectionId);p.controller='ai';p.tokenHash='';room.driver?.controller(p.seat,'ai');room.driver?.checkpoint();this.broadcastVoice(room);}

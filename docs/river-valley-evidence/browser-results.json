@@ -1,0 +1,296 @@
+{
+  "verifiedAt": "2026-10-16T13:53:13.3746793Z",
+  "passed": 33,
+  "skipped": 3,
+  "failed": 0,
+  "cases": [
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 10321,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 4628,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 6983,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 7304,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 19584,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 4772,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 6657,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 7857,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 21960,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 5252,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 7873,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 8276,
+      "errors": []
+    },
+    {
+      "file": "river-valley-landscape.spec.ts",
+      "title": "river-valley day scenery renders within its mobile or desktop budget",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 8479,
+      "errors": []
+    },
+    {
+      "file": "river-valley-landscape.spec.ts",
+      "title": "river-valley rain scenery renders within its mobile or desktop budget",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 8759,
+      "errors": []
+    },
+    {
+      "file": "river-valley-landscape.spec.ts",
+      "title": "ordinary new games use the landscape and release it when returning to the menu",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 5361,
+      "errors": []
+    },
+    {
+      "file": "river-valley-landscape.spec.ts",
+      "title": "river-valley day scenery renders within its mobile or desktop budget",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 9517,
+      "errors": []
+    },
+    {
+      "file": "river-valley-landscape.spec.ts",
+      "title": "river-valley rain scenery renders within its mobile or desktop budget",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 8811,
+      "errors": []
+    },
+    {
+      "file": "river-valley-landscape.spec.ts",
+      "title": "ordinary new games use the landscape and release it when returning to the menu",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 5299,
+      "errors": []
+    },
+    {
+      "file": "river-valley-landscape.spec.ts",
+      "title": "river-valley day scenery renders within its mobile or desktop budget",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 9096,
+      "errors": []
+    },
+    {
+      "file": "river-valley-landscape.spec.ts",
+      "title": "river-valley rain scenery renders within its mobile or desktop budget",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 9258,
+      "errors": []
+    },
+    {
+      "file": "river-valley-landscape.spec.ts",
+      "title": "ordinary new games use the landscape and release it when returning to the menu",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 5864,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "map choice is readable and retained when returning from a paused match",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 8529,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "a real army crosses the bridge and construction rejects deep water",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 12683,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "private multiplayer retains the selected map through settings changes and reconnect",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 7263,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "the menu backdrop stops GPU drawing behind the lobby and resumes when closed",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 2826,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "map choice is readable and retained when returning from a paused match",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 8921,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "a real army crosses the bridge and construction rejects deep water",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 13704,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "private multiplayer retains the selected map through settings changes and reconnect",
+      "project": "phone",
+      "status": "skipped",
+      "durationMs": 95,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "the menu backdrop stops GPU drawing behind the lobby and resumes when closed",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 2784,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "map choice is readable and retained when returning from a paused match",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 9715,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "a real army crosses the bridge and construction rejects deep water",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 14584,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "private multiplayer retains the selected map through settings changes and reconnect",
+      "project": "tablet",
+      "status": "skipped",
+      "durationMs": 94,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "the menu backdrop stops GPU drawing behind the lobby and resumes when closed",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 3029,
+      "errors": []
+    },
+    {
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world night presentation",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 9503,
+      "errors": []
+    },
+    {
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world night presentation",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 9290,
+      "errors": []
+    },
+    {
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world night presentation",
+      "project": "tablet",
+      "status": "skipped",
+      "durationMs": 113,
+      "errors": []
+    }
+  ]
+}

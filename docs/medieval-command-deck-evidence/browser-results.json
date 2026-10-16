@@ -1,0 +1,595 @@
+{
+  "verifiedAt": "2026-10-16T10:22:51.726Z",
+  "counts": {
+    "expected": 39,
+    "skipped": 6
+  },
+  "notes": "Latest result per file, title and project. Initial desktop battlefield coverage failure was corrected by reducing deck height to 180px; the complete desktop compact/readability/new-deck set then passed. Six explicit device-specific skips are desktop-only camera/fallback checks and wall fixture coverage.",
+  "results": [
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 17186
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 6074
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9918
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10086
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 25763
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 6671
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10105
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10743
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 27038
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 6659
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10924
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 11761
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall lines preview an L corner and charge only new sections after confirmation",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9382
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "an earlier wall acknowledgment cannot erase a new plan after cancellation",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9203
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall-line planning blocks occupied routes and remains usable in landscape",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9784
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall lines preview an L corner and charge only new sections after confirmation",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9261
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "an earlier wall acknowledgment cannot erase a new plan after cancellation",
+      "project": "phone",
+      "status": "skipped",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 86
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall-line planning blocks occupied routes and remains usable in landscape",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10018
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall lines preview an L corner and charge only new sections after confirmation",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10279
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "an earlier wall acknowledgment cannot erase a new plan after cancellation",
+      "project": "tablet",
+      "status": "skipped",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 99
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "connected-defenses.spec.ts",
+      "title": "wall-line planning blocks occupied routes and remains usable in landscape",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10242
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "model portraits and army composition remain usable without extra 3D contexts",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8279
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "an empty selection keeps the command deck compact",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 3027
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the graphical production deck keeps training progress and all commands readable",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7798
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the minimap camera outline follows rotation and zoom while the simulation is paused",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9333
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "a missing portrait falls back to the original artwork",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7109
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "model portraits and army composition remain usable without extra 3D contexts",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9898
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "an empty selection keeps the command deck compact",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 3224
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the graphical production deck keeps training progress and all commands readable",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9572
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the minimap camera outline follows rotation and zoom while the simulation is paused",
+      "project": "phone",
+      "status": "skipped",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 99
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "a missing portrait falls back to the original artwork",
+      "project": "phone",
+      "status": "skipped",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 87
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "model portraits and army composition remain usable without extra 3D contexts",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10387
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "an empty selection keeps the command deck compact",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 3748
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the graphical production deck keeps training progress and all commands readable",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 10369
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "the minimap camera outline follows rotation and zoom while the simulation is paused",
+      "project": "tablet",
+      "status": "skipped",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 82
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "medieval-command-deck.spec.ts",
+      "title": "a missing portrait falls back to the original artwork",
+      "project": "tablet",
+      "status": "skipped",
+      "attempts": [
+        {
+          "status": "skipped",
+          "duration": 87
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "campaign setup stays readable and preserves the chosen match options",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7478
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "resource ledger, world clock and production controls remain legible without covering each other",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 6798
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "interface text preference and online entry remain usable",
+      "project": "desktop",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8168
+        }
+      ],
+      "source": "command-deck-desktop-final"
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "campaign setup stays readable and preserves the chosen match options",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7831
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "resource ledger, world clock and production controls remain legible without covering each other",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 7222
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "interface text preference and online entry remain usable",
+      "project": "phone",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 14039
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "campaign setup stays readable and preserves the chosen match options",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9228
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "resource ledger, world clock and production controls remain legible without covering each other",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 8598
+        }
+      ],
+      "source": "command-deck-final-browser"
+    },
+    {
+      "file": "readable-interface.spec.ts",
+      "title": "interface text preference and online entry remain usable",
+      "project": "tablet",
+      "status": "expected",
+      "attempts": [
+        {
+          "status": "passed",
+          "duration": 9171
+        }
+      ],
+      "source": "command-deck-final-browser"
+    }
+  ]
+}

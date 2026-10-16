@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { access, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
-import { Box3, BufferGeometry, Float32BufferAttribute, Group, Mesh, MeshStandardMaterial, Vector3 } from 'three';
+import { Box3, BufferGeometry, DoubleSide, Float32BufferAttribute, Group, Mesh, MeshStandardMaterial, Texture, Vector3 } from 'three';
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
 import type { Entity } from '../src/sim/types';
 import { ImportedScenery,SCENERY_ASSETS } from '../src/render/imported-scenery3d';
@@ -65,5 +65,31 @@ describe('shared imported scenery', () => {
    expect(p.material.vertexColors).toBe(true); expect(p.geometry.getAttribute('color')?.count).toBe(p.geometry.getAttribute('position').count); expect(p.geometry.getAttribute('uv')?.count).toBe(p.geometry.getAttribute('position').count);
   }
   colored.dispose();
+ });
+ it('adds bounded shared alpha canopy detail after textures arrive without owning borrowed maps', async () => {
+  const forest=new ImportedScenery(asset); await forest.load();
+  const tree=forest.get(entity('wood','resource'),1,0)!;
+  const diffuse=new Texture(), alpha=new Texture(), normal=new Texture();
+  const textureDisposed=vi.spyOn(diffuse,'dispose');
+  forest.setNaturalTextures(new Map([['twig_diff',diffuse],['twig_alpha',alpha],['twig_nor_gl',normal]]));
+  const canopy=tree.find(p=>p.geometry.userData.importedCanopy)!;
+  expect(canopy).toBeDefined(); expect(canopy.material.map).toBe(diffuse); expect(canopy.material.alphaMap).toBe(alpha);
+  expect(canopy.material.side).toBe(DoubleSide); expect(canopy.material.alphaTest).toBeGreaterThan(.4); expect(canopy.material.transparent).toBe(false);
+  expect(canopy.geometry.getAttribute('position').count/3).toBeLessThanOrEqual(72);
+  const geometries=new Set<BufferGeometry>();
+  for(let variant=0;variant<1200;variant++) {
+   const parts=forest.get(entity('wood','resource'),1,variant)!;
+   expect(parts.filter(p=>p.geometry.userData.importedCanopy)).toHaveLength(1);
+   for(const p of parts)geometries.add(p.geometry);
+   const box=bounds(parts); expect(box.min.y).toBeCloseTo(0,4); expect(Math.max(box.max.x-box.min.x,box.max.z-box.min.z)).toBeLessThanOrEqual(1.76);
+  }
+  expect(geometries.size).toBeLessThan(80);
+  const before=forest.stats();
+  for(let variant=1200;variant<2400;variant++)forest.get(entity('wood','resource'),1,variant);
+  expect(forest.get(entity('wood','resource'),1,NaN)).toBe(tree);
+  forest.setNaturalTextures(new Map([['twig_diff',diffuse],['twig_alpha',alpha]]));
+  expect(forest.stats()).toEqual(before);
+  const disposed=vi.spyOn(canopy.geometry,'dispose'); forest.dispose();forest.dispose();expect(disposed).toHaveBeenCalledTimes(1);expect(textureDisposed).not.toHaveBeenCalled();
+  diffuse.dispose();alpha.dispose();normal.dispose();
  });
 });

@@ -1,0 +1,32 @@
+{
+  "measuredAt": "2026-10-16T13:42:57.059Z",
+  "results": [
+    {
+      "size": 96,
+      "entities": 418,
+      "medianMs": {
+        "legacyPixels": 3.6333999999999946,
+        "landscapeFields": 4.212699999999984,
+        "newPixels": 5.806499999999971,
+        "styleUploadData": 0.6374999999999886,
+        "detailPlan": 0.38040000000000873,
+        "incrementalFogPatch": 0.1594000000000051
+      },
+      "rounds": 7
+    },
+    {
+      "size": 192,
+      "entities": 1079,
+      "medianMs": {
+        "legacyPixels": 15.20780000000002,
+        "landscapeFields": 10.013300000000072,
+        "newPixels": 24.589899999999943,
+        "styleUploadData": 2.58280000000002,
+        "detailPlan": 0.4756000000000995,
+        "incrementalFogPatch": 0.1653000000001157
+      },
+      "rounds": 7
+    }
+  ],
+  "limits": "Warm local Node CPU microbenchmark of fully visible maps. Surface work runs on meaningful fog/settlement changes; decoration plans run on snapshots or a camera-cell change. This is visual CPU cost, not full-game FPS or a physical-phone guarantee."
+}

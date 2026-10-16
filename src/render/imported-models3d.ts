@@ -23,7 +23,7 @@ export interface ImportedPoseOptions { time: number; moving: boolean; working: b
 type PoseKind = 'idle' | 'walk' | 'work' | 'attack';
 type AssetLoader = (url: string) => Promise<GLTF>;
 type TextureAssetLoader = (url: string) => Promise<Texture>;
-interface PoseFrame { parts: ModelPart[]; right: Matrix4; left: Matrix4 }
+interface PoseFrame { parts: ModelPart[]; right: Matrix4; left: Matrix4; action?: PoseKind; phase?: number }
 interface PoseCycle { duration: number; frames: PoseFrame[] }
 const MOUNTED_TYPES = ['scout', 'cavalry', 'heavyCavalry'];
 const ARMY_OUTFITS: Record<string, string[]> = { apothecary: ['villager.v0'], falconer: ['villager.v1'], alchemist: ['villager.v2'], guard: ['swordsman', 'spearman'], marshal: ['pikeman'], ranger: ['archer'], executioner: ['crossbowman'] };
@@ -225,6 +225,7 @@ export class ImportedModels {
     const cycle: PoseCycle = { duration: clip.duration, frames: [] };
     for (let i = 0; i < (kind === 'idle' ? 1 : SAMPLES); i++) {
      action.time = clip.duration * i / SAMPLES; mixer.update(0);
+     const phase = i / SAMPLES;
      if (outfit === 'ranger' || outfit === 'executioner') {
       // Ranged troops carry their weapon ready in front of the chest, while the
       // source lower-body animation continues to walk and the torso still turns.
@@ -232,12 +233,40 @@ export class ImportedModels {
        this.pointBone(model, `upper_arm${side}`, new Vector3(sign * .12, -.8, .35));
        this.pointBone(model, `forearm${side}`, new Vector3(-sign * .2, .12, .9));
       }
+      if (kind === 'attack') {
+       if (outfit === 'ranger') {
+        // Bow arm extends toward the target; drawing hand returns toward the
+        // cheek, releases, then recovers. Walking legs retain the source clip.
+        const draw = .5 + .5 * Math.cos(phase * Math.PI * 2);
+        this.pointBone(model, 'upper_armL', new Vector3(.12, -.08, 1));
+        this.pointBone(model, 'forearmL', new Vector3(-.08, .03, 1));
+        this.pointBone(model, 'upper_armR', new Vector3(-.82, .12, .28));
+        this.pointBone(model, 'forearmR', new Vector3(.75, .2, .55 - draw * 1.05));
+       } else {
+        // Crossbow stock stays braced; the right hand dips to reload in the
+        // second half rather than copying the archer's drawing silhouette.
+        const reload = phase >= .5 ? Math.sin((phase - .5) * Math.PI * 2) : 0;
+        this.pointBone(model, 'upper_armL', new Vector3(.16, -.42, .82));
+        this.pointBone(model, 'forearmL', new Vector3(-.15, .16, 1));
+        this.pointBone(model, 'upper_armR', new Vector3(-.18, -.5 - reload * .4, .62));
+        this.pointBone(model, 'forearmR', new Vector3(.1, .22 - reload * .65, 1));
+       }
+      }
+     } else if (outfit in { apothecary: 1, falconer: 1, alchemist: 1 } && kind === 'work') {
+      // An overhead tool stroke and slight forward lean reads as chopping or
+      // digging, distinct from the short source melee swing used in combat.
+      const lift = .5 + .5 * Math.cos(phase * Math.PI * 2);
+      model.getObjectByName('chest')!.rotateX(.16 * (1 - lift));
+      this.pointBone(model, 'upper_armR', new Vector3(-.18, -.18 + lift * .9, .6));
+      this.pointBone(model, 'forearmR', new Vector3(.05, .25 + lift * .6, .8));
+      this.pointBone(model, 'upper_armL', new Vector3(.2, -.65, .4));
+      this.pointBone(model, 'forearmL', new Vector3(-.2, .2, .8));
      }
      root.updateMatrixWorld(true);
      const parts = this.remember(bakeStaticPose(root, detail === 'crowd' ? 'crowd' : true)), floor = this.ground(parts);
      const right = model.getObjectByName('handR')!.getWorldPosition(new Vector3()), left = model.getObjectByName('handL')!.getWorldPosition(new Vector3());
      right.y -= floor; left.y -= floor;
-     cycle.frames.push({ parts, right: new Matrix4().setPosition(right), left: new Matrix4().setPosition(left) }); this.poseCount++;
+     cycle.frames.push({ parts, right: new Matrix4().setPosition(right), left: new Matrix4().setPosition(left), action: kind, phase }); this.poseCount++;
     }
     for (const type of ARMY_OUTFITS[outfit]) this.cycles.set(`${type}:${kind}${detail === 'crowd' ? ':crowd' : ''}`, {
      duration: cycle.duration, frames: cycle.frames.map(frame => ({ ...frame, parts: [...frame.parts, ...this.equipment(type.split('.')[0], frame, assets, detail)] })),
@@ -342,12 +371,18 @@ export class ImportedModels {
         this.pointBone(model, `upper_arm${side}`, new Vector3(sign * .12, -.8, .3));
         this.pointBone(model, `forearm${side}`, new Vector3(-sign * .12, -.12, .8));
        }
+       if (kind === 'attack') {
+        const strike = .5 + .5 * Math.cos(i / SAMPLES * Math.PI * 2);
+        this.pointBone(model, 'upper_armR', new Vector3(-.25, -.35 + strike * .45, .72));
+        this.pointBone(model, 'forearmR', new Vector3(.12, .1, 1));
+        model.getObjectByName('chest')!.rotateX(.08 + strike * .08);
+       }
        root.updateMatrixWorld(true);
        const pelvis = model.getObjectByName('pelvis')!.getWorldPosition(new Vector3());
        root.position.copy(horseFrames[i].seat).sub(pelvis); root.updateMatrixWorld(true);
        const parts = this.remember(bakeStaticPose(root, detail === 'crowd' ? 'crowd' : true));
        const right = new Matrix4().setPosition(model.getObjectByName('handR')!.getWorldPosition(new Vector3())), left = new Matrix4().setPosition(model.getObjectByName('handL')!.getWorldPosition(new Vector3()));
-       const frame: PoseFrame = { parts, right, left };
+       const frame: PoseFrame = { parts, right, left, action: kind, phase: i / SAMPLES };
        frames.push({ ...frame, parts: [...horseFrames[i].parts, ...parts, ...this.equipment(type, frame, assets, detail), ...this.saddle(horseFrames[i].seat, type, frame)] }); this.poseCount++;
       }
       const cycle = { duration: clip.duration, frames };
@@ -431,7 +466,12 @@ export class ImportedModels {
 
  private equipment(type: string, frame: PoseFrame, assets: Map<string, GLTF>, detail: 'full' | 'crowd'): ModelPart[] {
   const root = new Group(), temps: BufferGeometry[] = [];
-  const add = (geometry: BufferGeometry, material: MeshStandardMaterial, x: number, y: number, z = 0, matrix = frame.right) => {
+  const striking = frame.action === 'attack', phase = frame.phase ?? 0;
+  // Attachment orientation is baked into the same six shared frames. Keep
+  // shields/reins in their original hand space while the working weapon turns.
+  const pitch = striking ? ['spearman', 'pikeman', 'heavyCavalry'].includes(type) ? 1.18 + .24 * Math.cos(phase * Math.PI * 2) : ['swordsman', 'cavalry', 'scout'].includes(type) ? .65 + Math.sin(phase * Math.PI * 2) * 1.05 : 0 : frame.action === 'work' && type === 'villager' ? .35 + .8 * Math.sin(phase * Math.PI * 2) : 0;
+  const weapon = frame.right.clone().multiply(new Matrix4().makeRotationX(pitch));
+  const add = (geometry: BufferGeometry, material: MeshStandardMaterial, x: number, y: number, z = 0, matrix = weapon) => {
    temps.push(geometry); const mesh = new Mesh(geometry, material); mesh.position.set(x, y, z); mesh.updateMatrix(); mesh.matrix.premultiply(matrix); mesh.matrix.decompose(mesh.position, mesh.quaternion, mesh.scale); root.add(mesh); return mesh;
   };
   const imported = (name: string, matrix: Matrix4, scale = 1, y = 0, rotation = 0) => {
@@ -441,7 +481,7 @@ export class ImportedModels {
    model.traverse(node => { if (node instanceof Mesh) { node.userData.importedDetailCell = .018; node.userData.importedCrowdCell = .035; } }); root.add(model);
   };
   if (type === 'pikeman') {
-   imported('pike', frame.right, .9, Math.max(.36, 1.23 - frame.right.elements[13]));
+   imported('pike', weapon, .9, Math.max(.36, 1.23 - frame.right.elements[13]));
    imported('kite', frame.left, .65, -.03, Math.PI / 2);
   } else if (type === 'spearman' || type === 'heavyCavalry') {
    const length = type === 'heavyCavalry' ? 2.6 : 1.95;
@@ -452,8 +492,8 @@ export class ImportedModels {
    add(new CylinderGeometry(.006, .006, .92, 4), this.wood, 0, 0, .03, frame.left);
    const arrow = add(new CylinderGeometry(.009, .009, .68, 4), this.wood, 0, 0, .34, frame.left); arrow.rotateX(Math.PI / 2);
   } else if (type === 'crossbowman') {
-   add(new BoxGeometry(.085, .12, .53), this.wood, 0, 0, .12);
-   add(new BoxGeometry(.58, .045, .05), this.steel, 0, 0, .28);
+   add(new BoxGeometry(.085, .12, .53), this.wood, 0, 0, .12, frame.left);
+   add(new BoxGeometry(.58, .045, .05), this.steel, 0, 0, .28, frame.left);
   } else if (type === 'villager') {
    add(new CylinderGeometry(.024, .027, .65, 6), this.wood, 0, .18);
    add(new BoxGeometry(.32, .14, .055), this.steel, .07, .46);
@@ -461,7 +501,7 @@ export class ImportedModels {
    add(new CylinderGeometry(.025, .03, .55, 6), this.wood, 0, .15);
    add(new BoxGeometry(.18, .1, .06), this.steel, .03, .41);
   } else {
-   imported('sword', frame.right, .85, .1);
+   imported('sword', weapon, .85, .1);
    imported('shield', frame.left, .7, -.03, Math.PI / 2);
   }
   if (type === 'heavyCavalry') {

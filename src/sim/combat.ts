@@ -2,7 +2,7 @@ import type {Entity,GameState} from './types';
 import {distance,military} from './types';
 import {allied,hostile,allianceKey} from './teams';
 import {BUILDINGS,UNITS} from './definitions';
-import {adjacentDistance,approach,travel} from './navigation';
+import {adjacentDistance,approach,travel,garrisonExit} from './navigation';
 import {seen} from './visibility';
 import {assign,event} from './economy';
 import {assignZombie,isZombie,zombieNight} from './zombies';
@@ -18,7 +18,10 @@ export function attackDamage(s:GameState,a:Entity,b:Entity):number{
  return Math.max(1,damage-armor);
 }
 function kill(s:GameState,e:Entity):void{
- for(const id of e.garrison){const unit=s.entities[id];if(unit){unit.garrisoned=undefined;unit.x=e.x-1;unit.y=e.y+1;assign(unit,{kind:'idle'});}}e.garrison=[];e.queue=[];
+ const exit=e.garrison.length?garrisonExit(s,e):undefined;
+ // A destroyed enclosure opens its own dry footprint. If its perimeter was
+ // sealed, survivors emerge there instead of skipping the surrounding siege.
+ for(const id of e.garrison){const unit=s.entities[id];if(unit){unit.garrisoned=undefined;unit.x=exit?.x??e.x;unit.y=exit?.y??e.y;assign(unit,{kind:'idle'});}}e.garrison=[];e.queue=[];
  if(e.type==='capital'&&s.players[e.owner]?.capital===e.id){e.hp=0;event(s,e.owner,'Your capital has fallen. Clear the occupiers and rebuild!','attack',e);}
  else delete s.entities[e.id];
 }
@@ -58,7 +61,7 @@ export function updateConquest(s:GameState,dt:number):void{
   const conqueror=cap.occupation.owner;p.alive=false;
   for(const e of Object.values(s.entities))if(e.owner===p.id){
    if(e.kind==='unit'&&e.type!=='villager'){delete s.entities[e.id];continue;}
-   e.owner=conqueror;e.queue=[];e.garrison=[];e.garrisoned=undefined;e.taskQueue=undefined;assign(e,{kind:'idle'});
+   e.owner=conqueror;e.rally=undefined;e.queue=[];e.garrison=[];e.garrisoned=undefined;e.taskQueue=undefined;assign(e,{kind:'idle'});
   }
   cap.type='outpost';cap.hp=BUILDINGS.outpost.hp;cap.maxHp=cap.hp;cap.progress=1;cap.occupation=undefined;
   event(s,-1,`${s.players[conqueror].name} conquered ${p.name}.`,'capture',cap);
