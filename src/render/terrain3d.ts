@@ -1,5 +1,13 @@
 import type {Entity,Snapshot} from '../sim/types';
 import {BUILDINGS} from '../sim/definitions';
+import {TERRAIN} from '../sim/terrain';
+
+/** Check scouting before any preview reads terrain or objects in its footprint. */
+export function scoutedFootprint(s:Pick<Snapshot,'size'|'fog'>,x:number,y:number,n:number):boolean{
+ if(!Number.isInteger(x)||!Number.isInteger(y)||x<1||y<1||x+n>=s.size-1||y+n>=s.size-1)return false;
+ for(let row=y;row<y+n;row++)for(let col=x;col<x+n;col++)if(s.fog[row*s.size+col]!==2)return false;
+ return true;
+}
 
 /** Cosmetic paths use only entities already present in the player's snapshot. */
 export function settlementSurfaceMask(size:number,entities:Entity[],detail=4):Uint8Array{
@@ -24,7 +32,7 @@ export function settlementSurfaceMask(size:number,entities:Entity[],detail=4):Ui
 export function terrainPixels(s:Pick<Snapshot,'size'|'terrain'|'fog'>,data:Uint8Array=new Uint8Array(s.size*s.size*4)):Uint8Array {
  for(let i=0;i<s.fog.length;i++){
   const f=s.fog[i],x=i%s.size,y=Math.floor(i/s.size),variant=(x*7+y*13)%4,dim=f===1?.42:1;
-  const color=f===0?[22,37,30]:s.terrain[i]===1?[143,133,94]:[91+variant*4,119+variant*3,74+variant*3];
+  const t=s.terrain[i],color=f===0?[22,37,30]:t===TERRAIN.water?[36,100,117]:t===TERRAIN.ford?[85,125,128]:t===TERRAIN.bridge?[157,146,121]:t===1?[143,133,94]:[91+variant*4,119+variant*3,74+variant*3];
   const dest=((s.size-1-y)*s.size+x)*4;
   for(let c=0;c<3;c++)data[dest+c]=color[c]*dim;data[dest+3]=255;
  }
@@ -32,14 +40,35 @@ export function terrainPixels(s:Pick<Snapshot,'size'|'terrain'|'fog'>,data:Uint8
 }
 /** Sub-tile detail preserves the fog boundary: no surface from an unseen tile is sampled. */
 export function terrainSurfacePixels(s:Pick<Snapshot,'size'|'terrain'|'fog'>,data:Uint8Array,detail=4,settlement?:Uint8Array):Uint8Array{
- const width=s.size*detail;
+ const width=s.size*detail,soil=new Uint8Array(s.size*s.size),samples=new Uint8Array(soil.length),banks=new Uint16Array(soil.length),sinX=new Float64Array(width),cosY=new Float64Array(width);
+ for(let i=0;i<width;i++){sinX[i]=Math.sin(i*.13);cosY[i]=Math.cos(i*.11);}
+ // Neighbor and visibility relationships belong to tiles, not texture pixels.
+ // Precompute once, rather than repeating these scans for all 16 subpixels.
+ for(let ty=0;ty<s.size;ty++)for(let tx=0;tx<s.size;tx++){
+  const i=ty*s.size+tx;if(!s.fog[i]||s.terrain[i]>=TERRAIN.water)continue;
+  for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+   const nx=tx+dx,ny=ty+dy,index=ny*s.size+nx;if(nx<0||ny<0||nx>=s.size||ny>=s.size||!s.fog[index])continue;
+   soil[i]+=s.terrain[index]===1?1:0;samples[i]++;
+   if(s.terrain[index]===TERRAIN.water||s.terrain[index]===TERRAIN.ford)banks[i]|=1<<((dy+1)*3+dx+1);
+  }
+ }
+ const grass=[111,127,70],earth=[164,141,103],sand=[168,154,117];
  for(let y=0;y<width;y++)for(let x=0;x<width;x++){
   const tx=Math.floor(x/detail),ty=Math.floor(y/detail),i=ty*s.size+tx,f=s.fog[i],dest=((width-1-y)*width+x)*4;
   if(!f){data[dest]=22;data[dest+1]=37;data[dest+2]=30;data[dest+3]=255;continue;}
-  const noise=((Math.imul(x+1,374761393)^Math.imul(y+1,668265263))>>>0)%255/255,wide=Math.sin(x*.13)*Math.cos(y*.11),dim=f===1?.42:1;
-  let soil=0,samples=0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const nx=tx+dx,ny=ty+dy,index=ny*s.size+nx;if(nx>=0&&ny>=0&&nx<s.size&&ny<s.size&&s.fog[index]){soil+=s.terrain[index]===1?1:0;samples++;}}
-  const yard=(settlement?.[y*width+x]??0)/255,blend=Math.max(yard*.94,Math.max(0,.09+.65*soil/Math.max(1,samples)+.13*wide));
-  const grass=[111,127,70],earth=[164,141,103];for(let c=0;c<3;c++)data[dest+c]=Math.max(0,(grass[c]*(1-blend)+earth[c]*blend+(noise-.5)*20)*dim);data[dest+3]=255;
+  const noise=((Math.imul(x+1,374761393)^Math.imul(y+1,668265263))>>>0)%255/255,wide=sinX[x]*cosY[y],dim=f===1?.42:1;
+  const t=s.terrain[i];
+  if(t===TERRAIN.water||t===TERRAIN.ford||t===TERRAIN.bridge){
+   const base=t===TERRAIN.water?[36,100,117]:t===TERRAIN.ford?[85,125,128]:[157,146,121];
+   for(let c=0;c<3;c++)data[dest+c]=(base[c]+(noise-.5)*10)*dim;data[dest+3]=255;continue;
+  }
+  const yard=(settlement?.[y*width+x]??0)/255,blend=Math.max(yard*.94,Math.max(0,.09+.65*soil[i]/Math.max(1,samples[i])+.13*wide));
+  // Sand follows only known water; an unseen river cannot alter a visible bank.
+  let bank=0;const wx=(x+.5)/detail,wy=(y+.5)/detail;
+  for(let bit=0;bit<9&&banks[i];bit++){if(!(banks[i]&(1<<bit)))continue;const nx=tx+bit%3-1,ny=ty+Math.floor(bit/3)-1;
+   const d=Math.hypot(Math.max(nx-wx,0,wx-(nx+1)),Math.max(ny-wy,0,wy-(ny+1)));bank=Math.max(bank,Math.max(0,1-d/1.05));
+  }
+  for(let c=0;c<3;c++){const land=grass[c]*(1-blend)+earth[c]*blend;data[dest+c]=Math.max(0,(land*(1-bank*.85)+sand[c]*bank*.85+(noise-.5)*20)*dim);}data[dest+3]=255;
  }
  return data;
 }

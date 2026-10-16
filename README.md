@@ -4,6 +4,8 @@ An original 3D medieval RTS for your browser, with single-player and server-auth
 
 **Two to eight empires** share one map. Online matches support public matchmaking and private invitation rooms. Single-player supports one to seven computer rivals. Choose free-for-all or online teams of up to four commanders. Teams may have unequal sizes, such as 2 versus 4. There are no time limits. Computer opponents fight each other, use the same resources and fog rules, and can capture cities. The last empire or allied team standing wins.
 
+Choose **Riverlands** for rivers, permanent stone bridges and shallow crossings, or **Lowlands** for open land and woodland. Map choice is available in single-player setup, private room settings and public matchmaking. Armies and workers route through crossings; construction and building relocation require dry, fully scouted ground. Older saves keep their original Lowlands map.
+
 ## Play locally
 
 Requires Node.js 24. Dependencies are already installed in this workspace.
@@ -149,3 +151,9 @@ docker run --rm -p 8180:8180 -v ironvale-data:/data ironvale
 The Docker recipe is provided for hosting; Docker execution is not part of the Windows verification. Use a single instance for this release. Multiple independent instances would have separate queues and rooms; a distributed match router is future work. MAX_ROOMS is an admission ceiling, not a claim that32 eight-player games have been load-tested simultaneously.
 
 WebSocket implementation follows the [ws documentation](https://github.com/websockets/ws); server simulation isolation uses [Node worker threads](https://nodejs.org/docs/latest-v24.x/api/worker_threads.html).
+
+The Riverlands landscape and battle update adds twelve shared woodland silhouettes
+with photographic sprigs, class-specific work/attack poses, smooth unit turning,
+and pooled arrows and siege stones. The approved building and animal art remains
+in use. [Implementation and verification notes](docs/riverlands-verification.md)
+record the map rules, compatibility, performance measurements and browser checks.

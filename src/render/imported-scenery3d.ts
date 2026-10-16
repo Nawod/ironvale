@@ -1,4 +1,4 @@
-import { Box3, BufferGeometry, Float32BufferAttribute, Matrix4, Mesh, MeshStandardMaterial, Vector3 } from 'three';
+import { Box3, BufferGeometry, DoubleSide, Float32BufferAttribute, Matrix4, Mesh, MeshStandardMaterial, PlaneGeometry, Texture, Vector3 } from 'three';
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { Entity } from '../sim/types';
@@ -19,7 +19,48 @@ export class ImportedScenery {
  private cache = new Map<string, ModelPart[]>();
  private geometries = new Set<BufferGeometry>();
  private materials = new Set<MeshStandardMaterial>();
+ private canopy?: MeshStandardMaterial;
  constructor(private loader: AssetLoader = url => new GLTFLoader().loadAsync(url)) {}
+
+ /** Maps are borrowed from ImportedModels, which owns their lifetime. Installing
+  * them also upgrades already visible templates, without invalidating geometry. */
+ setNaturalTextures(textures: Map<string, Texture>): void {
+  if (this.status === 'disposed' || !textures.get('twig_diff') || !textures.get('twig_alpha')) return;
+  if (!this.canopy) {
+   this.canopy = new MeshStandardMaterial({ name: 'Photographic canopy sprigs', roughness: .96, side: DoubleSide, alphaTest: .48, vertexColors: true });
+   this.materials.add(this.canopy);
+  }
+  this.canopy.map = textures.get('twig_diff')!; this.canopy.alphaMap = textures.get('twig_alpha')!;
+  this.canopy.normalMap = textures.get('twig_nor_gl') ?? null; this.canopy.normalScale.set(.35, .35); this.canopy.needsUpdate = true;
+  for (const [key, parts] of this.cache) if (TREES.some(name => key.startsWith(`${name}:`))) this.addCanopy(parts);
+ }
+
+ /** Eighteen crossed/tilted sprigs add a broken outline for just one extra
+  * instanced part per template (36 triangles); no transparent sort or wind rig. */
+ private addCanopy(parts: ModelPart[]): void {
+  if (!this.canopy || parts.some(p => p.geometry.userData.importedCanopy)) return;
+  const bounds = new Box3(); for (const p of parts) bounds.union(p.geometry.boundingBox!);
+  const size = bounds.getSize(new Vector3()), center = bounds.getCenter(new Vector3());
+  const pine = parts[0].geometry.userData.sourceAsset === 'PineTree_1', cards: BufferGeometry[] = [];
+  for (let ring = 0; ring < 3; ring++) for (let sprig = 0; sprig < 6; sprig++) {
+   const angle = sprig * Math.PI / 3 + ring * 1.17;
+   const radius = (pine ? .27 - ring * .065 : [.32, .32, .3][ring]) * Math.min(size.x, size.z);
+   const width = Math.min(size.x, size.z) * (pine ? .28 : .33), height = Math.min(size.y * .25, width * 1.4);
+   const plane = new PlaneGeometry(width, height), card = plane.toNonIndexed(), uv = card.getAttribute('uv'); plane.dispose();
+   // Existing CC0 photo atlas: only its upper-left green sprig, avoiding bark/cones.
+   for (let i = 0; i < uv.count; i++) uv.setXY(i, .05 + uv.getX(i) * .15, .62 + uv.getY(i) * .34);
+   const shade = .84 + .08 * Math.sin(angle + ring), colors: number[] = [];
+   for (let i = 0; i < card.getAttribute('position').count; i++) colors.push(shade, Math.min(1, shade + .06), shade * .93);
+   card.setAttribute('color', new Float32BufferAttribute(colors, 3));
+   card.rotateX((sprig % 2 ? -.3 : .35) + ring * .15).rotateY(angle);
+   card.translate(center.x + Math.cos(angle) * radius, bounds.min.y + size.y * (.51 + ring * .15), center.z + Math.sin(angle) * radius);
+   cards.push(card);
+  }
+  const geometry = mergeGeometries(cards, false)!; for (const card of cards) card.dispose();
+  geometry.computeBoundingBox(); geometry.computeBoundingSphere();
+  geometry.userData.importedScenery = true; geometry.userData.importedCanopy = true; geometry.userData.sourceAsset = parts[0].geometry.userData.sourceAsset;
+  this.geometries.add(geometry); parts.push(part(geometry, this.canopy));
+ }
 
  load(): Promise<void> {
   if (this.pending) return this.pending;
@@ -101,14 +142,19 @@ export class ImportedScenery {
    const geometry=p.geometry.clone().scale(scale,scale,scale);geometry.computeBoundingBox();geometry.computeBoundingSphere();this.geometries.add(geometry);
    parts.push(part(geometry,p.material));
   }
+  if (TREES.includes(name)) this.addCanopy(parts);
   this.cache.set(key,parts);return parts;
  }
 
  get(e: Entity, _age = 1, variant = 0): ModelPart[] | undefined {
   if (this.status !== 'ready') return undefined;
-  const choice = Math.abs(Math.floor(variant));
+  const choice = Number.isFinite(variant) ? Math.abs(Math.floor(variant)) : 0;
   if (e.kind === 'resource') {
-   if (e.type === 'wood') return this.fitted(TREES[choice % TREES.length], 1.75, 3.8);
+   if (e.type === 'wood') {
+    // Twelve finite silhouettes: four species with three height/width profiles.
+    const profile = Math.floor(choice / TREES.length) % 3;
+    return this.fitted(TREES[choice % TREES.length], [1.75, 1.5, 1.66][profile], [3.8, 3.35, 3.65][profile]);
+   }
    if (e.type === 'berries') return this.fitted('BushBerries_1', 1.12, .95);
    if (e.type === 'stone') return this.fitted(ROCKS[choice % ROCKS.length], .96, choice % ROCKS.length >= 3 ? 1.25 : .7);
    if (e.type === 'gold') return this.fitted('Resource_Gold_1', .96, .8);
@@ -118,6 +164,6 @@ export class ImportedScenery {
  }
 
  stats(): { bakedGeometries: number; cachedVariants: number; templates: number; liveMixers: number } { return { bakedGeometries: this.geometries.size, cachedVariants: this.cache.size, templates: this.templates.size, liveMixers: 0 }; }
- private release(): void { for (const g of this.geometries) g.dispose(); for (const m of this.materials) m.dispose(); this.geometries.clear(); this.materials.clear(); this.templates.clear(); this.cache.clear(); }
+ private release(): void { for (const g of this.geometries) g.dispose(); for (const m of this.materials) m.dispose(); this.geometries.clear(); this.materials.clear(); this.templates.clear(); this.cache.clear(); this.canopy = undefined; }
  dispose(): void { if (this.status === 'disposed') return; this.status = 'disposed'; this.release(); }
 }

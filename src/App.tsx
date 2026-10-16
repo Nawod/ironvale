@@ -16,7 +16,7 @@ import {snapshot as makeSnapshot,updateVisibility} from './sim/visibility';
 
 import {AGE_NAMES,BUILDINGS,UNITS,COLORS} from './sim/definitions';
 
-import type {BuildingType,Command,Difficulty,Entity,Position,Resource,Snapshot,MatchConfig} from './sim/types';
+import type {BuildingType,Command,Difficulty,Entity,Position,Resource,Snapshot,MatchConfig,MapType} from './sim/types';
 
 import {readSave,writeSave} from './storage';
 
@@ -47,7 +47,7 @@ function Emblem(){return <svg viewBox="0 0 56 64" className="emblem" aria-hidden
 
 export default function App(){
 
- const [screen,setScreen]=useState<'menu'|'game'>('menu'),[s,setSnapshot]=useState<Snapshot>(),[opponents,setOpponents]=useState<MatchConfig['opponents']>(1),[difficulty,setDifficulty]=useState<Difficulty>('normal'),[tutorial,setTutorial]=useState(false),[zombies,setZombies]=useState(false),[seed,setSeed]=useState('Ironvale'),[selection,setSelection]=useState<number[]>([]),[mode,setMode]=useState(''),[placement,setPlacement]=useState<BuildingType>(),[toast,setToast]=useState(''),[settings,setSettings]=useState(false),[help,setHelp]=useState(false),[tutorialIndex,setTutorialIndex]=useState(0),[collapsed,setCollapsed]=useState(false),[commandsOpen,setCommandsOpen]=useState(false),[overlay,setOverlay]=useState<'map'|'status'|'tutorial'|'voice'|'camera'|null>(null),[saves,setSaves]=useState<{manual?:string;auto?:string}>({}),[music,setMusic]=useState(.3),[effects,setEffects]=useState(.65);
+ const [screen,setScreen]=useState<'menu'|'game'>('menu'),[s,setSnapshot]=useState<Snapshot>(),[opponents,setOpponents]=useState<MatchConfig['opponents']>(1),[difficulty,setDifficulty]=useState<Difficulty>('normal'),[tutorial,setTutorial]=useState(false),[zombies,setZombies]=useState(false),[mapType,setMapType]=useState<MapType>('riverlands'),[seed,setSeed]=useState('Ironvale'),[selection,setSelection]=useState<number[]>([]),[mode,setMode]=useState(''),[placement,setPlacement]=useState<BuildingType>(),[toast,setToast]=useState(''),[settings,setSettings]=useState(false),[help,setHelp]=useState(false),[tutorialIndex,setTutorialIndex]=useState(0),[collapsed,setCollapsed]=useState(false),[commandsOpen,setCommandsOpen]=useState(false),[overlay,setOverlay]=useState<'map'|'status'|'tutorial'|'voice'|'camera'|null>(null),[saves,setSaves]=useState<{manual?:string;auto?:string}>({}),[music,setMusic]=useState(.3),[effects,setEffects]=useState(.65);
 
  const chooseMode=(next:string)=>{setMode(next);if(next){setCommandsOpen(false);setOverlay(null);}};
  const choosePlacement=(next?:BuildingType)=>{setPlacement(next);if(next){setCommandsOpen(false);setOverlay(null);}};
@@ -146,7 +146,7 @@ export default function App(){
 
  const preview=useMemo(()=>{const g=createGame({opponents:1,difficulty:'normal',seed:918});for(const[type,x,y]of [['house',23,23],['house',15,24],['storage',23,16],['barracks',14,14],['farm',25,26],['farm',28,29],['tower',12,21],['stable',20,27],['wall',12,18],['wall',12,19],['wall',12,20]]as [BuildingType,number,number][])spawn(g,'building',type,0,{x,y});for(let j=0;j<8;j++)spawn(g,'unit','spearman',0,{x:28+j*.5,y:22+j*.3});updateVisibility(g);return makeSnapshot(g);},[]);
 
- const start=()=>{onlineActive.current=false;setIsOnline(false);setGameMenu(false);worker.current=localSession.current;audio.current?.unlock();let hash=2166136261;for(const ch of seed)hash=Math.imul(hash^ch.charCodeAt(0),16777619);setSelection([]);setMode('');setPlacement(undefined);lastEvent.current=0;setTutorialIndex(0);worker.current?.postMessage({type:'start',config:{opponents,difficulty,seed:hash>>>0,tutorial,zombies}});setScreen('game');};
+ const start=()=>{onlineActive.current=false;setIsOnline(false);setGameMenu(false);worker.current=localSession.current;audio.current?.unlock();let hash=2166136261;for(const ch of seed)hash=Math.imul(hash^ch.charCodeAt(0),16777619);setSelection([]);setMode('');setPlacement(undefined);lastEvent.current=0;setTutorialIndex(0);worker.current?.postMessage({type:'start',config:{opponents,difficulty,seed:hash>>>0,tutorial,zombies,mapType}});setScreen('game');};
 
  const load=async(slot:'manual'|'auto')=>{audio.current?.unlock();try{const saved=await readSave(slot);if(!saved){notify('There is no saved match in this slot.');return;}onlineActive.current=false;setIsOnline(false);worker.current=localSession.current;worker.current?.postMessage({type:'load',text:saved.text});setSelection([]);setMode('');setPlacement(undefined);setScreen('game');setTutorial(false);notify('Match loaded. Resume when you are ready.');}catch(error){notify(error instanceof Error?error.message:'The match could not be loaded.');}};
 
@@ -164,7 +164,7 @@ export default function App(){
 
   {screen==='menu'?<>
 
-   <BattlefieldView snapshot={preview} hooks={hooks} interactive={false}/><div className="menu-shade"/>
+   <BattlefieldView snapshot={preview} hooks={hooks} interactive={false} suspended={onlineOpen||settings||help}/><div className="menu-shade"/>
 
    <header className="menu-identity"><div className="brand"><Emblem/><span>Ironvale</span></div><span>Build a people. Claim a realm.</span></header>
 
@@ -173,6 +173,8 @@ export default function App(){
     <div className="main-actions"><button className="begin" aria-label="Begin your reign" onClick={start}><span>Begin your reign<small>Single-player conquest</small></span><ChevronRight size={22}/></button><button className="online-entry" aria-label="Play with Freinds" onClick={()=>setOnlineOpen(true)}><Users size={22}/><span>Play with friends<small>Online conquest · 2–8 players</small></span><ChevronRight size={20}/></button></div>
 
     <div className="match-options"><div className="option-label"><Swords size={16}/><span>Your opposition</span><select aria-label="Computer rivals" className="rival-count" value={opponents} onChange={e=>setOpponents(+e.target.value as MatchConfig['opponents'])}>{[1,2,3,4,5,6,7].map(n=><option key={n} value={n}>{n} {n===1?'rival':'rivals'}</option>)}</select></div><div className="segmented"><button className={opponents===1?'active':''} onClick={()=>setOpponents(1)}>One rival<span>A duel of empires</span></button><button className={opponents===3?'active':''} onClick={()=>setOpponents(3)}>Three rivals<span>Every empire for itself</span></button></div>
+
+     <div className="setup-row"><label>Battlefield<select aria-label="Map type" aria-describedby="map-description" value={mapType} onChange={e=>setMapType(e.target.value as MapType)}><option value="lowlands">Lowlands</option><option value="riverlands">Riverlands</option></select></label><p className="difficulty-description" id="map-description">{mapType==='riverlands'?'Rivers divide the realm. Cross at permanent bridges and shallow crossings.':'Open land and woodland, with room to build and march.'}</p></div>
 
      <div className="setup-row"><label>Difficulty<select aria-label="Difficulty" aria-describedby="difficulty-description" value={difficulty} onChange={e=>setDifficulty(e.target.value as Difficulty)}><option value="easy">Easy</option><option value="normal">Normal</option><option value="hard">Hard</option></select></label><label>Map seed<input value={seed} onChange={e=>setSeed(e.target.value)} maxLength={40} aria-label="Map seed"/></label></div>
 

@@ -42,3 +42,10 @@ Raw archives and unused source files are excluded under `.art-source/`. The Ashe
 Marches runtime dependencies are incorporated into Ironvale and must not be offered
 as a separate asset download. The legacy CC0 human archive remains locally bundled
 for provenance/repacking compatibility; active armies use Ashen Marches.
+
+The Riverlands update reuses those same licensed twig photographs for bounded,
+alpha-tested canopy sprigs on twelve shared tree size/species profiles. It adds
+original river shading, stone-crossing textures, bridge geometry, arrow/stone
+projectile geometry and shared character-pose adjustments. No additional external
+asset or license was introduced; animal models and the approved medieval building
+provider are unchanged.

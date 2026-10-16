@@ -1,0 +1,41 @@
+{
+  "verifiedAt": "2026-10-16T05:04:48.613Z",
+  "origin": "http://localhost:8180",
+  "layouts": [
+    {
+      "device": "desktop",
+      "width": 1440,
+      "height": 900,
+      "battlefieldInputFraction": 0.7395833333333334
+    },
+    {
+      "device": "phone",
+      "width": 390,
+      "height": 844,
+      "battlefieldInputFraction": 0.8385416666666666
+    },
+    {
+      "device": "phone",
+      "width": 844,
+      "height": 390,
+      "battlefieldInputFraction": 0.7135416666666666
+    }
+  ],
+  "combat": {
+    "tick": 84,
+    "attackingEntities": 33,
+    "damagedUnits": 12
+  },
+  "lobbyEdits": {
+    "serverConfirmed": true,
+    "mapType": "riverlands",
+    "zombies": true
+  },
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "browserErrors": [],
+  "limits": "Desktop Chromium with touch emulation, not physical phones. Battle screenshots use prepared cities/armies with increased hit points; new-game screenshots use ordinary starts."
+}

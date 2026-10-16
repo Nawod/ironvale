@@ -1,0 +1,28 @@
+{
+  "fixture": "192x192 Riverlands, all tiles explored/visible, 768x768 terrain control texture; 8 sequential calls, first call cold",
+  "pixelSha256Before": "0a48fb4e2f7b5a554097deae9eba61de68a6ea69d0d0ed237ecfb25658c900ec",
+  "pixelSha256After": "0a48fb4e2f7b5a554097deae9eba61de68a6ea69d0d0ed237ecfb25658c900ec",
+  "beforeMs": [
+    114.7162,
+    84.6398,
+    102.2188,
+    81.4642,
+    96.3261,
+    94.2491,
+    86.291,
+    107.7327
+  ],
+  "afterMs": [
+    50.6108,
+    18.4152,
+    17.6739,
+    20.9427,
+    21.5334,
+    21.7593,
+    17.3071,
+    21.3466
+  ],
+  "beforeWarmMedianMs": 94.2491,
+  "afterWarmMedianMs": 20.9427,
+  "limits": "Local Node CPU microbenchmark during browser regression run; does not measure whole-game FPS or physical mobile hardware."
+}

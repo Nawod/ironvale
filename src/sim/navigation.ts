@@ -5,17 +5,31 @@ import {allied} from './teams';
 import {environmentFor} from './environment';
 import {FOOD_SOURCES} from './nature';
 import type {FoodSourceType} from './types';
-const navigationCache=new WeakMap<GameState,{signature:string;grids:Uint8Array[]}>();
+import {canBuildOnTerrain,isWaterTerrain} from './terrain';
+const navigationCache=new WeakMap<GameState,{signature:string;terrain:number[];grids:Uint8Array[]}>();
 export function navigationGrids(s:GameState):Uint8Array[]{
  const buildings=Object.values(s.entities).filter(e=>e.kind==='building'&&e.type!=='farm');
  const signature=s.size+'|'+s.players.map(p=>p.team??`p${p.id}`).join(',')+'|'+buildings.map(e=>`${e.id}:${e.type}:${e.x}:${e.y}:${e.owner}`).join('|');
- const prior=navigationCache.get(s);if(prior?.signature===signature)return prior.grids;
- const shared=new Map<string,Uint8Array>(),grids=[...s.players.map(p=>p.id),-1].map(owner=>{const key=owner<0?'neutral':s.players[owner].team===undefined?`p${owner}`:`t${s.players[owner].team}`;let grid=shared.get(key);if(!grid){grid=blockedGrid(s,owner);shared.set(key,grid);}return grid;});navigationCache.set(s,{signature,grids});return grids;
+ const prior=navigationCache.get(s);if(prior?.signature===signature&&prior.terrain===s.terrain)return prior.grids;
+ const shared=new Map<string,Uint8Array>(),grids=[...s.players.map(p=>p.id),-1].map(owner=>{const key=owner<0?'neutral':s.players[owner].team===undefined?`p${owner}`:`t${s.players[owner].team}`;let grid=shared.get(key);if(!grid){grid=blockedGrid(s,owner);shared.set(key,grid);}return grid;});navigationCache.set(s,{signature,terrain:s.terrain,grids});return grids;
 }
 export function bounds(s:GameState,p:Position):boolean{return Number.isFinite(p.x)&&Number.isFinite(p.y)&&p.x>=1&&p.y>=1&&p.x<s.size-1&&p.y<s.size-1;}
 export function buildingSize(e:Entity):number{return e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].size:0;}
+/** Only face-adjacent cells are valid exits: a blocked garrison must never
+ * teleport through a wall or river to some more distant open tile. */
+export function garrisonExit(s:GameState,b:Entity,grid=blockedGrid(s,b.owner)):Position|undefined{
+ const preferred={x:b.x-1,y:b.y+1};
+ if(bounds(s,preferred)&&!grid[Math.floor(preferred.y)*s.size+Math.floor(preferred.x)])return preferred;
+ const n=buildingSize(b);
+ for(let dy=-1;dy<=n;dy++)for(let dx=-1;dx<=n;dx++){
+  if((dx===-1||dx===n)===(dy===-1||dy===n))continue;
+  const p={x:b.x+dx,y:b.y+dy};if(bounds(s,p)&&!grid[Math.floor(p.y)*s.size+Math.floor(p.x)])return p;
+ }
+ return undefined;
+}
 export function blockedGrid(s:GameState,owner:number):Uint8Array{
  const grid=new Uint8Array(s.size*s.size);
+ for(let i=0;i<s.terrain.length;i++)if(isWaterTerrain(s.terrain[i]))grid[i]=1;
  for(const e of Object.values(s.entities))if(e.kind==='building'&&e.type!=='farm'&&!(e.type==='gate'&&allied(s,e.owner,owner))){
   const n=buildingSize(e);for(let y=Math.floor(e.y);y<e.y+n;y++)for(let x=Math.floor(e.x);x<e.x+n;x++)if(x>=0&&y>=0&&x<s.size&&y<s.size)grid[y*s.size+x]=1;
  }return grid;
@@ -27,7 +41,7 @@ export function approach(s:GameState,from:Position,target:Entity,grid:Uint8Array
  points.sort((a,b)=>distance(a,from)-distance(b,from));return points[0]??{x:target.x-1,y:target.y+1};
 }
 export function canPlace(s:GameState,type:keyof typeof BUILDINGS,p:Position):boolean{
- const n=BUILDINGS[type].size;if(!bounds(s,p)||p.x+n>=s.size-1||p.y+n>=s.size-1)return false;
+ const n=BUILDINGS[type].size;if(!bounds(s,p)||p.x+n>=s.size-1||p.y+n>=s.size-1||!canBuildOnTerrain(s.terrain,s.size,p.x,p.y,n))return false;
  return !Object.values(s.entities).some(e=>e.kind==='building'&&p.x<e.x+buildingSize(e)&&p.x+n>e.x&&p.y<e.y+buildingSize(e)&&p.y+n>e.y||e.kind==='resource'&&e.amount>0&&e.x>=p.x&&e.x<p.x+n&&e.y>=p.y&&e.y<p.y+n);
 }
 export function pathfind(s:GameState,start:Position,goal:Position,owner:number,grid=blockedGrid(s,owner),allowPartial=false):Position[]{

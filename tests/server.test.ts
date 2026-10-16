@@ -21,10 +21,21 @@ it('runs a real two-player private match only after host start and accepts order
  }finally{a.ws.close();b.ws.close();await server.close();}
 });
 it.each([2,3,4,5,6,7,8])('public matchmaking starts exactly %i humans',async count=>{const server=await startServer({port:0,dataDir:false,countdownMs:10}),clients=[];try{for(let i=0;i<count;i++){const c=await client(server.port);clients.push(c);c.send({type:'queue',count,name:`Player ${i}`});}for(const [i,c]of clients.entries()){const start=await c.wait('started');expect(start.playerId).toBe(i);expect(start.room.players).toHaveLength(count);expect(start.room.players.every((p:any)=>p.controller==='human')).toBe(true);await c.wait('snapshot');}}finally{clients.forEach(c=>c.ws.close());await server.close();}});
-it('recovers a checkpoint and reconnects a guest without leaking its credential',async()=>{
+it('starts the selected public Riverlands terrain in the authoritative worker',async()=>{
+ const server=await startServer({port:0,dataDir:false,countdownMs:10}),a=await client(server.port),b=await client(server.port);
+ try{
+  for(const [name,c]of [['Alice',a],['Bob',b]] as const)c.send({type:'queue',name,count:2,mapType:'riverlands'});
+  for(const c of [a,b]){
+   expect((await c.wait('started')).room.mapType).toBe('riverlands');
+   const view=(await c.wait('snapshot')).snapshot;
+   expect(view.config.mapType).toBe('riverlands');expect(view.terrain).toContain(3);expect(view.terrain).toContain(5);
+  }
+ }finally{a.ws.close();b.ws.close();await server.close();}
+});
+it.each(['lowlands','riverlands'])('recovers a %s checkpoint and reconnects a guest without leaking its credential',async mapType=>{
  const dir=await mkdtemp(join(tmpdir(),'ironvale-'));let server=await startServer({port:0,dataDir:dir}),a=await client(server.port),b=await client(server.port);
- try{a.send({type:'create',name:'Alice',capacity:2,fillAI:false,difficulty:'normal',seed:4});const joined=await a.wait('joined');b.send({type:'join',code:joined.room.code,name:'Bob'});await b.wait('joined');a.send({type:'ready',ready:true});b.send({type:'ready',ready:true});await a.wait('room',m=>m.room.players.length===2&&m.room.players.every((p:any)=>p.ready));a.send({type:'start'});const v=(await a.wait('snapshot')).snapshot;
+ try{a.send({type:'create',name:'Alice',capacity:2,fillAI:false,difficulty:'normal',seed:4,mapType});const joined=await a.wait('joined');b.send({type:'join',code:joined.room.code,name:'Bob'});await b.wait('joined');a.send({type:'ready',ready:true});b.send({type:'ready',ready:true});await a.wait('room',m=>m.room.players.length===2&&m.room.players.every((p:any)=>p.ready));a.send({type:'start'});const v=(await a.wait('snapshot')).snapshot;
   a.send({type:'command',seq:1,command:{type:'recruit',building:v.players[0].capital,unit:'villager'}});await a.wait('commandResult');expect(JSON.stringify(b.messages)).not.toContain(joined.token);await server.close();a.ws.close();b.ws.close();
-  server=await startServer({port:0,dataDir:dir});a=await client(server.port);a.send({type:'resume',code:joined.room.code,token:joined.token});expect((await a.wait('joined')).lastSeq).toBe(1);const restored=(await a.wait('snapshot')).snapshot;expect(restored.players[0].resources.food).toBe(300);expect(restored.tick).toBeGreaterThanOrEqual(v.tick);
+  server=await startServer({port:0,dataDir:dir});a=await client(server.port);a.send({type:'resume',code:joined.room.code,token:joined.token});expect((await a.wait('joined')).lastSeq).toBe(1);const restored=(await a.wait('snapshot')).snapshot;expect(restored.config.mapType).toBe(mapType);expect(restored.terrain).toEqual(v.terrain);expect((await a.wait('started')).room.mapType).toBe(mapType);expect(restored.players[0].resources.food).toBe(300);expect(restored.tick).toBeGreaterThanOrEqual(v.tick);
  }finally{a.ws.close();b.ws.close();await server.close();await rm(dir,{recursive:true,force:true});}
 });

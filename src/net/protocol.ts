@@ -1,5 +1,5 @@
-import type {Command,Difficulty,Snapshot,MatchMode} from '../sim/types';
-export interface RoomSettings {capacity:number;fillAI:boolean;difficulty:Difficulty;seed:number;mode?:MatchMode;zombies?:boolean}
+import type {Command,Difficulty,Snapshot,MatchMode,MapType} from '../sim/types';
+export interface RoomSettings {capacity:number;fillAI:boolean;difficulty:Difficulty;seed:number;mode?:MatchMode;zombies?:boolean;mapType?:MapType}
 export interface LobbyPlayer {id:string;name:string;seat:number;ready:boolean;connected:boolean;controller:'human'|'ai';team?:number}
 export interface RoomView extends RoomSettings {code:string;kind:'private'|'public';phase:'lobby'|'countdown'|'playing'|'finished';hostId:string;players:LobbyPlayer[];countdownEnds?:number}
 export type VoiceChannel='open'|'team';
@@ -10,7 +10,7 @@ export type VoiceSignal=
 export type ClientMessage =
  | ({type:'create';name:string}&RoomSettings)
  | {type:'join';name:string;code:string}
- | {type:'queue';name:string;count:number;mode?:MatchMode;zombies?:boolean}
+ | {type:'queue';name:string;count:number;mode?:MatchMode;zombies?:boolean;mapType?:MapType}
  | {type:'team';team:number;seat?:number}
  | {type:'ready';ready:boolean}
  | ({type:'settings'}&RoomSettings)

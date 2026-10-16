@@ -25,7 +25,7 @@ function battlefield(entities:Entity[]){
   throw new Error(`No rendered instance for ${id}`);
  };
  const update=(entities:Entity[])=>field.update(view(entities));
- const dispose=()=>{field.batches.dispose();field.models.dispose();field.ring.dispose();field.bar.dispose();for(const material of field.barMaterials)material.dispose();field.preview.geometry.dispose();field.preview.material.dispose();field.projectileGeometry.dispose();field.projectileMaterial.dispose();};
+ const dispose=()=>{field.batches.dispose();field.models.dispose();field.ring.dispose();field.bar.dispose();for(const material of [...field.barMaterials,...field.selectionMaterials])material.dispose();field.preview.geometry.dispose();field.preview.material.dispose();field.battleEffects?.dispose();};
  return{field,axis,update,dispose};
 }
 

@@ -1,7 +1,7 @@
 import type { Command, Entity, GameState, Position, Resources, Resource, UnitType } from './types';
 import { BUILDINGS, UNITS, AGE_COSTS, wallUpgrade } from './definitions';
 import { capacity, population, seen } from './visibility';
-import { adjacentDistance, approach, bounds, canPlace, travel } from './navigation';
+import { adjacentDistance, approach, bounds, canPlace, travel, garrisonExit } from './navigation';
 import { spawn } from './world';
 import {hostile} from './teams';
 import {FOOD_SOURCES,harvestedResource} from './nature';
@@ -37,8 +37,9 @@ export function applyCommand(s:GameState,c:Command):string|null {
   const point={x:Math.floor(c.point.x),y:Math.floor(c.point.y)};
   const workers=[...new Set(c.workers)].map(owned).filter((e):e is Entity=>!!e&&e.type==='villager'&&!e.garrisoned);
   if(!workers.length)return 'Select a villager to build.';
-  if(!canPlace(s,c.building,point))return 'Choose clear land for this building.';
+  if(!bounds(s,point)||point.x+d.size>=s.size-1||point.y+d.size>=s.size-1)return 'Choose clear land for this building.';
   for(let y=point.y;y<point.y+d.size;y++)for(let x=point.x;x<point.x+d.size;x++)if(!s.visible[c.player][y*s.size+x])return 'Scout this land before building.';
+  if(!canPlace(s,c.building,point))return 'Choose clear land for this building.';
   const continuesWalls=(w:Entity)=>c.building==='wall'&&w.order.kind==='build'&&(s.entities[w.order.target??0]?.type==='wall'&&s.entities[w.order.target??0]?.owner===w.owner||(w.buildQueue??[]).some(id=>s.entities[id]?.owner===w.owner));
   if(workers.some(w=>continuesWalls(w)?pendingTaskCount(w)>=MAX_WORKER_TASKS:!canAssignTask(w,{kind:'build',target:s.nextId})))return 'Worker task list is full. Finish tasks or use Stop to clear it.';
   if(!pay(s,c.player,d.cost))return 'Not enough resources.';
@@ -87,7 +88,7 @@ export function applyCommand(s:GameState,c:Command):string|null {
   cap.hp=1;cap.progress=0;cap.occupation=undefined;for(const w of workers)assignTask(s,w,{kind:'build',target:cap.id});return null;
  }
  if(c.type==='ungarrison'){
-  const b=owned(c.building);if(!b)return 'Select your own building.';for(const id of b.garrison){const e=s.entities[id];if(e){e.garrisoned=undefined;e.x=b.x-1;e.y=b.y+1;assign(e,{kind:'idle'});}}b.garrison=[];return null;
+  const b=owned(c.building);if(!b)return 'Select your own building.';const point=garrisonExit(s,b);if(!point&&b.garrison.length)return 'Clear space around this building before ungarrisoning.';for(const id of b.garrison){const e=s.entities[id];if(e&&point){e.garrisoned=undefined;e.x=point.x;e.y=point.y;assign(e,{kind:'idle'});}}b.garrison=[];return null;
  }
  if(c.type==='stance'){for(const id of c.ids){const e=owned(id);if(e?.kind==='unit'){e.stance=c.stance;e.home={x:e.x,y:e.y};}}return null;}
  if(c.type==='order'){

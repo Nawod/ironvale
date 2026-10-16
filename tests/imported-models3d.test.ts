@@ -166,6 +166,23 @@ describe('imported shared pose models', () => {
   }
  });
 
+ it('gives workers and ranged classes distinct work and combat silhouettes in both shared detail banks', () => {
+  for(const type of ['villager','archer','crossbowman'])for(const detail of ['full','crowd'] as const) {
+   const actor=entity(type,0), work=models.get(actor,{...idle,working:true,time:0,detail})!,attack=models.get(actor,{...idle,attacking:true,time:0,detail})!;
+   const positions=(parts:typeof work)=>parts.filter(p=>!p.geometry.userData.importedAttachment).flatMap(p=>Array.from(p.geometry.getAttribute('position').array));
+   expect(positions(attack),`${type} ${detail} combat differs from work`).not.toEqual(positions(work));
+  }
+ });
+
+ it('lowers mounted lances into a forward strike while keeping the original horse geometry unchanged', () => {
+  for(const detail of ['full','crowd'] as const) {
+   const actor=entity('heavyCavalry',0), resting=models.get(actor,{...idle,detail})!,strike=models.get(actor,{...idle,attacking:true,time:0,detail})!;
+   const projection=(parts:typeof resting)=>Math.max(...parts.filter(p=>p.geometry.userData.importedAttachment).map(p=>p.geometry.boundingBox!.max.z));
+   expect(projection(strike)).toBeGreaterThan(projection(resting)+.35);
+   expect(strike.filter(p=>p.geometry.userData.importedMount).map(p=>Array.from(p.geometry.getAttribute('position').array))).toEqual(resting.filter(p=>p.geometry.userData.importedMount).map(p=>Array.from(p.geometry.getAttribute('position').array)));
+  }
+ });
+
  it('owns and disposes each geometry and material once, with no stale access', () => {
   const parts = models.get(entity('villager'), idle)!;
   const mounted = models.get(entity('heavyCavalry'), { ...idle, moving: true })!;

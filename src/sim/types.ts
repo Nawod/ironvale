@@ -25,7 +25,8 @@ export interface Entity extends Position {
 }
 export type Difficulty = 'easy' | 'normal' | 'hard';
 export type MatchMode = 'ffa' | 'teams';
-export interface MatchConfig { opponents: 1 | 2 | 3 | 4 | 5 | 6 | 7; participants?: {name:string;controller:'human'|'ai';team?:number}[]; difficulty: Difficulty; seed: number; tutorial?: boolean; zombies?: boolean }
+export type MapType = 'lowlands' | 'riverlands';
+export interface MatchConfig { opponents: 1 | 2 | 3 | 4 | 5 | 6 | 7; participants?: {name:string;controller:'human'|'ai';team?:number}[]; difficulty: Difficulty; seed: number; tutorial?: boolean; zombies?: boolean; mapType?: MapType }
 export interface AIState { nextThink: number; rally?: Position; target?: number; raids: number }
 export interface Player { controller:'human'|'ai'; id: number; team?:number; name: string; color: string; alive: boolean; age: 1 | 2 | 3; resources: Resources; capital: number; weapons: number; armor: number; ai: AIState }
 export interface GameEvent { id: number; tick: number; kind: 'info' | 'attack' | 'capture' | 'error' | 'complete'; player: number; text: string; x?: number; y?: number }

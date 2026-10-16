@@ -15,7 +15,7 @@ function voiceSignal(value:unknown):VoiceSignal{
  if(m.type==='candidate'){const c=object(m.candidate);return{type:'candidate',candidate:{candidate:boundedString(c.candidate,2048),...(c.sdpMid!==undefined?{sdpMid:c.sdpMid===null?null:boundedString(c.sdpMid,256)}:{}),...(c.sdpMLineIndex!==undefined?{sdpMLineIndex:c.sdpMLineIndex===null?null:integer(c.sdpMLineIndex,0,65535)}:{}),...(c.usernameFragment!==undefined?{usernameFragment:c.usernameFragment===null?null:boundedString(c.usernameFragment,256)}:{})}};}
  return fail();
 }
-export function settings(v:unknown):RoomSettings{const m=object(v);return {capacity:integer(m.capacity,2,8),fillAI:bool(m.fillAI),difficulty:oneOf<Difficulty>(m.difficulty,['easy','normal','hard']),seed:integer(m.seed,0,0xffffffff),mode:m.mode===undefined?'ffa':oneOf(m.mode,['ffa','teams'] as const),...(m.zombies!==undefined?{zombies:bool(m.zombies)}:{})};}
+export function settings(v:unknown):RoomSettings{const m=object(v);return {capacity:integer(m.capacity,2,8),fillAI:bool(m.fillAI),difficulty:oneOf<Difficulty>(m.difficulty,['easy','normal','hard']),seed:integer(m.seed,0,0xffffffff),mode:m.mode===undefined?'ffa':oneOf(m.mode,['ffa','teams'] as const),...(m.zombies!==undefined?{zombies:bool(m.zombies)}:{}),...(m.mapType!==undefined?{mapType:oneOf(m.mapType,['lowlands','riverlands'] as const)}:{})};}
 const point=(v:unknown)=>{const p=object(v);if(typeof p.x!=='number'||typeof p.y!=='number'||!Number.isFinite(p.x)||!Number.isFinite(p.y)||p.x<0||p.y<0||p.x>192||p.y>192)return fail();return{x:p.x,y:p.y};};
 const ids=(v:unknown):number[]=>{if(!Array.isArray(v)||!v.length||v.length>1000)return fail();return [...new Set(v.map(n=>integer(n,1)))];};
 export function validateCommand(value:unknown):Command{
@@ -43,7 +43,7 @@ export function validateMessage(value:unknown):ClientMessage{
  switch(m.type){
   case 'create':return{type:'create',name:name(m.name),...settings(m)};
   case 'join':return{type:'join',name:name(m.name),code:code(m.code)};
-  case 'queue':return{type:'queue',name:name(m.name),count:integer(m.count,2,8),mode:m.mode===undefined?'ffa':oneOf(m.mode,['ffa','teams'] as const),...(m.zombies!==undefined?{zombies:bool(m.zombies)}:{})};
+  case 'queue':return{type:'queue',name:name(m.name),count:integer(m.count,2,8),mode:m.mode===undefined?'ffa':oneOf(m.mode,['ffa','teams'] as const),...(m.zombies!==undefined?{zombies:bool(m.zombies)}:{}),...(m.mapType!==undefined?{mapType:oneOf(m.mapType,['lowlands','riverlands'] as const)}:{})};
   case 'team':return{type:'team',team:integer(m.team,0,7),...(m.seat!==undefined?{seat:integer(m.seat,0,7)}:{})};
   case 'ready':return{type:'ready',ready:bool(m.ready)};
   case 'voiceState':return{type:'voiceState',channel:m.channel===null?null:oneOf(m.channel,['open','team'] as const),muted:bool(m.muted),session:integer(m.session,1)};
