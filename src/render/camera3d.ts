@@ -9,6 +9,13 @@ export class RTSCamera {
   this.camera.position.set(v.focus.x+Math.sin(v.yaw)*100,100/Math.sqrt(3),v.focus.y+Math.cos(v.yaw)*100);this.camera.lookAt(v.focus.x,0,v.focus.y);this.camera.updateProjectionMatrix();this.camera.updateMatrixWorld();
  }
  project(p:Position,height=0):Position{const v=new Vector3(p.x,height,p.y).project(this.camera);return{x:(v.x+1)*this.width/2,y:(1-v.y)*this.height/2};}
- ground(p:Position):Position{this.ray.setFromCamera(new Vector2(p.x/this.width*2-1,1-p.y/this.height*2),this.camera);const v=this.ray.ray.intersectPlane(this.plane,new Vector3());return v?{x:v.x,y:v.z}:{x:0,y:0};}
- groundFootprint():Position[]{return[{x:0,y:0},{x:this.width,y:0},{x:this.width,y:this.height},{x:0,y:this.height}].map(p=>this.ground(p));}
+ ground(p:Position,heightAt?:(x:number,y:number)=>number):Position{
+  this.ray.setFromCamera(new Vector2(p.x/this.width*2-1,1-p.y/this.height*2),this.camera);const ray=this.ray.ray,v=ray.intersectPlane(this.plane,new Vector3());if(!v)return{x:0,y:0};if(!heightAt)return{x:v.x,y:v.z};
+  // Walk down the bounded terrain column to find the first visible slope, then
+  // refine its intersection. This avoids scanning a 256-square mesh per input.
+  const at=(h:number)=>{const t=(h-ray.origin.y)/ray.direction.y;return{x:ray.origin.x+ray.direction.x*t,y:ray.origin.z+ray.direction.z*t};};
+  let high=16;for(let h=15.75;h>=-.25;h-=.25){const q=at(h);if(h<=heightAt(q.x,q.y)){let low=h;for(let i=0;i<14;i++){const mid=(low+high)/2,a=at(mid);if(mid>heightAt(a.x,a.y))high=mid;else low=mid;}return at((low+high)/2);}high=h;}
+  return{x:v.x,y:v.z};
+ }
+ groundFootprint(heightAt?:(x:number,y:number)=>number):Position[]{return[{x:0,y:0},{x:this.width,y:0},{x:this.width,y:this.height},{x:0,y:this.height}].map(p=>this.ground(p,heightAt));}
 }

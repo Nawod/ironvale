@@ -1,14 +1,25 @@
 import type {Position} from './types';
 
-export const TERRAIN={grass:0,earth:1,woodland:2,water:3,ford:4,bridge:5} as const;
+export const TERRAIN={grass:0,earth:1,woodland:2,water:3,ford:4,bridge:5,mountain:6} as const;
 export const isWaterTerrain=(value:number):boolean=>value===TERRAIN.water;
+export const isBlockedTerrain=(value:number):boolean=>isWaterTerrain(value)||value===TERRAIN.mountain;
+
+/** Matches the mesh diagonal from the upper-right to the lower-left vertex. */
+export function terrainHeight(s:{size:number;elevation?:number[]},x:number,y:number):number{
+ if(!s.elevation||!Number.isFinite(x)||!Number.isFinite(y))return 0;
+ x=Math.max(0,Math.min(s.size,x));y=Math.max(0,Math.min(s.size,y));
+ const col=Math.min(s.size-1,Math.floor(x)),row=Math.min(s.size-1,Math.floor(y)),u=x-col,v=y-row,stride=s.size+1,i=row*stride+col;
+ const a=s.elevation[i],b=s.elevation[i+1],c=s.elevation[i+stride],d=s.elevation[i+stride+1];
+ return u+v<=1?a+(b-a)*u+(c-a)*v:d+(c-d)*(1-u)+(b-d)*(1-v);
+}
 
 /** Footprints include every tile they touch; permanent crossings stay clear. */
-export function canBuildOnTerrain(terrain:number[],size:number,x:number,y:number,n:number):boolean{
+export function canBuildOnTerrain(terrain:number[],size:number,x:number,y:number,n:number,elevation?:number[]):boolean{
  if(!Number.isFinite(x)||!Number.isFinite(y)||!Number.isInteger(n)||n<1||x<0||y<0||x+n>size||y+n>size)return false;
  for(let row=Math.floor(y);row<Math.ceil(y+n);row++)for(let col=Math.floor(x);col<Math.ceil(x+n);col++){
   const value=terrain[row*size+col];if(value!==TERRAIN.grass&&value!==TERRAIN.earth&&value!==TERRAIN.woodland)return false;
  }
+ if(elevation){let low=Infinity,high=-Infinity;for(let row=Math.floor(y);row<=Math.ceil(y+n);row++)for(let col=Math.floor(x);col<=Math.ceil(x+n);col++){const h=elevation[row*(size+1)+col];low=Math.min(low,h);high=Math.max(high,h);}if(high-low>.7)return false;}
  return true;
 }
 

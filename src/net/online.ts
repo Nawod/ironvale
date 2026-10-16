@@ -4,7 +4,7 @@ import {VoiceChat} from './voice';
 import type {Session,SessionMessage} from './session';
 export interface OnlineState {status:'idle'|'connecting'|'connected'|'reconnecting';id?:string;room?:RoomView;queued?:{count:number;waiting:number};error?:string;playerId?:number}
 const STORAGE='ironvale-online-seat';
-const roomSettings=(room:RoomSettings):RoomSettings=>({capacity:room.capacity,fillAI:room.fillAI,difficulty:room.difficulty,seed:room.seed,mode:room.mode??'ffa',zombies:room.zombies??false,mapType:room.mapType??'lowlands'});
+const roomSettings=(room:RoomSettings):RoomSettings=>({capacity:room.capacity,fillAI:room.fillAI,difficulty:room.difficulty,seed:room.seed,mode:room.mode??'ffa',zombies:room.zombies??false,mapType:room.mapType??'lowlands',mapSize:room.mapSize??'large'});
 export class OnlineSession implements Session {
  readonly voice=new VoiceChat(message=>{if(this.socket?.readyState!==WebSocket.OPEN)return false;this.socket.send(JSON.stringify(message));return true;});
  onmessage:Session['onmessage']=null;onStart?:(room:RoomView,playerId:number)=>void;onUpdate?:(state:OnlineState)=>void;

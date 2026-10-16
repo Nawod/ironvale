@@ -10,7 +10,7 @@ export function Minimap({snapshot:s,center,viewport}:{snapshot:Snapshot;center:(
  useEffect(()=>{
   if(!background.current)background.current=document.createElement('canvas');const tile=background.current;tile.width=tile.height=160;const c=tile.getContext('2d')!,n=s.size,k=160/n,image=c.createImageData(n,n);
   for(let i=0;i<s.fog.length;i++){
-   const t=s.terrain[i],known=s.fog[i]>0,dim=s.fog[i]===1?.55:1,color=!known?[31,43,32]:t===TERRAIN.water?[47,110,136]:t===TERRAIN.ford?[118,156,144]:t===TERRAIN.bridge?[209,182,126]:t===TERRAIN.woodland?[92,117,66]:[137,143,92];
+   const t=s.terrain[i],known=s.fog[i]>0,dim=s.fog[i]===1?.55:1,color=!known?[31,43,32]:t===TERRAIN.water?[47,110,136]:t===TERRAIN.ford?[118,156,144]:t===TERRAIN.bridge?[209,182,126]:t===TERRAIN.mountain?[153,148,135]:t===TERRAIN.woodland?[76,107,57]:[137,143,92];
    image.data[i*4]=color[0]*dim;image.data[i*4+1]=color[1]*dim;image.data[i*4+2]=color[2]*dim;image.data[i*4+3]=255;
   }
   const pixels=document.createElement('canvas');pixels.width=pixels.height=n;pixels.getContext('2d')!.putImageData(image,0,0);c.imageSmoothingEnabled=false;c.drawImage(pixels,0,0,160,160);

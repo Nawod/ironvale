@@ -5,9 +5,9 @@ import type {Position,Entity} from '../sim/types';
 export function turnToward(current:number,target:number,dt:number):number{
  const delta=Math.atan2(Math.sin(target-current),Math.cos(target-current));return current+delta*(1-Math.exp(-dt*14));
 }
-export function projectilePose(from:Position&{height:number},target:Position,progress:number,siege:boolean):{position:Vector3;direction:Vector3}{
+export function projectilePose(from:Position&{height:number},target:Position,progress:number,siege:boolean,targetHeight=0):{position:Vector3;direction:Vector3}{
  const t=Math.max(0,Math.min(1,progress)),arc=siege?2.8:.55;
- return {position:new Vector3(from.x+(target.x-from.x)*t,from.height+(.15-from.height)*t+Math.sin(t*Math.PI)*arc,from.y+(target.y-from.y)*t),direction:new Vector3(target.x-from.x,.15-from.height+Math.cos(t*Math.PI)*Math.PI*arc,target.y-from.y).normalize()};
+ return {position:new Vector3(from.x+(target.x-from.x)*t,from.height+(targetHeight+.15-from.height)*t+Math.sin(t*Math.PI)*arc,from.y+(target.y-from.y)*t),direction:new Vector3(target.x-from.x,targetHeight+.15-from.height+Math.cos(t*Math.PI)*Math.PI*arc,target.y-from.y).normalize()};
 }
 
 /** Snapshot effects are cosmetic: no new targets, combat timers or damage. */
@@ -25,12 +25,12 @@ export class BattleEffects {
   if(tick<this.tick)this.origins.clear();this.tick=tick;this.arrowCount=this.stoneCount=0;
   for(const [id,origin]of this.origins)if(tick-origin.tick>=20)this.origins.delete(id);
  }
- add(e:Pick<Entity,'id'|'type'|'attackFx'>,point:Position,height:number):void{
+ add(e:Pick<Entity,'id'|'type'|'attackFx'>,point:Position,height:number,targetHeight=0):void{
   if(!e.attackFx||!['archer','crossbowman','trebuchet','tower','fortress','capital'].includes(e.type))return;
   const age=this.tick-e.attackFx.tick;if(age<0||age>=20)return;const siege=e.type==='trebuchet';
   if(siege?this.stoneCount>=this.limit:this.arrowCount>=this.limit)return;
   let origin=this.origins.get(e.id);if(!origin||origin.tick!==e.attackFx.tick){origin={...point,height,tick:e.attackFx.tick};this.origins.set(e.id,origin);}
-  const pose=projectilePose(origin,e.attackFx,age/20,siege);this.transform.position.copy(pose.position);this.transform.quaternion.setFromUnitVectors(this.up,pose.direction);this.transform.scale.setScalar(1);this.transform.updateMatrix();
+  const pose=projectilePose(origin,e.attackFx,age/20,siege,targetHeight);this.transform.position.copy(pose.position);this.transform.quaternion.setFromUnitVectors(this.up,pose.direction);this.transform.scale.setScalar(1);this.transform.updateMatrix();
   if(siege)this.stones.setMatrixAt(this.stoneCount++,this.transform.matrix);else this.arrows.setMatrixAt(this.arrowCount++,this.transform.matrix);
  }
  end():void{for(const [mesh,count]of [[this.arrows,this.arrowCount],[this.stones,this.stoneCount]] as const){mesh.count=count;mesh.visible=count>0;if(count)mesh.instanceMatrix.needsUpdate=true;}}

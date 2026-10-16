@@ -4,8 +4,58 @@ import {SurfaceLibrary,type Surface} from './surfaces3d';
 import type {Entity} from '../sim/types';
 import {BUILDINGS,COLORS} from '../sim/definitions';
 export interface ModelPart {geometry:BufferGeometry;material:MeshStandardMaterial;position:[number,number,number];scale:[number,number,number];rotation:[number,number,number];motion?:'legL'|'legR'|'arm'|'weapon'|'flag'|'gate'}
+/** Original ore dressing. Four shared material batches retain exposed country
+ * rock, broad gold seams and warm loose scree rather than a yellow silhouette.
+ * Imported source geometry can be folded into the same batches. */
+export function createGoldDeposit(core:ModelPart[]=[]):ModelPart[]{
+ const groups:BufferGeometry[][]=[[],[],[],[]],facet=new DodecahedronGeometry(.5,0),transform=new Object3D();
+ const add=(group:number,p:[number,number,number],s:[number,number,number],r:[number,number,number]=[0,0,0])=>{
+  transform.position.fromArray(p);transform.scale.fromArray(s);transform.rotation.set(...r);transform.updateMatrix();
+  const g=facet.clone().applyMatrix4(transform.matrix);g.deleteAttribute('uv');groups[group].push(g);
+ };
+ for(const p of core){
+  transform.position.fromArray(p.position);transform.scale.fromArray(p.scale);transform.rotation.set(...p.rotation);transform.updateMatrix();
+  const g=p.geometry.clone().applyMatrix4(transform.matrix);for(const name of Object.keys(g.attributes))if(name!=='position'&&name!=='normal')g.deleteAttribute(name);
+  groups[/gold/i.test(p.material.name)?1:0].push(g);
+ }
+ // Unequal, angular host rocks create a readable vertical profile from above.
+ add(0,[-.12,.4,0],[.88,.88,.77],[.13,.2,.18]);
+ add(0,[.27,.25,.2],[.61,.5,.61],[.1,.6,-.13]);
+ add(0,[-.35,.2,.25],[.5,.4,.5],[.1,-.4,.1]);
+ add(0,[.24,.25,-.27],[.63,.5,.48],[-.1,.5,.2]);
+ add(0,[-.2,.19,-.34],[.45,.38,.42],[.2,-.7,0]);
+ // Raised seams cross the upper face and both sides; they are actual opaque
+ // mineral geometry, visible under rotated cameras without a floating icon.
+ add(1,[-.1,.72,.04],[.42,.12,.28],[.12,.3,.17]);
+ add(1,[.04,.47,.34],[.43,.22,.12],[-.18,.1,-.3]);
+ add(1,[.02,.43,-.35],[.38,.22,.14],[.2,-.2,.3]);
+ add(1,[-.43,.4,-.02],[.12,.29,.34],[.12,.1,-.2]);
+ add(1,[.43,.31,.13],[.12,.22,.35],[.2,-.15,-.2]);
+ add(1,[.26,.49,-.22],[.27,.13,.2],[.3,.6,-.2]);
+ add(2,[-.31,.34,.29],[.26,.14,.18],[.3,.4,.2]);
+ add(2,[.24,.28,.39],[.24,.13,.17],[.1,.6,-.1]);
+ add(2,[.33,.3,-.35],[.21,.15,.16],[.2,.5,.3]);
+ const scree=[[-.54,-.19],[-.36,-.46],[-.16,-.39],[.2,-.52],[.48,-.25],[.55,.04],[.4,.25],[.24,.43],[.04,.55],[-.25,.46],[-.47,.3],[-.55,.07],[-.24,-.26],[.27,-.29],[.25,.29],[-.28,.25]];
+ for(let i=0;i<scree.length;i++){
+  const [x,z]=scree[i],a=i*2.4;
+  add(3,[x,.035,z],[.13+(i%3)*.025,.065,.11+(i%2)*.035],[0,a,.08]);
+  if(i%3===0)add(2,[x,.06,z],[.13,.09,.12],[.1,a,.2]);
+ }
+ facet.dispose();
+ const names=['Gold country rock','Exposed bright gold seams','Ochre ore fragments','Warm mineral scree'];
+ const colors=['#555b62','#edbd43','#b78932','#927148'];
+ const parts=groups.map((pieces,i)=>{
+  const geometry=mergeGeometries(pieces,false)!;for(const piece of pieces)piece.dispose();
+  const material=new MeshStandardMaterial({name:names[i],color:colors[i],roughness:i===1?.64:.95,metalness:i===1?.18:0,flatShading:true});
+  return {geometry,material,position:[0,0,0],scale:[1,1,1],rotation:[0,0,0]} as ModelPart;
+ });
+ // Ground the complete assembly once, including its irregular loose fragments.
+ let bottom=Infinity;for(const p of parts){p.geometry.computeBoundingBox();bottom=Math.min(bottom,p.geometry.boundingBox!.min.y);}
+ for(const p of parts){p.geometry.translate(0,-bottom,0);p.geometry.computeBoundingBox();p.geometry.computeBoundingSphere();}
+ return parts;
+}
 export class ModelLibrary {
- private surfaces=new SurfaceLibrary();private merged=new Map<string,BufferGeometry>();private cache=new Map<string,ModelPart[]>();private materials=new Map<string,MeshStandardMaterial>();private naturalTextures?:Map<string,Texture>;
+ private surfaces=new SurfaceLibrary();private merged=new Map<string,BufferGeometry>();private cache=new Map<string,ModelPart[]>();private materials=new Map<string,MeshStandardMaterial>();private naturalTextures?:Map<string,Texture>;private gold?:ModelPart[];
  private geometries={box:new BoxGeometry(1,1,1),sphere:new SphereGeometry(.5,12,8),limb:new CapsuleGeometry(.5,1,3,8).scale(1,.5,1).translate(0,-.5,0),torso:new LatheGeometry([new Vector2(.14,0),new Vector2(.19,.08),new Vector2(.16,.25),new Vector2(.23,.45),new Vector2(.17,.52)],10),cylinder:new CylinderGeometry(.5,.5,1,10),cone:new ConeGeometry(.5,1,10),rock:this.organic(false),foliage:this.organic(true),branch:this.branch(),bow:new TorusGeometry(.5,.055,4,10,Math.PI),roof:this.roof()};
  private branch():BufferGeometry{const parts=[new PlaneGeometry(1,1),new PlaneGeometry(1,1).rotateY(Math.PI/2),new PlaneGeometry(1,1).rotateX(-Math.PI/2)];const geometry=mergeGeometries(parts,false)!;for(const part of parts)part.dispose();
   // This photo atlas contains cones and bark as well as foliage. Sample its upper-left needle sprig.
@@ -23,7 +73,7 @@ export class ModelLibrary {
   let m=this.materials.get(color);if(m)return m;
   const stone=['#6c7563','#a5aa9b','#c1bfaa','#a9ad9e','#848f81','#bcc0ac','#9ba391','#89958c','#c8a84e','#9b8a55','#b2b19f'];
   const wood=['#705139','#765d42','#826143','#7a5836','#8f714a','#7c603d','#8c6a45','#795c39','#805f39','#8e6b3e','#947249','#9e8258','#8b6e43','#bba075','#896c45'];
-  const surface:Surface|undefined=['#89958c','#c8a84e','#9b8a55'].includes(color)?'rock':stone.includes(color)?'stone':wood.includes(color)?'wood':['#a76042','#824c39','#596369'].includes(color)?'roof':color==='#d5ceb0'||color==='#d1c3a2'?'plaster':COLORS.includes(color)?'cloth':color==='#aeb9b9'||color==='#5e6c70'?'metal':['#2e5740','#3d6b43','#557c47'].includes(color)?'leaf':color==='#725e3d'?'earth':undefined;
+  const surface:Surface|undefined=['#89958c','#78818b','#c8a84e','#9b8a55'].includes(color)?'rock':stone.includes(color)?'stone':wood.includes(color)?'wood':['#a76042','#824c39','#596369'].includes(color)?'roof':color==='#d5ceb0'||color==='#d1c3a2'?'plaster':COLORS.includes(color)?'cloth':color==='#aeb9b9'||color==='#5e6c70'?'metal':['#2e5740','#3d6b43','#557c47'].includes(color)?'leaf':color==='#725e3d'?'earth':undefined;
   const textures=surface?this.surfaces.get(surface):undefined;
   m=new MeshStandardMaterial({color,roughness:surface==='metal'?.43:.94,metalness:surface==='metal'?.65:0,flatShading:false,map:textures?.map,bumpMap:textures?.bump,bumpScale:surface==='stone'?.055:surface==='wood'?.025:.012});
   this.applyNaturalTexture(color,m);this.materials.set(color,m);return m;
@@ -75,7 +125,11 @@ export class ModelLibrary {
    }
   }
   else if(type==='berries'){for(let i=0;i<5;i++){const a=i*2.4;add('foliage',i%2?'#496c37':'#64823f',[Math.cos(a)*.35,.35+i%2*.15,Math.sin(a)*.3],[.95,.65,.85],[0,a,0]);}for(let i=0;i<18;i++){const a=i*2.4,r=.38+(i%3)*.08;add('sphere',i%3?'#a93148':'#d15154',[Math.cos(a)*r,.45+i%4*.1,Math.sin(a)*r],[.11,.12,.11]);}}
-  else if(type==='stone'||type==='gold'){for(let i=0;i<4;i++)add('rock',type==='gold'?(i%2?'#c8a84e':'#9b8a55'):'#89958c',[(i%2-.5)*.5,.24+(i===3?.15:0),(Math.floor(i/2)-.5)*.5],[.75,.55,.7],[0,i*.9,.15]);}
+  else if(type==='gold'){
+   if(!this.gold){this.gold=createGoldDeposit();for(const p of this.gold){this.merged.set(`gold:${p.geometry.uuid}`,p.geometry);this.materials.set(`gold:${p.material.name}`,p.material);}}
+   parts.push(...this.gold);
+  }
+  else if(type==='stone'){for(let i=0;i<4;i++)add('rock','#78818b',[(i%2-.5)*.5,.24+(i===3?.15:0),(Math.floor(i/2)-.5)*.5],[.75,.55,.7],[0,i*.9,.15]);}
   else if(type==='zombie'){
    // Anatomical fallback shares the same slumped, unarmed silhouette and neutral
    // palette while the imported pose banks load. No city cloth or team badge.

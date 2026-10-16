@@ -26,12 +26,13 @@ export interface Entity extends Position {
 export type Difficulty = 'easy' | 'normal' | 'hard';
 export type MatchMode = 'ffa' | 'teams';
 export type MapType = 'lowlands' | 'riverlands';
-export interface MatchConfig { opponents: 1 | 2 | 3 | 4 | 5 | 6 | 7; participants?: {name:string;controller:'human'|'ai';team?:number}[]; difficulty: Difficulty; seed: number; tutorial?: boolean; zombies?: boolean; mapType?: MapType }
+export type MapSize = 'standard' | 'large' | 'huge';
+export interface MatchConfig { opponents: 1 | 2 | 3 | 4 | 5 | 6 | 7; participants?: {name:string;controller:'human'|'ai';team?:number}[]; difficulty: Difficulty; seed: number; tutorial?: boolean; zombies?: boolean; mapType?: MapType; mapSize?: MapSize; worldGeneration?: 2 }
 export interface AIState { nextThink: number; rally?: Position; target?: number; raids: number }
 export interface Player { controller:'human'|'ai'; id: number; team?:number; name: string; color: string; alive: boolean; age: 1 | 2 | 3; resources: Resources; capital: number; weapons: number; armor: number; ai: AIState }
 export interface GameEvent { id: number; tick: number; kind: 'info' | 'attack' | 'capture' | 'error' | 'complete'; player: number; text: string; x?: number; y?: number }
-export interface GameState { version: 2; config: MatchConfig; tick: number; zombieNight?: number; rng: number; nextId: number; nextEvent: number; size: number; terrain: number[]; entities: Record<number, Entity>; players: Player[]; explored: number[][]; visible: number[][]; intel: Record<number, Entity>[]; events: GameEvent[]; winner: number | null; paused: boolean }
-export interface Snapshot { playerId:number; tick: number; size: number; terrain: number[]; entities: Entity[]; players: Player[]; fog: number[]; events: GameEvent[]; winner: number | null; paused: boolean; config: MatchConfig; population: number; capacity: number }
+export interface GameState { version: 2; config: MatchConfig; tick: number; zombieNight?: number; rng: number; nextId: number; nextEvent: number; size: number; terrain: number[]; elevation?: number[]; entities: Record<number, Entity>; players: Player[]; explored: number[][]; visible: number[][]; intel: Record<number, Entity>[]; events: GameEvent[]; winner: number | null; paused: boolean }
+export interface Snapshot { playerId:number; tick: number; size: number; terrain: number[]; elevation?: number[]; entities: Entity[]; players: Player[]; fog: number[]; events: GameEvent[]; winner: number | null; paused: boolean; config: MatchConfig; population: number; capacity: number }
 export type Command =
  | { type: 'order'; ids: number[]; order: Order; player: number }
  | { type: 'formation'; ids: number[]; formation: Formation; player: number }

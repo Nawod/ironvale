@@ -15,7 +15,8 @@ import {createLandscapeFields,type LandscapeFields} from './landscape-surface';
 import {LandscapeDetails} from './landscape-details3d';
 import {Riverlands} from './riverlands3d';
 import {BattleEffects,turnToward} from './battle-effects3d';
-import {canBuildOnTerrain} from '../sim/terrain';
+import {canBuildOnTerrain,terrainHeight} from '../sim/terrain';
+import {elevatedGeometry,updateElevation} from './elevated-terrain3d';
 import {ImportedModels} from './imported-models3d';
 import {ImportedScenery} from './imported-scenery3d';
 import {isAnimal} from '../sim/nature';
@@ -68,27 +69,29 @@ export class Battlefield {
    if(this.terrain){this.scene.remove(this.terrain);this.terrain.geometry.dispose();this.ground?.dispose();this.texture?.dispose();}
    this.terrainSize=s.size;this.texture=new DataTexture(new Uint8Array(s.size*s.size*4*16),s.size*4,s.size*4,RGBAFormat);this.fogBytes=undefined;this.terrainDirty=true;this.settlementSignature='';this.texture.colorSpace=SRGBColorSpace;this.texture.magFilter=this.texture.minFilter=LinearFilter;
    this.ground=new MedievalTerrain(this.texture,s.size);const photo=this.imported?.texture('ground');if(photo)this.ground.setGroundTexture(photo);
-   this.terrain=new Mesh(new PlaneGeometry(s.size,s.size),this.ground.material);this.terrain.rotation.x=-Math.PI/2;this.terrain.position.set(s.size/2,-.025,s.size/2);this.terrain.receiveShadow=true;this.scene.add(this.terrain);
+   this.terrain=new Mesh(elevatedGeometry(s),this.ground.material);this.terrain.rotation.x=-Math.PI/2;this.terrain.position.set(s.size/2,-.025,s.size/2);this.terrain.receiveShadow=true;this.scene.add(this.terrain);void this.ground.loadLandscapeTextures().then(ready=>{if(!this.destroyed)this.app.canvas.dataset.terrainMaterials=ready?'ready':'fallback';});
   }
   const signature=s.config.seed+'|'+s.entities.filter(e=>e.kind==='building'||e.kind==='resource'&&['wood','stone','gold'].includes(e.type)).map(e=>`${e.id}:${e.type}:${e.x}:${e.y}:${e.owner}:${e.hp>0}:${e.amount>0}:${e.kind==='building'?(e.visualAge??s.players[e.owner]?.age??1):''}`).join('|');
   if(signature!==this.settlementSignature){this.settlementSignature=signature;this.settlement=settlementSurfaceMask(s.size,s.entities);this.terrainDirty=true;}
   const fogChange=terrainFogChange(s.fog,this.fogBytes,s.size);if(!this.terrainDirty&&!fogChange.changed)return;
   this.landscapeSnapshot=undefined;
-  if(this.terrainDirty||fogChange.knowledgeChanged||!this.landscapeFields){this.landscapeFields=createLandscapeFields(s);this.ground?.updateFog(s);this.ground?.updateSurface(s,this.landscapeFields);}
-  terrainSurfacePixels(s,this.texture!.image.data as Uint8Array,4,this.settlement,this.landscapeFields,this.terrainDirty?undefined:fogChange.region);this.texture!.needsUpdate=true;this.rivers?.update(s);this.app.canvas.dataset.mapType=s.config.mapType??'lowlands';this.app.canvas.dataset.landscapeStyle='river-valley';this.fogBytes=Uint8Array.from(s.fog);this.terrainDirty=false;
+  this.ground?.updateFog(s);
+  if(this.terrainDirty||fogChange.knowledgeChanged||!this.landscapeFields){this.landscapeFields=createLandscapeFields(s);this.ground?.updateFog(s);this.ground?.updateSurface(s,this.landscapeFields);if(this.terrain)updateElevation(this.terrain.geometry,s);}
+  terrainSurfacePixels(s,this.texture!.image.data as Uint8Array,4,this.settlement,this.landscapeFields,this.terrainDirty?undefined:fogChange.region);this.texture!.needsUpdate=true;this.rivers?.update(s);this.app.canvas.dataset.mapSize=String(s.size);this.app.canvas.dataset.relief=s.elevation?"heightfield":"legacy-flat";this.app.canvas.dataset.mapType=s.config.mapType??'lowlands';this.app.canvas.dataset.landscapeStyle='river-valley';this.fogBytes=Uint8Array.from(s.fog);this.terrainDirty=false;
  }
  center(p:Position):void{this.camera=iso(p);if(this.ready)this.configureCamera();}
  rotate(angle:number):void{this.yaw+=angle;this.configureCamera();}
  resetCamera():void{this.yaw=Math.PI/4;this.zoom=this.app.screen.width<600?.92:1.1;this.configureCamera();}
  private panScreen(x:number,y:number):void{if(Math.abs(this.yaw-Math.PI/4)<1e-10){this.camera.x-=x/this.zoom;this.camera.y-=y/this.zoom;return;}const a=uniso({x:x/this.zoom,y:y/this.zoom}),angle=this.yaw-Math.PI/4,b=iso({x:a.x*Math.cos(angle)+a.y*Math.sin(angle),y:-a.x*Math.sin(angle)+a.y*Math.cos(angle)});this.camera.x-=b.x;this.camera.y-=b.y;}
  private screenPoint(e:PointerEvent|WheelEvent):Position{const r=this.app.canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
- screenToWorld(p:Position):Position{this.configureCamera();return this.view.ground(p);}
- worldToScreen(p:Position):Position{this.configureCamera();return this.view.project(p);}
- viewport():Position[]{this.configureCamera();return this.view.groundFootprint();}
+ private groundHeight=(x:number,y:number)=>this.snapshot?terrainHeight(this.snapshot,x,y):0;
+ screenToWorld(p:Position):Position{this.configureCamera();return this.view.ground(p,this.snapshot?.elevation?this.groundHeight:undefined);}
+ worldToScreen(p:Position):Position{this.configureCamera();return this.view.project(p,this.groundHeight(p.x,p.y));}
+ viewport():Position[]{this.configureCamera();return this.view.groundFootprint(this.snapshot?.elevation?this.groundHeight:undefined);}
  private hit(p:Position,coarse=false):Entity|undefined{if(!this.snapshot||!this.ready)return;this.configureCamera();this.ray.setFromCamera(new Vector2(p.x/this.app.screen.width*2-1,1-p.y/this.app.screen.height*2),this.view.camera);const id=this.batches.pick(this.ray),exact=this.snapshot.entities.find(e=>e.id===id&&!e.ghost);if(exact)return exact;
   // Open courtyards and gaps between wall posts still belong to the building.
-  const building=this.snapshot.entities.find(e=>e.kind==='building'&&!e.ghost&&e.hp>0&&this.ray.ray.intersectsBox(new Box3(new Vector3(e.x,0,e.y),new Vector3(e.x+BUILDINGS[e.type as BuildingType].size,.65,e.y+BUILDINGS[e.type as BuildingType].size))));if(building)return building;if(!coarse)return;
-  let nearest:Entity|undefined,best=16*16;for(const e of this.snapshot.entities){if(e.kind!=='resource'||e.ghost||e.amount<=0)continue;const point=this.view.project(e,e.type==='wood'?1.5:isAnimal(e)?.7:.45),distance=(point.x-p.x)**2+(point.y-p.y)**2;if(distance<best){best=distance;nearest=e;}}return nearest;}
+  const building=this.snapshot.entities.find(e=>e.kind==='building'&&!e.ghost&&e.hp>0&&this.ray.ray.intersectsBox(new Box3(new Vector3(e.x,this.groundHeight(e.x,e.y),e.y),new Vector3(e.x+BUILDINGS[e.type as BuildingType].size,this.groundHeight(e.x,e.y)+.65,e.y+BUILDINGS[e.type as BuildingType].size))));if(building)return building;if(!coarse)return;
+  let nearest:Entity|undefined,best=16*16;for(const e of this.snapshot.entities){if(e.kind!=='resource'||e.ghost||e.amount<=0)continue;const point=this.view.project(e,this.groundHeight(e.x,e.y)+(e.type==='wood'?1.5:isAnimal(e)?.7:.45)),distance=(point.x-p.x)**2+(point.y-p.y)**2;if(distance<best){best=distance;nearest=e;}}return nearest;}
  private down=(e:PointerEvent)=>{if(!this.interactive)return;const p=this.screenPoint(e);this.pointers.set(e.pointerId,p);this.app.canvas.setPointerCapture(e.pointerId);
   if(this.pointers.size===2){this.clearHold();const a=[...this.pointers.values()];this.initialPinch=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);this.initialZoom=this.zoom;this.initialAngle=Math.atan2(a[1].y-a[0].y,a[1].x-a[0].x);this.initialYaw=this.yaw;this.drag=undefined;return;}
   this.drag={point:p,last:p,id:e.pointerId,button:e.button,touch:e.pointerType!=='mouse',hit:this.hit(p,e.pointerType!=='mouse'),shift:e.shiftKey,moved:false,pan:e.button===1||e.pointerType!=='mouse',rotate:e.button===0&&e.ctrlKey&&e.pointerType==='mouse'};
@@ -124,8 +127,8 @@ export class Battlefield {
  };
  private indicator(p:Position,height:number,width:number,value:number,enemy=false,ring=false):void{
   const add=(geometry:PlaneGeometry|RingGeometry,material:MeshBasicMaterial)=>{let mesh=this.indicatorPool[this.indicatorCount];if(!mesh){mesh=new Mesh(geometry,material);mesh.renderOrder=10;this.indicatorPool.push(mesh);this.indicators.add(mesh);}mesh.geometry=geometry;mesh.material=material;mesh.visible=true;this.indicatorCount++;return mesh;};
-  if(ring){const m=add(this.ring,this.selectionMaterials[enemy?1:0]);m.position.set(p.x,.035,p.y);m.rotation.set(-Math.PI/2,0,0);m.scale.set(width,width,width);return;}
-  const back=add(this.bar,this.barMaterials[0]);back.position.set(p.x,height,p.y);back.quaternion.copy(this.view.camera.quaternion);back.scale.set(width,.075,1);
+  if(ring){const m=add(this.ring,this.selectionMaterials[enemy?1:0]);m.position.set(p.x,this.groundHeight(p.x,p.y)+.035,p.y);m.rotation.set(-Math.PI/2,0,0);m.scale.set(width,width,width);return;}
+  const back=add(this.bar,this.barMaterials[0]);back.position.set(p.x,this.groundHeight(p.x,p.y)+height,p.y);back.quaternion.copy(this.view.camera.quaternion);back.scale.set(width,.075,1);
   const front=add(this.bar,this.barMaterials[enemy?2:1]),fraction=Math.max(0,Math.min(1,value));front.position.copy(back.position);front.quaternion.copy(back.quaternion);front.translateX((fraction-1)*width/2);front.scale.set(width*fraction,.058,1);front.renderOrder=11;
  }
  private draw():void{
@@ -141,11 +144,11 @@ export class Battlefield {
   // Dense armies keep their detailed silhouettes while scenery retains sunlight shadows.
   const crowd=s.entities.reduce((count,e)=>count+(e.kind==='unit'&&!e.ghost&&e.garrisoned===undefined?1:0),0)>180;
   this.batches.setActorShadows(!crowd);
-  if(this.rallyMarker){const producer=s.entities.find(e=>this.selection.includes(e.id)),show=producer?.owner===s.playerId&&producer.kind==='building'&&producer.rally&&producer.hp>0;this.rallyMarker.visible=!!show;if(show&&producer?.rally){this.rallyMarker.position.set(producer.rally.point.x,0,producer.rally.point.y);this.rallyMarker.rotation.y=this.yaw;}}
+  if(this.rallyMarker){const producer=s.entities.find(e=>this.selection.includes(e.id)),show=producer?.owner===s.playerId&&producer.kind==='building'&&producer.rally&&producer.hp>0;this.rallyMarker.visible=!!show;if(show&&producer?.rally){this.rallyMarker.position.set(producer.rally.point.x,this.groundHeight(producer.rally.point.x,producer.rally.point.y),producer.rally.point.y);this.rallyMarker.rotation.y=this.yaw;}}
   this.batches.begin();this.battleEffects?.begin(worldTick);this.indicatorCount=0;const selected=new Set(this.selection),entities=new Map(s.entities.map(e=>[e.id,e]));
-  for(const e of s.entities){if(e.garrisoned!==undefined||e.kind==='resource'&&e.amount<=0)continue;const n=e.kind==='building'?BUILDINGS[e.type as BuildingType].size:0,point={x:e.x+n*.5,y:e.y+n*.5};const projected=this.view.project(point);if(projected.x< -180||projected.x>this.app.screen.width+180||projected.y< -100||projected.y>this.app.screen.height+230)continue;
+  for(const e of s.entities){if(e.garrisoned!==undefined||e.kind==='resource'&&e.amount<=0)continue;const n=e.kind==='building'?BUILDINGS[e.type as BuildingType].size:0,point={x:e.x+n*.5,y:e.y+n*.5};const projected=this.view.project(point,this.groundHeight(point.x,point.y));if(projected.x< -180||projected.x>this.app.screen.width+180||projected.y< -100||projected.y>this.app.screen.height+230)continue;
    let pose=this.poses.get(e.id);if(!pose){pose={...point,heading:0,seenAt:now};this.poses.set(e.id,pose);}if(now-pose.seenAt>500){pose.x=point.x;pose.y=point.y;}pose.seenAt=now;const distance=Math.hypot(point.x-pose.x,point.y-pose.y),moving=(e.kind==='unit'||isAnimal(e))&&distance>.015;const factor=1-Math.exp(-dt*12);const target=e.order.target!==undefined?entities.get(e.order.target):undefined,facing=!moving&&(e.attackFx&&s.tick-e.attackFx.tick<8?e.attackFx:target&&!target.ghost&&['gather','build','repair','attack'].includes(e.order.kind)?{x:target.x+(target.kind==='building'?BUILDINGS[target.type as BuildingType].size/2:0),y:target.y+(target.kind==='building'?BUILDINGS[target.type as BuildingType].size/2:0)}:undefined);if(moving||facing){const dx=facing?facing.x-pose.x:point.x-pose.x,dy=facing?facing.y-pose.y:point.y-pose.y;if(Math.hypot(dx,dy)>.02)pose.heading=turnToward(pose.heading,Math.atan2(dx,dy),dt);}pose.x+=(point.x-pose.x)*factor;pose.y+=(point.y-pose.y)*factor;
-   this.root.position.set(pose.x,0,pose.y);this.root.rotation.set(0,isAnimal(e)?pose.heading-Math.PI/2:e.kind==='unit'?pose.heading:e.type==='wood'?e.id*2.399:this.wallYaws.get(e.id)?.yaw??0,0);const scale=e.hp<=0?.12:e.kind==='building'?Math.max(.08,e.progress):1;const variation=e.type==='wood'?.85+(e.id*13%17)/40:1;const actorScale=e.kind==='unit'&&!['ram','trebuchet'].includes(e.type)?(['cavalry','heavyCavalry','scout'].includes(e.type)?.88:.82):1;this.root.scale.set(variation*actorScale,scale*variation*actorScale,variation*actorScale);this.root.updateMatrix();const work=e.kind==='unit'&&['gather','build','repair'].includes(e.order.kind),attacking=!!e.attackFx&&s.tick-e.attackFx.tick<8;
+   this.root.position.set(pose.x,this.groundHeight(pose.x,pose.y),pose.y);this.root.rotation.set(0,isAnimal(e)?pose.heading-Math.PI/2:e.kind==='unit'?pose.heading:e.type==='wood'?e.id*2.399:this.wallYaws.get(e.id)?.yaw??0,0);const scale=e.hp<=0?.12:e.kind==='building'?Math.max(.08,e.progress):1;const variation=e.type==='wood'?.85+(e.id*13%17)/40:1;const actorScale=e.kind==='unit'&&!['ram','trebuchet'].includes(e.type)?(['cavalry','heavyCavalry','scout'].includes(e.type)?.88:.82):1;this.root.scale.set(variation*actorScale,scale*variation*actorScale,variation*actorScale);this.root.updateMatrix();const work=e.kind==='unit'&&['gather','build','repair'].includes(e.order.kind),attacking=!!e.attackFx&&s.tick-e.attackFx.tick<8;
    const gateOpen=gateUnits.get(e.id)??false;
    const animationTime=this.interactive?worldTick/20:(now-this.createdAt)/1000,parts=this.medieval?.get(e,e.visualAge??s.players[e.owner]?.age??1,this.wallYaws.get(e.id))??this.imported?.get(e,{time:animationTime,moving,working:work,attacking,detail:crowd||this.zoom<.7?'crowd':'full'})??this.scenery?.get(e,e.visualAge??s.players[e.owner]?.age??1,e.id)??this.models.get(e.type,e.owner,e.type==='wood'?e.id%4:0);
    for(const part of parts)this.batches.add(part,this.root.matrix,e.ghost?0x697466:e.hp<=0?0x615949:0xffffff,animationTime*12+e.id,moving?1:0,work,attacking,gateOpen,e.ghost?0:e.id);
@@ -154,14 +157,14 @@ export class Battlefield {
    else if(!e.ghost&&e.hp>0&&e.hp<e.maxHp*.99)this.indicator(pose,height,n?1.65:.85,e.hp/e.maxHp,!allied(s,e.owner,s.playerId));
    if(e.kind==='building'&&e.progress<1&&e.hp>0)this.indicator(pose,height,1.3,e.progress);
    if(e.occupation)this.indicator(pose,1.3,2,e.occupation.progress/30,true);
-   if(!e.ghost)this.battleEffects?.add(e,pose,height);
+   if(!e.ghost)this.battleEffects?.add(e,pose,height+this.groundHeight(pose.x,pose.y),e.attackFx?this.groundHeight(e.attackFx.x,e.attackFx.y):0);
   }
   this.batches.end();this.battleEffects?.end();
   if(this.mode==='wallLine'&&this.wallPlan){
    const tiles=this.wallPlan.preview?.tiles??[{...this.wallPlan.start,valid:scoutedFootprint(s,this.wallPlan.start.x,this.wallPlan.start.y,1),reused:false}];
    for(const tile of tiles){const valid=tile.valid&&!this.wallPlan.preview?.error;this.indicator({x:tile.x+.5,y:tile.y+.5},.04,.48,1,!valid,true);}
   }
-  this.preview.visible=false;if(this.mode!=='wallLine'&&this.placement&&this.pointer){const p=this.screenToWorld(this.pointer),x=Math.floor(p.x),y=Math.floor(p.y),n=BUILDINGS[this.placement].size;const valid=scoutedFootprint(s,x,y,n)&&canBuildOnTerrain(s.terrain,s.size,x,y,n)&&!s.entities.some(e=>e.id!==this.movingBuilding&&(e.kind==='building'&&x<e.x+BUILDINGS[e.type as BuildingType].size&&x+n>e.x&&y<e.y+BUILDINGS[e.type as BuildingType].size&&y+n>e.y||e.kind==='resource'&&e.amount>0&&e.x>=x&&e.x<x+n&&e.y>=y&&e.y<y+n||this.movingBuilding!==undefined&&e.kind==='unit'&&e.hp>0&&e.garrisoned===undefined&&e.x>=x&&e.x<x+n&&e.y>=y&&e.y<y+n));this.preview.visible=true;this.preview.position.set(x+n/2,.07,y+n/2);this.preview.scale.set(n,1,n);this.preview.material.color.setHex(valid?0xb8d491:0xe48872);}
+  this.preview.visible=false;if(this.mode!=='wallLine'&&this.placement&&this.pointer){const p=this.screenToWorld(this.pointer),x=Math.floor(p.x),y=Math.floor(p.y),n=BUILDINGS[this.placement].size;const valid=scoutedFootprint(s,x,y,n)&&canBuildOnTerrain(s.terrain,s.size,x,y,n,s.elevation)&&!s.entities.some(e=>e.id!==this.movingBuilding&&(e.kind==='building'&&x<e.x+BUILDINGS[e.type as BuildingType].size&&x+n>e.x&&y<e.y+BUILDINGS[e.type as BuildingType].size&&y+n>e.y||e.kind==='resource'&&e.amount>0&&e.x>=x&&e.x<x+n&&e.y>=y&&e.y<y+n||this.movingBuilding!==undefined&&e.kind==='unit'&&e.hp>0&&e.garrisoned===undefined&&e.x>=x&&e.x<x+n&&e.y>=y&&e.y<y+n));this.preview.visible=true;this.preview.position.set(x+n/2,this.groundHeight(x+n/2,y+n/2)+.07,y+n/2);this.preview.scale.set(n,1,n);this.preview.material.color.setHex(valid?0xb8d491:0xe48872);}
   for(let i=this.indicatorCount;i<this.indicatorPool.length;i++)this.indicatorPool[i].visible=false;
   const drag=this.drag;if(this.selectionBox){const box=this.selectionBox,show=!!drag?.moved&&!drag.pan&&drag.button===0;box.style.display=show?'block':'none';if(show&&drag){box.style.left=Math.min(drag.point.x,drag.last.x)+'px';box.style.top=Math.min(drag.point.y,drag.last.y)+'px';box.style.width=Math.abs(drag.point.x-drag.last.x)+'px';box.style.height=Math.abs(drag.point.y-drag.last.y)+'px';}}
   // Sustained load lowers optional rendering costs; simulation timing stays authoritative.

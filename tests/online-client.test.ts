@@ -14,6 +14,19 @@ function lobby(){
  const room:RoomView={code:'ABC234',kind:'private',phase:'lobby',hostId:'host',capacity:8,fillAI:false,difficulty:'normal',seed:42,mode:'ffa',mapType:'riverlands',zombies:false,players:[{id:'host',seat:0,name:'Host',ready:false,connected:true,controller:'human'}]},client=new OnlineSession();
  client.send({type:'create',name:'Host',...room});const socket=FakeSocket.instances[0];socket.open();socket.receive({type:'welcome',id:'host',protocol:1});socket.receive({type:'joined',room,playerId:0,lastSeq:0,token:'a'.repeat(64)});return{client,socket,room};
 }
+it('reconstructs elevation changes immutably and retains the same height array when unchanged',()=>{
+ const {client,socket}=lobby(),received:any[]=[];client.onmessage=e=>received.push(e.data);
+ try{
+  const first={playerId:0,size:2,tick:1,terrain:[0,0,0,0],fog:[2,0,0,0],elevation:[0.25,0.5,0,0,0,0,0,0,0],entities:[],players:[],events:[],config:{opponents:1,difficulty:'normal',seed:42},winner:null,paused:false,population:0,capacity:0};
+  socket.receive({type:'snapshot',snapshot:first});const initial=received.at(-1).snapshot;
+  const {terrain,fog,elevation,...delta}=first;socket.receive({type:'snapshot',snapshot:{...delta,tick:2,fogChanges:[],elevationChanges:[4,1.1234567890123]}});const changed=received.at(-1).snapshot;
+  expect(changed.elevation).toEqual([0.25,0.5,0,0,1.1234567890123,0,0,0,0]);expect(initial.elevation[4]).toBe(0);expect(changed.elevation).not.toBe(initial.elevation);
+  socket.receive({type:'snapshot',snapshot:{...delta,tick:3,fogChanges:[],elevationChanges:[]}});expect(received.at(-1).snapshot.elevation).toBe(changed.elevation);
+  socket.receive({type:'snapshot',snapshot:{...delta,tick:4,fogChanges:[]}});expect(received.at(-1).snapshot.elevation).toBe(changed.elevation);
+  socket.receive({type:'snapshot',snapshot:{...first,tick:5,elevation:[0,0,0,0,0,0,0,0,0]}});expect(received.at(-1).snapshot.elevation).toEqual(Array(9).fill(0));
+  const {elevation:removed,...legacy}=first;socket.receive({type:'snapshot',snapshot:{...legacy,tick:6}});expect(received.at(-1).snapshot.elevation).toBeUndefined();
+ }finally{client.terminate();}
+});
 it('keeps rapid host edits visible and composes them while older setting replies arrive',()=>{
  const {client,socket,room}=lobby();try{
   client.updateSettings({mapType:'lowlands'});client.updateSettings({mapType:'riverlands'});client.updateSettings({zombies:true});expect(client.state.room).toMatchObject({mapType:'riverlands',zombies:true});expect(socket.sent.at(-1)).toMatchObject({type:'settings',mapType:'riverlands',zombies:true});
@@ -24,6 +37,14 @@ it('keeps rapid host edits visible and composes them while older setting replies
 });
 it('rolls rejected settings back to the last confirmed server room',()=>{
  const {client,socket,room}=lobby();try{client.updateSettings({zombies:true});socket.receive({type:'error',error:'Only the host can change settings.'});expect(client.state.room).toEqual(room);client.updateSettings({mapType:'lowlands'});expect(socket.sent.at(-1)).toMatchObject({mapType:'lowlands',zombies:false});}finally{client.terminate();}
+});
+it('composes rapid map size edits with other host settings until the server confirms them',()=>{
+ const {client,socket,room}=lobby();try{
+  client.updateSettings({mapSize:'huge'});client.updateSettings({zombies:true});expect(socket.sent.at(-1)).toMatchObject({type:'settings',mapSize:'huge',zombies:true});
+  socket.receive({type:'room',room:{...room,mapSize:'huge'}});expect(client.state.room).toMatchObject({mapSize:'huge',zombies:true});
+  socket.receive({type:'room',room:{...room,mapSize:'huge',zombies:true}});expect(client.state.room).toMatchObject({mapSize:'huge',zombies:true});
+  client.updateSettings({mapSize:'standard'});socket.receive({type:'error',error:'Settings locked.'});expect(client.state.room?.mapSize).toBe('huge');
+ }finally{client.terminate();}
 });
 it('clears pending settings across leave and reconnect without queueing stale edits',()=>{
  const {client,socket,room}=lobby();try{client.updateSettings({zombies:true});socket.readyState=3;socket.onclose?.({code:1006});const sent=socket.sent.length;client.updateSettings({fillAI:true});expect(socket.sent).toHaveLength(sent);expect(client.state.room).toEqual(room);client.leave();expect(client.state.room).toBeUndefined();}finally{client.terminate();}

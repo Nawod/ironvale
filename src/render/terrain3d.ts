@@ -69,6 +69,7 @@ export function terrainSurfacePixels(s:Pick<Snapshot,'size'|'terrain'|'fog'>,dat
   if(!f){data[dest]=22;data[dest+1]=37;data[dest+2]=30;data[dest+3]=255;continue;}
   const noise=((Math.imul(x+1,374761393)^Math.imul(y+1,668265263))>>>0)%255/255,wide=sinX[x]*cosY[y],dim=f===1?.42:1;
   const t=s.terrain[i];
+  if(t===TERRAIN.mountain){for(let c=0;c<3;c++)data[dest+c]=([142,139,126][c]+(noise-.5)*18)*dim;data[dest+3]=255;continue;}
   if(t===TERRAIN.water||t===TERRAIN.ford||t===TERRAIN.bridge){
    const base=t===TERRAIN.water?[36,100,117]:t===TERRAIN.ford?[85,125,128]:[157,146,121];
    for(let c=0;c<3;c++)data[dest+c]=(base[c]+(noise-.5)*10)*dim;data[dest+3]=255;continue;

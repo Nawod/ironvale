@@ -1,7 +1,7 @@
 import {BufferGeometry,Color,CylinderGeometry,DoubleSide,Float32BufferAttribute,InstancedMesh,MeshStandardMaterial,Object3D,OctahedronGeometry,Scene} from 'three';
 import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 import {BUILDINGS} from '../sim/definitions';
-import {TERRAIN} from '../sim/terrain';
+import {TERRAIN,terrainHeight} from '../sim/terrain';
 import type {Position,Snapshot} from '../sim/types';
 
 export type LandscapeKind='reeds'|'lilies'|'flowers'|'ferns';
@@ -117,7 +117,7 @@ export class LandscapeDetails {
   this.stamp=stamp;this.fog=s.fog;this.terrain=s.terrain;this.settlement=settlement;this.entities=s.entities;
   for(const kind of kinds)this.batches[kind].count=0;
   for(const p of planLandscapeDetails(s,focus,settlement,this.limit)){
-   const mesh=this.batches[p.kind];this.transform.position.set(p.x,p.kind==='lilies'?.006:.008,p.y);this.transform.rotation.set(0,p.angle,0);this.transform.scale.setScalar(p.scale);this.transform.updateMatrix();mesh.setMatrixAt(mesh.count++,this.transform.matrix);
+   const mesh=this.batches[p.kind];this.transform.position.set(p.x,p.kind==='lilies'?.006:terrainHeight(s,p.x,p.y)+.008,p.y);this.transform.rotation.set(0,p.angle,0);this.transform.scale.setScalar(p.scale);this.transform.updateMatrix();mesh.setMatrixAt(mesh.count++,this.transform.matrix);
   }
   for(const kind of kinds)this.batches[kind].instanceMatrix.needsUpdate=true;
  }

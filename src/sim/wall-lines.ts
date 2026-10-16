@@ -10,7 +10,7 @@ export const MAX_WALL_LINE_TILES=64;
 /** Map-independent route shared by the preview, network guard and simulation.
  * Validate coordinates and length before allocating or walking the route. */
 export function wallLineTiles(start:Position,end:Position):Position[]|undefined{
- if(!start||!end||![start.x,start.y,end.x,end.y].every(n=>typeof n==='number'&&Number.isFinite(n)&&n>=0&&n<=192))return undefined;
+ if(!start||!end||![start.x,start.y,end.x,end.y].every(n=>typeof n==='number'&&Number.isFinite(n)&&n>=0&&n<=256))return undefined;
  const x=Math.floor(start.x),y=Math.floor(start.y),ex=Math.floor(end.x),ey=Math.floor(end.y);
  if(Math.abs(ex-x)+Math.abs(ey-y)+1>MAX_WALL_LINE_TILES)return undefined;
  const tiles:Position[]=[{x,y}],dx=Math.sign(ex-x),dy=Math.sign(ey-y);
@@ -47,7 +47,7 @@ export function applyWallLine(s:GameState,c:Extract<Command,{type:'buildWallLine
  const obstacles=Object.values(s.entities).filter(e=>e.kind==='building'||e.kind==='resource'&&e.amount>0),newTiles:Position[]=[],jobs:number[]=[];
  let nextId=s.nextId;
  for(const t of route){
-  if(!canBuildOnTerrain(s.terrain,s.size,t.x,t.y,1))return 'Choose clear land for this wall line.';
+  if(!canBuildOnTerrain(s.terrain,s.size,t.x,t.y,1,s.elevation))return 'Choose clear land for this wall line.';
   let existing:Entity|undefined;
   for(const e of obstacles){
    const n=buildingSize(e),overlaps=e.kind==='building'?t.x<e.x+n&&t.x+1>e.x&&t.y<e.y+n&&t.y+1>e.y:e.x>=t.x&&e.x<t.x+1&&e.y>=t.y&&e.y<t.y+1;

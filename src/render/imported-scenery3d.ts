@@ -2,7 +2,7 @@ import { Box3, BufferGeometry, DoubleSide, Float32BufferAttribute, Matrix4, Mesh
 import { GLTFLoader, type GLTF } from 'three/addons/loaders/GLTFLoader.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { Entity } from '../sim/types';
-import type { ModelPart } from './models3d';
+import { createGoldDeposit, type ModelPart } from './models3d';
 
 type AssetLoader = (url: string) => Promise<GLTF>;
 const TREES = ['CommonTree_1', 'BirchTree_1', 'PineTree_1', 'CommonTree_3'];
@@ -142,6 +142,14 @@ export class ImportedScenery {
    const geometry=p.geometry.clone().scale(scale,scale,scale);geometry.computeBoundingBox();geometry.computeBoundingSphere();this.geometries.add(geometry);
    parts.push(part(geometry,p.material));
   }
+  if (name === 'Resource_Gold_1') {
+   const deposit = createGoldDeposit(parts);
+   for (const p of deposit) {
+    p.geometry.userData.importedScenery = true; p.geometry.userData.sourceAsset = name;
+    this.geometries.add(p.geometry); this.materials.add(p.material);
+   }
+   parts.splice(0, parts.length, ...deposit);
+  }
   if (TREES.includes(name)) this.addCanopy(parts);
   this.cache.set(key,parts);return parts;
  }
@@ -157,7 +165,7 @@ export class ImportedScenery {
    }
    if (e.type === 'berries') return this.fitted('BushBerries_1', 1.12, .95);
    if (e.type === 'stone') return this.fitted(ROCKS[choice % ROCKS.length], .96, choice % ROCKS.length >= 3 ? 1.25 : .7);
-   if (e.type === 'gold') return this.fitted('Resource_Gold_1', .96, .8);
+   if (e.type === 'gold') return this.fitted('Resource_Gold_1', 1.08, .95);
    return undefined;
   }
   return undefined;

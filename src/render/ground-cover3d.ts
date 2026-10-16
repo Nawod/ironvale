@@ -1,6 +1,6 @@
 import {BufferGeometry,Float32BufferAttribute,MeshStandardMaterial,InstancedMesh,Object3D,Scene,Color,DodecahedronGeometry} from 'three';
 import type {Position,Snapshot} from '../sim/types';
-import {TERRAIN} from '../sim/terrain';
+import {TERRAIN,terrainHeight} from '../sim/terrain';
 
 /** Bounded cosmetic grass/pebbles; no collision, resources, or unseen information. */
 export class GroundCover {
@@ -25,7 +25,7 @@ export class GroundCover {
    if((settlement?.[Math.floor(py*4)*s.size*4+Math.floor(px*4)]??0)>50)continue;
    const pebble=h%17===0;if(pebble?stone>=this.pebbles.instanceMatrix.count:grass>=this.limit)continue;
    const scale=.6+(h%100)/100;
-   this.transform.position.set(px,pebble?.02:0,py);this.transform.rotation.set(0,(h%6283)/1000,0);this.transform.scale.set(pebble?.065*scale:scale,pebble?.04*scale:scale,pebble?.07*scale:scale);this.transform.updateMatrix();
+   this.transform.position.set(px,terrainHeight(s,px,py)+(pebble?.02:0),py);this.transform.rotation.set(0,(h%6283)/1000,0);this.transform.scale.set(pebble?.065*scale:scale,pebble?.04*scale:scale,pebble?.07*scale:scale);this.transform.updateMatrix();
    const mesh=pebble?this.pebbles:this.grass,index=pebble?stone++:grass++;mesh.setMatrixAt(index,this.transform.matrix);this.color.setHSL(pebble?.13:.2+(h%30)/1000,pebble?.1:.24,.29+(h%14)/100);mesh.setColorAt(index,this.color);
   }
   this.grass.count=grass;this.pebbles.count=stone;for(const mesh of [this.grass,this.pebbles]){mesh.instanceMatrix.needsUpdate=true;if(mesh.instanceColor)mesh.instanceColor.needsUpdate=true;}

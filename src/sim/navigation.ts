@@ -5,7 +5,7 @@ import {allied} from './teams';
 import {environmentFor} from './environment';
 import {FOOD_SOURCES} from './nature';
 import type {FoodSourceType} from './types';
-import {canBuildOnTerrain,isWaterTerrain} from './terrain';
+import {canBuildOnTerrain,isBlockedTerrain} from './terrain';
 const navigationCache=new WeakMap<GameState,{signature:string;terrain:number[];grids:Uint8Array[]}>();
 export function navigationGrids(s:GameState):Uint8Array[]{
  const buildings=Object.values(s.entities).filter(e=>e.kind==='building'&&e.type!=='farm');
@@ -29,7 +29,7 @@ export function garrisonExit(s:GameState,b:Entity,grid=blockedGrid(s,b.owner)):P
 }
 export function blockedGrid(s:GameState,owner:number):Uint8Array{
  const grid=new Uint8Array(s.size*s.size);
- for(let i=0;i<s.terrain.length;i++)if(isWaterTerrain(s.terrain[i]))grid[i]=1;
+ for(let i=0;i<s.terrain.length;i++)if(isBlockedTerrain(s.terrain[i]))grid[i]=1;
  for(const e of Object.values(s.entities))if(e.kind==='building'&&e.type!=='farm'&&!(e.type==='gate'&&allied(s,e.owner,owner))){
   const n=buildingSize(e);for(let y=Math.floor(e.y);y<e.y+n;y++)for(let x=Math.floor(e.x);x<e.x+n;x++)if(x>=0&&y>=0&&x<s.size&&y<s.size)grid[y*s.size+x]=1;
  }return grid;
@@ -41,7 +41,7 @@ export function approach(s:GameState,from:Position,target:Entity,grid:Uint8Array
  points.sort((a,b)=>distance(a,from)-distance(b,from));return points[0]??{x:target.x-1,y:target.y+1};
 }
 export function canPlace(s:GameState,type:keyof typeof BUILDINGS,p:Position):boolean{
- const n=BUILDINGS[type].size;if(!bounds(s,p)||p.x+n>=s.size-1||p.y+n>=s.size-1||!canBuildOnTerrain(s.terrain,s.size,p.x,p.y,n))return false;
+ const n=BUILDINGS[type].size;if(!bounds(s,p)||p.x+n>=s.size-1||p.y+n>=s.size-1||!canBuildOnTerrain(s.terrain,s.size,p.x,p.y,n,s.elevation))return false;
  return !Object.values(s.entities).some(e=>e.kind==='building'&&p.x<e.x+buildingSize(e)&&p.x+n>e.x&&p.y<e.y+buildingSize(e)&&p.y+n>e.y||e.kind==='resource'&&e.amount>0&&e.x>=p.x&&e.x<p.x+n&&e.y>=p.y&&e.y<p.y+n);
 }
 export function pathfind(s:GameState,start:Position,goal:Position,owner:number,grid=blockedGrid(s,owner),allowPartial=false):Position[]{
