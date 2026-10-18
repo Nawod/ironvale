@@ -7,6 +7,8 @@ export interface VoicePeer {id:string;seat:number;name:string;team?:number;chann
 export type VoiceSignal=
  | {type:'description';description:{type:'offer'|'answer';sdp:string}}
  | {type:'candidate';candidate:{candidate:string;sdpMid?:string|null;sdpMLineIndex?:number|null;usernameFragment?:string|null}};
+/** A connection starts with a full map; subsequent packets carry index/value pairs. */
+export type SnapshotPacket=Omit<Snapshot,'terrain'|'fog'>&{terrain?:number[];fog?:number[];fogChanges?:number[];elevationChanges?:number[]};
 export type ClientMessage =
  | ({type:'create';name:string}&RoomSettings)
  | {type:'join';name:string;code:string}
@@ -31,3 +33,4 @@ export type ServerMessage =
  | {type:'voiceSignal';from:string;session:number;targetSession:number;signal:VoiceSignal}
  | {type:'error'|'closed';error:string}
  | {type:'left'};
+export type ServerPacket=Exclude<ServerMessage,{type:'snapshot'}>|{type:'snapshot';snapshot:SnapshotPacket};

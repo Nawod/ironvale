@@ -11,7 +11,7 @@ import {RoomService} from './rooms';
 import {WorkerDriver} from './driver';
 import {CheckpointStore} from './persistence';
 import {validateMessage} from './validation';
-import type {ServerMessage} from '../src/net/protocol';
+import type {ServerMessage,ServerPacket} from '../src/net/protocol';
 export interface ServerOptions {port?:number;host?:string;dataDir?:string|false;countdownMs?:number;reconnectMs?:number;maxRooms?:number;maxConnections?:number;publicOrigin?:string;workerURL?:URL;staticDir?:string;iceServers?:VoiceIceServer[];tls?:{key:string|Buffer;cert:string|Buffer}}
 export async function startServer(options:ServerOptions={}){
  const iceServers=voiceIceServers(options.iceServers);
@@ -36,15 +36,18 @@ export async function startServer(options:ServerOptions={}){
  });
  let bytesSent=0;
  ws.on('connection',socket=>{
-  const id=randomUUID();let alive=true,bucketAt=Date.now(),count=0,invalid=0;let previousFog:number[]|undefined,previousPlayer:number|undefined;
+  const id=randomUUID();let alive=true,bucketAt=Date.now(),count=0,invalid=0;let previousFog:number[]|undefined,previousElevation:number[]|undefined,previousPlayer:number|undefined,previousSize:number|undefined,previousSeed:number|undefined;
   const send=(m:ServerMessage)=>{
    if(socket.readyState!==WebSocket.OPEN)return;if(socket.bufferedAmount>4*1024*1024){socket.close(1013,'Connection too slow');return;}if(m.type==='snapshot'&&socket.bufferedAmount>512*1024)return;
-   if(m.type==='started'){previousFog=undefined;previousPlayer=undefined;}
-   let packet:any=m;
+   if(m.type==='started'){previousFog=undefined;previousElevation=undefined;previousPlayer=undefined;previousSize=undefined;previousSeed=undefined;}
+   let packet:ServerPacket=m;
    if(m.type==='snapshot'){
-    const s=m.snapshot,changes:number[]=[];if(previousPlayer!==s.playerId)previousFog=undefined;
+    const s=m.snapshot,changes:number[]=[],elevationChanges:number[]=[];
+    if(previousPlayer!==s.playerId||previousSize!==s.size||previousSeed!==s.config.seed||previousFog?.length!==s.fog.length||previousElevation?.length!==s.elevation?.length){previousFog=undefined;previousElevation=undefined;}
     if(previousFog)for(let i=0;i<s.fog.length;i++)if(s.fog[i]!==previousFog[i])changes.push(i,s.fog[i]);
-    const {terrain,fog,...rest}=s;packet={type:'snapshot',snapshot:{...rest,entities:rest.entities.map(e=>({...e,path:[],pathGoal:undefined,nextPathTick:undefined})),...(previousFog?{fogChanges:changes}:{terrain,fog})}};previousFog=[...fog];previousPlayer=s.playerId;
+    // Heights are already masked by the player's snapshot. Never read world heights here.
+    if(previousFog&&previousElevation&&s.elevation)for(let i=0;i<s.elevation.length;i++)if(s.elevation[i]!==previousElevation[i])elevationChanges.push(i,s.elevation[i]);
+    const {terrain,fog,elevation,...rest}=s;packet={type:'snapshot',snapshot:{...rest,entities:rest.entities.map(e=>({...e,path:[],pathGoal:undefined,nextPathTick:undefined})),...(previousFog?{fogChanges:changes,...(elevation?{elevationChanges}:{})}:{terrain,fog,...(elevation?{elevation}:{})})}};previousFog=[...fog];previousElevation=elevation?[...elevation]:undefined;previousPlayer=s.playerId;previousSize=s.size;previousSeed=s.config.seed;
    }
    const text=JSON.stringify(packet);bytesSent+=Buffer.byteLength(text);socket.send(text);
   };

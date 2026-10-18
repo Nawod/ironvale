@@ -4,7 +4,18 @@ An original 3D medieval RTS for your browser, with single-player and server-auth
 
 **Two to eight empires** share one map. Online matches support public matchmaking and private invitation rooms. Single-player supports one to seven computer rivals. Choose free-for-all or online teams of up to four commanders. Teams may have unequal sizes, such as 2 versus 4. There are no time limits. Computer opponents fight each other, use the same resources and fog rules, and can capture cities. The last empire or allied team standing wins.
 
-Choose **Riverlands** for rivers, permanent stone bridges and shallow crossings, or **Lowlands** for open land and woodland. Map choice is available in single-player setup, private room settings and public matchmaking. Armies and workers route through crossings; construction and building relocation require dry, fully scouted ground. Older saves keep their original Lowlands map.
+Choose **Riverlands** for seeded winding rivers, lake chains or stream basins, or
+**Lowlands** for rolling meadows, forests, ridges and occasional lakes. Mountains
+are real raised terrain and block travel; armies use passes and river crossings.
+Construction requires dry, scouted ground with a gentle enough slope. Gold has
+dark host rock and bright exposed yellow ore, distinct from cool-grey stone.
+
+**Standard / Large / Huge** map sizes work in single-player, private rooms and
+public matchmaking. Large is the default: 160 × 160 tiles for two empires, rising
+to 256 × 256 for seven or eight. Huge is always 256 × 256. New matches use fresh
+seeds; enter a seed to reproduce the same map with the same settings. Saves keep
+their stored map, including older flat worlds. Start a new match to get the new
+terrain. [Map overhaul verification](docs/highlands-verification.md).
 
 The landscape has seeded green/dry meadow variation, woodland leaf litter, gravel
 around deposits and cobbled ground around developed towns. Rivers have blue water,

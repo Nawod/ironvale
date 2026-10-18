@@ -1,6 +1,10 @@
 # Ironvale bundled 3D asset credits
 
-All runtime assets are bundled locally under `public/models`; gameplay does not contact an asset service. Only freely offered content is included. **Ashen Marches uses its own license; the Quaternius and Poly Haven assets use CC0.** Original license notices are retained beside the models. The manifests record provenance, sizes and hashes.
+Runtime assets are bundled locally under `public/models` and `public/art`;
+gameplay does not contact an asset service. Only freely offered content is
+included. **Ashen Marches uses its own license; Quaternius and Poly Haven assets
+use CC0; the three Wildfire Games terrain textures use CC BY-SA 3.0.** Original
+license notices accompany the assets. Manifests record provenance and hashes.
 
 | Assets | Creator and original source | Packaging |
 | --- | --- | --- |
@@ -64,3 +68,14 @@ gravel coloring, procedural cobblestone joints and river shading. Reeds, lilies,
 small flowers and ferns use original shared, vertex-colored geometry. It reuses
 the existing licensed ground photograph; no additional third-party asset,
 purchase, generation service or runtime download is introduced.
+
+The subsequent highlands overhaul adds three **Wildfire Games** terrain textures
+from the official [0 A.D. source mirror](https://github.com/0ad/0ad):
+`temp_grass_mod_02.png`, `temp_dirt_gravel_b.png` and `temp_cliff_c.png`.
+They are converted to RGB, resized to 512 × 512 and stored as JPEGs in
+`public/art/terrain0ad`. These artworks and their resized derivatives retain
+[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) licensing.
+Attribution to [Wildfire Games](https://www.wildfiregames.com/), the original
+license, precise source revision, source/output hashes and modification notices
+are included beside them. `scripts/prepare-terrain-assets.py` reproduces the
+packaging. This is texture artwork reuse; no 0 A.D. engine or map code is copied.

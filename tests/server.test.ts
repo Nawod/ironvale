@@ -28,7 +28,7 @@ it('starts the selected public Riverlands terrain in the authoritative worker',a
   for(const c of [a,b]){
    expect((await c.wait('started')).room.mapType).toBe('riverlands');
    const view=(await c.wait('snapshot')).snapshot;
-   expect(view.config.mapType).toBe('riverlands');expect(view.terrain).toContain(3);expect(view.terrain).toContain(5);
+   expect(view.config.mapType).toBe('riverlands');expect(view.config.worldGeneration).toBe(2);expect(view.size).toBe(160);expect(view.terrain).toContain(3);expect(view.terrain).toContain(6);expect(view.elevation).toHaveLength(161**2);
   }
  }finally{a.ws.close();b.ws.close();await server.close();}
 });

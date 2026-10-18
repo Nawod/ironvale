@@ -1,0 +1,35 @@
+{
+  "revision": "61a3b9507d974084e6badb88a0826bd89a6d5b8b",
+  "assets": [
+    {
+      "file": "grass.jpg",
+      "source": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/terrain/types/temp_grass_mod_02.png",
+      "original": "temp_grass_mod_02.png",
+      "sourceSha256": "1a9afc0b5fff26adecd41a65fb20220461af0bc5b7e5b526dcde8dbf3e6bc5b4",
+      "packedSha256": "d38a599f183dd01fcc708a27de0a237b23449e4d0821e6db738943e3a6d604e0",
+      "modifications": "RGB conversion, resized to 512 x 512, JPEG quality 88",
+      "license": "CC BY-SA 3.0",
+      "author": "Wildfire Games"
+    },
+    {
+      "file": "dirt.jpg",
+      "source": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/terrain/types/temp_dirt_gravel_b.png",
+      "original": "temp_dirt_gravel_b.png",
+      "sourceSha256": "ca296d9b4a8fcc861babe9a35f3ad82c3bacc96e18a8a4bc234cb64b30c055b0",
+      "packedSha256": "ba8dff9519e047a789b4440659cc6d51363b35ab015f48f8eeba85d695a6f643",
+      "modifications": "RGB conversion, resized to 512 x 512, JPEG quality 88",
+      "license": "CC BY-SA 3.0",
+      "author": "Wildfire Games"
+    },
+    {
+      "file": "cliff.jpg",
+      "source": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/terrain/types/temp_cliff_c.png",
+      "original": "temp_cliff_c.png",
+      "sourceSha256": "b5cff699c91af40486d82fd7462135a325689a94839c8b2c3030b8b5dc2d7b41",
+      "packedSha256": "93c08de3bd532752d4a494caa2e9fe0c7f3a315a7e758dd0074bab1de396d7ed",
+      "modifications": "RGB conversion, resized to 512 x 512, JPEG quality 88",
+      "license": "CC BY-SA 3.0",
+      "author": "Wildfire Games"
+    }
+  ]
+}

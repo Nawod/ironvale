@@ -1,0 +1,32 @@
+{
+  "measuredAt": "2026-10-18T17:33:04.491Z",
+  "results": [
+    {
+      "players": 2,
+      "size": 160,
+      "generationMs": 121.42660000000001,
+      "entities": 1315,
+      "animals": 204,
+      "initialTickMs": 7.319299999999885,
+      "subsequentTickMedianMs": 0.5928999999998723,
+      "subsequentTickP95Ms": 2.464200000000119,
+      "snapshotMs": 2.7067000000001826,
+      "initialSnapshotBytes": 164009,
+      "saveBytes": 1013451
+    },
+    {
+      "players": 8,
+      "size": 256,
+      "generationMs": 237.87740000000008,
+      "entities": 3093,
+      "animals": 502,
+      "initialTickMs": 6.8366000000000895,
+      "subsequentTickMedianMs": 2.0188000000000557,
+      "subsequentTickP95Ms": 7.042300000000068,
+      "snapshotMs": 3.1877999999999247,
+      "initialSnapshotBytes": 405326,
+      "saveBytes": 4061630
+    }
+  ],
+  "limits": "Local Node CPU measurements for seeded ordinary starting states, AI thinking disabled to isolate world/wildlife cost. 80 subsequent 20Hz simulation steps; no busy armies or long game. Snapshot bytes are full uncompressed initial snapshots; online subsequent elevation updates use deltas. Not a whole-game FPS or physical-device guarantee."
+}

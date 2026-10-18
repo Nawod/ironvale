@@ -1,13 +1,14 @@
 import {createGame,spawn} from '../../src/sim/world';
 import {updateVisibility} from '../../src/sim/visibility';
-import {canBuildOnTerrain} from '../../src/sim/terrain';
+import {canBuildOnTerrain,generateRiverlands} from '../../src/sim/terrain';
 import {BUILDINGS} from '../../src/sim/definitions';
 import {environmentAt} from '../../src/sim/environment';
 import type {BuildingType} from '../../src/sim/types';
-/** Prepared scouting and settlements; ordinary geometry, units, hit points and terrain. */
+/** Controlled legacy crossing arena, not a sample of the random generator. */
 export function riverValleyScene(weather:'day'|'rain'='day'){
- const s=createGame({opponents:1,difficulty:'easy',seed:42,mapType:'riverlands'}),row=Math.round(s.size*.33),tiles=s.terrain.slice(row*s.size,(row+1)*s.size),left=tiles.indexOf(5),right=tiles.lastIndexOf(5),focus={x:(left+right+1)/2-2,y:row+2};
+ const s=createGame({opponents:1,difficulty:'easy',seed:42,mapType:'riverlands'});s.terrain.fill(0);s.elevation?.fill(0);generateRiverlands(s.terrain,s.size,42,s.players.map(p=>s.entities[p.capital]));const row=Math.round(s.size*.33),tiles=s.terrain.slice(row*s.size,(row+1)*s.size),left=tiles.indexOf(5),right=tiles.lastIndexOf(5),focus={x:(left+right+1)/2-2,y:row+2};
  s.players.forEach(p=>{p.controller='human';p.age=2;});s.tick=1200;
+ for(const e of Object.values(s.entities))if(e.kind==='resource'&&s.terrain[Math.floor(e.y)*s.size+Math.floor(e.x)]===3)delete s.entities[e.id];
  if(weather==='rain')for(let tick=4400;tick<100000;tick+=3600){const e=environmentAt(tick,42);if(e.rain>.5&&e.daylight>.65){s.tick=tick;break;}}
  for(const e of Object.values(s.entities))if(e.kind==='unit'||e.kind==='resource'&&Math.hypot(e.x-focus.x,e.y-focus.y)<26)delete s.entities[e.id];
  const cap=s.entities[s.players[0].capital];cap.x=left-9;cap.y=row-2;

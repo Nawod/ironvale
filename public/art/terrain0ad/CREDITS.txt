@@ -1,0 +1,5 @@
+Terrain texture artwork by Wildfire Games: https://www.wildfiregames.com/
+Source project: https://gitea.wildfiregames.com/0ad/0ad
+Originals and these resized JPEG derivatives are licensed under Creative Commons Attribution-ShareAlike 3.0:
+https://creativecommons.org/licenses/by-sa/3.0/
+See LICENSE.txt and manifest.json for original files, modifications and source revision.

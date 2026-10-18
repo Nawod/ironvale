@@ -62,6 +62,14 @@ describe('generated battlefields',()=>{
   expect(edge.filter(v=>v===3).length).toBeGreaterThan(8);
   for(let y=0;y<s.size;y++)for(let x=0;x<s.size;x++)if(!blocked(s.terrain[y*s.size+x]))expect(terrain.terrainHeight(s,x+.5,y+.5)).toBeLessThanOrEqual(1.6);
  });
+ it('uses lake-only and short-basin seeds without forcing an edge-to-edge river',()=>{
+  for(const seed of [1,778,2,779]){
+   const s=game(seed),water=s.terrain.flatMap((v,i)=>v===3?[{x:i%s.size,y:Math.floor(i/s.size)}]:[]);
+   expect(water.length,`water area for seed ${seed}`).toBeGreaterThan(s.size*3);
+   expect(water.every(p=>p.x>0&&p.y>0&&p.x<s.size-1&&p.y<s.size-1),`bounded lake basin for seed ${seed}`).toBe(true);
+   const found=connected(s);expect(s.terrain.every((v,i)=>blocked(v)||i%s.size===0||i%s.size===s.size-1||i<s.size||i>=s.size*(s.size-1)||found[i])).toBe(true);
+  }
+ });
  it('saves generated heights and only shares vertices touching explored terrain',()=>{
   const s=game();expect(decodeSave(encodeSave(s))).toEqual(s);
   s.explored[0].fill(0);s.visible[0].fill(0);s.explored[0][30*s.size+30]=1;(s as any).elevation.fill(2);

@@ -1,0 +1,25 @@
+
+> ironvale@1.0.0 build
+> tsc --noEmit && vite build && npm run build:server
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 1645 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                      0.73 kB │ gzip:   0.41 kB
+dist/assets/worker-BnN_ewRH.js      70.77 kB
+dist/assets/index-CH55MTFq.css      82.44 kB │ gzip:  15.84 kB
+dist/assets/interface-B0-6IVtC.js  233.56 kB │ gzip:  73.40 kB
+dist/assets/index-CV-dr6nE.js      241.18 kB │ gzip:  82.47 kB
+dist/assets/graphics-B-61vzw8.js   650.91 kB │ gzip: 165.81 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.21s
+
+> ironvale@1.0.0 build:server
+> node scripts/build-server.mjs
+

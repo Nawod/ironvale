@@ -46,7 +46,8 @@ export class MedievalTerrain {
     float cobbleRelief = mix(0.58, 1.13, cobbleJoint) * cobbleShade + (grainFine - 0.5) * 0.08;
     diffuseColor.rgb *= mix(1.0, mix(groundRelief, cobbleRelief, paving), landKnown);
     vec3 style = texture2D(medievalSurface, vMapUv).rgb;
-    float earthy = clamp(style.g * 0.7 + style.b * 0.6 + (1.0-smoothstep(0.02,0.13,diffuseColor.g-diffuseColor.r))*0.5,0.0,1.0);
+    float dryness = clamp((diffuseColor.r / max(0.02,diffuseColor.g)-0.82)*1.5,0.0,1.0);
+    float earthy = clamp(style.g * 0.55 + style.b * 0.7 + dryness * 0.5,0.0,1.0);
     vec3 turf = texture2D(terrainGrass,terrainWorld.xz*.24).rgb;
     vec3 dirt = texture2D(terrainDirt,terrainWorld.xz*.26).rgb;
     vec3 meadowPhoto = mix(turf,dirt,earthy);
