@@ -1,0 +1,347 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "N:\\Projects\\GPT\\ironvale\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/kingdom-lanka.spec.ts",
+      "tests/browser/living-world-teams.spec.ts",
+      "--project=desktop",
+      "--grep",
+      "flying craft|online commanders|legacy save|online allies",
+      "--reporter=json",
+      "--output=test-results/lanka-final"
+    ],
+    "configFile": "N:\\Projects\\GPT\\ironvale\\playwright.config.ts",
+    "rootDir": "N:/Projects/GPT/ironvale/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/lanka-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/lanka-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone",
+        "name": "phone",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/lanka-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "N:\\Projects\\GPT\\ironvale\\test-results\\lanka-final",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "snapshotDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5178",
+          "trace": "retain-on-failure",
+          "launchOptions": {
+            "args": [
+              "--use-gl=angle",
+              "--use-angle=d3d11",
+              "--enable-webgl",
+              "--ignore-gpu-blocklist"
+            ]
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run build && node scripts/test-server.mjs",
+      "url": "http://127.0.0.1:5178",
+      "reuseExistingServer": false,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "kingdom-lanka.spec.ts",
+      "file": "kingdom-lanka.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "a Ravana flying craft can be selected and moved through normal commands",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17446,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T09:04:43.001Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-f93a8d1ec171ce54e9af",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 25,
+          "column": 1
+        },
+        {
+          "title": "starting a faction match after a legacy save switches native artwork banks",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17956,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T09:05:00.653Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-917b1d1a28056cdc728d",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "online commanders choose independent factions, reset readiness and retain choices after reconnect",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 10638,
+                  "error": {
+                    "message": "Error: locator.selectOption: Error: strict mode violation: getByRole('combobox', { name: 'Kingdom and army', exact: true }) resolved to 2 elements:\n    1) <select id=\"_r_0_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_0_\"]')\n    2) <select id=\"_r_1_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_1_\"]')\n\nCall log:\n\u001b[2m  - waiting for getByRole('combobox', { name: 'Kingdom and army', exact: true })\u001b[22m\n",
+                    "stack": "Error: locator.selectOption: Error: strict mode violation: getByRole('combobox', { name: 'Kingdom and army', exact: true }) resolved to 2 elements:\n    1) <select id=\"_r_0_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_0_\"]')\n    2) <select id=\"_r_1_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_1_\"]')\n\nCall log:\n\u001b[2m  - waiting for getByRole('combobox', { name: 'Kingdom and army', exact: true })\u001b[22m\n\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts:33:284",
+                    "location": {
+                      "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                      "column": 284,
+                      "line": 33
+                    },
+                    "snippet": "  31 | test('online commanders choose independent factions, reset readiness and retain choices after reconnect',async({page,browser},info)=>{\n  32 |  test.skip(info.project.name!=='desktop');test.setTimeout(120000);const context=await browser.newContext(),guest=await context.newPage();let hostState:any,guestState:any;for(const[p,host]of[[page,true],[guest,false]]as const)p.on('websocket',ws=>ws.on('framereceived',frame=>{try{const m=JSON.parse(String(frame.payload));if(m.type==='snapshot'){if(host)hostState=m.snapshot;else guestState=m.snapshot;}}catch{}}));\n> 33 |  try{for(const[p,name]of[[page,'Lanka host'],[guest,'Lanka guest']]as const){await p.goto('/');await p.getByRole('button',{name:'Play with Freinds',exact:true}).click();await p.getByLabel('Your name').fill(name);}await page.getByRole('combobox',{name:'Kingdom and army',exact:true}).selectOption('ravana');await page.getByRole('button',{name:'Create room',exact:true}).click();await page.getByRole('checkbox',{name:'Zombie mode',exact:true}).check();await page.getByRole('button',{name:'Open room',exact:true}).click();const code=(await page.getByTestId('room-code').textContent())!;await guest.getByRole('combobox',{name:'Kingdom and army',exact:true}).selectOption('british');await guest.getByRole('button',{name:'Join room',exact:true}).click();await guest.getByLabel('Room code').fill(code);await guest.getByRole('button',{name:'Join friends',exact:true}).click();await page.getByRole('button',{name:'Ready',exact:true}).click();await guest.getByRole('combobox',{name:'Your kingdom and army',exact:true}).selectOption('chola');await expect(page.getByRole('button',{name:'Ready',exact:true})).toBeVisible();await expect(page.locator('.lobby-roster')).toContainText('Chola');await page.screenshot({path:'test-results/lanka-faction-lobby.png'});for(const p of[page,guest])await p.getByRole('button',{name:'Ready',exact:true}).click();await page.getByRole('button',{name:'Start match',exact:true}).click();await expect.poll(()=>hostState?.players[0].faction).toBe('ravana');await expect.poll(()=>guestState?.players[1].faction).toBe('chola');expect(hostState.config.zombies).toBe(true);await guest.reload();await expect(guest.locator('[data-testid=\"battlefield\"] canvas')).toHaveAttribute('data-lanka-actors','ready',{timeout:40000});await expect.poll(()=>guestState?.players[1].faction).toBe('chola');\n     |                                                                                                                                                                                                                                                                                            ^\n  34 |  }finally{await context.close();}\n  35 | });\n  36 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                        "column": 284,
+                        "line": 33
+                      },
+                      "message": "Error: locator.selectOption: Error: strict mode violation: getByRole('combobox', { name: 'Kingdom and army', exact: true }) resolved to 2 elements:\n    1) <select id=\"_r_0_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_0_\"]')\n    2) <select id=\"_r_1_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_1_\"]')\n\nCall log:\n\u001b[2m  - waiting for getByRole('combobox', { name: 'Kingdom and army', exact: true })\u001b[22m\n\n\n  31 | test('online commanders choose independent factions, reset readiness and retain choices after reconnect',async({page,browser},info)=>{\n  32 |  test.skip(info.project.name!=='desktop');test.setTimeout(120000);const context=await browser.newContext(),guest=await context.newPage();let hostState:any,guestState:any;for(const[p,host]of[[page,true],[guest,false]]as const)p.on('websocket',ws=>ws.on('framereceived',frame=>{try{const m=JSON.parse(String(frame.payload));if(m.type==='snapshot'){if(host)hostState=m.snapshot;else guestState=m.snapshot;}}catch{}}));\n> 33 |  try{for(const[p,name]of[[page,'Lanka host'],[guest,'Lanka guest']]as const){await p.goto('/');await p.getByRole('button',{name:'Play with Freinds',exact:true}).click();await p.getByLabel('Your name').fill(name);}await page.getByRole('combobox',{name:'Kingdom and army',exact:true}).selectOption('ravana');await page.getByRole('button',{name:'Create room',exact:true}).click();await page.getByRole('checkbox',{name:'Zombie mode',exact:true}).check();await page.getByRole('button',{name:'Open room',exact:true}).click();const code=(await page.getByTestId('room-code').textContent())!;await guest.getByRole('combobox',{name:'Kingdom and army',exact:true}).selectOption('british');await guest.getByRole('button',{name:'Join room',exact:true}).click();await guest.getByLabel('Room code').fill(code);await guest.getByRole('button',{name:'Join friends',exact:true}).click();await page.getByRole('button',{name:'Ready',exact:true}).click();await guest.getByRole('combobox',{name:'Your kingdom and army',exact:true}).selectOption('chola');await expect(page.getByRole('button',{name:'Ready',exact:true})).toBeVisible();await expect(page.locator('.lobby-roster')).toContainText('Chola');await page.screenshot({path:'test-results/lanka-faction-lobby.png'});for(const p of[page,guest])await p.getByRole('button',{name:'Ready',exact:true}).click();await page.getByRole('button',{name:'Start match',exact:true}).click();await expect.poll(()=>hostState?.players[0].faction).toBe('ravana');await expect.poll(()=>guestState?.players[1].faction).toBe('chola');expect(hostState.config.zombies).toBe(true);await guest.reload();await expect(guest.locator('[data-testid=\"battlefield\"] canvas')).toHaveAttribute('data-lanka-actors','ready',{timeout:40000});await expect.poll(()=>guestState?.players[1].faction).toBe('chola');\n     |                                                                                                                                                                                                                                                                                            ^\n  34 |  }finally{await context.close();}\n  35 | });\n  36 |\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts:33:284"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T09:05:18.637Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\lanka-final\\kingdom-lanka-online-comma-e2b03-ain-choices-after-reconnect-desktop\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\lanka-final\\kingdom-lanka-online-comma-e2b03-ain-choices-after-reconnect-desktop\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                    "column": 284,
+                    "line": 33
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-b688166b4a73a6c9b0ce",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 31,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "living-world-teams.spec.ts",
+      "file": "living-world-teams.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 61824,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T09:05:31.152Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9b1565f4c309b1f7c1db-0f16b39c136933493a6b",
+          "file": "living-world-teams.spec.ts",
+          "line": 8,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-19T09:04:29.248Z",
+    "duration": 125709.292,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

@@ -1,3 +1,4 @@
+import {airborne} from './factions';
 import type {Entity,GameState} from './types';
 type Cell={active:Entity[];idle:Entity[]};
 const mounted=new Set(['cavalry','heavyCavalry','scout']);
@@ -7,7 +8,7 @@ const radius=(e:Entity)=>e.type==='ram'||e.type==='trebuchet'?.4:mounted.has(e.t
 export function separateUnits(s:GameState,grids:Uint8Array[]):void{
  const cells=new Map<number,Cell>(),active:Entity[]=[],displaced=new Map<number,number>();
  for(const e of Object.values(s.entities)){
-  if(e.kind!=='unit'||e.hp<=0||e.garrisoned!==undefined)continue;
+  if(airborne(e)||e.kind!=='unit'||e.hp<=0||e.garrisoned!==undefined)continue;
   const key=Math.floor(e.y)*s.size+Math.floor(e.x);let cell=cells.get(key);
   if(!cell){cell={active:[],idle:[]};cells.set(key,cell);}
   if(e.order.kind==='idle')cell.idle.push(e);else{cell.active.push(e);active.push(e);}

@@ -2,7 +2,8 @@ export type Resource = 'food' | 'wood' | 'stone' | 'gold';
 export type Resources = Record<Resource, number>;
 export type AnimalType = 'deer' | 'cow' | 'alpaca' | 'fox';
 export type FoodSourceType = AnimalType | 'berries';
-export type UnitType = 'villager' | 'scout' | 'spearman' | 'swordsman' | 'archer' | 'cavalry' | 'ram' | 'trebuchet' | 'pikeman' | 'crossbowman' | 'heavyCavalry' | 'zombie';
+export type FactionId = 'anuradhapura' | 'polonnaruwa' | 'kandy' | 'chola' | 'elara' | 'jaffna' | 'portuguese' | 'dutch' | 'british' | 'ravana';
+export type UnitType = 'villager' | 'scout' | 'spearman' | 'swordsman' | 'archer' | 'cavalry' | 'ram' | 'trebuchet' | 'pikeman' | 'crossbowman' | 'heavyCavalry' | 'zombie' | 'warElephant' | 'champion' | 'musketeer' | 'rifleman' | 'cannon' | 'danduMonara';
 export type BuildingType = 'capital' | 'outpost' | 'house' | 'storage' | 'farm' | 'barracks' | 'palisade' | 'range' | 'stable' | 'smithy' | 'market' | 'wall' | 'gate' | 'tower' | 'fortress' | 'workshop';
 export type Position = { x: number; y: number };
 export type Formation = 'line' | 'box' | 'spread';
@@ -12,7 +13,7 @@ export interface WorkerTask { order: Order; buildQueue?: number[]; lastKnown?: P
 export interface Entity extends Position {
   id: number; kind: 'unit' | 'building' | 'resource'; type: UnitType | BuildingType | Resource | FoodSourceType; owner: number;
   hp: number; maxHp: number; order: Order; path: Position[]; pathGoal?: Position; cooldown: number;
-  progress: number; queue: QueueItem[]; amount: number; carry?: { resource: Resource; amount: number }; nextPathTick?:number; attackFx?:Position & {tick:number};
+  progress: number; queue: QueueItem[]; amount: number; carry?: { resource: Resource; amount: number }; nextPathTick?:number; attackFx?:Position & {tick:number;height?:number};
   stance: 'aggressive' | 'defensive' | 'hold'; home?: Position; garrisoned?: number; garrison: number[];
   buildQueue?: number[];
   taskQueue?: WorkerTask[];
@@ -27,9 +28,9 @@ export type Difficulty = 'easy' | 'normal' | 'hard';
 export type MatchMode = 'ffa' | 'teams';
 export type MapType = 'lowlands' | 'riverlands';
 export type MapSize = 'standard' | 'large' | 'huge';
-export interface MatchConfig { opponents: 1 | 2 | 3 | 4 | 5 | 6 | 7; participants?: {name:string;controller:'human'|'ai';team?:number}[]; difficulty: Difficulty; seed: number; tutorial?: boolean; zombies?: boolean; mapType?: MapType; mapSize?: MapSize; worldGeneration?: 2 }
+export interface MatchConfig { faction?:FactionId; opponents: 1 | 2 | 3 | 4 | 5 | 6 | 7; participants?: {name:string;controller:'human'|'ai';team?:number;faction?:FactionId}[]; difficulty: Difficulty; seed: number; tutorial?: boolean; zombies?: boolean; mapType?: MapType; mapSize?: MapSize; worldGeneration?: 2 }
 export interface AIState { nextThink: number; rally?: Position; target?: number; raids: number }
-export interface Player { controller:'human'|'ai'; id: number; team?:number; name: string; color: string; alive: boolean; age: 1 | 2 | 3; resources: Resources; capital: number; weapons: number; armor: number; ai: AIState }
+export interface Player { faction?:FactionId; controller:'human'|'ai'; id: number; team?:number; name: string; color: string; alive: boolean; age: 1 | 2 | 3; resources: Resources; capital: number; weapons: number; armor: number; ai: AIState }
 export interface GameEvent { id: number; tick: number; kind: 'info' | 'attack' | 'capture' | 'error' | 'complete'; player: number; text: string; x?: number; y?: number }
 export interface GameState { version: 2; config: MatchConfig; tick: number; zombieNight?: number; rng: number; nextId: number; nextEvent: number; size: number; terrain: number[]; elevation?: number[]; entities: Record<number, Entity>; players: Player[]; explored: number[][]; visible: number[][]; intel: Record<number, Entity>[]; events: GameEvent[]; winner: number | null; paused: boolean }
 export interface Snapshot { playerId:number; tick: number; size: number; terrain: number[]; elevation?: number[]; entities: Entity[]; players: Player[]; fog: number[]; events: GameEvent[]; winner: number | null; paused: boolean; config: MatchConfig; population: number; capacity: number }

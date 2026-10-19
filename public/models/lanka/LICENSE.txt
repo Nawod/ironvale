@@ -1,0 +1,6 @@
+0 A.D. artwork by Wildfire Games and 0 A.D. art contributors. Copyright its respective authors.
+https://www.wildfiregames.com/
+Licensed under Creative Commons Attribution-ShareAlike 3.0 Unported.
+https://creativecommons.org/licenses/by-sa/3.0/
+These derived pose banks and converted textures are distributed under that same license.
+See manifest.json for pinned source paths, hashes and changes; SOURCE-LICENSE.txt preserves the original notice. No engine code is included.

@@ -1,3 +1,4 @@
+import {airborne,unitStats} from './factions';
 import type { Entity, GameState, Position } from './types';
 import { distance } from './types';
 import { BUILDINGS,UNITS } from './definitions';
@@ -68,12 +69,16 @@ export function pathfind(s:GameState,start:Position,goal:Position,owner:number,g
 }
 export function travel(s:GameState,e:Entity,goal:Position,dt:number,grid:Uint8Array):boolean{
  goal={x:Math.floor(goal.x)+.5,y:Math.floor(goal.y)+.5};
+ if(airborne(e)){
+  if(!bounds(s,goal))return false;const d=distance(e,goal),speed=unitStats(e.type as keyof typeof UNITS,s.players[e.owner]).speed*environmentFor(s).movement*dt;
+  e.path=[];e.pathGoal={...goal};if(d<=Math.max(.35,speed)){e.x=goal.x;e.y=goal.y;return true;}e.x+=(goal.x-e.x)*speed/d;e.y+=(goal.y-e.y)*speed/d;return false;
+ }
  if(distance(e,goal)<.35){e.path=[];return true;}
  const changed=!e.pathGoal||distance(e.pathGoal,goal)>1;
  if(!changed&&!e.path.length&&s.tick<(e.nextPathTick??0))return false;
  const next=e.path[0];if(changed||!e.path.length||next&&grid[Math.floor(next.y)*s.size+Math.floor(next.x)]){e.path=pathfind(s,e,goal,e.owner,grid,true);e.pathGoal={...goal};e.nextPathTick=s.tick+(e.path.length?0:40);}
  if(!e.path.length)return false;
- const p=e.path[0],d=distance(e,p),speed=(FOOD_SOURCES[e.type as FoodSourceType]?.speed??UNITS[e.type as keyof typeof UNITS]?.speed??2.25)*environmentFor(s).movement*dt;
+ const p=e.path[0],d=distance(e,p),speed=(FOOD_SOURCES[e.type as FoodSourceType]?.speed??(UNITS[e.type as keyof typeof UNITS]?unitStats(e.type as keyof typeof UNITS,s.players[e.owner]).speed:undefined)??2.25)*environmentFor(s).movement*dt;
  if(d<=speed){e.x=p.x;e.y=p.y;e.path.shift();
   // A blocked requested tile is redirected by pathfind to a reachable perimeter
   // tile. Consuming that final waypoint completes the journey as well.

@@ -1,0 +1,2343 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "N:\\Projects\\GPT\\ironvale\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/kingdom-lanka.spec.ts",
+      "tests/browser/voice-chat.spec.ts",
+      "tests/browser/buildings-zombies.spec.ts",
+      "tests/browser/compact-hud.spec.ts",
+      "--reporter=json",
+      "--output=test-results/lanka-regression"
+    ],
+    "configFile": "N:\\Projects\\GPT\\ironvale\\playwright.config.ts",
+    "rootDir": "N:/Projects/GPT/ironvale/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/lanka-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/lanka-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone",
+        "name": "phone",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/lanka-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "N:\\Projects\\GPT\\ironvale\\test-results\\lanka-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "snapshotDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5178",
+          "trace": "retain-on-failure",
+          "launchOptions": {
+            "args": [
+              "--use-gl=angle",
+              "--use-angle=d3d11",
+              "--enable-webgl",
+              "--ignore-gpu-blocklist"
+            ]
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "N:\\Projects\\GPT\\ironvale\\test-results\\lanka-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "phone",
+        "testDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "snapshotDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5178",
+          "trace": "retain-on-failure",
+          "launchOptions": {
+            "args": [
+              "--use-gl=angle",
+              "--use-angle=d3d11",
+              "--enable-webgl",
+              "--ignore-gpu-blocklist"
+            ]
+          },
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Mobile/15E148 Safari/604.1",
+          "viewport": {
+            "width": 390,
+            "height": 664
+          },
+          "screen": {
+            "width": 390,
+            "height": 844
+          },
+          "deviceScaleFactor": 3,
+          "isMobile": true,
+          "hasTouch": true,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "phone"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "N:\\Projects\\GPT\\ironvale\\test-results\\lanka-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "tablet",
+        "testDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "snapshotDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5178",
+          "trace": "retain-on-failure",
+          "launchOptions": {
+            "args": [
+              "--use-gl=angle",
+              "--use-angle=d3d11",
+              "--enable-webgl",
+              "--ignore-gpu-blocklist"
+            ]
+          },
+          "userAgent": "Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Mobile/15E148 Safari/604.1",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "deviceScaleFactor": 2,
+          "isMobile": true,
+          "hasTouch": true,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run build && node scripts/test-server.mjs",
+      "url": "http://127.0.0.1:5178",
+      "reuseExistingServer": false,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "buildings-zombies.spec.ts",
+      "file": "buildings-zombies.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "move and remove an owned building with preserved health and a removal confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13671,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:47:24.813Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-8501c7e3075eacbe25fc",
+          "file": "buildings-zombies.spec.ts",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "night zombies render and daylight zombies retreat without attacking",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18977,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:47:38.954Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-262c523da406254b410b",
+          "file": "buildings-zombies.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "an online host enables zombie mode and the guest receives the shared setting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 24059,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:47:57.948Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-b9335e56307799a004a7",
+          "file": "buildings-zombies.spec.ts",
+          "line": 37,
+          "column": 1
+        },
+        {
+          "title": "move and remove an owned building with preserved health and a removal confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14305,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:51:26.676Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-f399831632bc0421267f",
+          "file": "buildings-zombies.spec.ts",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "night zombies render and daylight zombies retreat without attacking",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 19815,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:51:41.204Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-ec12a385e6d861ac2f09",
+          "file": "buildings-zombies.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "an online host enables zombie mode and the guest receives the shared setting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\buildings-zombies.spec.ts",
+                    "line": 38,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 86,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:52:01.042Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\buildings-zombies.spec.ts",
+                        "line": 38,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-97808ca2de2d04cc209e",
+          "file": "buildings-zombies.spec.ts",
+          "line": 37,
+          "column": 1
+        },
+        {
+          "title": "move and remove an owned building with preserved health and a removal confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 17959,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:54:38.792Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-adfac9a2d0d301960b5b",
+          "file": "buildings-zombies.spec.ts",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "night zombies render and daylight zombies retreat without attacking",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 25704,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:54:56.951Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-ccdde705231618683515",
+          "file": "buildings-zombies.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "an online host enables zombie mode and the guest receives the shared setting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\buildings-zombies.spec.ts",
+                    "line": 38,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 107,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:55:22.670Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\buildings-zombies.spec.ts",
+                        "line": 38,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-13a5c9ff9fc90279bb61",
+          "file": "buildings-zombies.spec.ts",
+          "line": 37,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "compact-hud.spec.ts",
+      "file": "compact-hud.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15737,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:48:22.077Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-31dd999aaa603a769f66",
+          "file": "compact-hud.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7000,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:48:37.836Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-2cb58b34e8a198b156e8",
+          "file": "compact-hud.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11475,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:48:44.855Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-aa8f35f6de4e0b2d6a5e",
+          "file": "compact-hud.spec.ts",
+          "line": 29,
+          "column": 1
+        },
+        {
+          "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12626,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:48:56.345Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-c3faab3f678e999a0226",
+          "file": "compact-hud.spec.ts",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 27632,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:52:01.174Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-a939d11831663eeb1e03",
+          "file": "compact-hud.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7593,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:52:28.820Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-23f088c863b162a66f09",
+          "file": "compact-hud.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12654,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:52:36.438Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-0d08a0a2b5b007ab1b97",
+          "file": "compact-hud.spec.ts",
+          "line": 29,
+          "column": 1
+        },
+        {
+          "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12896,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:52:49.108Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-8f294c2a77c4a04c1d26",
+          "file": "compact-hud.spec.ts",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 30235,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:55:22.822Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-6b2e086a22f1d076c8a1",
+          "file": "compact-hud.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7915,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:55:53.076Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-050e5c036437ea797d08",
+          "file": "compact-hud.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13683,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:56:01.016Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-ce2f9cff6df66dd919c4",
+          "file": "compact-hud.spec.ts",
+          "line": 29,
+          "column": 1
+        },
+        {
+          "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13557,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:56:14.718Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-13ac6c479e30042c47a1",
+          "file": "compact-hud.spec.ts",
+          "line": 42,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "kingdom-lanka.spec.ts",
+      "file": "kingdom-lanka.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Kingdom Lanka lets a commander choose historical or legendary armies before a normal solo match",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12136,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:49:09.012Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-d56165496cbf71c5a177",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "native anuradhapura army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11529,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:49:21.168Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-0c550c12de14c4315b99",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "native chola army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11376,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:49:32.715Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-007f557550e699dd4178",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "native british army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10759,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:49:44.111Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-7fce3b3e96f22c0fc6e5",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "native ravana army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11603,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:49:54.887Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-2409b34db10e71dab505",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "British recruitment exposes firearm costs, population and matching portraits",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12158,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:50:06.507Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-63157af18d95ad78cb01",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 21,
+          "column": 1
+        },
+        {
+          "title": "a Ravana flying craft can be selected and moved through normal commands",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 14455,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m29\u001b[39m\nReceived: \u001b[31m29.5\u001b[39m\n\nExpected precision:    0\nExpected difference: < \u001b[32m0.5\u001b[39m\nReceived difference:   \u001b[31m0.5\u001b[39m",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m29\u001b[39m\nReceived: \u001b[31m29.5\u001b[39m\n\nExpected precision:    0\nExpected difference: < \u001b[32m0.5\u001b[39m\nReceived difference:   \u001b[31m0.5\u001b[39m\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts:25:1063",
+                    "location": {
+                      "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                      "column": 1063,
+                      "line": 25
+                    },
+                    "snippet": "  23 | });\n  24 | test('a Ravana flying craft can be selected and moved through normal commands',async({page},info)=>{\n> 25 |  test.skip(info.project.name!=='desktop');test.setTimeout(90000);const{s,troops}=await load(page,'ravana'),air=troops.find(e=>e.type==='danduMonara')!,focus=await center(page,{x:air.x-3.8,y:air.y-3.8},s.size),v=page.viewportSize()!,camera=new RTSCamera();camera.configure({...v,focus,zoom:1.1,yaw:Math.PI/4,origin:.42});const p=camera.project(air,terrainHeight(s,air.x,air.y)+3.4);await page.mouse.click(p.x,p.y);await expect(page.locator('.selection-panel h2')).toHaveText('Dandu Monara');await openCommands(page,'Orders');await expect(page.getByLabel('Unit tactics',{exact:true})).toContainText('Airborne');await expect(page.getByRole('button',{name:'Garrison',exact:true})).toHaveCount(0);await page.getByRole('button',{name:'Move',exact:true}).click();const target={x:air.x+5,y:air.y-2},destination=camera.project(target,terrainHeight(s,target.x,target.y));await page.mouse.click(destination.x,destination.y);await expect(page.locator('.selection-panel')).toContainText('Ready',{timeout:10000});const state=await saved(page);expect(state.entities[air.id].x).toBeCloseTo(target.x,0);expect(state.entities[air.id].y).toBeCloseTo(target.y,0);await page.screenshot({path:'test-results/desktop-dandu-flight-command.png'});\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^\n  26 | });\n  27 | test('online commanders choose independent factions, reset readiness and retain choices after reconnect',async({page,browser},info)=>{\n  28 |  test.skip(info.project.name!=='desktop');test.setTimeout(120000);const context=await browser.newContext(),guest=await context.newPage();let hostState:any,guestState:any;for(const[p,host]of[[page,true],[guest,false]]as const)p.on('websocket',ws=>ws.on('framereceived',frame=>{try{const m=JSON.parse(String(frame.payload));if(m.type==='snapshot'){if(host)hostState=m.snapshot;else guestState=m.snapshot;}}catch{}}));"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                        "column": 1063,
+                        "line": 25
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m29\u001b[39m\nReceived: \u001b[31m29.5\u001b[39m\n\nExpected precision:    0\nExpected difference: < \u001b[32m0.5\u001b[39m\nReceived difference:   \u001b[31m0.5\u001b[39m\n\n  23 | });\n  24 | test('a Ravana flying craft can be selected and moved through normal commands',async({page},info)=>{\n> 25 |  test.skip(info.project.name!=='desktop');test.setTimeout(90000);const{s,troops}=await load(page,'ravana'),air=troops.find(e=>e.type==='danduMonara')!,focus=await center(page,{x:air.x-3.8,y:air.y-3.8},s.size),v=page.viewportSize()!,camera=new RTSCamera();camera.configure({...v,focus,zoom:1.1,yaw:Math.PI/4,origin:.42});const p=camera.project(air,terrainHeight(s,air.x,air.y)+3.4);await page.mouse.click(p.x,p.y);await expect(page.locator('.selection-panel h2')).toHaveText('Dandu Monara');await openCommands(page,'Orders');await expect(page.getByLabel('Unit tactics',{exact:true})).toContainText('Airborne');await expect(page.getByRole('button',{name:'Garrison',exact:true})).toHaveCount(0);await page.getByRole('button',{name:'Move',exact:true}).click();const target={x:air.x+5,y:air.y-2},destination=camera.project(target,terrainHeight(s,target.x,target.y));await page.mouse.click(destination.x,destination.y);await expect(page.locator('.selection-panel')).toContainText('Ready',{timeout:10000});const state=await saved(page);expect(state.entities[air.id].x).toBeCloseTo(target.x,0);expect(state.entities[air.id].y).toBeCloseTo(target.y,0);await page.screenshot({path:'test-results/desktop-dandu-flight-command.png'});\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ^\n  26 | });\n  27 | test('online commanders choose independent factions, reset readiness and retain choices after reconnect',async({page,browser},info)=>{\n  28 |  test.skip(info.project.name!=='desktop');test.setTimeout(120000);const context=await browser.newContext(),guest=await context.newPage();let hostState:any,guestState:any;for(const[p,host]of[[page,true],[guest,false]]as const)p.on('websocket',ws=>ws.on('framereceived',frame=>{try{const m=JSON.parse(String(frame.payload));if(m.type==='snapshot'){if(host)hostState=m.snapshot;else guestState=m.snapshot;}}catch{}}));\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts:25:1063"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:50:18.683Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\lanka-regression\\kingdom-lanka-a-Ravana-fly-ed04e-ved-through-normal-commands-desktop\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\lanka-regression\\kingdom-lanka-a-Ravana-fly-ed04e-ved-through-normal-commands-desktop\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                    "column": 1063,
+                    "line": 25
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-f93a8d1ec171ce54e9af",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "online commanders choose independent factions, reset readiness and retain choices after reconnect",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 9368,
+                  "error": {
+                    "message": "Error: locator.selectOption: Error: strict mode violation: getByRole('combobox', { name: 'Kingdom and army', exact: true }) resolved to 2 elements:\n    1) <select id=\"_r_0_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_0_\"]')\n    2) <select id=\"_r_1_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_1_\"]')\n\nCall log:\n\u001b[2m  - waiting for getByRole('combobox', { name: 'Kingdom and army', exact: true })\u001b[22m\n",
+                    "stack": "Error: locator.selectOption: Error: strict mode violation: getByRole('combobox', { name: 'Kingdom and army', exact: true }) resolved to 2 elements:\n    1) <select id=\"_r_0_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_0_\"]')\n    2) <select id=\"_r_1_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_1_\"]')\n\nCall log:\n\u001b[2m  - waiting for getByRole('combobox', { name: 'Kingdom and army', exact: true })\u001b[22m\n\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts:29:284",
+                    "location": {
+                      "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                      "column": 284,
+                      "line": 29
+                    },
+                    "snippet": "  27 | test('online commanders choose independent factions, reset readiness and retain choices after reconnect',async({page,browser},info)=>{\n  28 |  test.skip(info.project.name!=='desktop');test.setTimeout(120000);const context=await browser.newContext(),guest=await context.newPage();let hostState:any,guestState:any;for(const[p,host]of[[page,true],[guest,false]]as const)p.on('websocket',ws=>ws.on('framereceived',frame=>{try{const m=JSON.parse(String(frame.payload));if(m.type==='snapshot'){if(host)hostState=m.snapshot;else guestState=m.snapshot;}}catch{}}));\n> 29 |  try{for(const[p,name]of[[page,'Lanka host'],[guest,'Lanka guest']]as const){await p.goto('/');await p.getByRole('button',{name:'Play with Freinds',exact:true}).click();await p.getByLabel('Your name').fill(name);}await page.getByRole('combobox',{name:'Kingdom and army',exact:true}).selectOption('ravana');await page.getByRole('button',{name:'Create room',exact:true}).click();await page.getByRole('checkbox',{name:'Zombie mode',exact:true}).check();await page.getByRole('button',{name:'Open room',exact:true}).click();const code=(await page.getByTestId('room-code').textContent())!;await guest.getByRole('combobox',{name:'Kingdom and army',exact:true}).selectOption('british');await guest.getByRole('button',{name:'Join room',exact:true}).click();await guest.getByLabel('Room code').fill(code);await guest.getByRole('button',{name:'Join friends',exact:true}).click();await page.getByRole('button',{name:'Ready',exact:true}).click();await guest.getByRole('combobox',{name:'Your kingdom and army',exact:true}).selectOption('chola');await expect(page.getByRole('button',{name:'Ready',exact:true})).toBeVisible();await expect(page.locator('.lobby-roster')).toContainText('Chola');await page.screenshot({path:'test-results/lanka-faction-lobby.png'});for(const p of[page,guest])await p.getByRole('button',{name:'Ready',exact:true}).click();await page.getByRole('button',{name:'Start match',exact:true}).click();await expect.poll(()=>hostState?.players[0].faction).toBe('ravana');await expect.poll(()=>guestState?.players[1].faction).toBe('chola');expect(hostState.config.zombies).toBe(true);await guest.reload();await expect(guest.locator('[data-testid=\"battlefield\"] canvas')).toHaveAttribute('data-lanka-actors','ready',{timeout:40000});await expect.poll(()=>guestState?.players[1].faction).toBe('chola');\n     |                                                                                                                                                                                                                                                                                            ^\n  30 |  }finally{await context.close();}\n  31 | });\n  32 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                        "column": 284,
+                        "line": 29
+                      },
+                      "message": "Error: locator.selectOption: Error: strict mode violation: getByRole('combobox', { name: 'Kingdom and army', exact: true }) resolved to 2 elements:\n    1) <select id=\"_r_0_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_0_\"]')\n    2) <select id=\"_r_1_\" aria-label=\"Kingdom and army\">…</select> aka locator('[id=\"_r_1_\"]')\n\nCall log:\n\u001b[2m  - waiting for getByRole('combobox', { name: 'Kingdom and army', exact: true })\u001b[22m\n\n\n  27 | test('online commanders choose independent factions, reset readiness and retain choices after reconnect',async({page,browser},info)=>{\n  28 |  test.skip(info.project.name!=='desktop');test.setTimeout(120000);const context=await browser.newContext(),guest=await context.newPage();let hostState:any,guestState:any;for(const[p,host]of[[page,true],[guest,false]]as const)p.on('websocket',ws=>ws.on('framereceived',frame=>{try{const m=JSON.parse(String(frame.payload));if(m.type==='snapshot'){if(host)hostState=m.snapshot;else guestState=m.snapshot;}}catch{}}));\n> 29 |  try{for(const[p,name]of[[page,'Lanka host'],[guest,'Lanka guest']]as const){await p.goto('/');await p.getByRole('button',{name:'Play with Freinds',exact:true}).click();await p.getByLabel('Your name').fill(name);}await page.getByRole('combobox',{name:'Kingdom and army',exact:true}).selectOption('ravana');await page.getByRole('button',{name:'Create room',exact:true}).click();await page.getByRole('checkbox',{name:'Zombie mode',exact:true}).check();await page.getByRole('button',{name:'Open room',exact:true}).click();const code=(await page.getByTestId('room-code').textContent())!;await guest.getByRole('combobox',{name:'Kingdom and army',exact:true}).selectOption('british');await guest.getByRole('button',{name:'Join room',exact:true}).click();await guest.getByLabel('Room code').fill(code);await guest.getByRole('button',{name:'Join friends',exact:true}).click();await page.getByRole('button',{name:'Ready',exact:true}).click();await guest.getByRole('combobox',{name:'Your kingdom and army',exact:true}).selectOption('chola');await expect(page.getByRole('button',{name:'Ready',exact:true})).toBeVisible();await expect(page.locator('.lobby-roster')).toContainText('Chola');await page.screenshot({path:'test-results/lanka-faction-lobby.png'});for(const p of[page,guest])await p.getByRole('button',{name:'Ready',exact:true}).click();await page.getByRole('button',{name:'Start match',exact:true}).click();await expect.poll(()=>hostState?.players[0].faction).toBe('ravana');await expect.poll(()=>guestState?.players[1].faction).toBe('chola');expect(hostState.config.zombies).toBe(true);await guest.reload();await expect(guest.locator('[data-testid=\"battlefield\"] canvas')).toHaveAttribute('data-lanka-actors','ready',{timeout:40000});await expect.poll(()=>guestState?.players[1].faction).toBe('chola');\n     |                                                                                                                                                                                                                                                                                            ^\n  30 |  }finally{await context.close();}\n  31 | });\n  32 |\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts:29:284"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:50:35.782Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\lanka-regression\\kingdom-lanka-online-comma-e2b03-ain-choices-after-reconnect-desktop\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\lanka-regression\\kingdom-lanka-online-comma-e2b03-ain-choices-after-reconnect-desktop\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                    "column": 284,
+                    "line": 29
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-b688166b4a73a6c9b0ce",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 27,
+          "column": 1
+        },
+        {
+          "title": "Kingdom Lanka lets a commander choose historical or legendary armies before a normal solo match",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10860,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:53:02.050Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-9a7ed295eedd78bbd5eb",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "native anuradhapura army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11938,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:53:12.925Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-51202e1cf49bdb6f9808",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "native chola army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10923,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:53:24.882Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-3cf54375a69564602a37",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "native british army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11449,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:53:35.826Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-ec1b63c78a3d7a056e14",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "native ravana army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10893,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:53:47.291Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-9b8b5b57946297de5b79",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "British recruitment exposes firearm costs, population and matching portraits",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13095,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:53:58.201Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-97ee8d2427559f15e7d4",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 21,
+          "column": 1
+        },
+        {
+          "title": "a Ravana flying craft can be selected and moved through normal commands",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                    "line": 25,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 127,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:54:11.317Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                        "line": 25,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-98692c76dffaac6c25ae",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "online commanders choose independent factions, reset readiness and retain choices after reconnect",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                    "line": 28,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 118,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:54:11.461Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                        "line": 28,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-06ffd7234edb90ba8c3f",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 27,
+          "column": 1
+        },
+        {
+          "title": "Kingdom Lanka lets a commander choose historical or legendary armies before a normal solo match",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12502,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:56:28.315Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-f0547c05452a8e8a7a3e",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "native anuradhapura army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11835,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:56:40.833Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-c652207953efdce63987",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "native chola army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12445,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:56:52.692Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-c20c5fe0d47596929b71",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "native british army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12145,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:57:05.164Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-38453a647c8ebcd9d68d",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "native ravana army and city art render with shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11239,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:57:17.339Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-32dc61a7d2534da37f43",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 18,
+          "column": 75
+        },
+        {
+          "title": "British recruitment exposes firearm costs, population and matching portraits",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13403,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:57:28.607Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-f46a1e381349908bf2b1",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 21,
+          "column": 1
+        },
+        {
+          "title": "a Ravana flying craft can be selected and moved through normal commands",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                    "line": 25,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 104,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:57:42.033Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                        "line": 25,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-f1ad9327327fcb9a941e",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "online commanders choose independent factions, reset readiness and retain choices after reconnect",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                    "line": 28,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 86,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:57:42.150Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\kingdom-lanka.spec.ts",
+                        "line": 28,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "5a9f79b7543fc00640f4-8533f7f06a4654938f3b",
+          "file": "kingdom-lanka.spec.ts",
+          "line": 27,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "voice-chat.spec.ts",
+      "file": "voice-chat.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 32544,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:50:46.881Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-10c217260ebcb7a737b5",
+          "file": "voice-chat.spec.ts",
+          "line": 12,
+          "column": 1
+        },
+        {
+          "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                    "line": 36,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 126,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:51:19.639Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                        "line": 36,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-69a0df28faa751d9ddfe",
+          "file": "voice-chat.spec.ts",
+          "line": 35,
+          "column": 1
+        },
+        {
+          "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5772,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:51:19.779Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-ec80f06c2d1f16a38a10",
+          "file": "voice-chat.spec.ts",
+          "line": 44,
+          "column": 1
+        },
+        {
+          "title": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                    "line": 13,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 146,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:54:12.644Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                        "line": 13,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-5185928ec2e8036554f7",
+          "file": "voice-chat.spec.ts",
+          "line": 12,
+          "column": 1
+        },
+        {
+          "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20332,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:54:13.006Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-d33693c4a2244921e23e",
+          "file": "voice-chat.spec.ts",
+          "line": 35,
+          "column": 1
+        },
+        {
+          "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4531,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:54:33.357Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-1bd0b6a6738cdde592f7",
+          "file": "voice-chat.spec.ts",
+          "line": 44,
+          "column": 1
+        },
+        {
+          "title": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                    "line": 13,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 143,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:57:43.418Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                        "line": 13,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-de6da34388a30b9d5d04",
+          "file": "voice-chat.spec.ts",
+          "line": 12,
+          "column": 1
+        },
+        {
+          "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 23200,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:57:43.751Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-fbbf61e71334dea6640f",
+          "file": "voice-chat.spec.ts",
+          "line": 35,
+          "column": 1
+        },
+        {
+          "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5121,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-19T08:58:06.973Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-99064b3767ae4affcb16",
+          "file": "voice-chat.spec.ts",
+          "line": 44,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-19T08:47:08.920Z",
+    "duration": 664357.5449999999,
+    "expected": 43,
+    "skipped": 9,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

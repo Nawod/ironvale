@@ -1,4 +1,16 @@
-# Ironvale
+# Kingdom Lanka
+
+Choose from **ten Sri Lankan kingdom, colonial and legendary factions** in solo
+and online play. Command war elephants, Yodha champions, musketeers, riflemen,
+cannon or Ravana's legendary Dandu Monara, with faction specialties and distinct
+army/city artwork. This is a cross-era skirmish; legendary elements are labeled.
+Teams, private resources, voice chat and optional neutral night zombies remain.
+[Faction guide and research](docs/kingdom-lanka-design.md) ·
+[Verification](docs/kingdom-lanka-verification.md).
+
+The game was previously called Ironvale. The project folder and old browser
+storage identifiers stay compatible so existing saves and reconnects work.
+
 
 An original 3D medieval RTS for your browser, with single-player and server-authoritative online multiplayer. Build a city, assign workers, gather food/wood/stone/gold, hunt and cultivate, research three development stages, recruit armies, defend with walls and garrisons, and capture rival capitals.
 
@@ -49,7 +61,7 @@ npm run build
 npm start
 ```
 
-Open http://localhost:8180. The same Node server serves the game and its online connections. Alternatively, double-click **Play Ironvale.cmd** to build and launch the production game at http://localhost:8180. Close its server window or press Ctrl+C to stop it.
+Open http://localhost:8180. The same Node server serves the game and its online connections. Alternatively, double-click **Play Kingdom Lanka.cmd** to build and launch the production game at http://localhost:8180. Close its server window or press Ctrl+C to stop it.
 
 For friends or a phone/tablet on the same Wi-Fi, open http://YOUR-COMPUTER-LAN-IP:8180 on each device. Open that LAN address on the host too before copying the invite, so the invitation points to the reachable computer rather than localhost. The game server listens on the local network. Browser/device firewalls can affect access. Saves are separate on each device and each origin.
 

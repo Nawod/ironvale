@@ -1,3 +1,4 @@
+import {populationCost,unitStats} from './factions';
 import type { Entity, GameState, Snapshot } from './types';
 import { BUILDINGS, UNITS } from './definitions';
 import {allianceKey} from './teams';
@@ -7,7 +8,7 @@ export function updateVisibility(s:GameState):void {
  for(const a of s.visible)a.fill(0);
  for(const e of Object.values(s.entities)){
   if(e.owner<0||e.hp<=0||e.garrisoned||!s.players[e.owner].alive)continue;
-  const radius=e.kind==='unit'?UNITS[e.type as keyof typeof UNITS].sight:e.progress<1?4:BUILDINGS[e.type as keyof typeof BUILDINGS].range?10:8;
+  const radius=e.kind==='unit'?unitStats(e.type as keyof typeof UNITS,s.players[e.owner]).sight:e.progress<1?4:BUILDINGS[e.type as keyof typeof BUILDINGS].range?10:8;
   const x=Math.floor(e.x),y=Math.floor(e.y);
   for(let dy=-radius;dy<=radius;dy++)for(let dx=-radius;dx<=radius;dx++)if(dx*dx+dy*dy<=radius*radius){const nx=x+dx,ny=y+dy;if(nx>=0&&ny>=0&&nx<s.size&&ny<s.size){s.visible[e.owner][ny*s.size+nx]=1;s.explored[e.owner][ny*s.size+nx]=1;}}
  }
@@ -17,7 +18,7 @@ export function updateVisibility(s:GameState):void {
   for(const [id,e] of Object.entries(s.intel[p.id]))if(s.visible[p.id][Math.floor(e.y)*s.size+Math.floor(e.x)]&&(!s.entities[+id]||(isAnimal(e)||e.kind==='building')&&(Math.floor(s.entities[+id].x)!==Math.floor(e.x)||Math.floor(s.entities[+id].y)!==Math.floor(e.y))))delete s.intel[p.id][+id];
  }
 }
-export function population(s:GameState,player:number):number{return Object.values(s.entities).filter(e=>e.owner===player&&e.kind==='unit').length;}
+export function population(s:GameState,player:number):number{return Object.values(s.entities).filter(e=>e.owner===player&&e.kind==='unit').reduce((sum,e)=>sum+populationCost(e.type as keyof typeof UNITS),0);}
 export function capacity(s:GameState,player:number):number {return Math.min(100,Object.values(s.entities).filter(e=>e.owner===player&&e.kind==='building'&&e.progress===1&&e.hp>0).reduce((n,e)=>n+(BUILDINGS[e.type as keyof typeof BUILDINGS].capacity??0),0));}
 export function snapshot(s:GameState,player=0):Snapshot {
  const entities:Entity[]=[];

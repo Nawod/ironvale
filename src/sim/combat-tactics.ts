@@ -1,3 +1,4 @@
+import {canAttack,flightHeight} from './factions';
 import type {Entity,GameState,Position} from './types';
 import {distance} from './types';
 import {BUILDINGS,UNITS} from './definitions';
@@ -9,20 +10,22 @@ export interface AttackRange {base:number;bonus:number;max:number;heightAdvantag
 const center=(e:Entity):Position=>{const n=buildingSize(e)/2;return{x:e.x+n,y:e.y+n};};
 function baseRange(e:Entity):number{return e.kind==='unit'?UNITS[e.type as keyof typeof UNITS].range:e.kind==='building'?BUILDINGS[e.type as keyof typeof BUILDINGS].range??0:0;}
 /** Target-dependent downhill reach; omitting the target exposes the upper bound
- * for acquisition and UI. No height data means the original flat-map range. */
+ * for acquisition and UI. Ground combat without elevation retains legacy range. */
 export function attackRange(s:TerrainView,a:Entity,b?:Entity):AttackRange{
  const base=baseRange(a),from=center(a),to=b?center(b):undefined;
- const heightAdvantage=to&&s.elevation?Math.max(0,terrainHeight(s,from.x,from.y)-terrainHeight(s,to.x,to.y)):0;
- const bonus=base>2&&s.elevation?base*(to?Math.min(.2,heightAdvantage*.05):.2):0;
+ const elevated=!!s.elevation||flightHeight(a)>0||!!b&&flightHeight(b)>0;
+ const heightAdvantage=to&&b&&elevated?Math.max(0,terrainHeight(s,from.x,from.y)+flightHeight(a)-terrainHeight(s,to.x,to.y)-flightHeight(b)):0;
+ const bonus=base>2&&elevated?base*(to?Math.min(.2,heightAdvantage*.05):.2):0;
  return{base,bonus,max:base+bonus,heightAdvantage};
 }
 /** Only solid mountain terrain occludes projectiles. Forests, walls and units
  * retain their existing interaction and friendly-fire rules. Siege has an arc,
  * but a ridge taller than that arc still intercepts it. */
 export function clearAttackLine(s:TerrainView,a:Entity,b:Entity):boolean{
+ if(!canAttack(a,b))return false;
  if(!s.elevation||baseRange(a)<=2)return true;
  const from=center(a),to=center(b),length=distance(from,to);
- const start=terrainHeight(s,from.x,from.y)+(a.kind==='building'?2.5:.9),end=terrainHeight(s,to.x,to.y)+(b.kind==='building'?1.5:.7);
+ const start=terrainHeight(s,from.x,from.y)+flightHeight(a)+(a.kind==='building'?2.5:.9),end=terrainHeight(s,to.x,to.y)+flightHeight(b)+(b.kind==='building'?1.5:.7);
  const arc=a.type==='trebuchet'?Math.max(4,length*.7):0;
  // Split at tile edges and mesh triangle diagonals. Fixed-distance sampling
  // can miss a thin crossing near a mountain corner. Within each interval the
@@ -43,8 +46,8 @@ export function clearAttackLine(s:TerrainView,a:Entity,b:Entity):boolean{
  * Applied only after the ordinary hostility, visibility and radius filters. */
 export function counterPreference(a:Entity,b:Entity):number{
  if(a.kind!=='unit'||b.kind!=='unit')return 0;
- if(['spearman','pikeman'].includes(a.type)&&['cavalry','heavyCavalry','scout'].includes(b.type))return 2;
- if(['cavalry','heavyCavalry'].includes(a.type)&&['archer','crossbowman'].includes(b.type))return 2;
- if(['archer','crossbowman'].includes(a.type)&&['spearman','pikeman'].includes(b.type))return 2;
+ if(['spearman','pikeman'].includes(a.type)&&['cavalry','heavyCavalry','scout','warElephant'].includes(b.type))return 2;
+ if(['cavalry','heavyCavalry'].includes(a.type)&&['archer','crossbowman','musketeer','rifleman'].includes(b.type))return 2;
+ if(['archer','crossbowman','musketeer','rifleman'].includes(a.type)&&['spearman','pikeman'].includes(b.type))return 2;
  return 0;
 }

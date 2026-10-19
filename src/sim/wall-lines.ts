@@ -1,3 +1,4 @@
+import {buildingStats} from './factions';
 import type {Command,Entity,GameState,Position,Resource,Resources} from './types';
 import {BUILDINGS} from './definitions';
 import {bounds,buildingSize} from './navigation';
@@ -36,7 +37,7 @@ export function wallWorkerPlan(s:GameState,w:Entity,ids:readonly number[]):Entit
 export function applyWallLine(s:GameState,c:Extract<Command,{type:'buildWallLine'}>):string|null{
  if(c.building!=='palisade'&&c.building!=='wall')return 'Choose wooden or stone walls for a wall line.';
  const route=wallLineTiles(c.start,c.end);if(!route)return `Choose a wall line of at most ${MAX_WALL_LINE_TILES} tiles within the map.`;
- const p=s.players[c.player],d=BUILDINGS[c.building];if(p.age<d.age)return 'Advance your empire to unlock this building.';
+ const p=s.players[c.player],d=buildingStats(c.building,p);if(p.age<d.age)return 'Advance your empire to unlock this building.';
  if(!validSelection(c.workers))return 'Choose a valid villager selection.';
  const workers=[...new Set(c.workers)].map(id=>s.entities[id]).filter((e):e is Entity=>!!e&&e.kind==='unit'&&e.type==='villager'&&e.owner===c.player&&e.hp>0&&!e.garrisoned);
  if(!workers.length)return 'Select a villager to build.';

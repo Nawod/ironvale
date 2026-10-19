@@ -1,0 +1,257 @@
+{
+  "title": "Kingdom Lanka regional character and Asian elephant derivatives",
+  "authors": "Wildfire Games and 0 A.D. art contributors",
+  "authorUrl": "https://www.wildfiregames.com/",
+  "license": "CC-BY-SA-3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "repository": "https://github.com/0ad/0ad",
+  "revision": "61a3b9507d974084e6badb88a0826bd89a6d5b8b",
+  "changes": "Selective regional tunic, head and equipment assembly; COLLADA skinning sampled to eight finite shared animation frames; Z-up to Y-up; height normalization; original alpha player-color masks preserved. Original Lanka equipment overlays and architecture are separate runtime geometry. Regional game art interpretation, not historical reconstruction.",
+  "sources": [
+    {
+      "path": "LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/LICENSE.txt",
+      "sha256": "ef98babd771c206032e005f3d440a1e610df409d9a9191f03e64deaa4abefbd9"
+    },
+    {
+      "path": "meshes/skeletal/new/m_tunic_short.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/skeletal/new/m_tunic_short.dae",
+      "sha256": "749666d1046f4a0f2b3f42fed0715ecc3bd5a00a8514acfb521a0b3dd3e93e98"
+    },
+    {
+      "path": "actors/props/units/heads/new/head_maur_short_hair.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/heads/new/head_maur_short_hair.xml",
+      "sha256": "2e037314434af181cff9ba3f2463830d9ce82831463cacb5175681ad4c77af0c"
+    },
+    {
+      "path": "textures/skins/props/head/maur_face_a.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/head/maur_face_a.png",
+      "sha256": "06d89392b98220f697457c65e2c4691a5df10dbaa72133dff728435e17b68fcd"
+    },
+    {
+      "path": "meshes/props/new/head_mauryan_short_hair.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/new/head_mauryan_short_hair.dae",
+      "sha256": "15d683f89ef447c0d08a67cb44b53132b7c4ab86d2311aec70cc086c5694bdcb"
+    },
+    {
+      "path": "actors/props/units/weapons/spear.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/spear.xml",
+      "sha256": "df1592f782d120ec2d1a0b8b27dcc3fd1b00842d99a33e470cffcb22d9424964"
+    },
+    {
+      "path": "textures/skins/props/prop_weap.dds",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/prop_weap.dds",
+      "sha256": "761a9987655353d96cf5093d3d713a62dca98f5f605c8fef52311eac0b3a1bde"
+    },
+    {
+      "path": "meshes/props/weap_shaft_wood_a.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/weap_shaft_wood_a.dae",
+      "sha256": "94f604187c62b9bbb170e5ab514810248a850923952be29a409c27294c44ec1c"
+    },
+    {
+      "path": "actors/props/units/weapons/csword.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/csword.xml",
+      "sha256": "bc4053e064def2162f89d3899bd55af4ffc3d622c811b700fa06df65378f8828"
+    },
+    {
+      "path": "meshes/props/weap_csword_a.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/weap_csword_a.dae",
+      "sha256": "7f8f8f38d394238ea1d62ac47e1eee7a4594d834c20bf2378431723cbe5f1490"
+    },
+    {
+      "path": "actors/props/units/weapons/bow_short.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/bow_short.xml",
+      "sha256": "d6f4f54e4f9e292aee05a3bf040abb13793e746527a1d216a429960004425cc4"
+    },
+    {
+      "path": "textures/skins/props/spart_sail_a.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/spart_sail_a.png",
+      "sha256": "c03027fcc0bd88c92344b5ed1336eb2bd1aede4ca0dbf5da2ea919e13d3b8652"
+    },
+    {
+      "path": "meshes/props/weapons/bow_greek.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/weapons/bow_greek.dae",
+      "sha256": "13eb54e1c4c7edc882964c1d69e0bddd415531c8421b25716ceae618fda4b6a2"
+    },
+    {
+      "path": "actors/props/units/weapons/sarissa.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/sarissa.xml",
+      "sha256": "3f089ea9767f771a139876194535d2358a61fd9d8a9c6f1eac6d669b2f5bb39f"
+    },
+    {
+      "path": "meshes/props/sarissa_a.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/sarissa_a.dae",
+      "sha256": "4f8571c3a42bda4658e12ea3ec3f26f81720870a3576f108de78988ed8a3142f"
+    },
+    {
+      "path": "actors/props/units/shields/maur_small_a.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/shields/maur_small_a.xml",
+      "sha256": "455ce279232afa114dfcc5f89584108d16f78ffacb2c84ef09b9268c93225feb"
+    },
+    {
+      "path": "textures/skins/props/shield/maur_shield_small_a.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/shield/maur_shield_small_a.png",
+      "sha256": "20814c435f099692cdc784f4f8c620b4d01691fdd9f8c986bec62b5d00618c59"
+    },
+    {
+      "path": "meshes/props/maur_shield_small.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/maur_shield_small.dae",
+      "sha256": "64fc8c736be4504f9d2fcf0a473f8017aed20ae1d18e6bd4f39e80d57dcbfc6c"
+    },
+    {
+      "path": "actors/props/units/weapons/blades/spear_blade.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/blades/spear_blade.xml",
+      "sha256": "7ec2799030a3a261dac5fefb9a75d74374a4c7dff21ab3d90b2c260943171b55"
+    },
+    {
+      "path": "meshes/props/spear_blade_a.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/spear_blade_a.dae",
+      "sha256": "33013eaf72f8bb2ed8c9930d9a55036846b5aaa976fdb9cb64c7b23265a4e60b"
+    },
+    {
+      "path": "variants/biped/base_spearman_shield_relax_celt.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/biped/base_spearman_shield_relax_celt.xml",
+      "sha256": "e39cd28a44f3f8589628cc3e0e5d846792bfbac2fab50d256926142b7cd0c282"
+    },
+    {
+      "path": "textures/skins/skeletal/maur/tunic_01_01.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/maur/tunic_01_01.png",
+      "sha256": "f4d40c411ecf71acf8e5f7a3aafa3fa29bbde5458a40c2cb9d55f66d7f2c8ea1"
+    },
+    {
+      "path": "textures/skins/skeletal/maur/tunic_02_01.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/maur/tunic_02_01.png",
+      "sha256": "d7887da2e9f3bfff1c57a42a8093b5d2f07917779ecf350e10617899685d259e"
+    },
+    {
+      "path": "textures/skins/props/head/maur_face_b.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/head/maur_face_b.png",
+      "sha256": "139fa3c3ea44e5a5c97281e147103dd4c6fa7cffa33494d5232bb08beed2f09a"
+    },
+    {
+      "path": "textures/skins/props/shield/maur_shield_small_b.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/shield/maur_shield_small_b.png",
+      "sha256": "846aec099597771010e098f33b8c2ae8356fc082006bcb70bc2213cbed6abf44"
+    },
+    {
+      "path": "textures/skins/skeletal/maur/tunic_leather_01_01.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/maur/tunic_leather_01_01.png",
+      "sha256": "5b3756ad1a6c5d63e7ae664b76f67db426a8e1379ff7dd8848be6db28032269a"
+    },
+    {
+      "path": "textures/skins/props/head/maur_face_c.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/head/maur_face_c.png",
+      "sha256": "419fcaf302c5881b0bc81196cf191225d6970818c90c4070567971b642e0a960"
+    },
+    {
+      "path": "textures/skins/props/shield/maur_shield_small_c.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/shield/maur_shield_small_c.png",
+      "sha256": "e893d0bd62ccd775bc909f866a76fe1bc23d1a582dfa6eef29bf07fc13872279"
+    },
+    {
+      "path": "animation/biped/infantry/spearman/idle_relax_shield_celt_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/spearman/idle_relax_shield_celt_01.dae",
+      "sha256": "95a3d1558824ea9644b8d31b08590e83285748931ef385ce136c73fb21e35881"
+    },
+    {
+      "path": "animation/biped/infantry/spearman/walk_relax_shield.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/spearman/walk_relax_shield.dae",
+      "sha256": "792223c781d20d22563338deec8a66714d85477fa03ee32d36f251cfa50808f2"
+    },
+    {
+      "path": "animation/biped/infantry/swordsman/attack_melee_shield_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/swordsman/attack_melee_shield_01.dae",
+      "sha256": "752ba49975601518ce9c46673e2adfa014e234deebba6718b521da272320a87a"
+    },
+    {
+      "path": "variants/biped/base_swordsman_shield_relax_celt.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/biped/base_swordsman_shield_relax_celt.xml",
+      "sha256": "bba7dafdd6fef81f6f6fdf68fbd984d5c85e5c8fdc5aa550a4ad1a88fd0c743f"
+    },
+    {
+      "path": "animation/biped/infantry/swordsman/idle_relax_shield_celt_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/swordsman/idle_relax_shield_celt_01.dae",
+      "sha256": "440f9efd65cd09969755457f8cbf72017f882e577d49e5eb610ae872e73eba40"
+    },
+    {
+      "path": "animation/biped/infantry/swordsman/walk_relax_shield.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/swordsman/walk_relax_shield.dae",
+      "sha256": "a8b9ab35ac7cfe32d75524b72d440022500fb36129950c5da933f24ba162c873"
+    },
+    {
+      "path": "variants/biped/base_archer_relax.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/biped/base_archer_relax.xml",
+      "sha256": "5d674ea8c6f346d8348b4d3d765226fc830810d0ef23178aa2fd7a5836fd0551"
+    },
+    {
+      "path": "variants/biped/attack_ranged_archer.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/biped/attack_ranged_archer.xml",
+      "sha256": "f32d7634767506842f721ab7a0fa3219b0bb7cf05e353ed7ffbeedf926ff8d0d"
+    },
+    {
+      "path": "animation/biped/infantry/archer/idle_relax_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/archer/idle_relax_01.dae",
+      "sha256": "e0e9e1e81f05a700fbd93718fffe158b0ff2c8caa326b818226533be2c0bd038"
+    },
+    {
+      "path": "animation/biped/infantry/archer/jog_relax.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/archer/jog_relax.dae",
+      "sha256": "e3be4b2954dbba235b4bff666b4661ff50ecc32c9c343cc30a6b22149c8a450d"
+    },
+    {
+      "path": "animation/biped/infantry/archer/attack_ranged.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/archer/attack_ranged.dae",
+      "sha256": "c1f901a9338889b7104ba65855c9555d99b81e3094f7a680d25596bc701f4caf"
+    },
+    {
+      "path": "variants/biped/base_pikeman_relax.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/biped/base_pikeman_relax.xml",
+      "sha256": "c25ed0c39ee69198265d83c59c53d743b2b1b3bebe44617345f426d8a8332d7e"
+    },
+    {
+      "path": "animation/biped/infantry/pikeman/idle_relax_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/pikeman/idle_relax_01.dae",
+      "sha256": "3e963e5ff995668c14e8473ca9ca4cf1180fb546f4a0ffd6927a842f4068c913"
+    },
+    {
+      "path": "animation/biped/infantry/pikeman/walk_relax.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/pikeman/walk_relax.dae",
+      "sha256": "c3012526a20081b4bceaaa3cce7d266ecaa82877a4bc9b433cc3b385d2245cf8"
+    },
+    {
+      "path": "animation/biped/infantry/pikeman/attack_melee_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/pikeman/attack_melee_01.dae",
+      "sha256": "2a4d1ccab7ddedc36d15e1c3bd7e966e15f2e9abe69605ace05938c0b6f3cf46"
+    },
+    {
+      "path": "actors/fauna/elephant_asian.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/fauna/elephant_asian.xml",
+      "sha256": "664777f1703a0f6de84c166b2f7d2e5cccfba10787d8836fff554ab17ea150cf"
+    },
+    {
+      "path": "textures/skins/skeletal/animal-elephant-asian-base.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/animal-elephant-asian-base.png",
+      "sha256": "32fcc8fcd1ca738e3cd054cbc4f052298a0541ac8ece2819d86c014869a9fea4"
+    },
+    {
+      "path": "meshes/skeletal/elephant_asian_male.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/skeletal/elephant_asian_male.dae",
+      "sha256": "b9bc4fb28214c694ac932165ea2e724c77e56e413b57adb0b9de16fc303bd32c"
+    },
+    {
+      "path": "animation/quadraped/elephant_asian_idle_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/quadraped/elephant_asian_idle_01.dae",
+      "sha256": "eeee387d729038bfe067b5bcda9690accf8bc06e5b88049fe3c66212b7057a66"
+    },
+    {
+      "path": "animation/quadraped/elephant_asian_walk.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/quadraped/elephant_asian_walk.dae",
+      "sha256": "cde90c2b665763b3c5b45eb27e909fbb6a32f258bc232b4bd2034bd887a4918f"
+    },
+    {
+      "path": "animation/quadraped/elephant_asian_attack_melee_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/quadraped/elephant_asian_attack_melee_01.dae",
+      "sha256": "e48be992543a621ee1f9d143c6d9e3d5df109b15cdd0c7e99c767dd614a15559"
+    }
+  ]
+}

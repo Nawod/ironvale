@@ -1,4 +1,4 @@
-# Ironvale bundled 3D asset credits
+# Kingdom Lanka bundled 3D asset credits
 
 Runtime assets are bundled locally under `public/models` and `public/art`;
 gameplay does not contact an asset service. Only freely offered content is
@@ -105,3 +105,27 @@ Original Ironvale buildings and remaining portraits keep their existing terms.
 Combat range, mountain interception and target-preference code is an original
 Ironvale implementation informed by reading 0 A.D.'s Attack component. No GPL
 engine code, faction templates or simulation components were copied into the game.
+
+The Kingdom Lanka faction update adds a regional native-art bank in
+`public/models/lanka`. It selectively adapts 0 A.D.'s Mauryan tunics, heads,
+face textures, shields, weapons and **Asian elephant**, including original
+skeletal clips. All 49 upstream source inputs are pinned to the same official
+mirror commit, with source/output hashes, conversion changes and original art
+notices retained in the pack. The converted binary and PNG maps remain
+**CC BY-SA 3.0** artwork by **Wildfire Games and the 0 A.D. art contributors**.
+Rebuild with `python scripts/prepare-lanka-characters.py` (numpy/Pillow required).
+
+Kingdom Lanka headwear, uniforms/equipment overlays, cannon, peacock-inspired
+Dandu Monara, city crowns, interface crests and combat effects are original
+project geometry/art. The regional clothing is an artistic starting point,
+not evidence that the exact source uniforms were worn by each historical army.
+Legendary giants and flying craft are explicitly fictional interpretations.
+Buildings retain the original functional architecture and connected wall system.
+
+`public/art/portraits/lanka-manifest.json` lists 1,040 new locally rendered
+faction/unit/city portraits. These composite images are distributed under
+CC BY-SA 3.0 with the same Wildfire Games attribution and an additional credit
+for original Kingdom Lanka contributions. Reproduce them with
+`npx tsx scripts/bake-command-portraits.ts --lanka`. No external image-generation
+service is used. Existing source credits and restrictive Ashen Marches terms
+remain applicable to their respective assets.
