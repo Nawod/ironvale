@@ -1,3 +1,4 @@
+import {airborne,buildingStats,canAttack,factionUnitTypes,populationCost,tradeReturn,unitStats} from './factions';
 import type { Command, Entity, GameState, Position, Resources, Resource, UnitType } from './types';
 import { BUILDINGS, UNITS, AGE_COSTS, wallUpgrade } from './definitions';
 import { capacity, population, seen } from './visibility';
@@ -35,7 +36,7 @@ export function applyCommand(s:GameState,c:Command):string|null {
   b.rally={point:{x:c.point.x,y:c.point.y},...(c.target!==undefined?{target:c.target}:{})};return null;
  }
  if(c.type==='build'){
-  const d=BUILDINGS[c.building];if(!d||c.building==='capital'||c.building==='outpost')return 'Use your original town center.';
+  const d=BUILDINGS[c.building]&&buildingStats(c.building,p);if(!d||c.building==='capital'||c.building==='outpost')return 'Use your original town center.';
   if(p.age<d.age)return 'Advance your empire to unlock this building.';
   const point={x:Math.floor(c.point.x),y:Math.floor(c.point.y)};
   const workers=[...new Set(c.workers)].map(owned).filter((e):e is Entity=>!!e&&e.type==='villager'&&!e.garrisoned);
@@ -58,10 +59,10 @@ export function applyCommand(s:GameState,c:Command):string|null {
  }
  if(c.type==='recruit'){
   const count=c.count===undefined?1:c.count;if(!Number.isSafeInteger(count)||count<1||count>MAX_RECRUIT_BATCH)return 'Choose a recruitment batch of 1 to 5 units.';
-  const b=owned(c.building),d=UNITS[c.unit];if(!b||b.kind!=='building'||b.progress<1||b.hp<=0)return 'Select a completed building you own.';
-  if(!d||!BUILDINGS[b.type as keyof typeof BUILDINGS].trains?.includes(c.unit)||p.age<d.age)return 'This troop is not available here yet.';
-  const queued=Object.values(s.entities).filter(e=>e.owner===c.player).reduce((n,e)=>n+e.queue.filter(q=>q.kind==='unit').length,0);
-  if(population(s,c.player)+queued+count>capacity(s,c.player))return 'Build houses for more population.';
+  const b=owned(c.building),d=UNITS[c.unit]&&unitStats(c.unit,p);if(!b||b.kind!=='building'||b.progress<1||b.hp<=0)return 'Select a completed building you own.';
+  if(!d||!factionUnitTypes(p,b.type as keyof typeof BUILDINGS).includes(c.unit)||p.age<d.age)return 'This troop is not available here yet.';
+  const queued=Object.values(s.entities).filter(e=>e.owner===c.player).reduce((n,e)=>n+e.queue.filter(q=>q.kind==='unit').reduce((sum,q)=>sum+populationCost(q.unit!),0),0);
+  if(population(s,c.player)+queued+count*populationCost(c.unit)>capacity(s,c.player))return 'Build houses for more population.';
   if(b.queue.length+count>8)return 'The production queue is full.';
   if(!pay(s,c.player,scaledCost(d.cost,count)))return 'Not enough resources.';
   for(let i=0;i<count;i++)b.queue.push({kind:'unit',unit:c.unit,remaining:d.seconds,total:d.seconds,cost:d.cost});return null;
@@ -81,14 +82,14 @@ export function applyCommand(s:GameState,c:Command):string|null {
  if(c.type==='trade'){
   if(!['food','wood','stone','gold'].includes(c.sell)||!['food','wood','stone','gold'].includes(c.buy)||c.sell===c.buy)return 'Choose two different resources.';
   if(!Object.values(s.entities).some(e=>e.owner===p.id&&e.type==='market'&&e.progress===1&&e.hp>0))return 'Build a market to exchange resources.';
-  if(!pay(s,p.id,{[c.sell]:100}))return 'You need 100 resources to exchange.';p.resources[c.buy]+=65;return null;
+  if(!pay(s,p.id,{[c.sell]:100}))return 'You need 100 resources to exchange.';p.resources[c.buy]+=tradeReturn(p);return null;
  }
  if(c.type==='rebuild'){
   const cap=s.entities[p.capital],workers=[...new Set(c.workers)].map(owned).filter((e):e is Entity=>!!e&&e.type==='villager');
   if(!cap||cap.hp>0||!workers.length)return 'Select villagers to rebuild your fallen capital.';
-  if(Object.values(s.entities).some(e=>e.kind==='unit'&&hostile(s,p.id,e.owner)&&e.type!=='villager'&&Math.hypot(e.x-cap.x,e.y-cap.y)<6))return 'Clear enemy soldiers from your capital first.';
+  if(Object.values(s.entities).some(e=>e.kind==='unit'&&hostile(s,p.id,e.owner)&&e.type!=='villager'&&!airborne(e)&&Math.hypot(e.x-cap.x,e.y-cap.y)<6))return 'Clear enemy soldiers from your capital first.';
   if(workers.some(w=>!canAssignTask(w,{kind:'build',target:cap.id})))return 'Worker task list is full. Finish tasks or use Stop to clear it.';
-  if(!pay(s,p.id,BUILDINGS.capital.cost))return 'Not enough resources to rebuild.';
+  if(!pay(s,p.id,buildingStats('capital',p).cost))return 'Not enough resources to rebuild.';
   cap.hp=1;cap.progress=0;cap.occupation=undefined;for(const w of workers)assignTask(s,w,{kind:'build',target:cap.id});return null;
  }
  if(c.type==='ungarrison'){
@@ -114,7 +115,7 @@ export function applyCommand(s:GameState,c:Command):string|null {
   if(c.order.kind==='repair'&&target?.hp===0)return 'Use rebuild to restore your capital.';
   const military=units.filter(e=>e.type!=='villager'),slots=c.order.point&&['move','attackMove','patrol'].includes(c.order.kind)&&military.length>1?formationDestinations(s,military,c.order.point):new Map<number,Position>();
   const columns=Math.ceil(Math.sqrt(units.length)),assignments=units.flatMap((e,index)=>{
-   if(['gather','build','repair'].includes(c.order.kind)&&e.type!=='villager'||c.order.kind==='garrison'&&e.type==='villager')return [];
+   if(['gather','build','repair'].includes(c.order.kind)&&e.type!=='villager'||c.order.kind==='garrison'&&(e.type==='villager'||airborne(e))||c.order.kind==='attack'&&target&&!canAttack(e,target))return [];
    const point=slots.get(e.id)??(c.order.point&&units.length>1?{x:Math.max(1,Math.min(s.size-2,c.order.point.x+(index%columns-(columns-1)/2)*1.15)),y:Math.max(1,Math.min(s.size-2,c.order.point.y+(Math.floor(index/columns)-(Math.ceil(units.length/columns)-1)/2)*1.15))}:c.order.point);
    return [{e,order:{...c.order,point,origin:c.order.kind==='patrol'?{x:e.x,y:e.y}:undefined}}];
   });
@@ -138,7 +139,7 @@ function dropoff(s:GameState,w:Entity,dt:number,grid:Uint8Array):boolean {
 }
 export function updateEconomy(s:GameState,dt:number,grids:Uint8Array[]):void{
  for(const e of Object.values(s.entities)){
-  if(e.kind==='building'&&e.hp>0&&e.progress===1&&e.queue.length){const q=e.queue[0];if(q.kind==='unit'&&population(s,e.owner)>=capacity(s,e.owner))continue;q.remaining-=dt;if(q.remaining>0)continue;
+  if(e.kind==='building'&&e.hp>0&&e.progress===1&&e.queue.length){const q=e.queue[0];if(q.kind==='unit'&&population(s,e.owner)+populationCost(q.unit!)>capacity(s,e.owner))continue;q.remaining-=dt;if(q.remaining>0)continue;
    if(q.kind==='unit'){const grid=grids[e.owner];let point:Position|undefined;const n=BUILDINGS[e.type as keyof typeof BUILDINGS].size;for(let r=1;r<=5&&!point;r++){const exits:Position[]=[];for(let dx=-r;dx<=n+r;dx++)for(let dy=-r;dy<=n+r;dy++){if(dx!==-r&&dx!==n+r&&dy!==-r&&dy!==n+r)continue;const x=Math.floor(e.x+dx),y=Math.floor(e.y+dy);if(bounds(s,{x,y})&&!grid[y*s.size+x]&&!Object.values(s.entities).some(v=>(v.kind==='unit'&&!v.garrisoned||v.kind==='resource'&&v.amount>0)&&Math.floor(v.x)===x&&Math.floor(v.y)===y))exits.push({x:x+.5,y:y+.5});}exits.sort((a,b)=>(b.x+b.y)-(a.x+a.y)||Math.abs((a.x-e.x)-(a.y-e.y))-Math.abs((b.x-e.x)-(b.y-e.y)));point=exits[0];}if(!point)continue;const unit=spawn(s,'unit',q.unit as UnitType,e.owner,point);if(unit.type!=='villager')unit.home=point;
     if(e.rally)assignTask(s,unit,unit.type==='villager'&&rallySource(s,e.owner,s.entities[e.rally.target??0])?{kind:'gather',target:e.rally.target}:{kind:'move',point:{...e.rally.point}});
    }else if(q.kind==='wall'){const d=wallUpgrade(e);if(d){const health=e.hp/e.maxHp;e.type='wall';if(d.age===3)e.wallTier=3;e.maxHp=d.hp;e.hp=Math.min(1,health)*d.hp;event(s,e.owner,`${d.name} completed.`,'complete',e);}}
@@ -161,7 +162,7 @@ export function updateEconomy(s:GameState,dt:number,grids:Uint8Array[]):void{
   }else{
    if(target.owner!==e.owner||target.hp<=0||target.kind!=='building'||(o.kind==='build'&&target.progress>=1)||(o.kind==='repair'&&target.progress<1)){if(o.kind==='build')nextConstruction(s,e);else assign(e,{kind:'idle'});continue;}
    if(adjacentDistance(e,target)>1.7){travel(s,e,approach(s,e,target,grids[e.owner]),dt,grids[e.owner]);continue;}
-   const d=BUILDINGS[target.type as keyof typeof BUILDINGS];
+   const d=buildingStats(target.type as keyof typeof BUILDINGS,s.players[e.owner]);
    if(o.kind==='build'){
     target.progress=Math.min(1,target.progress+dt/d.seconds);target.hp=Math.max(target.hp,target.maxHp*target.progress);
     if(target.progress===1){event(s,e.owner,`${d.name} completed.`,'complete',target);nextConstruction(s,e);if(e.order.kind==='idle'&&!resumeWorkerTask(s,e)&&target.type==='farm')assign(e,{kind:'gather',target:target.id});}

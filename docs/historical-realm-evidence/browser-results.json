@@ -1,0 +1,1761 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "N:\\Projects\\GPT\\ironvale\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/historical-realm.spec.ts",
+      "tests/browser/voice-chat.spec.ts",
+      "tests/browser/buildings-zombies.spec.ts",
+      "tests/browser/compact-hud.spec.ts",
+      "--reporter=json",
+      "--output=test-results/historical-regression"
+    ],
+    "configFile": "N:\\Projects\\GPT\\ironvale\\playwright.config.ts",
+    "rootDir": "N:/Projects/GPT/ironvale/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/historical-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/historical-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone",
+        "name": "phone",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/historical-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "snapshotDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5178",
+          "trace": "retain-on-failure",
+          "launchOptions": {
+            "args": [
+              "--use-gl=angle",
+              "--use-angle=d3d11",
+              "--enable-webgl",
+              "--ignore-gpu-blocklist"
+            ]
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "phone",
+        "testDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "snapshotDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5178",
+          "trace": "retain-on-failure",
+          "launchOptions": {
+            "args": [
+              "--use-gl=angle",
+              "--use-angle=d3d11",
+              "--enable-webgl",
+              "--ignore-gpu-blocklist"
+            ]
+          },
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Mobile/15E148 Safari/604.1",
+          "viewport": {
+            "width": 390,
+            "height": 664
+          },
+          "screen": {
+            "width": 390,
+            "height": 844
+          },
+          "deviceScaleFactor": 3,
+          "isMobile": true,
+          "hasTouch": true,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "phone"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-regression",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "tablet",
+        "testDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "snapshotDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5178",
+          "trace": "retain-on-failure",
+          "launchOptions": {
+            "args": [
+              "--use-gl=angle",
+              "--use-angle=d3d11",
+              "--enable-webgl",
+              "--ignore-gpu-blocklist"
+            ]
+          },
+          "userAgent": "Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Mobile/15E148 Safari/604.1",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "deviceScaleFactor": 2,
+          "isMobile": true,
+          "hasTouch": true,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run build && node scripts/test-server.mjs",
+      "url": "http://127.0.0.1:5178",
+      "reuseExistingServer": false,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "buildings-zombies.spec.ts",
+      "file": "buildings-zombies.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "move and remove an owned building with preserved health and a removal confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10717,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T22:58:22.111Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-8501c7e3075eacbe25fc",
+          "file": "buildings-zombies.spec.ts",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "night zombies render and daylight zombies retreat without attacking",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14487,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T22:58:33.012Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-262c523da406254b410b",
+          "file": "buildings-zombies.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "an online host enables zombie mode and the guest receives the shared setting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15737,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T22:58:47.510Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-b9335e56307799a004a7",
+          "file": "buildings-zombies.spec.ts",
+          "line": 37,
+          "column": 1
+        },
+        {
+          "title": "move and remove an owned building with preserved health and a removal confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10794,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:00:32.137Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-f399831632bc0421267f",
+          "file": "buildings-zombies.spec.ts",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "night zombies render and daylight zombies retreat without attacking",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14396,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:00:43.134Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-ec12a385e6d861ac2f09",
+          "file": "buildings-zombies.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "an online host enables zombie mode and the guest receives the shared setting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\buildings-zombies.spec.ts",
+                    "line": 38,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 74,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:00:57.539Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\buildings-zombies.spec.ts",
+                        "line": 38,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-97808ca2de2d04cc209e",
+          "file": "buildings-zombies.spec.ts",
+          "line": 37,
+          "column": 1
+        },
+        {
+          "title": "move and remove an owned building with preserved health and a removal confirmation",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11814,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:02:31.898Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-adfac9a2d0d301960b5b",
+          "file": "buildings-zombies.spec.ts",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "night zombies render and daylight zombies retreat without attacking",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14942,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:02:43.896Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-ccdde705231618683515",
+          "file": "buildings-zombies.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "an online host enables zombie mode and the guest receives the shared setting",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\buildings-zombies.spec.ts",
+                    "line": 38,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 82,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:02:58.849Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\buildings-zombies.spec.ts",
+                        "line": 38,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "f279ee2e98f804a3f2ef-13a5c9ff9fc90279bb61",
+          "file": "buildings-zombies.spec.ts",
+          "line": 37,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "compact-hud.spec.ts",
+      "file": "compact-hud.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9401,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T22:59:03.288Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-31dd999aaa603a769f66",
+          "file": "compact-hud.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5316,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T22:59:12.703Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-2cb58b34e8a198b156e8",
+          "file": "compact-hud.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7897,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T22:59:18.029Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-aa8f35f6de4e0b2d6a5e",
+          "file": "compact-hud.spec.ts",
+          "line": 29,
+          "column": 1
+        },
+        {
+          "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8416,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T22:59:25.941Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-c3faab3f678e999a0226",
+          "file": "compact-hud.spec.ts",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 19806,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:00:57.645Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-a939d11831663eeb1e03",
+          "file": "compact-hud.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5201,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:01:17.462Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-23f088c863b162a66f09",
+          "file": "compact-hud.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7684,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:01:22.679Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-0d08a0a2b5b007ab1b97",
+          "file": "compact-hud.spec.ts",
+          "line": 29,
+          "column": 1
+        },
+        {
+          "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8391,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:01:30.373Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-8f294c2a77c4a04c1d26",
+          "file": "compact-hud.spec.ts",
+          "line": 42,
+          "column": 1
+        },
+        {
+          "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20469,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:02:58.956Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-6b2e086a22f1d076c8a1",
+          "file": "compact-hud.spec.ts",
+          "line": 7,
+          "column": 1
+        },
+        {
+          "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5560,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:03:19.433Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-050e5c036437ea797d08",
+          "file": "compact-hud.spec.ts",
+          "line": 24,
+          "column": 1
+        },
+        {
+          "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8479,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:03:25.005Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-ce2f9cff6df66dd919c4",
+          "file": "compact-hud.spec.ts",
+          "line": 29,
+          "column": 1
+        },
+        {
+          "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9314,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:03:33.493Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c919f46921c25e29d585-13ac6c479e30042c47a1",
+          "file": "compact-hud.spec.ts",
+          "line": 42,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "historical-realm.spec.ts",
+      "file": "historical-realm.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "native historical troops and woodlands render at day with bounded shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9730,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T22:59:34.396Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-66df618881d562ecf71d",
+          "file": "historical-realm.spec.ts",
+          "line": 13,
+          "column": 33
+        },
+        {
+          "title": "native historical troops and woodlands render at night with bounded shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9730,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T22:59:44.136Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-662289001d25374757f5",
+          "file": "historical-realm.spec.ts",
+          "line": 13,
+          "column": 33
+        },
+        {
+          "title": "selecting a historical archer exposes readable counters and potential downhill range",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10266,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T22:59:53.879Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-810d89155e6d82b8c6e8",
+          "file": "historical-realm.spec.ts",
+          "line": 17,
+          "column": 1
+        },
+        {
+          "title": "native historical troops and woodlands render at day with bounded shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10362,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:01:38.783Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-44203438120bed5dcc4c",
+          "file": "historical-realm.spec.ts",
+          "line": 13,
+          "column": 33
+        },
+        {
+          "title": "native historical troops and woodlands render at night with bounded shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9725,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:01:49.154Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-968d5875d15acae503a0",
+          "file": "historical-realm.spec.ts",
+          "line": 13,
+          "column": 33
+        },
+        {
+          "title": "selecting a historical archer exposes readable counters and potential downhill range",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 14613,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.selection-panel h2')\nExpected: \u001b[32m\"\u001b[7mArch\u001b[27mer\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mYour orders, command\u001b[27mer\u001b[7m.\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('.selection-panel h2') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.selection-panel h2')\u001b[22m\n\u001b[2m    14 × locator resolved to <h2>Your orders, commander.</h2>\u001b[22m\n\u001b[2m       - unexpected value \"Your orders, commander.\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.selection-panel h2')\nExpected: \u001b[32m\"\u001b[7mArch\u001b[27mer\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mYour orders, command\u001b[27mer\u001b[7m.\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('.selection-panel h2') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.selection-panel h2')\u001b[22m\n\u001b[2m    14 × locator resolved to <h2>Your orders, commander.</h2>\u001b[22m\n\u001b[2m       - unexpected value \"Your orders, commander.\"\u001b[22m\n\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts:18:499",
+                    "location": {
+                      "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts",
+                      "column": 499,
+                      "line": 18
+                    },
+                    "snippet": "  16 | });\n  17 | test('selecting a historical archer exposes readable counters and potential downhill range',async({page},info)=>{\n> 18 |  test.setTimeout(90000);if(info.project.name==='phone')await page.setViewportSize({width:844,height:390});const{s,focus,soldiers}=await load(page),archer=soldiers.find(e=>e.owner===0&&e.type==='archer')!,v=page.viewportSize()!,camera=new RTSCamera();camera.configure({...v,focus,zoom:v.width<600?.92:1.1,yaw:Math.PI/4,origin:v.width<700?.44:.42});const p=camera.project(archer,terrainHeight(s,archer.x,archer.y)+.6);await page.mouse.click(p.x,p.y);await expect(page.locator('.selection-panel h2')).toHaveText('Archer');await openCommands(page,'Orders');const tactics=page.getByLabel('Unit tactics',{exact:true});await tactics.scrollIntoViewIfNeeded();await expect(tactics).toContainText('up to 7.2 downhill');expect(await tactics.evaluate(e=>parseFloat(getComputedStyle(e.querySelector('small')!).fontSize))).toBeGreaterThanOrEqual(14);await page.screenshot({path:`test-results/${info.project.name}-historical-tactics.png`});\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ^\n  19 | });\n  20 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts",
+                        "column": 499,
+                        "line": 18
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.selection-panel h2')\nExpected: \u001b[32m\"\u001b[7mArch\u001b[27mer\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mYour orders, command\u001b[27mer\u001b[7m.\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('.selection-panel h2') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.selection-panel h2')\u001b[22m\n\u001b[2m    14 × locator resolved to <h2>Your orders, commander.</h2>\u001b[22m\n\u001b[2m       - unexpected value \"Your orders, commander.\"\u001b[22m\n\n\n  16 | });\n  17 | test('selecting a historical archer exposes readable counters and potential downhill range',async({page},info)=>{\n> 18 |  test.setTimeout(90000);if(info.project.name==='phone')await page.setViewportSize({width:844,height:390});const{s,focus,soldiers}=await load(page),archer=soldiers.find(e=>e.owner===0&&e.type==='archer')!,v=page.viewportSize()!,camera=new RTSCamera();camera.configure({...v,focus,zoom:v.width<600?.92:1.1,yaw:Math.PI/4,origin:v.width<700?.44:.42});const p=camera.project(archer,terrainHeight(s,archer.x,archer.y)+.6);await page.mouse.click(p.x,p.y);await expect(page.locator('.selection-panel h2')).toHaveText('Archer');await openCommands(page,'Orders');const tactics=page.getByLabel('Unit tactics',{exact:true});await tactics.scrollIntoViewIfNeeded();await expect(tactics).toContainText('up to 7.2 downhill');expect(await tactics.evaluate(e=>parseFloat(getComputedStyle(e.querySelector('small')!).fontSize))).toBeGreaterThanOrEqual(14);await page.screenshot({path:`test-results/${info.project.name}-historical-tactics.png`});\n     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ^\n  19 | });\n  20 |\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts:18:499"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:01:58.891Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-regression\\historical-realm-selecting-c9bca-nd-potential-downhill-range-phone\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-regression\\historical-realm-selecting-c9bca-nd-potential-downhill-range-phone\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts",
+                    "column": 499,
+                    "line": 18
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-8348f96923374a95e76f",
+          "file": "historical-realm.spec.ts",
+          "line": 17,
+          "column": 1
+        },
+        {
+          "title": "native historical troops and woodlands render at day with bounded shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9806,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:03:42.839Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-c0213c86fc50bc91f46d",
+          "file": "historical-realm.spec.ts",
+          "line": 13,
+          "column": 33
+        },
+        {
+          "title": "native historical troops and woodlands render at night with bounded shared assets",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9846,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:03:52.655Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-c56784d1dfb043536225",
+          "file": "historical-realm.spec.ts",
+          "line": 13,
+          "column": 33
+        },
+        {
+          "title": "selecting a historical archer exposes readable counters and potential downhill range",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 14992,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.selection-panel h2')\nExpected: \u001b[32m\"\u001b[7mArch\u001b[27mer\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mYour orders, command\u001b[27mer\u001b[7m.\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('.selection-panel h2') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.selection-panel h2')\u001b[22m\n\u001b[2m    14 × locator resolved to <h2>Your orders, commander.</h2>\u001b[22m\n\u001b[2m       - unexpected value \"Your orders, commander.\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.selection-panel h2')\nExpected: \u001b[32m\"\u001b[7mArch\u001b[27mer\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mYour orders, command\u001b[27mer\u001b[7m.\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('.selection-panel h2') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.selection-panel h2')\u001b[22m\n\u001b[2m    14 × locator resolved to <h2>Your orders, commander.</h2>\u001b[22m\n\u001b[2m       - unexpected value \"Your orders, commander.\"\u001b[22m\n\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts:18:499",
+                    "location": {
+                      "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts",
+                      "column": 499,
+                      "line": 18
+                    },
+                    "snippet": "  16 | });\n  17 | test('selecting a historical archer exposes readable counters and potential downhill range',async({page},info)=>{\n> 18 |  test.setTimeout(90000);if(info.project.name==='phone')await page.setViewportSize({width:844,height:390});const{s,soldiers}=await load(page),archer=soldiers.find(e=>e.owner===0&&e.type==='archer')!,v=page.viewportSize()!,camera=new RTSCamera();\n     |                                                                                                                                                                                                                                                     ^\n  19 |  // Center the desired soldier using normal minimap navigation. The comparison\n  20 |  // scene's leftmost archer otherwise sits beneath the compact top toolbar.\n  21 |  const map=page.locator('.minimap canvas');if(!await map.isVisible())await page.getByRole('button',{name:'Show minimap',exact:true}).click();const r=(await map.boundingBox())!;await page.mouse.click(r.x+archer.x/s.size*r.width,r.y+archer.y/s.size*r.height);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts",
+                        "column": 499,
+                        "line": 18
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.selection-panel h2')\nExpected: \u001b[32m\"\u001b[7mArch\u001b[27mer\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mYour orders, command\u001b[27mer\u001b[7m.\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('.selection-panel h2') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.selection-panel h2')\u001b[22m\n\u001b[2m    14 × locator resolved to <h2>Your orders, commander.</h2>\u001b[22m\n\u001b[2m       - unexpected value \"Your orders, commander.\"\u001b[22m\n\n\n  16 | });\n  17 | test('selecting a historical archer exposes readable counters and potential downhill range',async({page},info)=>{\n> 18 |  test.setTimeout(90000);if(info.project.name==='phone')await page.setViewportSize({width:844,height:390});const{s,soldiers}=await load(page),archer=soldiers.find(e=>e.owner===0&&e.type==='archer')!,v=page.viewportSize()!,camera=new RTSCamera();\n     |                                                                                                                                                                                                                                                     ^\n  19 |  // Center the desired soldier using normal minimap navigation. The comparison\n  20 |  // scene's leftmost archer otherwise sits beneath the compact top toolbar.\n  21 |  const map=page.locator('.minimap canvas');if(!await map.isVisible())await page.getByRole('button',{name:'Show minimap',exact:true}).click();const r=(await map.boundingBox())!;await page.mouse.click(r.x+archer.x/s.size*r.width,r.y+archer.y/s.size*r.height);\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts:18:499"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:04:02.512Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-regression\\historical-realm-selecting-c9bca-nd-potential-downhill-range-tablet\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-regression\\historical-realm-selecting-c9bca-nd-potential-downhill-range-tablet\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts",
+                    "column": 499,
+                    "line": 18
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-ee61fa8bc7567c8e8f08",
+          "file": "historical-realm.spec.ts",
+          "line": 17,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "voice-chat.spec.ts",
+      "file": "voice-chat.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 180000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22000,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:00:05.185Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-10c217260ebcb7a737b5",
+          "file": "voice-chat.spec.ts",
+          "line": 12,
+          "column": 1
+        },
+        {
+          "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                    "line": 36,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 124,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:00:27.386Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                        "line": 36,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-69a0df28faa751d9ddfe",
+          "file": "voice-chat.spec.ts",
+          "line": 35,
+          "column": 1
+        },
+        {
+          "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3785,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:00:27.524Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-ec80f06c2d1f16a38a10",
+          "file": "voice-chat.spec.ts",
+          "line": 44,
+          "column": 1
+        },
+        {
+          "title": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                    "line": 13,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 128,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:02:14.946Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                        "line": 13,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-5185928ec2e8036554f7",
+          "file": "voice-chat.spec.ts",
+          "line": 12,
+          "column": 1
+        },
+        {
+          "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12576,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:02:15.263Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-d33693c4a2244921e23e",
+          "file": "voice-chat.spec.ts",
+          "line": 35,
+          "column": 1
+        },
+        {
+          "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3261,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:02:27.853Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-1bd0b6a6738cdde592f7",
+          "file": "voice-chat.spec.ts",
+          "line": 44,
+          "column": 1
+        },
+        {
+          "title": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                    "line": 13,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 123,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:04:19.754Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\voice-chat.spec.ts",
+                        "line": 13,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-de6da34388a30b9d5d04",
+          "file": "voice-chat.spec.ts",
+          "line": 12,
+          "column": 1
+        },
+        {
+          "title": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14172,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:04:20.055Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-fbbf61e71334dea6640f",
+          "file": "voice-chat.spec.ts",
+          "line": 35,
+          "column": 1
+        },
+        {
+          "title": "free-for-all exposes only open voice and leaves microphone capture stopped",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3488,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:04:34.243Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d49f28e16a671a2f72a9-99064b3767ae4affcb16",
+          "file": "voice-chat.spec.ts",
+          "line": 44,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T22:58:12.471Z",
+    "duration": 385943.17699999997,
+    "expected": 32,
+    "skipped": 5,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

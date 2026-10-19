@@ -1,0 +1,20 @@
+
+> kingdom-lanka@1.0.0 build
+> tsc --noEmit && vite build && npm run build:server
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 1655 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                      0.75 kB │ gzip:   0.42 kB
+dist/assets/worker-CmAOCuz6.js      81.11 kB
+dist/assets/index-CxQm0Jab.css      85.63 kB │ gzip:  16.53 kB
+dist/assets/interface-B0-6IVtC.js  233.56 kB │ gzip:  73.40 kB
+dist/assets/index-D9Nbx90C.js      279.44 kB │ gzip:  94.75 kB
+dist/assets/graphics-B7kiFtsR.js   650.92 kB │ gzip: 165.81 kB
+✓ built in 9.23s
+
+> kingdom-lanka@1.0.0 build:server
+> node scripts/build-server.mjs
+

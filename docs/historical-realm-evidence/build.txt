@@ -1,0 +1,20 @@
+
+> ironvale@1.0.0 build
+> tsc --noEmit && vite build && npm run build:server
+
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 1649 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                      0.73 kB │ gzip:   0.42 kB
+dist/assets/worker-D4AvXXDs.js      72.61 kB
+dist/assets/index-jdCpMz0S.css      82.71 kB │ gzip:  15.90 kB
+dist/assets/interface-B0-6IVtC.js  233.56 kB │ gzip:  73.40 kB
+dist/assets/index-CRqSuxWP.js      251.39 kB │ gzip:  85.05 kB
+dist/assets/graphics-B7kiFtsR.js   650.92 kB │ gzip: 165.81 kB
+✓ built in 3.47s
+
+> ironvale@1.0.0 build:server
+> node scripts/build-server.mjs
+

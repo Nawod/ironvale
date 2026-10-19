@@ -7,7 +7,7 @@ import {validateCommand} from '../server/validation';
 import {wallLineTiles,MAX_WALL_LINE_TILES} from '../src/sim/wall-lines';
 import type {Command,Entity,GameState,Position} from '../src/sim/types';
 
-function setup(){const s=createGame({opponents:1,difficulty:'easy',seed:42});for(const e of Object.values(s.entities))if(e.type!=='capital')delete s.entities[e.id];s.terrain.fill(0);s.visible.forEach(v=>v.fill(1));s.explored.forEach(v=>v.fill(1));s.players.forEach(p=>{p.controller='human';p.age=2;p.resources={wood:2000,stone:2000,food:2000,gold:2000};});const w=spawn(s,'unit','villager',0,{x:23,y:24});return{s,w};}
+function setup(){const s=createGame({opponents:1,difficulty:'easy',seed:42});for(const e of Object.values(s.entities))if(e.type!=='capital')delete s.entities[e.id];s.terrain.fill(0);s.elevation?.fill(0);s.visible.forEach(v=>v.fill(1));s.explored.forEach(v=>v.fill(1));s.players.forEach(p=>{p.controller='human';p.age=2;p.resources={wood:2000,stone:2000,food:2000,gold:2000};});const w=spawn(s,'unit','villager',0,{x:23,y:24});return{s,w};}
 function line(s:GameState,w:Entity,start:Position={x:24,y:24},end:Position={x:26,y:25},extra:Record<string,unknown>={}){return command(s,{type:'buildWallLine',player:0,workers:[w.id],building:'palisade',start,end,...extra} as Command);}
 function sites(s:GameState){return Object.values(s.entities).filter(e=>e.type==='palisade'||e.type==='wall');}
 function unchanged(s:GameState,run:()=>unknown,pattern:RegExp){const before=JSON.stringify(s);expect(run()).toMatch(pattern);expect(JSON.stringify(s)).toBe(before);}
@@ -40,7 +40,7 @@ it.each(['water','bridge','ford','gate','house','enemy','resource','ruin'])('rej
 });
 it('rejects insufficient funds, locked stone walls, invalid routes and no usable workers without mutation',()=>{
  const{s,w}=setup();s.players[0].resources.wood=8;unchanged(s,()=>line(s,w),/resources/i);s.players[0].age=1;unchanged(s,()=>line(s,w,undefined,undefined,{building:'wall'}),/advance/i);
- for(const [start,end]of [[{x:NaN,y:24},{x:25,y:24}],[{x:24,y:24},{x:90,y:24}],[{x:0,y:24},{x:25,y:24}],[{x:94,y:24},{x:94,y:24}]] as [Position,Position][])unchanged(s,()=>line(s,w,start,end),/line|map|land/i);
+ for(const [start,end]of [[{x:NaN,y:24},{x:25,y:24}],[{x:24,y:24},{x:90,y:24}],[{x:0,y:24},{x:25,y:24}],[{x:s.size-2,y:24},{x:s.size-2,y:24}]] as [Position,Position][])unchanged(s,()=>line(s,w,start,end),/line|map|land/i);
  for(const extra of [{workers:[]},{workers:[-1]},{workers:[w.id+100]},{workers:Array(1001).fill(w.id)},{building:'gate'}])unchanged(s,()=>line(s,w,undefined,undefined,extra),/villager|selection|wall/i);
  for(const extra of [{hp:0},{owner:1},{garrisoned:123},{kind:'resource' as const}]){Object.assign(w,{hp:55,owner:0,garrisoned:undefined,kind:'unit'},extra);unchanged(s,()=>line(s,w),/villager/i);}
 });
@@ -61,7 +61,8 @@ it('shares bounded reversed, vertical, single-tile and maximum-length routes wit
  const start={x:5.9,y:8.2},end={x:3.7,y:6.4};expect(wallLineTiles(start,end)).toEqual([{x:5,y:8},{x:4,y:8},{x:3,y:8},{x:3,y:7},{x:3,y:6}]);expect(start).toEqual({x:5.9,y:8.2});expect(end).toEqual({x:3.7,y:6.4});
  expect(wallLineTiles({x:5,y:8},{x:5,y:6})).toEqual([{x:5,y:8},{x:5,y:7},{x:5,y:6}]);expect(wallLineTiles({x:5,y:8},{x:5,y:8})).toEqual([{x:5,y:8}]);
  expect(wallLineTiles({x:1,y:1},{x:MAX_WALL_LINE_TILES,y:1})).toHaveLength(64);expect(wallLineTiles({x:1,y:1},{x:65,y:1})).toBeUndefined();
- for(const value of [NaN,Infinity,-1,193,Number.MAX_SAFE_INTEGER])expect(wallLineTiles({x:value,y:1},{x:1,y:1})).toBeUndefined();
+ for(const value of [NaN,Infinity,-1,257,Number.MAX_SAFE_INTEGER])expect(wallLineTiles({x:value,y:1},{x:1,y:1})).toBeUndefined();
+ expect(wallLineTiles({x:230,y:200},{x:234,y:200})).toHaveLength(5);
 });
 it('accepts the exact task capacity boundary and reuses uncompleted sites without a purchase',()=>{
  const{s,w}=setup(),a=spawn(s,'building','palisade',0,{x:24,y:24}),b=spawn(s,'building','wall',0,{x:25,y:24});a.progress=.1;b.progress=.2;
@@ -80,5 +81,5 @@ it('keeps each worker previous job when a temporary task interrupts a whole wall
 it('validates wall line commands for online transport and ignores forged player IDs',()=>{
  const c={type:'buildWallLine',player:7,building:'palisade',start:{x:24.5,y:24},end:{x:26,y:25},workers:[1,1,2]};
  expect(validateCommand(c)).toEqual({...c,player:0,workers:[1,2]});
- for(const patch of [{building:'gate'},{building:'house'},{start:{x:NaN,y:2}},{end:{x:193,y:4}},{end:{x:90,y:24}},{workers:[]},{workers:[0]},{workers:Array(1001).fill(1)},{workers:'1'}])expect(()=>validateCommand({...c,...patch})).toThrow(/invalid/i);
+ for(const patch of [{building:'gate'},{building:'house'},{start:{x:NaN,y:2}},{end:{x:257,y:4}},{end:{x:90,y:24}},{workers:[]},{workers:[0]},{workers:Array(1001).fill(1)},{workers:'1'}])expect(()=>validateCommand({...c,...patch})).toThrow(/invalid/i);
 });

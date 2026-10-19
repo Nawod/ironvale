@@ -1,4 +1,4 @@
-import type {ClientMessage,RoomView,RoomSettings} from './protocol';
+import type {ClientMessage,RoomView,RoomSettings,SnapshotPacket} from './protocol';
 import type {Snapshot} from '../sim/types';
 import {VoiceChat} from './voice';
 import type {Session,SessionMessage} from './session';
@@ -45,9 +45,12 @@ export class OnlineSession implements Session {
   else if(m.type==='queued'){this.pendingSettings=undefined;this.confirmedRoom=undefined;this.state.queued={count:m.count,waiting:m.waiting};this.state.room=undefined;this.emit();}
   else if(m.type==='started'){this.pendingSettings=undefined;this.confirmedRoom=m.room;this.state.room=m.room;this.state.playerId=m.playerId;this.state.queued=undefined;this.lastSnapshot=undefined;this.persist();this.emit();this.onStart?.(m.room,m.playerId);}
   else if(m.type==='snapshot'){
-   const packet=m.snapshot;if(!packet.terrain&&!this.lastSnapshot)return;
-   const fog:number[]=packet.fog??[...this.lastSnapshot!.fog];for(let i=0;i<(packet.fogChanges?.length??0);i+=2)fog[packet.fogChanges[i]]=packet.fogChanges[i+1];
-   const snapshot:Snapshot={...packet,terrain:packet.terrain??this.lastSnapshot!.terrain,fog};this.lastSnapshot=snapshot;this.onmessage?.({data:{type:'snapshot',snapshot}});
+   const packet:SnapshotPacket=m.snapshot,prior=this.lastSnapshot?.playerId===packet.playerId&&this.lastSnapshot.size===packet.size?this.lastSnapshot:undefined;if(!packet.terrain&&!prior)return;
+   const {fogChanges,elevationChanges,...rest}=packet,full=packet.terrain!==undefined&&packet.fog!==undefined;
+   const fog:number[]=packet.fog??(fogChanges?.length?[...prior!.fog]:prior!.fog);for(let i=0;i<(fogChanges?.length??0);i+=2)fog[fogChanges![i]]=fogChanges![i+1];
+   let elevation=packet.elevation??(full?undefined:prior?.elevation);
+   if(elevation&&elevationChanges?.length){elevation=[...elevation];for(let i=0;i<elevationChanges.length;i+=2)elevation[elevationChanges[i]]=elevationChanges[i+1];}
+   const snapshot:Snapshot={...rest,terrain:packet.terrain??prior!.terrain,fog,...(elevation?{elevation}:{})};this.lastSnapshot=snapshot;this.onmessage?.({data:{type:'snapshot',snapshot}});
   }else if(m.type==='commandResult'){const requestId=this.pendingCommands.get(m.seq);this.pendingCommands.delete(m.seq);this.commandResult(m.seq,m.error,requestId);}
   else if(m.type==='error'){this.discardPendingSettings();this.state.error=m.error;if(this.awaitingResume){this.awaitingResume=false;this.clearCredential();this.state.room=undefined;this.state.playerId=undefined;}this.emit();this.onmessage?.({data:m});}
   else if(m.type==='closed'){this.failPendingCommands(m.error);this.discardPendingSettings();this.voice.leave(false);this.state.error=m.error;this.emit();this.onmessage?.({data:{type:'error',error:m.error}});}

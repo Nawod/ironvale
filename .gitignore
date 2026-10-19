@@ -12,3 +12,5 @@ playwright-report/
 dist-server/
 server-data/
 .env
+.cache/historical/
+__pycache__/

@@ -1,13 +1,15 @@
 import {expect,test,type Page} from '@playwright/test';
 import {createGame,spawn} from '../../src/sim/world';
-import {encodeSave} from '../../src/sim/save';
+import {encodeSave,decodeSave} from '../../src/sim/save';
 import {updateVisibility} from '../../src/sim/visibility';
 import {RTSCamera} from '../../src/render/camera3d';
 import {openCommands,openGameMenu} from './hud-helpers';
 import type {GameState,Position} from '../../src/sim/types';
+import {generateRiverlands} from '../../src/sim/terrain';
 
 async function observe(page:Page){await page.addInitScript(()=>{const root=window as any,Native=Worker;root.Worker=class extends Native{constructor(url:string|URL,options?:WorkerOptions){super(url,options);this.addEventListener('message',event=>{if(event.data.type==='snapshot')root.__riverSnapshot=event.data.snapshot;});}};});}
 async function load(page:Page,s:GameState){
+ decodeSave(encodeSave(s));
  await page.goto('/');await page.evaluate(text=>new Promise<void>(resolve=>{const request=indexedDB.open('ironvale-saves',1);request.onupgradeneeded=()=>request.result.createObjectStore('matches',{keyPath:'slot'});request.onsuccess=()=>{const db=request.result,tx=db.transaction('matches','readwrite');tx.objectStore('matches').put({slot:'manual',text,date:new Date().toISOString()});tx.oncomplete=()=>{db.close();resolve();};};}),encodeSave(s));
  await page.reload();await page.getByRole('button',{name:'Load saved match',exact:true}).click();await page.getByRole('button',{name:'Resume match',exact:true}).click();await expect(page.locator('[data-testid="battlefield"] canvas')).toHaveAttribute('data-model-detail','ready',{timeout:40000});
 }
@@ -16,7 +18,7 @@ async function centerMap(page:Page,point:Position,size:number){
 }
 test('map choice is readable and retained when returning from a paused match',async({page},info)=>{
  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await observe(page);await page.goto('/');const choice=page.getByLabel('Map type',{exact:true});await expect(choice).toHaveValue('riverlands');await choice.scrollIntoViewIfNeeded();expect(await choice.evaluate(e=>e.getBoundingClientRect().height)).toBeGreaterThanOrEqual(44);await choice.selectOption('lowlands');
- await page.getByRole('button',{name:'Begin your reign',exact:true}).click();await expect(page.locator('[data-testid="battlefield"] canvas')).toHaveAttribute('data-map-type','lowlands');await expect.poll(()=>page.evaluate(()=>(window as any).__riverSnapshot?.terrain.every((v:number)=>v<3))).toBe(true);
+ await page.getByRole('button',{name:'Begin your reign',exact:true}).click();await expect(page.locator('[data-testid="battlefield"] canvas')).toHaveAttribute('data-map-type','lowlands');await expect.poll(()=>page.evaluate(()=>(window as any).__riverSnapshot?.terrain.includes(6))).toBe(true);
  const menu=await openGameMenu(page);await menu.getByRole('button',{name:'Main menu',exact:true}).click();await choice.selectOption('riverlands');await page.waitForTimeout(600);await expect(choice).toHaveValue('riverlands');await page.getByRole('button',{name:'Begin your reign',exact:true}).click();await expect(page.locator('[data-testid="battlefield"] canvas')).toHaveAttribute('data-map-type','riverlands');
  await expect.poll(()=>page.evaluate(()=>(window as any).__riverSnapshot?.terrain.includes(3))).toBe(true);expect(errors).toEqual([]);await page.screenshot({path:`test-results/${info.project.name}-riverlands-start.png`});
 });
@@ -24,6 +26,10 @@ test('map choice is readable and retained when returning from a paused match',as
 test('a real army crosses the bridge and construction rejects deep water',async({page},info)=>{
  test.setTimeout(90000);if(info.project.name==='phone')await page.setViewportSize({width:844,height:390});const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});await observe(page);
  const s=createGame({opponents:1,difficulty:'easy',seed:42,mapType:'riverlands'});s.players.forEach(p=>p.controller='human');s.players[0].age=3;s.players[0].resources={food:10000,wood:10000,stone:10000,gold:10000};
+ // Deliberately controlled bridge arena tests routing; generated relief is
+ // covered separately, without assuming where any random map puts a crossing.
+ s.terrain.fill(0);s.elevation?.fill(0);generateRiverlands(s.terrain,s.size,42,s.players.map(p=>s.entities[p.capital]));
+ for(const e of Object.values(s.entities))if(e.kind!=='building'&&s.terrain[Math.floor(e.y)*s.size+Math.floor(e.x)]===3)delete s.entities[e.id];
  const y=Math.round(s.size*.33),xs=s.terrain.slice(y*s.size,(y+1)*s.size).flatMap((t,x)=>t===5?[x]:[]),left=Math.min(...xs),right=Math.max(...xs),focus={x:(left+right+1)/2,y:y+.5};
  for(const e of Object.values(s.entities))if(e.kind==='unit'&&e.owner===0||e.kind==='resource'&&Math.hypot(e.x-focus.x,e.y-focus.y)<18)delete s.entities[e.id];
  const cap=s.entities[s.players[0].capital];cap.x=left-13;cap.y=y-9;
@@ -39,12 +45,12 @@ test('a real army crosses the bridge and construction rejects deep water',async(
 });
 
 test('private multiplayer retains the selected map through settings changes and reconnect',async({page,browser},info)=>{
- test.skip(info.project.name!=='desktop');test.setTimeout(90000);const context=await browser.newContext(),friend=await context.newPage();let latest:any;page.on('websocket',socket=>socket.on('framereceived',frame=>{try{const m=JSON.parse(String(frame.payload));if(m.type==='snapshot')latest={...m.snapshot,terrain:m.snapshot.terrain??latest?.terrain};}catch{}}));
+ test.skip(info.project.name!=='desktop');test.setTimeout(90000);const context=await browser.newContext(),friend=await context.newPage();let latest:any;page.on('websocket',socket=>socket.on('framereceived',frame=>{try{const m=JSON.parse(String(frame.payload));if(m.type==='snapshot'){const elevation=m.snapshot.elevation??latest?.elevation;for(let i=0;i<(m.snapshot.elevationChanges?.length??0);i+=2)elevation[m.snapshot.elevationChanges[i]]=m.snapshot.elevationChanges[i+1];latest={...m.snapshot,terrain:m.snapshot.terrain??latest?.terrain,elevation};}}catch{}}));
  try{
   for(const [p,name]of [[page,'River host'],[friend,'River guest']]as const){await p.goto('/');await p.getByRole('button',{name:'Play with Freinds',exact:true}).click();await p.getByLabel('Your name').fill(name);}
   await page.getByRole('button',{name:'Create room',exact:true}).click();await expect(page.getByLabel('Online map type',{exact:true})).toHaveValue('riverlands');await page.getByRole('button',{name:'Open room',exact:true}).click();await page.getByLabel('Room map type',{exact:true}).selectOption('lowlands');await page.getByLabel('Room map type',{exact:true}).selectOption('riverlands');await page.getByLabel('Room zombie mode',{exact:true}).check();await expect(page.getByLabel('Room map type',{exact:true})).toHaveValue('riverlands');
-  const code=(await page.getByTestId('room-code').textContent())!;await friend.getByRole('button',{name:'Join room',exact:true}).click();await friend.getByLabel('Room code').fill(code);await friend.getByRole('button',{name:'Join friends',exact:true}).click();await expect(friend.locator('#room-map-description')).toContainText('Riverlands');for(const p of [page,friend])await p.getByRole('button',{name:'Ready',exact:true}).click();await page.getByRole('button',{name:'Start match',exact:true}).click();
-  await expect.poll(()=>latest?.config.mapType).toBe('riverlands');expect(latest.terrain.includes(3)).toBe(true);expect(latest.config.zombies).toBe(true);await page.reload();await expect(page.locator('[data-testid="battlefield"] canvas')).toHaveAttribute('data-map-type','riverlands');expect(latest.config.mapType).toBe('riverlands');
+  await page.getByLabel('Room map size',{exact:true}).selectOption('huge');const code=(await page.getByTestId('room-code').textContent())!;await friend.getByRole('button',{name:'Join room',exact:true}).click();await friend.getByLabel('Room code').fill(code);await friend.getByRole('button',{name:'Join friends',exact:true}).click();await expect(friend.locator('#room-map-description')).toContainText('Riverlands');await expect(friend.locator('.team-rules').filter({hasText:'Map seed:'})).toContainText('256');for(const p of [page,friend])await p.getByRole('button',{name:'Ready',exact:true}).click();await page.getByRole('button',{name:'Start match',exact:true}).click();
+  await expect.poll(()=>latest?.config.mapType).toBe('riverlands');expect(latest.terrain.includes(3)).toBe(true);expect(latest.terrain.includes(6)).toBe(true);expect(latest.config.zombies).toBe(true);expect(latest.size).toBe(256);expect(latest.elevation).toHaveLength((latest.size+1)**2);await page.reload();await expect(page.locator('[data-testid="battlefield"] canvas')).toHaveAttribute('data-map-type','riverlands');await expect(page.locator('[data-testid="battlefield"] canvas')).toHaveAttribute('data-map-size','256');expect(latest.config.mapType).toBe('riverlands');
  }finally{await context.close();}
 });
 

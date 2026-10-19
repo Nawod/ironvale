@@ -1,15 +1,19 @@
+import {airborne} from './factions';
 import type {Entity,Formation,GameState,Position} from './types';
 import {blockedGrid,buildingSize} from './navigation';
 import {seen} from './visibility';
 
 export const FORMATIONS:readonly Formation[]=['line','box','spread'];
 export const validSelection=(ids:unknown):ids is number[]=>Array.isArray(ids)&&ids.length>0&&ids.length<=1000&&ids.every(id=>Number.isSafeInteger(id)&&id>0);
-const role=(e:Entity)=>['ram','trebuchet'].includes(e.type)?2:['archer','crossbowman'].includes(e.type)?1:0;
+const role=(e:Entity)=>['ram','trebuchet','cannon'].includes(e.type)?2:['archer','crossbowman','musketeer','rifleman'].includes(e.type)?1:0;
 
 /** One flood fill per command, never one path search per soldier. Slots use actual
  * navigation cells, so rounding during travel cannot collapse nearby troops. */
 export function formationDestinations(s:GameState,units:Entity[],destination:Position):Map<number,Position>{
- const result=new Map<number,Position>();if(!units.length)return result;
+ const result=new Map<number,Position>();
+ const flying=units.filter(airborne).sort((a,b)=>a.id-b.id);
+ for(const [i,e]of flying.entries())result.set(e.id,{x:Math.max(1.5,Math.min(s.size-1.5,destination.x+(i-(flying.length-1)/2)*1.5)),y:Math.max(1.5,Math.min(s.size-1.5,destination.y))});
+ units=units.filter(e=>!airborne(e));if(!units.length)return result;
  // Destination orders are returned to the player immediately. Hidden live
  // obstacles must not alter those orders and disclose their current footprints.
  const owner=units[0].owner,known:Record<number,Entity>={};

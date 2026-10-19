@@ -4,6 +4,8 @@ import {isBlockedTerrain,TERRAIN} from './terrain';
 export function battlefieldSize(players:number,mapSize:MapSize='large'):number{
  return mapSize==='huge'?256:(mapSize==='standard'?128:160)+Math.floor((players-1)/2)*32;
 }
+export type WaterLayout='meander'|'lake-chain'|'basins';
+export const waterLayout=(seed:number):WaterLayout=>(['meander','lake-chain','basins'] as const)[(seed>>>0)%3];
 function seeded(seed:number):()=>number{let state=(seed>>>0)||1;return()=>{state^=state<<13;state^=state>>>17;state^=state<<5;return (state>>>0)/4294967296;};}
 const smooth=(t:number)=>t*t*(3-2*t);
 function noise(seed:number,x:number,y:number):number{
@@ -36,7 +38,11 @@ export function generateBattlefield(size:number,seed:number,mapType:MapType,star
  const paintWater=(x:number,y:number,radius:number)=>{
   for(let cy=Math.max(0,Math.floor(y-radius));cy<=Math.min(size-1,Math.ceil(y+radius));cy++)for(let cx=Math.max(0,Math.floor(x-radius));cx<=Math.min(size-1,Math.ceil(x+radius));cx++)if(Math.hypot(cx+.5-x,cy+.5-y)<=radius&&protectedDistance(cx+.5,cy+.5)>18){terrain[cy*size+cx]=TERRAIN.water;heights[cy*size+cx]=0;}
  };
- if(mapType==='riverlands'){
+ const lake=(cx:number,cy:number,rx:number,ry:number,salt:number)=>{
+  for(let y=Math.max(1,Math.floor(cy-ry*1.25));y<Math.min(size-1,cy+ry*1.25);y++)for(let x=Math.max(1,Math.floor(cx-rx*1.25));x<Math.min(size-1,cx+rx*1.25);x++)if(((x-cx)/rx)**2+((y-cy)/ry)**2<.8+noise(seed+100+salt,x/5,y/5)*.4&&protectedDistance(x+.5,y+.5)>18){terrain[y*size+x]=TERRAIN.water;heights[y*size+x]=0;}
+ };
+ const layout=waterLayout(seed);
+ if(mapType==='riverlands'&&layout==='meander'){
   const angle=rng()*Math.PI,phase=rng()*Math.PI*2,offset=(rng()-.5)*size*.15,channel:Position[]=[];
   for(let t=-size;t<=size;t+=.8){const bend=offset+Math.sin(t/size*8+phase)*size*.105+Math.sin(t/size*17+phase)*size*.025;const p={x:size/2+Math.cos(angle)*t-Math.sin(angle)*bend,y:size/2+Math.sin(angle)*t+Math.cos(angle)*bend};channel.push(p);paintWater(p.x,p.y,3.1+(1+Math.sin(t/size*12+phase))*1.7);}
   // Two broad permanent crossings, wherever this seed's channel runs.
@@ -45,11 +51,27 @@ export function generateBattlefield(size:number,seed:number,mapType:MapType,star
    for(let y=Math.max(0,Math.floor(at.y-11));y<Math.min(size,Math.ceil(at.y+11));y++)for(let x=Math.max(0,Math.floor(at.x-11));x<Math.min(size,Math.ceil(at.x+11));x++)if(terrain[y*size+x]===TERRAIN.water&&Math.abs((x+.5-at.x)*Math.cos(angle)+(y+.5-at.y)*Math.sin(angle))<2.3)terrain[y*size+x]=index?TERRAIN.ford:TERRAIN.bridge;
   }
  }
+ if(mapType==='riverlands'&&layout==='lake-chain'){
+  const angle=rng()*Math.PI,phase=rng()*Math.PI*2,count=3+Math.floor(size/100);
+  for(let j=0;j<count;j++){
+   const along=(j/(count-1)-.5)*size*.55,across=Math.sin(j*1.8+phase)*size*.09;
+   const cx=size/2+Math.cos(angle)*along-Math.sin(angle)*across,cy=size/2+Math.sin(angle)*along+Math.cos(angle)*across,radius=size*(.065+rng()*.02);
+   lake(cx,cy,radius,radius*(.7+rng()*.45),j);
+  }
+ }
+ if(mapType==='riverlands'&&layout==='basins'){
+  const angle=rng()*Math.PI,phase=rng()*Math.PI*2;
+  for(let branch=0;branch<2;branch++){
+   const offset=(branch?1:-1)*size*.16,cx=size/2-Math.sin(angle)*offset,cy=size/2+Math.cos(angle)*offset;
+   for(let t=-size*.17;t<=size*.17;t+=.8){const bend=Math.sin(t/size*20+phase+branch)*size*.035;paintWater(cx+Math.cos(angle)*t-Math.sin(angle)*bend,cy+Math.sin(angle)*t+Math.cos(angle)*bend,3.2+(1+Math.sin(t/size*24+phase))*1.1);}
+   lake(cx+Math.cos(angle)*size*.15,cy+Math.sin(angle)*size*.15,size*(.06+rng()*.02),size*(.045+rng()*.015),branch);
+  }
+ }
  // Lakes vary in count, position, size and coastline; lowlands remain mostly dry.
- const lakeCount=mapType==='riverlands'?1+Math.floor(rng()*3):Math.floor(rng()*3);
+ const lakeCount=mapType==='riverlands'?(layout==='meander'?1+Math.floor(rng()*3):0):Math.floor(rng()*3);
  for(let j=0;j<lakeCount;j++){
   const cx=size*(.15+rng()*.7),cy=size*(.15+rng()*.7),rx=size*(.025+rng()*.04),ry=rx*(.6+rng()*.7);
-  for(let y=Math.max(0,Math.floor(cy-ry*1.25));y<Math.min(size,cy+ry*1.25);y++)for(let x=Math.max(0,Math.floor(cx-rx*1.25));x<Math.min(size,cx+rx*1.25);x++)if(((x-cx)/rx)**2+((y-cy)/ry)**2<.8+noise(seed+100+j,x/5,y/5)*.4&&protectedDistance(x+.5,y+.5)>18){terrain[y*size+x]=TERRAIN.water;heights[y*size+x]=0;}
+  lake(cx,cy,rx,ry,j);
  }
  // A shared flat start circle contains the identical opening economy.
  for(let y=0;y<size;y++)for(let x=0;x<size;x++){

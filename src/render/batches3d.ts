@@ -27,6 +27,6 @@ export class ModelBatches {
  }
  end():void{for(const b of this.batches.values()){b.mesh.count=b.count;b.mesh.visible=b.count>0;if(b.count){b.mesh.instanceMatrix.needsUpdate=true;if(b.colorDirty&&b.mesh.instanceColor)b.mesh.instanceColor.needsUpdate=true;}}}
  dispose():void{for(const b of this.batches.values()){this.scene.remove(b.mesh);b.mesh.dispose();}this.batches.clear();}
- pick(ray:import('three').Raycaster):number|undefined{const meshes:InstancedMesh[]=[];for(const b of this.batches.values())if(b.count){b.mesh.computeBoundingSphere();b.mesh.updateMatrixWorld();meshes.push(b.mesh);}for(const hit of ray.intersectObjects(meshes,false)){if(hit.instanceId===undefined)continue;for(const b of this.batches.values())if(b.mesh===hit.object)return b.ids[hit.instanceId];}return undefined;}
+ pick(ray:import('three').Raycaster,maxDistance=Infinity):number|undefined{const meshes:InstancedMesh[]=[];for(const b of this.batches.values())if(b.count){b.mesh.computeBoundingSphere();b.mesh.updateMatrixWorld();meshes.push(b.mesh);}for(const hit of ray.intersectObjects(meshes,false)){if(hit.distance>maxDistance||hit.instanceId===undefined)continue;for(const b of this.batches.values())if(b.mesh===hit.object)return b.ids[hit.instanceId];}return undefined;}
  drawCalls():number{return [...this.batches.values()].filter(b=>b.count>0).length;}
 }

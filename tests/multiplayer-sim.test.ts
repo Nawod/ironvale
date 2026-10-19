@@ -18,7 +18,7 @@ it('rejects construction orders against units and completed buildings without fr
 });
 it.each([2,3,4,5,6,7,8])('creates %i equal empires with distinct colors',count=>{
  const s=createGame({opponents:(count-1) as any,difficulty:'normal',seed:42});
- expect(s.players).toHaveLength(count);expect(s.size).toBe(count===2?96:count<=4?128:count<=6?160:192);
+ expect(s.players).toHaveLength(count);expect(s.size).toBe(count===2?160:count<=4?192:count<=6?224:256);
  expect(new Set(s.players.map(p=>p.color)).size).toBe(count);
  for(const p of s.players){expect(p.resources).toEqual(s.players[0].resources);expect(Object.values(s.entities).filter(e=>e.owner===p.id&&e.type==='villager')).toHaveLength(6);expect(s.entities[p.capital]).toBeDefined();}
  expect(decodeSave(encodeSave(s))).toEqual(s);

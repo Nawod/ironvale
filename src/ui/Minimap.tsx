@@ -27,5 +27,5 @@ export function Minimap({snapshot:s,center,viewport}:{snapshot:Snapshot;center:(
  return <button className="minimap" aria-label="Navigate the map" title="Click or tap to navigate. Enter returns to your city." onClick={e=>{
   if(e.detail===0){const cap=s.entities.find(entity=>entity.id===s.players[s.playerId].capital);center(cap?{x:cap.x+1.5,y:cap.y+1.5}:{x:s.size/2,y:s.size/2});return;}
   const r=ref.current!.getBoundingClientRect();center({x:Math.max(0,Math.min(s.size,(e.clientX-r.left)/r.width*s.size)),y:Math.max(0,Math.min(s.size,(e.clientY-r.top)/r.height*s.size))});
- }}><canvas ref={ref} width={160} height={160}/><span>Ironvale</span><i className="minimap-north" aria-hidden="true">N</i></button>;
+ }}><canvas ref={ref} width={160} height={160}/><span>Kingdom Lanka</span><i className="minimap-north" aria-hidden="true">N</i></button>;
 }

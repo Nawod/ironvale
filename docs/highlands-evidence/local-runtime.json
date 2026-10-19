@@ -1,0 +1,94 @@
+{
+  "verifiedAt": "2026-10-18T17:40:22.743Z",
+  "origin": "http://localhost:8180",
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "errors": [],
+  "captures": [
+    {
+      "name": "desktop-highlands",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "seed": 778,
+      "size": 160,
+      "details": {
+        "reeds": 17,
+        "lilies": 8,
+        "flowers": 40,
+        "ferns": 118,
+        "total": 183,
+        "limit": 480
+      },
+      "materials": "ready",
+      "relief": "heightfield"
+    },
+    {
+      "name": "desktop-highlands-night",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "seed": 778,
+      "size": 160,
+      "details": {
+        "reeds": 17,
+        "lilies": 8,
+        "flowers": 40,
+        "ferns": 118,
+        "total": 183,
+        "limit": 480
+      },
+      "materials": "ready",
+      "relief": "heightfield"
+    },
+    {
+      "name": "desktop-gold-deposit",
+      "selection": "Gold deposit",
+      "ordinaryNewGame": true
+    },
+    {
+      "name": "phone-landscape-highlands",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "seed": 778,
+      "size": 160,
+      "details": {
+        "reeds": 17,
+        "lilies": 8,
+        "flowers": 39,
+        "ferns": 116,
+        "total": 180,
+        "limit": 180
+      },
+      "materials": "ready",
+      "relief": "heightfield"
+    },
+    {
+      "name": "phone-portrait-highlands",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 778,
+      "size": 160,
+      "details": {
+        "reeds": 17,
+        "lilies": 8,
+        "flowers": 39,
+        "ferns": 116,
+        "total": 180,
+        "limit": 180
+      },
+      "materials": "ready",
+      "relief": "heightfield"
+    }
+  ],
+  "limits": "Actual local production browser captures. Highlands scenes use a prepared settlement/scouting on seed778 generated terrain, ordinary models/HP; ordinary start and gold use an unmodified seed42 new game. Phone checks are Chromium emulation on a desktop GPU, not physical hardware. Night uses the same prepared city at the normal authoritative night tick."
+}

@@ -1,0 +1,10 @@
+import {unitStats,airborne,populationCost} from '../sim/factions';
+import {attackRange} from '../sim/combat-tactics';
+import type {Entity,Snapshot,UnitType} from '../sim/types';
+
+const roles:Partial<Record<UnitType,string>>={spearman:'Mounted units are the preferred target.',pikeman:'Mounted units are the preferred target.',cavalry:'Archers and crossbowmen are the preferred targets.',heavyCavalry:'Archers and crossbowmen are the preferred targets.',archer:'Spearmen and pikemen are the preferred targets.',crossbowman:'Spearmen and pikemen are the preferred targets.',ram:'Built to break fortifications.',trebuchet:'Arcing siege fire against fortifications.',scout:'Fast reconnaissance and wide vision.',zombie:'Night raider · retreats to the forest at dawn.',warElephant:'Heavy assault animal. Spearmen, pikemen and concentrated ranged fire are its counters.',champion:'Elite champion. Epic warriors are a game interpretation.',musketeer:'Slow firearm infantry. Protect it from cavalry.',rifleman:'Long-range firearm infantry. Expensive and vulnerable to a close charge.',cannon:'Slow artillery for breaking fortifications. Protect it from flanking troops.',danduMonara:'Legendary flying craft. Crosses water and mountains; ranged troops can hit it. Cannot occupy or garrison.'};
+export function UnitTactics({unit,snapshot:s}:{unit:Entity;snapshot:Snapshot}){
+ if(unit.kind!=='unit')return null;const def=unitStats(unit.type as UnitType,s.players[unit.owner]);if(!def)return null;
+ const range=attackRange(s,unit),owner=s.players[unit.owner],damage=def.damage+(owner?.weapons??0)*3,armor=def.armor+(owner?.armor??0)*2;
+ return <aside className="unit-tactics" aria-label="Unit tactics"><p><strong>{damage} attack</strong><span>{armor} armor</span><span>{range.base} range</span><span>{populationCost(unit.type as UnitType)} population{airborne(unit)?' · Airborne':''}</span></p><small>{roles[unit.type as UnitType]}{range.bonus>0&&<> Range up to {Number(range.max.toFixed(1))} downhill; mountains can block fire.</>}</small></aside>;
+}

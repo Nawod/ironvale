@@ -1,0 +1,19 @@
+{
+  "units": 800,
+  "ticks": 1200,
+  "factions": [
+    "anuradhapura",
+    "kandy",
+    "chola",
+    "elara",
+    "portuguese",
+    "dutch",
+    "british",
+    "ravana"
+  ],
+  "meanMs": 4.292520583333333,
+  "p95Ms": 10.205600000000004,
+  "maxMs": 204.31780000000003,
+  "tickBudgetMs": 50,
+  "limits": "Synthetic simulation-only stress test with 100 directly spawned faction troops per empire; bypasses recruitment/housing. Does not measure renderer FPS or physical-phone performance."
+}

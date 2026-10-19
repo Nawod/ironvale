@@ -61,6 +61,9 @@
 .game-screen .wall-plan-actions button:disabled{opacity:.5}
 .game-screen .wall-line-choice{border-color:#cdb47799;background:#3c513655}
 .game-screen[data-hud-compact="true"] .wall-plan-tray{left:8px;right:8px;bottom:80px;transform:none;width:auto;max-width:none;display:grid;grid-template-columns:minmax(0,1fr);gap:7px;padding:8px}
+.unit-tactics{padding:8px 10px;margin:0 0 8px;border-left:2px solid #b49a57;background:#20271bd9;color:#e9dfbf}
+.unit-tactics p{display:flex;flex-wrap:wrap;gap:6px 14px;margin:0 0 4px;font-size:14px}
+.unit-tactics small{display:block;font-size:14px;line-height:1.4;color:#c8c7a8}
 .game-screen[data-hud-compact="true"] .wall-plan-copy{max-width:none}
 .game-screen[data-hud-compact="true"] .wall-plan-actions{justify-content:stretch}
 .game-screen[data-hud-compact="true"] .wall-plan-actions button{flex:1}

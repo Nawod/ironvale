@@ -1,0 +1,187 @@
+{
+  "verifiedAt": "2026-10-19T09:15:41.672Z",
+  "origin": "http://localhost:8180",
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "welcome": "welcome",
+  "assets": [
+    {
+      "path": "/models/lanka/characters.json",
+      "status": 200,
+      "bytes": "73377",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/models/lanka/characters.bin",
+      "status": 200,
+      "bytes": "10256736",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/models/lanka/LICENSE.txt",
+      "status": 200,
+      "bytes": "480",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/art/portraits/lanka-ravana-danduMonara-0-age1.webp",
+      "status": 200,
+      "bytes": "3344",
+      "cache": "no-cache"
+    }
+  ],
+  "errors": [],
+  "captures": [
+    {
+      "name": "desktop-anuradhapura",
+      "faction": "anuradhapura",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "status": "ready",
+        "geometries": 1692,
+        "geometryBytes": 44813568,
+        "triangles": 560400,
+        "materials": 81,
+        "textures": 12,
+        "cachedFrames": 76800,
+        "liveMixers": 0
+      },
+      "historical": "inactive"
+    },
+    {
+      "name": "desktop-chola",
+      "faction": "chola",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "status": "ready",
+        "geometries": 1692,
+        "geometryBytes": 44813568,
+        "triangles": 560400,
+        "materials": 81,
+        "textures": 12,
+        "cachedFrames": 76800,
+        "liveMixers": 0
+      },
+      "historical": "inactive"
+    },
+    {
+      "name": "desktop-british",
+      "faction": "british",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "status": "ready",
+        "geometries": 1692,
+        "geometryBytes": 44813568,
+        "triangles": 560400,
+        "materials": 81,
+        "textures": 12,
+        "cachedFrames": 76800,
+        "liveMixers": 0
+      },
+      "historical": "inactive"
+    },
+    {
+      "name": "desktop-ravana",
+      "faction": "ravana",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "status": "ready",
+        "geometries": 1692,
+        "geometryBytes": 44813568,
+        "triangles": 560400,
+        "materials": 81,
+        "textures": 12,
+        "cachedFrames": 76800,
+        "liveMixers": 0
+      },
+      "historical": "inactive"
+    },
+    {
+      "name": "desktop-ravana-night",
+      "faction": "ravana",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "status": "ready",
+        "geometries": 1692,
+        "geometryBytes": 44813568,
+        "triangles": 560400,
+        "materials": 81,
+        "textures": 12,
+        "cachedFrames": 76800,
+        "liveMixers": 0
+      },
+      "historical": "inactive"
+    },
+    {
+      "name": "phone-landscape-city",
+      "faction": "anuradhapura",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "status": "ready",
+        "geometries": 1692,
+        "geometryBytes": 44813568,
+        "triangles": 560400,
+        "materials": 81,
+        "textures": 12,
+        "cachedFrames": 76800,
+        "liveMixers": 0
+      },
+      "historical": "inactive"
+    },
+    {
+      "name": "phone-portrait-city",
+      "faction": "ravana",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "status": "ready",
+        "geometries": 1692,
+        "geometryBytes": 44813568,
+        "triangles": 560400,
+        "materials": 81,
+        "textures": 12,
+        "cachedFrames": 76800,
+        "liveMixers": 0
+      },
+      "historical": "inactive"
+    }
+  ],
+  "limits": "Actual local production browser. Model comparison scenes use prepared age-three cities and normal troops/rules; ordinary-start is an unmodified British seed42 opening. Phone views are Chromium emulation on a desktop GPU, not physical-device performance. No external hosting or public internet voice verification."
+}

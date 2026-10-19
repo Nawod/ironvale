@@ -6,6 +6,7 @@ import type {BuildingType,Command,GameState,Position} from '../src/sim/types';
 
 function setup(type:BuildingType='house'){
  const s=createGame({opponents:1,difficulty:'easy',seed:42});
+ s.terrain.fill(0);s.elevation?.fill(0);
  for(const e of Object.values(s.entities))if(e.type!=='capital')delete s.entities[e.id];
  s.visible.forEach(a=>a.fill(1));s.explored.forEach(a=>a.fill(1));
  const b=spawn(s,'building',type,0,{x:30,y:30});
@@ -75,8 +76,11 @@ it('rejects exploration without current visibility and checks the entire footpri
  const{s,b}=setup();s.visible[0][31*s.size+46]=0;expect(s.explored[0][31*s.size+46]).toBe(1);
  reject(s,{type:'moveBuilding',player:0,building:b.id,point:destination});
 });
-it.each([{x:-1,y:30},{x:94,y:30},{x:45,y:94},{x:45.1,y:30},{x:NaN,y:30},{x:45,y:Infinity}])('rejects invalid destination %j atomically',(point:Position)=>{
+it.each([{x:-1,y:30},{x:45.1,y:30},{x:NaN,y:30},{x:45,y:Infinity}])('rejects invalid destination %j atomically',(point:Position)=>{
  const{s,b}=setup();reject(s,{type:'moveBuilding',player:0,building:b.id,point});
+});
+it.each(['x','y'] as const)('rejects a relocation footprint crossing the current map %s boundary atomically',axis=>{
+ const{s,b}=setup(),point={x:45,y:30,[axis]:s.size-2};reject(s,{type:'moveBuilding',player:0,building:b.id,point});
 });
 it.each(['building','resource','unit'] as const)('rejects destination collision with a %s',kind=>{
  const{s,b}=setup();spawn(s,kind,kind==='building'?'farm':kind==='resource'?'wood':'villager',kind==='resource'?-1:0,{x:46,y:31});

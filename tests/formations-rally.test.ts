@@ -11,6 +11,7 @@ import type {Command,Entity,GameState,Position} from '../src/sim/types';
 
 function setup(){
  const s=createGame({opponents:1,difficulty:'easy',seed:42});
+ s.terrain.fill(0);s.elevation?.fill(0);
  for(const e of Object.values(s.entities))if(e.type!=='capital')delete s.entities[e.id];
  s.players.forEach(p=>{p.controller='human';p.resources={food:1000,wood:1000,stone:1000,gold:1000};});
  s.visible.forEach(a=>a.fill(1));s.explored.forEach(a=>a.fill(1));return s;
@@ -48,11 +49,11 @@ it('keeps corner destinations clear of every building footprint, unique and reac
  const s=setup(),units=army(s,30);spawn(s,'building','fortress',0,{x:1,y:1});spawn(s,'building','farm',0,{x:5,y:1});
  expect(submit(s,{type:'order',player:0,ids:units.map(e=>e.id),order:{kind:'move',point:{x:1,y:1}}})).toBeNull();
  const ps=points(units);expect(new Set(ps.map(p=>`${Math.floor(p.x)},${Math.floor(p.y)}`)).size).toBe(units.length);
- for(const p of ps){expect(p.x).toBeGreaterThanOrEqual(1);expect(p.y).toBeGreaterThanOrEqual(1);expect(p.x).toBeLessThan(95);expect(p.y).toBeLessThan(95);expect(p.x<5&&p.y<5||p.x>=5&&p.x<8&&p.y<4).toBe(false);expect(pathfind(s,units[0],p,0)).not.toHaveLength(0);}
+ for(const p of ps){expect(p.x).toBeGreaterThanOrEqual(1);expect(p.y).toBeGreaterThanOrEqual(1);expect(p.x).toBeLessThan(s.size-1);expect(p.y).toBeLessThan(s.size-1);expect(p.x<5&&p.y<5||p.x>=5&&p.x<8&&p.y<4).toBe(false);expect(pathfind(s,units[0],p,0)).not.toHaveLength(0);}
  expect(Math.max(...ps.map(p=>Math.hypot(p.x-1,p.y-1)))).toBeLessThan(20);
 });
 it('chooses the reachable side of a complete wall instead of leaving soldiers stuck',()=>{
- const s=setup(),units=army(s,6);for(let y=1;y<95;y++)spawn(s,'building','wall',1,{x:45,y});
+ const s=setup(),units=army(s,6);for(let y=1;y<s.size-1;y++)spawn(s,'building','wall',1,{x:45,y});
  expect(submit(s,{type:'order',player:0,ids:units.map(e=>e.id),order:{kind:'move',point:{x:50,y:35}}})).toBeNull();
  for(const p of points(units))expect(p.x).toBeLessThan(45);
  step(s,400,false);expect(units.every(e=>e.order.kind==='idle')).toBe(true);
@@ -104,7 +105,7 @@ it('rejects unowned, unfinished, dead or nonproduction rally buildings atomicall
 });
 it('rejects invalid rally coordinates, hidden resources, enemy farms and nonresource targets',()=>{
  const s=setup(),b=s.entities[s.players[0].capital];
- for(const point of [{x:NaN,y:25},{x:20,y:Infinity},{x:-1,y:25},{x:95,y:25},{x:1000000,y:2}])reject(s,{type:'rally',player:0,building:b.id,point});
+ for(const point of [{x:NaN,y:25},{x:20,y:Infinity},{x:-1,y:25},{x:s.size-1,y:25},{x:1000000,y:2}])reject(s,{type:'rally',player:0,building:b.id,point});
  const tree=spawn(s,'resource','wood',-1,{x:50,y:50}),enemyFarm=spawn(s,'building','farm',1,{x:30,y:30});s.visible[0][50*s.size+50]=0;
  for(const target of [tree.id,enemyFarm.id,b.id,NaN,0,999999])reject(s,{type:'rally',player:0,building:b.id,point:{x:40,y:40},target});
 });
@@ -145,7 +146,7 @@ it('does not disclose a hidden moving rally source through a recruit destination
  expect(s.entities[s.nextId-1].order).toEqual({kind:'move',point:{x:26,y:25}});expect(copy.entities[copy.nextId-1].order).toEqual(s.entities[s.nextId-1].order);
 });
 it('retains each separated squad on its reachable side and orients ranks toward eastward travel',()=>{
- const s=setup(),units=army(s,12);for(let y=1;y<95;y++)spawn(s,'building','wall',1,{x:45,y});
+ const s=setup(),units=army(s,12);for(let y=1;y<s.size-1;y++)spawn(s,'building','wall',1,{x:45,y});
  units.slice(6).forEach(e=>e.x=60);
  expect(submit(s,{type:'order',player:0,ids:units.map(e=>e.id),order:{kind:'attackMove',point:{x:70,y:31}}})).toBeNull();
  expect(points(units.slice(0,6)).every(p=>p.x<45)).toBe(true);expect(points(units.slice(6)).every(p=>p.x>45)).toBe(true);

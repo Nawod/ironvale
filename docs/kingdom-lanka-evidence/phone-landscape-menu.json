@@ -1,0 +1,29 @@
+{
+  "verifiedAt": "2026-10-19T09:23:00.944Z",
+  "viewport": {
+    "width": 844,
+    "height": 390
+  },
+  "controls": [
+    {
+      "name": "Begin your reign",
+      "bounds": {
+        "x": 47,
+        "y": 195,
+        "width": 370,
+        "height": 50.796875
+      }
+    },
+    {
+      "name": "Play with Freinds",
+      "bounds": {
+        "x": 47,
+        "y": 251.796875,
+        "width": 370,
+        "height": 50.796875
+      }
+    }
+  ],
+  "errors": [],
+  "note": "Both launch actions reachable without scrolling. Compact landscape hides lengthy specialty descriptions; those remain in portrait setup and Help."
+}

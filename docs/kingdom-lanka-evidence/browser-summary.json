@@ -1,0 +1,379 @@
+{
+  "passing": 47,
+  "skipped": 9,
+  "unexpected": 0,
+  "note": "Latest exact test/project result supersedes earlier attempts. Raw runs retain initial failures; no automatic retries enabled. Focused final checks cover the corrected cases and review finding.",
+  "runs": [
+    {
+      "report": "browser-results.json",
+      "stats": {
+        "startTime": "2026-10-19T08:47:08.920Z",
+        "duration": 664357.5449999999,
+        "expected": 43,
+        "skipped": 9,
+        "unexpected": 2,
+        "flaky": 0
+      }
+    },
+    {
+      "report": "browser-final-results.json",
+      "stats": {
+        "startTime": "2026-10-19T09:04:29.248Z",
+        "duration": 125709.292,
+        "expected": 3,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      }
+    },
+    {
+      "report": "browser-online-results.json",
+      "stats": {
+        "startTime": "2026-10-19T09:08:36.027Z",
+        "duration": 38896.985,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "cases": [
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "move and remove an owned building with preserved health and a removal confirmation",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "night zombies render and daylight zombies retreat without attacking",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "an online host enables zombie mode and the guest receives the shared setting",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "move and remove an owned building with preserved health and a removal confirmation",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "night zombies render and daylight zombies retreat without attacking",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "an online host enables zombie mode and the guest receives the shared setting",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "move and remove an owned building with preserved health and a removal confirmation",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "night zombies render and daylight zombies retreat without attacking",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "an online host enables zombie mode and the guest receives the shared setting",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "Kingdom Lanka lets a commander choose historical or legendary armies before a normal solo match",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native anuradhapura army and city art render with shared assets",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native chola army and city art render with shared assets",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native british army and city art render with shared assets",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native ravana army and city art render with shared assets",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "British recruitment exposes firearm costs, population and matching portraits",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "a Ravana flying craft can be selected and moved through normal commands",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "online commanders choose independent factions, reset readiness and retain choices after reconnect",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "Kingdom Lanka lets a commander choose historical or legendary armies before a normal solo match",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native anuradhapura army and city art render with shared assets",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native chola army and city art render with shared assets",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native british army and city art render with shared assets",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native ravana army and city art render with shared assets",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "British recruitment exposes firearm costs, population and matching portraits",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "a Ravana flying craft can be selected and moved through normal commands",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "online commanders choose independent factions, reset readiness and retain choices after reconnect",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "Kingdom Lanka lets a commander choose historical or legendary armies before a normal solo match",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native anuradhapura army and city art render with shared assets",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native chola army and city art render with shared assets",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native british army and city art render with shared assets",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "native ravana army and city art render with shared assets",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "British recruitment exposes firearm costs, population and matching portraits",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "a Ravana flying craft can be selected and moved through normal commands",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "online commanders choose independent factions, reset readiness and retain choices after reconnect",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "project": "desktop",
+      "status": "skipped"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "kingdom-lanka.spec.ts",
+      "test": "starting a faction match after a legacy save switches native artwork banks",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "living-world-teams.spec.ts",
+      "test": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+      "project": "desktop",
+      "status": "expected"
+    }
+  ]
+}

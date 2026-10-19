@@ -1,0 +1,407 @@
+{
+  "title": "0 A.D. historical characters for Ironvale",
+  "authors": "Wildfire Games and 0 A.D. art contributors",
+  "authorUrl": "https://www.wildfiregames.com/",
+  "license": "CC-BY-SA-3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "repository": "https://github.com/0ad/0ad",
+  "revision": "61a3b9507d974084e6badb88a0826bd89a6d5b8b",
+  "changes": "Selective actor assembly; COLLADA CPU skinning into eight shared pose samples; Z-up to Y-up conversion; character scale; DDS to PNG conversion. Original alpha player-color masks preserved.",
+  "sources": [
+    {
+      "path": "LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/LICENSE.txt",
+      "sha256": "ef98babd771c206032e005f3d440a1e610df409d9a9191f03e64deaa4abefbd9"
+    },
+    {
+      "path": "actors/units/britons/infantry_spearman_b.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/units/britons/infantry_spearman_b.xml",
+      "sha256": "e6b799aa9023df3b982a31f5019f981eef86d0befd832805acc8caaa0ac49412"
+    },
+    {
+      "path": "actors/units/gauls/infantry_swordsman_b.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/units/gauls/infantry_swordsman_b.xml",
+      "sha256": "ab59ec8893574f8a5c37172cd1d5d9469f46e624e9875f4c6107a46e9b5ebe3d"
+    },
+    {
+      "path": "actors/units/athenians/infantry_archer_b.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/units/athenians/infantry_archer_b.xml",
+      "sha256": "0bfc2187fdd6809c67f05ab5bd5d34cb36f6200ee0f58c6aa2dc900dc76bbf9b"
+    },
+    {
+      "path": "meshes/skeletal/new/m_pants.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/skeletal/new/m_pants.dae",
+      "sha256": "5b4a1225649971a965bec27a734eee60301450d7ab009f7eac4d9d55d239fb05"
+    },
+    {
+      "path": "meshes/skeletal/new/m_tunic_short.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/skeletal/new/m_tunic_short.dae",
+      "sha256": "749666d1046f4a0f2b3f42fed0715ecc3bd5a00a8514acfb521a0b3dd3e93e98"
+    },
+    {
+      "path": "actors/props/units/heads/new/head_celt.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/heads/new/head_celt.xml",
+      "sha256": "719a5ccc8b336f3019a0ac012d0721a08ee95a9577329cfcbf365c044c2a1107"
+    },
+    {
+      "path": "textures/skins/props/head/celt_a.dds",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/head/celt_a.dds",
+      "sha256": "c6e5ffa5c672782a231ca4ee909f793ca1842a3816cd52b598d34e0b17e905c8"
+    },
+    {
+      "path": "meshes/props/new/head_longhair.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/new/head_longhair.dae",
+      "sha256": "3ee141b79819b6128dcb3ea4abda50bce857054d755c1affcb39d9f11fa8d6f5"
+    },
+    {
+      "path": "actors/props/units/weapons/spear.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/spear.xml",
+      "sha256": "df1592f782d120ec2d1a0b8b27dcc3fd1b00842d99a33e470cffcb22d9424964"
+    },
+    {
+      "path": "textures/skins/props/prop_weap.dds",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/prop_weap.dds",
+      "sha256": "761a9987655353d96cf5093d3d713a62dca98f5f605c8fef52311eac0b3a1bde"
+    },
+    {
+      "path": "meshes/props/weap_shaft_wood_a.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/weap_shaft_wood_a.dae",
+      "sha256": "94f604187c62b9bbb170e5ab514810248a850923952be29a409c27294c44ec1c"
+    },
+    {
+      "path": "actors/props/units/weapons/blades/spear_blade.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/blades/spear_blade.xml",
+      "sha256": "7ec2799030a3a261dac5fefb9a75d74374a4c7dff21ab3d90b2c260943171b55"
+    },
+    {
+      "path": "meshes/props/spear_blade_a.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/spear_blade_a.dae",
+      "sha256": "33013eaf72f8bb2ed8c9930d9a55036846b5aaa976fdb9cb64c7b23265a4e60b"
+    },
+    {
+      "path": "actors/props/units/weapons/csword.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/csword.xml",
+      "sha256": "bc4053e064def2162f89d3899bd55af4ffc3d622c811b700fa06df65378f8828"
+    },
+    {
+      "path": "meshes/props/weap_csword_a.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/weap_csword_a.dae",
+      "sha256": "7f8f8f38d394238ea1d62ac47e1eee7a4594d834c20bf2378431723cbe5f1490"
+    },
+    {
+      "path": "actors/props/units/shields/brit_shield_spear_oval_e_01.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/shields/brit_shield_spear_oval_e_01.xml",
+      "sha256": "e94c12962dfdbdc5a69127196d192aeb48a032fbbd55d73d2a84300ec2cf81a8"
+    },
+    {
+      "path": "variants/shields/celt_shield_01.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_01.xml",
+      "sha256": "7b949e2d2756ded1cc45c2457766a79ce8c8c3803583b0e38e11e662956a51b2"
+    },
+    {
+      "path": "variants/shields/celt_shield_02.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_02.xml",
+      "sha256": "a82c7d73248bbda464f99c3633525dcad70c438bc1b060ab0bfbd3fe4b27d27c"
+    },
+    {
+      "path": "variants/shields/celt_shield_03.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_03.xml",
+      "sha256": "a5a03563f831705391dcbdb87d0001926cd773f47c01285295c68135ffcc6c84"
+    },
+    {
+      "path": "variants/shields/celt_shield_04.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_04.xml",
+      "sha256": "55f88d9b92cf39e25ad63d9dfad71db797d9168b1d11031dc688791377661015"
+    },
+    {
+      "path": "variants/shields/celt_shield_05.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_05.xml",
+      "sha256": "5019052b9ec7a3bbbe99db3db7fa597a705f5f9e84c9f589a4bb9b545f15bd41"
+    },
+    {
+      "path": "variants/shields/celt_shield_06.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_06.xml",
+      "sha256": "ac89e30c83a86f54d239207fc627033339b50613cbcf1d02833560c3887bb73e"
+    },
+    {
+      "path": "variants/shields/celt_shield_07.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_07.xml",
+      "sha256": "bc65a9b563f977cd5e88b48aba84d32458e2744a29bfeea64dbc982d533d3c54"
+    },
+    {
+      "path": "variants/shields/celt_shield_08.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_08.xml",
+      "sha256": "0cedd736b680a8c75964a5f3573fb34f11e83a89747aa5392bdd701c5302677f"
+    },
+    {
+      "path": "variants/shields/celt_shield_09.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_09.xml",
+      "sha256": "a4b0c6e92bacd85dbf05afa7212df6d1619de202726b615c21f05d56f832c006"
+    },
+    {
+      "path": "variants/shields/celt_shield_10.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_10.xml",
+      "sha256": "da248176181856081bf13ba940f167f0e81a8223d6e6b71b66c0f9db966eaac8"
+    },
+    {
+      "path": "variants/shields/celt_shield_11.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_11.xml",
+      "sha256": "d4384c3879033294f3b4850228290e2b4049ba70a8db58c77bda9c9577a69dbf"
+    },
+    {
+      "path": "variants/shields/celt_shield_12.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_12.xml",
+      "sha256": "a625f4adb7da7c730570d6a485bf1e61f3c0c1d678812a9fd86124d1d690eb75"
+    },
+    {
+      "path": "variants/shields/celt_shield_13.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_13.xml",
+      "sha256": "96f935ca8afd776e4d4e876a33615285b8895fa682e3d87b31c34d4f4ed1ebf7"
+    },
+    {
+      "path": "variants/shields/celt_shield_14.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_14.xml",
+      "sha256": "a163f0f6b24914706d0ca3d8c0348caf3ee8482a48c1ac07698ee7e7027ee340"
+    },
+    {
+      "path": "variants/shields/celt_shield_15.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/celt_shield_15.xml",
+      "sha256": "eca6a0a9c6ee44ab10616ae47e421c5f012723a0a85c2fad0b87fe2ad9cbcef1"
+    },
+    {
+      "path": "variants/shields/brit_shield_01.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/brit_shield_01.xml",
+      "sha256": "1fc89826e96cde905cb23b25f6179f839e2d7579960cc144cd444c649e56d61b"
+    },
+    {
+      "path": "variants/shields/brit_shield_02.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/brit_shield_02.xml",
+      "sha256": "312333bf276be419c47ba0597906879431160ebdb0d8b786cab4cb15fd05b59a"
+    },
+    {
+      "path": "variants/shields/brit_shield_03.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/brit_shield_03.xml",
+      "sha256": "4a8e4908743702d5dee15ac5593e219c4806f86007bfc72863ec28ef8bfbc16e"
+    },
+    {
+      "path": "variants/shields/brit_shield_04.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/brit_shield_04.xml",
+      "sha256": "a04effd6e2f3b1978562cc7c25812fc7331f89ce1eac3bceeb23fb952354728e"
+    },
+    {
+      "path": "variants/shields/brit_shield_05.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/brit_shield_05.xml",
+      "sha256": "3ad72ac4ab2b4d590f1a3f6d4dc06fb661d0e5d20871a07db841408d1f3a8f54"
+    },
+    {
+      "path": "variants/shields/brit_shield_06.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/shields/brit_shield_06.xml",
+      "sha256": "f27fbf3b9ac0d3b2757195f279adcb932079b7de880eda74e9bc5b1c62919cb4"
+    },
+    {
+      "path": "textures/skins/props/shield/celt_shield_01.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/shield/celt_shield_01.png",
+      "sha256": "d860c674693038e4415e89cfcf46233342ec2ca6ad63472d94831cfa636a60ca"
+    },
+    {
+      "path": "meshes/props/shield/oval_05.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/shield/oval_05.dae",
+      "sha256": "efa8b91019c522145bcc4667ab928e7e36eca55ba8e7601c9276c6e05d2ba6e6"
+    },
+    {
+      "path": "actors/props/units/weapons/bow_short.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/bow_short.xml",
+      "sha256": "d6f4f54e4f9e292aee05a3bf040abb13793e746527a1d216a429960004425cc4"
+    },
+    {
+      "path": "textures/skins/props/spart_sail_a.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/spart_sail_a.png",
+      "sha256": "c03027fcc0bd88c92344b5ed1336eb2bd1aede4ca0dbf5da2ea919e13d3b8652"
+    },
+    {
+      "path": "meshes/props/weapons/bow_greek.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/weapons/bow_greek.dae",
+      "sha256": "13eb54e1c4c7edc882964c1d69e0bddd415531c8421b25716ceae618fda4b6a2"
+    },
+    {
+      "path": "actors/props/units/helmets/celt_helmet_montefortino_01.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/helmets/celt_helmet_montefortino_01.xml",
+      "sha256": "f32402cfbabb248a3bc66976800c54f55b119edab6223fcf3c794e77b947410f"
+    },
+    {
+      "path": "textures/skins/props/helmet/celt_montefortino_01_iron.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/helmet/celt_montefortino_01_iron.png",
+      "sha256": "63148ebbef67cf1532943635fa2aca6cd31d6743d8722105bdd5683d3d8f5733"
+    },
+    {
+      "path": "meshes/props/helmet/celt_montefortino_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/helmet/celt_montefortino_01.dae",
+      "sha256": "f5815d1d3d413eeeecbb1ecd137083f57ad0448ecffcf8e4eea56f4ee23b146f"
+    },
+    {
+      "path": "actors/props/units/weapons/arrow_back.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/arrow_back.xml",
+      "sha256": "9d4a13d599b999f330999c7f250565ee9b6191e259baac521c7d8b96cf3fa538"
+    },
+    {
+      "path": "meshes/props/weap_arrow_back.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/weap_arrow_back.dae",
+      "sha256": "d51dc687e1266873ac91cf5727ed6b7c75c7f07bc3aa2eb65a299408a90cea47"
+    },
+    {
+      "path": "actors/props/units/weapons/sarissa.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/units/weapons/sarissa.xml",
+      "sha256": "3f089ea9767f771a139876194535d2358a61fd9d8a9c6f1eac6d669b2f5bb39f"
+    },
+    {
+      "path": "meshes/props/sarissa_a.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/props/sarissa_a.dae",
+      "sha256": "4f8571c3a42bda4658e12ea3ec3f26f81720870a3576f108de78988ed8a3142f"
+    },
+    {
+      "path": "variants/biped/base_spearman_shield_relax_celt.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/biped/base_spearman_shield_relax_celt.xml",
+      "sha256": "e39cd28a44f3f8589628cc3e0e5d846792bfbac2fab50d256926142b7cd0c282"
+    },
+    {
+      "path": "textures/skins/skeletal/gaul/pants_basic_01.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/gaul/pants_basic_01.png",
+      "sha256": "fbf3dc25c6b3b035e595c757e4662ac6e17c9d17b84da25763b6acc253cbff37"
+    },
+    {
+      "path": "textures/skins/skeletal/gaul/pants_basic_02.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/gaul/pants_basic_02.png",
+      "sha256": "f1d10f115c9174b8b16de8c615840cf87f9d942e9f52eff1a8e04f618bfb26b7"
+    },
+    {
+      "path": "textures/skins/props/head/celt_b.dds",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/head/celt_b.dds",
+      "sha256": "38aa3140d852dc54b1e28161e67ab88dbea2b42dd29613aeef90186232e28776"
+    },
+    {
+      "path": "textures/skins/props/shield/celt_shield_02.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/shield/celt_shield_02.png",
+      "sha256": "4802b0085200bcca2e1e854948daa0e0255a5cb029b829367fee44e657469949"
+    },
+    {
+      "path": "textures/skins/skeletal/gaul/pants_basic_03.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/gaul/pants_basic_03.png",
+      "sha256": "83ff410aa81caeea50c020ab1aa0cba0b778475502c12a84e7efb71f9acd72f6"
+    },
+    {
+      "path": "textures/skins/props/head/celt_c.dds",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/head/celt_c.dds",
+      "sha256": "a4331369874bf8ee13586c217420eef8725d763c09e831b5cc48ad2e67a88eab"
+    },
+    {
+      "path": "textures/skins/props/shield/celt_shield_03.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/props/shield/celt_shield_03.png",
+      "sha256": "e55390059d307a57b66b31a083805f0c9b34a8edb06d379db502d4f6f8a4fc9b"
+    },
+    {
+      "path": "animation/biped/infantry/spearman/idle_relax_shield_celt_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/spearman/idle_relax_shield_celt_01.dae",
+      "sha256": "95a3d1558824ea9644b8d31b08590e83285748931ef385ce136c73fb21e35881"
+    },
+    {
+      "path": "animation/biped/infantry/spearman/walk_relax_shield.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/spearman/walk_relax_shield.dae",
+      "sha256": "792223c781d20d22563338deec8a66714d85477fa03ee32d36f251cfa50808f2"
+    },
+    {
+      "path": "animation/biped/infantry/swordsman/attack_melee_shield_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/swordsman/attack_melee_shield_01.dae",
+      "sha256": "752ba49975601518ce9c46673e2adfa014e234deebba6718b521da272320a87a"
+    },
+    {
+      "path": "variants/biped/base_swordsman_shield_relax_celt.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/biped/base_swordsman_shield_relax_celt.xml",
+      "sha256": "bba7dafdd6fef81f6f6fdf68fbd984d5c85e5c8fdc5aa550a4ad1a88fd0c743f"
+    },
+    {
+      "path": "textures/skins/skeletal/gaul/tunic_sleeveless_01_01.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/gaul/tunic_sleeveless_01_01.png",
+      "sha256": "9fcbac933b720c486706a0a11b91553dd95689139a0d64c0538c65b221fdc78a"
+    },
+    {
+      "path": "textures/skins/skeletal/gaul/tunic_sleeveless_01_02.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/gaul/tunic_sleeveless_01_02.png",
+      "sha256": "a499d773ad5c8b3183e5b24315218c8b4c98d4fd144dc0a75059e3b67ee43d66"
+    },
+    {
+      "path": "textures/skins/skeletal/gaul/tunic_sleeveless_01_03.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/gaul/tunic_sleeveless_01_03.png",
+      "sha256": "53c36c0ebcacf28dd220bbe9b9b2dcb9ee2350ceeab6c3ec6dd10c01329e08e7"
+    },
+    {
+      "path": "animation/biped/infantry/swordsman/idle_relax_shield_celt_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/swordsman/idle_relax_shield_celt_01.dae",
+      "sha256": "440f9efd65cd09969755457f8cbf72017f882e577d49e5eb610ae872e73eba40"
+    },
+    {
+      "path": "animation/biped/infantry/swordsman/walk_relax_shield.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/swordsman/walk_relax_shield.dae",
+      "sha256": "a8b9ab35ac7cfe32d75524b72d440022500fb36129950c5da933f24ba162c873"
+    },
+    {
+      "path": "variants/biped/base_archer_relax.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/biped/base_archer_relax.xml",
+      "sha256": "5d674ea8c6f346d8348b4d3d765226fc830810d0ef23178aa2fd7a5836fd0551"
+    },
+    {
+      "path": "variants/biped/attack_ranged_archer.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/biped/attack_ranged_archer.xml",
+      "sha256": "f32d7634767506842f721ab7a0fa3219b0bb7cf05e353ed7ffbeedf926ff8d0d"
+    },
+    {
+      "path": "textures/skins/skeletal/hele/tunic_01_01.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/hele/tunic_01_01.png",
+      "sha256": "5c4b700f759041bfc911bcccb6bdd6fd4afb0bdd9482fb1706b28ea3db73425e"
+    },
+    {
+      "path": "textures/skins/skeletal/hele/tunic_01_02.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/hele/tunic_01_02.png",
+      "sha256": "c8e4dd1035e96a17137b896ceb25bbb4efa3977e528b28e150d8f36f0150d760"
+    },
+    {
+      "path": "textures/skins/skeletal/hele/tunic_02_01.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/skeletal/hele/tunic_02_01.png",
+      "sha256": "43f5bb8d5ec8b4aeb966bb7b89eeaa16a552efb006a7804e4155d4e5df9dbc72"
+    },
+    {
+      "path": "animation/biped/infantry/archer/idle_relax_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/archer/idle_relax_01.dae",
+      "sha256": "e0e9e1e81f05a700fbd93718fffe158b0ff2c8caa326b818226533be2c0bd038"
+    },
+    {
+      "path": "animation/biped/infantry/archer/jog_relax.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/archer/jog_relax.dae",
+      "sha256": "e3be4b2954dbba235b4bff666b4661ff50ecc32c9c343cc30a6b22149c8a450d"
+    },
+    {
+      "path": "animation/biped/infantry/archer/attack_ranged.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/archer/attack_ranged.dae",
+      "sha256": "c1f901a9338889b7104ba65855c9555d99b81e3094f7a680d25596bc701f4caf"
+    },
+    {
+      "path": "variants/biped/base_pikeman_relax.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/variants/biped/base_pikeman_relax.xml",
+      "sha256": "c25ed0c39ee69198265d83c59c53d743b2b1b3bebe44617345f426d8a8332d7e"
+    },
+    {
+      "path": "animation/biped/infantry/pikeman/idle_relax_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/pikeman/idle_relax_01.dae",
+      "sha256": "3e963e5ff995668c14e8473ca9ca4cf1180fb546f4a0ffd6927a842f4068c913"
+    },
+    {
+      "path": "animation/biped/infantry/pikeman/walk_relax.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/pikeman/walk_relax.dae",
+      "sha256": "c3012526a20081b4bceaaa3cce7d266ecaa82877a4bc9b433cc3b385d2245cf8"
+    },
+    {
+      "path": "animation/biped/infantry/pikeman/attack_melee_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/animation/biped/infantry/pikeman/attack_melee_01.dae",
+      "sha256": "2a4d1ccab7ddedc36d15e1c3bd7e966e15f2e9abe69605ace05938c0b6f3cf46"
+    }
+  ]
+}

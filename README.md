@@ -1,16 +1,54 @@
-# Ironvale
+# Kingdom Lanka
+
+Choose from **ten Sri Lankan kingdom, colonial and legendary factions** in solo
+and online play. Command war elephants, Yodha champions, musketeers, riflemen,
+cannon or Ravana's legendary Dandu Monara, with faction specialties and distinct
+army/city artwork. This is a cross-era skirmish; legendary elements are labeled.
+Teams, private resources, voice chat and optional neutral night zombies remain.
+[Faction guide and research](docs/kingdom-lanka-design.md) �
+[Verification](docs/kingdom-lanka-verification.md).
+
+The game was previously called Ironvale. The project folder and old browser
+storage identifiers stay compatible so existing saves and reconnects work.
+
 
 An original 3D medieval RTS for your browser, with single-player and server-authoritative online multiplayer. Build a city, assign workers, gather food/wood/stone/gold, hunt and cultivate, research three development stages, recruit armies, defend with walls and garrisons, and capture rival capitals.
 
 **Two to eight empires** share one map. Online matches support public matchmaking and private invitation rooms. Single-player supports one to seven computer rivals. Choose free-for-all or online teams of up to four commanders. Teams may have unequal sizes, such as 2 versus 4. There are no time limits. Computer opponents fight each other, use the same resources and fog rules, and can capture cities. The last empire or allied team standing wins.
 
-Choose **Riverlands** for rivers, permanent stone bridges and shallow crossings, or **Lowlands** for open land and woodland. Map choice is available in single-player setup, private room settings and public matchmaking. Armies and workers route through crossings; construction and building relocation require dry, fully scouted ground. Older saves keep their original Lowlands map.
+Choose **Riverlands** for seeded winding rivers, lake chains or stream basins, or
+**Lowlands** for rolling meadows, forests, ridges and occasional lakes. Mountains
+are real raised terrain and block travel; armies use passes and river crossings.
+Construction requires dry, scouted ground with a gentle enough slope. Gold has
+dark host rock and bright exposed yellow ore, distinct from cool-grey stone.
+
+**Standard / Large / Huge** map sizes work in single-player, private rooms and
+public matchmaking. Large is the default: 160 × 160 tiles for two empires, rising
+to 256 × 256 for seven or eight. Huge is always 256 × 256. New matches use fresh
+seeds; enter a seed to reproduce the same map with the same settings. Saves keep
+their stored map, including older flat worlds. Start a new match to get the new
+terrain. [Map overhaul verification](docs/highlands-verification.md).
 
 The landscape has seeded green/dry meadow variation, woodland leaf litter, gravel
 around deposits and cobbled ground around developed towns. Rivers have blue water,
 green shallows and pale banks, with reeds, lilies, meadow flowers and ferns nearby.
 Scenery follows scouting visibility and uses smaller decoration budgets on compact
 screens. [Landscape verification](docs/river-valley-verification.md).
+
+Historical infantry now uses native **0 A.D.** clothing, heads, weapons, shields
+and animations for spearmen, swordsmen, archers and long-pike infantry. Each class
+has three appearance variants, with cloth and shields marked in its city's color.
+Native textured oaks, pine trees and food-bearing berry bushes enrich the woods.
+Other troop classes, animals and the approved medieval buildings keep their
+existing providers. These adapted artworks and their UI portraits include
+Wildfire Games attribution and CC BY-SA 3.0 notices.
+
+Ranged units gain up to 20% extra reach when firing downhill; solid mountain
+ridges can intercept arrows. Trebuchets can arc over lower ridges. Automatic
+targeting favors nearby counter targets, while explicit attack orders remain
+committed. Select one soldier and open **Orders** for attack, armor, range and
+tactical guidance. The same authoritative rules apply offline and online.
+[Historical assets and combat verification](docs/historical-realm-verification.md).
 
 ## Play locally
 
@@ -23,7 +61,7 @@ npm run build
 npm start
 ```
 
-Open http://localhost:8180. The same Node server serves the game and its online connections. Alternatively, double-click **Play Ironvale.cmd** to build and launch the production game at http://localhost:8180. Close its server window or press Ctrl+C to stop it.
+Open http://localhost:8180. The same Node server serves the game and its online connections. Alternatively, double-click **Play Kingdom Lanka.cmd** to build and launch the production game at http://localhost:8180. Close its server window or press Ctrl+C to stop it.
 
 For friends or a phone/tablet on the same Wi-Fi, open http://YOUR-COMPUTER-LAN-IP:8180 on each device. Open that LAN address on the host too before copying the invite, so the invitation points to the reachable computer rather than localhost. The game server listens on the local network. Browser/device firewalls can affect access. Saves are separate on each device and each origin.
 
@@ -103,11 +141,11 @@ Destroy an original capital and occupy its ruins with soldiers for **30 seconds*
 
 Manual saves and a rolling autosave every 60 simulation seconds use IndexedDB. All simulation state is retained, including AI plans, fog, queues, and randomness. Loading starts paused. Leaving the tab pauses single-player automatically; online matches continue. Saves remain in this browser on this device; clearing site data removes them. Local saves are not cloud accounts.
 
-Music and sound effects are synthesized locally and adjustable in Settings. Audio unlocks on your first tap, click or keypress; Settings includes a Test sound button. All models and textures are served locally. Free Ashen Marches characters provide three civilian outfits and distinct infantry and mounted classes, with full garments colored for each city. Riders sit on the existing Quaternius horses. Buildings and walls now use original medieval architecture: timber frames, stone foundations, tiled roofs, courtyards, market stalls, forges and crenellated fortifications, with age-dependent details and city colors. The imported fantasy building archive stays disabled. Ultimate Nature supplies varied trees, berry bushes, rocks and mountain formations; the Quaternius gold resource remains active. Animals keep their existing appearance. Shared sampled poses and instanced scenery avoid a skeleton per unit. Procedural models remain available during loading or asset failure. Credits, license differences and model mappings are in [THIRD_PARTY_ASSETS.md](THIRD_PARTY_ASSETS.md). These are stylized RTS assets.
+Music and sound effects are synthesized locally and adjustable in Settings. Audio unlocks on your first tap, click or keypress; Settings includes a Test sound button. All models and textures are served locally. Native 0 A.D. artwork supplies four infantry classes; free Ashen Marches characters retain three civilian outfits and the other army classes, with city colors on clothing and shields. Riders sit on the existing Quaternius horses. Buildings and walls now use original medieval architecture: timber frames, stone foundations, tiled roofs, courtyards, market stalls, forges and crenellated fortifications, with age-dependent details and city colors. The imported fantasy building archive stays disabled. Native 0 A.D. oaks, pine and berry bushes take precedence over Ultimate Nature foliage; Ultimate Nature rocks and mountain formations and the Quaternius gold resource remain active. Animals keep their existing appearance. Shared sampled poses and instanced scenery avoid a skeleton per unit. Procedural models remain available during loading or asset failure. Credits, license differences and model mappings are in [THIRD_PARTY_ASSETS.md](THIRD_PARTY_ASSETS.md). These are stylized RTS assets.
 
 Wooden walls are available at town hall level 1. Select an owned wall to purchase its stone upgrade at level 2, then reinforced stone at level 3. Each upgrade shows its cost and timer and preserves the wall's damage percentage. AI armies commit to destroying the town hall, breach defenses blocking occupation, and still obey the normal resource, training and contested capture rules.
 
-Oak, birch, pine and fir silhouettes vary the woodland. Berry bushes provide food alongside the four animal species; all empires receive the same starting animal yield and two fruit bushes. Villagers carry food to storage using the same economy rules as farms and hunting. The HUD uses compact edge controls, contextual command tabs, visible training/construction times and a persistent larger-text option in Settings. Mobile panels open on demand to leave the battlefield accessible.
+Two native oak silhouettes and pine profiles vary the woodland; earlier tree providers remain available as a fallback. Berry bushes provide food alongside the four animal species; all empires receive the same starting animal yield and two fruit bushes. Villagers carry food to storage using the same economy rules as farms and hunting. The HUD uses compact edge controls, contextual command tabs, visible training/construction times and a persistent larger-text option in Settings. Mobile panels open on demand to leave the battlefield accessible.
 
 ## AI fairness
 
@@ -135,7 +173,7 @@ npm run build
 
 `dist/` contains the browser build and `dist-server/` contains the Node server and simulation worker. To provide online play, deploy both together with the production dependencies; a static-only host supports offline play but cannot run multiplayer. Serve it through HTTP/HTTPS; opening `index.html` directly through `file://` does not support the module worker. Relative asset paths support hosting in a subdirectory. For local production play use `npm start`; Vite preview serves static files only.
 
-The simulation is browser-independent TypeScript, running at20 Hz in a browser worker offline or a Node worker thread online. React handles menus/controls; Three.js WebGL handles the 3D battlefield. Human and AI commands share validation. Rendering receives player-visible snapshots; saved matches retain full state. Online rooms use WebSockets, player-specific snapshots, and server-controlled human/AI seats. Accounts, ranked play, chat, spectators, and cross-device guest identity are not implemented.
+The simulation is browser-independent TypeScript, running at20 Hz in a browser worker offline or a Node worker thread online. React handles menus/controls; Three.js WebGL handles the 3D battlefield. Human and AI commands share validation. Rendering receives player-visible snapshots; saved matches retain full state. Online rooms use WebSockets, player-specific snapshots, and server-controlled human/AI seats. Accounts, ranked play, text chat, spectators, and cross-device guest identity are not implemented; voice chat is available as described above.
 
 The benchmark uses controlled 400- and 800-unit fixtures with AI thinking delayed to isolate the load; rendering includes nearby combat, with enlarged unit health to keep the count stable. Rendering measurements wait for detailed models and forest maps to load, and record the adaptive render scale. Browser benchmarks use native Windows Direct3D where available. Phone layouts/controls and CPU-throttled performance are emulated on the desktop GPU, **not physical-phone verification**. Test results, screenshots, diagnostic states and performance measurements are in `test-results/` after running the checks. The detailed medieval art and formation/rally verification is in [docs/medieval-overhaul-verification.md](docs/medieval-overhaul-verification.md). The responsive in-game HUD checks and screenshots are in [docs/compact-hud-verification.md](docs/compact-hud-verification.md). Latest ecology, model, interface and fairness verification is in [docs/fair-ai-living-realm-verification.md](docs/fair-ai-living-realm-verification.md). Earlier team verification is in `docs/living-world-teams-verification.md`; gameplay and gesture evidence is in `docs/gameplay-refinements.md`; initial 3D evidence is in `docs/3d-verification.md`. Multiplayer evidence and hosting limits are in `docs/multiplayer-verification.md`.
 

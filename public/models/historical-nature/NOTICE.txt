@@ -1,0 +1,5 @@
+0 A.D. foliage derivatives. Original author: Wildfire Games and contributors.
+https://www.wildfiregames.com/
+https://play0ad.com/
+Licensed CC BY-SA 3.0: https://creativecommons.org/licenses/by-sa/3.0/
+Adapted by Ironvale: static GLB conversion, coordinate/UV conversion, 512px RGBA atlases, opaque/cutout split. These derivative assets remain CC BY-SA 3.0. See manifest.json for pinned original sources and hashes.

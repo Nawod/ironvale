@@ -30,7 +30,7 @@ it('adds meadow and paved-town surfaces while retaining water, crossings and con
 });
 it('binds fog-safe paving to the ground shader and disposes its extra texture',()=>{
  const s=snapshot(createGame({opponents:1,difficulty:'easy',seed:42})),map=new DataTexture(new Uint8Array(64),4,4,RGBAFormat),ground=new MedievalTerrain(map,s.size),fields=createLandscapeFields(s);
- ground.updateSurface(s,fields);const shader:any={uniforms:{},fragmentShader:'void main() {\n#include <map_fragment>\n}'};ground.material.onBeforeCompile(shader,{} as any);expect(shader.fragmentShader).toContain('cobble');expect(shader.uniforms.medievalSurface.value.image.width).toBe(s.size*4);
+ ground.updateSurface(s,fields);const shader:any={uniforms:{},vertexShader:'#include <begin_vertex>',fragmentShader:'void main() {\n#include <map_fragment>\n}'};ground.material.onBeforeCompile(shader,{} as any);expect(shader.fragmentShader).toContain('cobble');expect(shader.fragmentShader).toContain('terrainCliff');expect(shader.vertexShader).toContain('terrainWorld=');expect(shader.uniforms.medievalSurface.value.image.width).toBe(s.size*4);
  let disposed=0;shader.uniforms.medievalSurface.value.addEventListener('dispose',()=>disposed++);ground.dispose();map.dispose();expect(disposed).toBe(1);
 });
 it('updates a local fog patch exactly like a full surface pass, including its visible neighbors',()=>{

@@ -1,3 +1,4 @@
+import {airborne,canAttack} from './factions';
 import type {Entity,GameState,Position} from './types';
 import {distance} from './types';
 import {environmentFor} from './environment';
@@ -41,11 +42,11 @@ export function updateZombies(s:GameState,dt:number,grid:Uint8Array):void{
  if(!cities.length)return;
  const cycle=Math.max(0,Math.floor((s.tick-12000)/28800));
  if(s.zombieNight!==cycle){s.zombieNight=cycle;refill(s,cities,zombies,grid,cycle);}
- const targets=Object.values(s.entities).filter(e=>e.owner>=0&&s.players[e.owner]?.alive&&e.hp>0&&!e.garrisoned&&(e.kind==='unit'||e.kind==='building'));
+ const targets=Object.values(s.entities).filter(e=>!airborne(e)&&e.owner>=0&&s.players[e.owner]?.alive&&e.hp>0&&!e.garrisoned&&(e.kind==='unit'||e.kind==='building'));
  const walls=targets.filter(e=>e.kind==='building'&&['palisade','wall','gate'].includes(e.type));
  for(const z of zombies){
   z.home??={x:z.x,y:z.y};const current=z.order.target?s.entities[z.order.target]:undefined;
-  if(current&&current.hp>0&&z.order.kind==='attack'&&(s.tick+z.id)%20!==0)continue;
+  if(current&&canAttack(z,current)&&current.hp>0&&z.order.kind==='attack'&&(s.tick+z.id)%20!==0)continue;
   const local=targets.filter(t=>adjacentDistance(z,t)<=8).sort((a,b)=>(a.kind==='unit'?0:3)+adjacentDistance(z,a)-((b.kind==='unit'?0:3)+adjacentDistance(z,b))||a.id-b.id);
   const city=cities.slice().sort((a,b)=>distance(z,cityCenter(a))-distance(z,cityCenter(b))||a.id-b.id)[0];
   const objective=local[0]??(city.hp>0?city:targets.filter(t=>t.owner===city.owner).sort((a,b)=>distance(z,a)-distance(z,b)||a.id-b.id)[0]);

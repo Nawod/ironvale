@@ -1,0 +1,534 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "N:\\Projects\\GPT\\ironvale\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/browser/historical-realm.spec.ts",
+      "tests/browser/living-world-teams.spec.ts",
+      "--grep",
+      "selecting a historical archer|online allies choose uneven teams",
+      "--reporter=json",
+      "--output=test-results/historical-focused"
+    ],
+    "configFile": "N:\\Projects\\GPT\\ironvale\\playwright.config.ts",
+    "rootDir": "N:/Projects/GPT/ironvale/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/historical-focused",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/historical-focused",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone",
+        "name": "phone",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "N:/Projects/GPT/ironvale/test-results/historical-focused",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "tablet",
+        "name": "tablet",
+        "testDir": "N:/Projects/GPT/ironvale/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-focused",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "snapshotDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5178",
+          "trace": "retain-on-failure",
+          "launchOptions": {
+            "args": [
+              "--use-gl=angle",
+              "--use-angle=d3d11",
+              "--enable-webgl",
+              "--ignore-gpu-blocklist"
+            ]
+          },
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "screen": {
+            "width": 1920,
+            "height": 1080
+          },
+          "deviceScaleFactor": 1,
+          "isMobile": false,
+          "hasTouch": false,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-focused",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "phone",
+        "testDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "snapshotDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5178",
+          "trace": "retain-on-failure",
+          "launchOptions": {
+            "args": [
+              "--use-gl=angle",
+              "--use-angle=d3d11",
+              "--enable-webgl",
+              "--ignore-gpu-blocklist"
+            ]
+          },
+          "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Mobile/15E148 Safari/604.1",
+          "viewport": {
+            "width": 390,
+            "height": 664
+          },
+          "screen": {
+            "width": 390,
+            "height": 844
+          },
+          "deviceScaleFactor": 3,
+          "isMobile": true,
+          "hasTouch": true,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "phone"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-focused",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "tablet",
+        "testDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "snapshotDir": "N:\\Projects\\GPT\\ironvale\\tests\\browser",
+        "testIgnore": [],
+        "testMatch": "**/*.@(spec|test).?(c|m)[jt]s?(x)",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "http://127.0.0.1:5178",
+          "trace": "retain-on-failure",
+          "launchOptions": {
+            "args": [
+              "--use-gl=angle",
+              "--use-angle=d3d11",
+              "--enable-webgl",
+              "--ignore-gpu-blocklist"
+            ]
+          },
+          "userAgent": "Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Mobile/15E148 Safari/604.1",
+          "viewport": {
+            "width": 768,
+            "height": 1024
+          },
+          "deviceScaleFactor": 2,
+          "isMobile": true,
+          "hasTouch": true,
+          "defaultBrowserType": "chromium"
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "tablet"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.0",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run build && node scripts/test-server.mjs",
+      "url": "http://127.0.0.1:5178",
+      "reuseExistingServer": false,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "historical-realm.spec.ts",
+      "file": "historical-realm.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "selecting a historical archer exposes readable counters and potential downhill range",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 16086,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.selection-panel h2')\nExpected: \u001b[32m\"\u001b[7mArch\u001b[27mer\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mYour orders, command\u001b[27mer\u001b[7m.\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('.selection-panel h2') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.selection-panel h2')\u001b[22m\n\u001b[2m    14 × locator resolved to <h2>Your orders, commander.</h2>\u001b[22m\n\u001b[2m       - unexpected value \"Your orders, commander.\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.selection-panel h2')\nExpected: \u001b[32m\"\u001b[7mArch\u001b[27mer\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mYour orders, command\u001b[27mer\u001b[7m.\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('.selection-panel h2') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.selection-panel h2')\u001b[22m\n\u001b[2m    14 × locator resolved to <h2>Your orders, commander.</h2>\u001b[22m\n\u001b[2m       - unexpected value \"Your orders, commander.\"\u001b[22m\n\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts:22:257",
+                    "location": {
+                      "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts",
+                      "column": 257,
+                      "line": 22
+                    },
+                    "snippet": "  20 |  // scene's leftmost archer otherwise sits beneath the compact top toolbar.\n  21 |  const map=page.locator('.minimap canvas');if(!await map.isVisible())await page.getByRole('button',{name:'Show minimap',exact:true}).click();const r=(await map.boundingBox())!;await page.mouse.click(r.x+archer.x/s.size*r.width,r.y+archer.y/s.size*r.height);\n> 22 |  camera.configure({...v,focus:archer,zoom:v.width<600?.92:1.1,yaw:Math.PI/4,origin:v.width<700?.44:.42});const p=camera.project(archer,terrainHeight(s,archer.x,archer.y)+.6);await page.mouse.click(p.x,p.y);await expect(page.locator('.selection-panel h2')).toHaveText('Archer');await openCommands(page,'Orders');const tactics=page.getByLabel('Unit tactics',{exact:true});await tactics.scrollIntoViewIfNeeded();await expect(tactics).toContainText('up to 7.2 downhill');expect(await tactics.evaluate(e=>parseFloat(getComputedStyle(e.querySelector('small')!).fontSize))).toBeGreaterThanOrEqual(14);await page.screenshot({path:`test-results/${info.project.name}-historical-tactics.png`});\n     |                                                                                                                                                                                                                                                                 ^\n  23 | });\n  24 |"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts",
+                        "column": 257,
+                        "line": 22
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('.selection-panel h2')\nExpected: \u001b[32m\"\u001b[7mArch\u001b[27mer\"\u001b[39m\nReceived: \u001b[31m\"\u001b[7mYour orders, command\u001b[27mer\u001b[7m.\u001b[27m\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" locator('.selection-panel h2') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.selection-panel h2')\u001b[22m\n\u001b[2m    14 × locator resolved to <h2>Your orders, commander.</h2>\u001b[22m\n\u001b[2m       - unexpected value \"Your orders, commander.\"\u001b[22m\n\n\n  20 |  // scene's leftmost archer otherwise sits beneath the compact top toolbar.\n  21 |  const map=page.locator('.minimap canvas');if(!await map.isVisible())await page.getByRole('button',{name:'Show minimap',exact:true}).click();const r=(await map.boundingBox())!;await page.mouse.click(r.x+archer.x/s.size*r.width,r.y+archer.y/s.size*r.height);\n> 22 |  camera.configure({...v,focus:archer,zoom:v.width<600?.92:1.1,yaw:Math.PI/4,origin:v.width<700?.44:.42});const p=camera.project(archer,terrainHeight(s,archer.x,archer.y)+.6);await page.mouse.click(p.x,p.y);await expect(page.locator('.selection-panel h2')).toHaveText('Archer');await openCommands(page,'Orders');const tactics=page.getByLabel('Unit tactics',{exact:true});await tactics.scrollIntoViewIfNeeded();await expect(tactics).toContainText('up to 7.2 downhill');expect(await tactics.evaluate(e=>parseFloat(getComputedStyle(e.querySelector('small')!).fontSize))).toBeGreaterThanOrEqual(14);await page.screenshot({path:`test-results/${info.project.name}-historical-tactics.png`});\n     |                                                                                                                                                                                                                                                                 ^\n  23 | });\n  24 |\n    at N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts:22:257"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:05:56.288Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-focused\\historical-realm-selecting-c9bca-nd-potential-downhill-range-desktop\\error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "N:\\Projects\\GPT\\ironvale\\test-results\\historical-focused\\historical-realm-selecting-c9bca-nd-potential-downhill-range-desktop\\trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\historical-realm.spec.ts",
+                    "column": 257,
+                    "line": 22
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-810d89155e6d82b8c6e8",
+          "file": "historical-realm.spec.ts",
+          "line": 17,
+          "column": 1
+        },
+        {
+          "title": "selecting a historical archer exposes readable counters and potential downhill range",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10359,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:06:39.686Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-8348f96923374a95e76f",
+          "file": "historical-realm.spec.ts",
+          "line": 17,
+          "column": 1
+        },
+        {
+          "title": "selecting a historical archer exposes readable counters and potential downhill range",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11126,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:06:51.076Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9041a70b38ab2b4ecf5f-ee61fa8bc7567c8e8f08",
+          "file": "historical-realm.spec.ts",
+          "line": 17,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "living-world-teams.spec.ts",
+      "file": "living-world-teams.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 24166,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:06:14.345Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9b1565f4c309b1f7c1db-0f16b39c136933493a6b",
+          "file": "living-world-teams.spec.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\living-world-teams.spec.ts",
+                    "line": 9,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 78,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:06:50.269Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\living-world-teams.spec.ts",
+                        "line": 9,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "9b1565f4c309b1f7c1db-fb2e88855ac6cb7a1d86",
+          "file": "living-world-teams.spec.ts",
+          "line": 8,
+          "column": 1
+        },
+        {
+          "title": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\living-world-teams.spec.ts",
+                    "line": 9,
+                    "column": 7
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "tablet",
+              "projectName": "tablet",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 88,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-18T23:07:02.409Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "N:\\Projects\\GPT\\ironvale\\tests\\browser\\living-world-teams.spec.ts",
+                        "line": 9,
+                        "column": 7
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "9b1565f4c309b1f7c1db-a43d7a6b954fd5c6c929",
+          "file": "living-world-teams.spec.ts",
+          "line": 8,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-18T23:05:44.657Z",
+    "duration": 78600.69900000001,
+    "expected": 3,
+    "skipped": 2,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

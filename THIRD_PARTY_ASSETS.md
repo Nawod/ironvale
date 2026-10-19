@@ -1,9 +1,16 @@
-# Ironvale bundled 3D asset credits
+# Kingdom Lanka bundled 3D asset credits
 
-All runtime assets are bundled locally under `public/models`; gameplay does not contact an asset service. Only freely offered content is included. **Ashen Marches uses its own license; the Quaternius and Poly Haven assets use CC0.** Original license notices are retained beside the models. The manifests record provenance, sizes and hashes.
+Runtime assets are bundled locally under `public/models` and `public/art`;
+gameplay does not contact an asset service. Only freely offered content is
+included. **Ashen Marches uses its own license; Quaternius and Poly Haven assets
+use CC0; Wildfire Games characters, foliage, terrain textures and their rendered
+portrait derivatives use CC BY-SA 3.0.** Original
+license notices accompany the assets. Manifests record provenance and hashes.
 
 | Assets | Creator and original source | Packaging |
 | --- | --- | --- |
+| Historical infantry and equipment | [Wildfire Games and 0 A.D. art contributors](https://www.wildfiregames.com/), [pinned official source mirror](https://github.com/0ad/0ad/tree/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art) | CC BY-SA 3.0. Native spear, sword, bow and sarissa meshes, heads, clothing, equipment and skeletal clips adapted into four Ironvale classes with three variants each. Notices, exact source URLs/hashes and modifications are in `public/models/historical`. |
+| Historical oaks, pine and berry bushes | [Wildfire Games and 0 A.D. art contributors](https://www.wildfiregames.com/), same pinned source mirror | CC BY-SA 3.0. Four native meshes and resized RGBA atlases; six tree profiles plus berries. [Detailed provenance](docs/historical-nature-provenance.md). |
 | Army characters and equipment | [ChillLands Ashen Marches FREE 100](https://chilllands.itch.io/ashen-marches) | Custom Ashen Marches license, retained at `public/models/ashen/AshenMarches_LICENSE.txt`. Seven character bodies and five equipment models adapted for Ironvale. Finished-game use and modification permitted; standalone asset redistribution prohibited. [Detailed provenance](docs/army-asset-provenance.md). |
 | Gold resource and inactive building archive | [Quaternius Ultimate Fantasy RTS](https://quaternius.com/packs/ultimatefantasyrts.html) | CC0; gold is active. Building/wall imports were disabled at the user's request; their files remain available locally. [Detailed provenance](docs/realm-asset-provenance.md). |
 | Trees, berry bushes, rocks and mountain formations | [Quaternius Ultimate Nature](https://quaternius.com/packs/ultimatenature.html) | CC0; selected original geometry and natural material colors. |
@@ -41,7 +48,9 @@ The supplied characters, animals and natural scenery retain their stylized game 
 Raw archives and unused source files are excluded under `.art-source/`. The Ashen
 Marches runtime dependencies are incorporated into Ironvale and must not be offered
 as a separate asset download. The legacy CC0 human archive remains locally bundled
-for provenance/repacking compatibility; active armies use Ashen Marches.
+for provenance/repacking compatibility. Historical infantry now takes precedence
+for spearmen, swordsmen, archers and pikemen; other classes retain Ashen Marches
+and Quaternius providers.
 
 The Riverlands update reuses those same licensed twig photographs for bounded,
 alpha-tested canopy sprigs on twelve shared tree size/species profiles. It adds
@@ -64,3 +73,59 @@ gravel coloring, procedural cobblestone joints and river shading. Reeds, lilies,
 small flowers and ferns use original shared, vertex-colored geometry. It reuses
 the existing licensed ground photograph; no additional third-party asset,
 purchase, generation service or runtime download is introduced.
+
+The subsequent highlands overhaul adds three **Wildfire Games** terrain textures
+from the official [0 A.D. source mirror](https://github.com/0ad/0ad):
+`temp_grass_mod_02.png`, `temp_dirt_gravel_b.png` and `temp_cliff_c.png`.
+They are converted to RGB, resized to 512 × 512 and stored as JPEGs in
+`public/art/terrain0ad`. These artworks and their resized derivatives retain
+[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) licensing.
+Attribution to [Wildfire Games](https://www.wildfiregames.com/), the original
+license, precise source revision, source/output hashes and modification notices
+are included beside them. `scripts/prepare-terrain-assets.py` reproduces the
+packaging. This is texture artwork reuse; no 0 A.D. engine or map code is copied.
+
+The historical-realm update additionally adapts selected native 0 A.D. infantry
+and woodland artwork from that same pinned revision. The requested Gitea host
+could not be read by the browsing tool; the official archived GitHub mirror was
+used for reproducible source retrieval. `scripts/prepare-historical-characters.py`
+and `scripts/prepare-historical-scenery.py` retain original art notices, source
+hashes and explicit modification records. Python, numpy and Pillow are required
+for repackaging, but are not runtime dependencies. These custom actor assemblies
+mix selected source parts; they do not reproduce a complete original faction.
+
+The 32 infantry portraits plus wood and berry portraits named in
+`public/art/portraits/historical-manifest.json` render these same adapted models.
+Those images are CC BY-SA 3.0 derivatives, attributed to Wildfire Games and the
+0 A.D. art contributors, with the applicable notices in
+`public/models/historical` and `public/models/historical-nature`. The gold portrait
+in that manifest remains a render of the credited CC0 Quaternius ore model.
+Original Ironvale buildings and remaining portraits keep their existing terms.
+
+Combat range, mountain interception and target-preference code is an original
+Ironvale implementation informed by reading 0 A.D.'s Attack component. No GPL
+engine code, faction templates or simulation components were copied into the game.
+
+The Kingdom Lanka faction update adds a regional native-art bank in
+`public/models/lanka`. It selectively adapts 0 A.D.'s Mauryan tunics, heads,
+face textures, shields, weapons and **Asian elephant**, including original
+skeletal clips. All 49 upstream source inputs are pinned to the same official
+mirror commit, with source/output hashes, conversion changes and original art
+notices retained in the pack. The converted binary and PNG maps remain
+**CC BY-SA 3.0** artwork by **Wildfire Games and the 0 A.D. art contributors**.
+Rebuild with `python scripts/prepare-lanka-characters.py` (numpy/Pillow required).
+
+Kingdom Lanka headwear, uniforms/equipment overlays, cannon, peacock-inspired
+Dandu Monara, city crowns, interface crests and combat effects are original
+project geometry/art. The regional clothing is an artistic starting point,
+not evidence that the exact source uniforms were worn by each historical army.
+Legendary giants and flying craft are explicitly fictional interpretations.
+Buildings retain the original functional architecture and connected wall system.
+
+`public/art/portraits/lanka-manifest.json` lists 1,040 new locally rendered
+faction/unit/city portraits. These composite images are distributed under
+CC BY-SA 3.0 with the same Wildfire Games attribution and an additional credit
+for original Kingdom Lanka contributions. Reproduce them with
+`npx tsx scripts/bake-command-portraits.ts --lanka`. No external image-generation
+service is used. Existing source credits and restrictive Ashen Marches terms
+remain applicable to their respective assets.

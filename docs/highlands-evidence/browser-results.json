@@ -1,0 +1,273 @@
+{
+  "verifiedAt": "2026-10-18T17:38:55.4416897Z",
+  "passed": 30,
+  "skipped": 3,
+  "failed": 0,
+  "cases": [
+    {
+      "file": "highlands.spec.ts",
+      "title": "fresh large and huge maps launch and the chosen replay seed survives menu return",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 8961,
+      "errors": []
+    },
+    {
+      "file": "highlands.spec.ts",
+      "title": "fresh large and huge maps launch and the chosen replay seed survives menu return",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 10124,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "map choice is readable and retained when returning from a paused match",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 9363,
+      "errors": []
+    },
+    {
+      "file": "highlands.spec.ts",
+      "title": "generated hills, cliffs and water render with the licensed terrain layers",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 8882,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "the menu backdrop stops GPU drawing behind the lobby and resumes when closed",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 3884,
+      "errors": []
+    },
+    {
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world night presentation",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 10989,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 7194,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 10281,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 22292,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 6496,
+      "errors": []
+    },
+    {
+      "file": "highlands.spec.ts",
+      "title": "generated hills, cliffs and water render with the licensed terrain layers",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 10732,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "the menu backdrop stops GPU drawing behind the lobby and resumes when closed",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 2964,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "map choice is readable and retained when returning from a paused match",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 12076,
+      "errors": []
+    },
+    {
+      "file": "highlands.spec.ts",
+      "title": "generated hills, cliffs and water render with the licensed terrain layers",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 9844,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 9937,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "a real army crosses the bridge and construction rejects deep water",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 17054,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 12796,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 27379,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "a real army crosses the bridge and construction rejects deep water",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 16781,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "private multiplayer retains the selected map through settings changes and reconnect",
+      "project": "tablet",
+      "status": "skipped",
+      "durationMs": 162,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "a real army crosses the bridge and construction rejects deep water",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 16547,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "map choice is readable and retained when returning from a paused match",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 10488,
+      "errors": []
+    },
+    {
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world night presentation",
+      "project": "tablet",
+      "status": "skipped",
+      "durationMs": 115,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 7798,
+      "errors": []
+    },
+    {
+      "file": "highlands.spec.ts",
+      "title": "fresh large and huge maps launch and the chosen replay seed survives menu return",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 8361,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 5687,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "the menu backdrop stops GPU drawing behind the lobby and resumes when closed",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 4950,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "tablet",
+      "status": "passed",
+      "durationMs": 10494,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "phone",
+      "status": "passed",
+      "durationMs": 9071,
+      "errors": []
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "title": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 4771,
+      "errors": []
+    },
+    {
+      "file": "living-world-teams.spec.ts",
+      "title": "natural world night presentation",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 10979,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "private multiplayer retains the selected map through settings changes and reconnect",
+      "project": "phone",
+      "status": "skipped",
+      "durationMs": 115,
+      "errors": []
+    },
+    {
+      "file": "riverlands.spec.ts",
+      "title": "private multiplayer retains the selected map through settings changes and reconnect",
+      "project": "desktop",
+      "status": "passed",
+      "durationMs": 9452,
+      "errors": []
+    }
+  ],
+  "notes": "Each test and device counted once using the latest result. Controlled crossing fixture initially contained stale water resource positions after reshaping; corrected fixture and reverified all three devices."
+}
