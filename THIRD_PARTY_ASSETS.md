@@ -3,11 +3,14 @@
 Runtime assets are bundled locally under `public/models` and `public/art`;
 gameplay does not contact an asset service. Only freely offered content is
 included. **Ashen Marches uses its own license; Quaternius and Poly Haven assets
-use CC0; the three Wildfire Games terrain textures use CC BY-SA 3.0.** Original
+use CC0; Wildfire Games characters, foliage, terrain textures and their rendered
+portrait derivatives use CC BY-SA 3.0.** Original
 license notices accompany the assets. Manifests record provenance and hashes.
 
 | Assets | Creator and original source | Packaging |
 | --- | --- | --- |
+| Historical infantry and equipment | [Wildfire Games and 0 A.D. art contributors](https://www.wildfiregames.com/), [pinned official source mirror](https://github.com/0ad/0ad/tree/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art) | CC BY-SA 3.0. Native spear, sword, bow and sarissa meshes, heads, clothing, equipment and skeletal clips adapted into four Ironvale classes with three variants each. Notices, exact source URLs/hashes and modifications are in `public/models/historical`. |
+| Historical oaks, pine and berry bushes | [Wildfire Games and 0 A.D. art contributors](https://www.wildfiregames.com/), same pinned source mirror | CC BY-SA 3.0. Four native meshes and resized RGBA atlases; six tree profiles plus berries. [Detailed provenance](docs/historical-nature-provenance.md). |
 | Army characters and equipment | [ChillLands Ashen Marches FREE 100](https://chilllands.itch.io/ashen-marches) | Custom Ashen Marches license, retained at `public/models/ashen/AshenMarches_LICENSE.txt`. Seven character bodies and five equipment models adapted for Ironvale. Finished-game use and modification permitted; standalone asset redistribution prohibited. [Detailed provenance](docs/army-asset-provenance.md). |
 | Gold resource and inactive building archive | [Quaternius Ultimate Fantasy RTS](https://quaternius.com/packs/ultimatefantasyrts.html) | CC0; gold is active. Building/wall imports were disabled at the user's request; their files remain available locally. [Detailed provenance](docs/realm-asset-provenance.md). |
 | Trees, berry bushes, rocks and mountain formations | [Quaternius Ultimate Nature](https://quaternius.com/packs/ultimatenature.html) | CC0; selected original geometry and natural material colors. |
@@ -45,7 +48,9 @@ The supplied characters, animals and natural scenery retain their stylized game 
 Raw archives and unused source files are excluded under `.art-source/`. The Ashen
 Marches runtime dependencies are incorporated into Ironvale and must not be offered
 as a separate asset download. The legacy CC0 human archive remains locally bundled
-for provenance/repacking compatibility; active armies use Ashen Marches.
+for provenance/repacking compatibility. Historical infantry now takes precedence
+for spearmen, swordsmen, archers and pikemen; other classes retain Ashen Marches
+and Quaternius providers.
 
 The Riverlands update reuses those same licensed twig photographs for bounded,
 alpha-tested canopy sprigs on twelve shared tree size/species profiles. It adds
@@ -79,3 +84,24 @@ Attribution to [Wildfire Games](https://www.wildfiregames.com/), the original
 license, precise source revision, source/output hashes and modification notices
 are included beside them. `scripts/prepare-terrain-assets.py` reproduces the
 packaging. This is texture artwork reuse; no 0 A.D. engine or map code is copied.
+
+The historical-realm update additionally adapts selected native 0 A.D. infantry
+and woodland artwork from that same pinned revision. The requested Gitea host
+could not be read by the browsing tool; the official archived GitHub mirror was
+used for reproducible source retrieval. `scripts/prepare-historical-characters.py`
+and `scripts/prepare-historical-scenery.py` retain original art notices, source
+hashes and explicit modification records. Python, numpy and Pillow are required
+for repackaging, but are not runtime dependencies. These custom actor assemblies
+mix selected source parts; they do not reproduce a complete original faction.
+
+The 32 infantry portraits plus wood and berry portraits named in
+`public/art/portraits/historical-manifest.json` render these same adapted models.
+Those images are CC BY-SA 3.0 derivatives, attributed to Wildfire Games and the
+0 A.D. art contributors, with the applicable notices in
+`public/models/historical` and `public/models/historical-nature`. The gold portrait
+in that manifest remains a render of the credited CC0 Quaternius ore model.
+Original Ironvale buildings and remaining portraits keep their existing terms.
+
+Combat range, mountain interception and target-preference code is an original
+Ironvale implementation informed by reading 0 A.D.'s Attack component. No GPL
+engine code, faction templates or simulation components were copied into the game.

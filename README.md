@@ -23,6 +23,21 @@ green shallows and pale banks, with reeds, lilies, meadow flowers and ferns near
 Scenery follows scouting visibility and uses smaller decoration budgets on compact
 screens. [Landscape verification](docs/river-valley-verification.md).
 
+Historical infantry now uses native **0 A.D.** clothing, heads, weapons, shields
+and animations for spearmen, swordsmen, archers and long-pike infantry. Each class
+has three appearance variants, with cloth and shields marked in its city's color.
+Native textured oaks, pine trees and food-bearing berry bushes enrich the woods.
+Other troop classes, animals and the approved medieval buildings keep their
+existing providers. These adapted artworks and their UI portraits include
+Wildfire Games attribution and CC BY-SA 3.0 notices.
+
+Ranged units gain up to 20% extra reach when firing downhill; solid mountain
+ridges can intercept arrows. Trebuchets can arc over lower ridges. Automatic
+targeting favors nearby counter targets, while explicit attack orders remain
+committed. Select one soldier and open **Orders** for attack, armor, range and
+tactical guidance. The same authoritative rules apply offline and online.
+[Historical assets and combat verification](docs/historical-realm-verification.md).
+
 ## Play locally
 
 Requires Node.js 24. Dependencies are already installed in this workspace.
@@ -114,11 +129,11 @@ Destroy an original capital and occupy its ruins with soldiers for **30 seconds*
 
 Manual saves and a rolling autosave every 60 simulation seconds use IndexedDB. All simulation state is retained, including AI plans, fog, queues, and randomness. Loading starts paused. Leaving the tab pauses single-player automatically; online matches continue. Saves remain in this browser on this device; clearing site data removes them. Local saves are not cloud accounts.
 
-Music and sound effects are synthesized locally and adjustable in Settings. Audio unlocks on your first tap, click or keypress; Settings includes a Test sound button. All models and textures are served locally. Free Ashen Marches characters provide three civilian outfits and distinct infantry and mounted classes, with full garments colored for each city. Riders sit on the existing Quaternius horses. Buildings and walls now use original medieval architecture: timber frames, stone foundations, tiled roofs, courtyards, market stalls, forges and crenellated fortifications, with age-dependent details and city colors. The imported fantasy building archive stays disabled. Ultimate Nature supplies varied trees, berry bushes, rocks and mountain formations; the Quaternius gold resource remains active. Animals keep their existing appearance. Shared sampled poses and instanced scenery avoid a skeleton per unit. Procedural models remain available during loading or asset failure. Credits, license differences and model mappings are in [THIRD_PARTY_ASSETS.md](THIRD_PARTY_ASSETS.md). These are stylized RTS assets.
+Music and sound effects are synthesized locally and adjustable in Settings. Audio unlocks on your first tap, click or keypress; Settings includes a Test sound button. All models and textures are served locally. Native 0 A.D. artwork supplies four infantry classes; free Ashen Marches characters retain three civilian outfits and the other army classes, with city colors on clothing and shields. Riders sit on the existing Quaternius horses. Buildings and walls now use original medieval architecture: timber frames, stone foundations, tiled roofs, courtyards, market stalls, forges and crenellated fortifications, with age-dependent details and city colors. The imported fantasy building archive stays disabled. Native 0 A.D. oaks, pine and berry bushes take precedence over Ultimate Nature foliage; Ultimate Nature rocks and mountain formations and the Quaternius gold resource remain active. Animals keep their existing appearance. Shared sampled poses and instanced scenery avoid a skeleton per unit. Procedural models remain available during loading or asset failure. Credits, license differences and model mappings are in [THIRD_PARTY_ASSETS.md](THIRD_PARTY_ASSETS.md). These are stylized RTS assets.
 
 Wooden walls are available at town hall level 1. Select an owned wall to purchase its stone upgrade at level 2, then reinforced stone at level 3. Each upgrade shows its cost and timer and preserves the wall's damage percentage. AI armies commit to destroying the town hall, breach defenses blocking occupation, and still obey the normal resource, training and contested capture rules.
 
-Oak, birch, pine and fir silhouettes vary the woodland. Berry bushes provide food alongside the four animal species; all empires receive the same starting animal yield and two fruit bushes. Villagers carry food to storage using the same economy rules as farms and hunting. The HUD uses compact edge controls, contextual command tabs, visible training/construction times and a persistent larger-text option in Settings. Mobile panels open on demand to leave the battlefield accessible.
+Two native oak silhouettes and pine profiles vary the woodland; earlier tree providers remain available as a fallback. Berry bushes provide food alongside the four animal species; all empires receive the same starting animal yield and two fruit bushes. Villagers carry food to storage using the same economy rules as farms and hunting. The HUD uses compact edge controls, contextual command tabs, visible training/construction times and a persistent larger-text option in Settings. Mobile panels open on demand to leave the battlefield accessible.
 
 ## AI fairness
 
@@ -146,7 +161,7 @@ npm run build
 
 `dist/` contains the browser build and `dist-server/` contains the Node server and simulation worker. To provide online play, deploy both together with the production dependencies; a static-only host supports offline play but cannot run multiplayer. Serve it through HTTP/HTTPS; opening `index.html` directly through `file://` does not support the module worker. Relative asset paths support hosting in a subdirectory. For local production play use `npm start`; Vite preview serves static files only.
 
-The simulation is browser-independent TypeScript, running at20 Hz in a browser worker offline or a Node worker thread online. React handles menus/controls; Three.js WebGL handles the 3D battlefield. Human and AI commands share validation. Rendering receives player-visible snapshots; saved matches retain full state. Online rooms use WebSockets, player-specific snapshots, and server-controlled human/AI seats. Accounts, ranked play, chat, spectators, and cross-device guest identity are not implemented.
+The simulation is browser-independent TypeScript, running at20 Hz in a browser worker offline or a Node worker thread online. React handles menus/controls; Three.js WebGL handles the 3D battlefield. Human and AI commands share validation. Rendering receives player-visible snapshots; saved matches retain full state. Online rooms use WebSockets, player-specific snapshots, and server-controlled human/AI seats. Accounts, ranked play, text chat, spectators, and cross-device guest identity are not implemented; voice chat is available as described above.
 
 The benchmark uses controlled 400- and 800-unit fixtures with AI thinking delayed to isolate the load; rendering includes nearby combat, with enlarged unit health to keep the count stable. Rendering measurements wait for detailed models and forest maps to load, and record the adaptive render scale. Browser benchmarks use native Windows Direct3D where available. Phone layouts/controls and CPU-throttled performance are emulated on the desktop GPU, **not physical-phone verification**. Test results, screenshots, diagnostic states and performance measurements are in `test-results/` after running the checks. The detailed medieval art and formation/rally verification is in [docs/medieval-overhaul-verification.md](docs/medieval-overhaul-verification.md). The responsive in-game HUD checks and screenshots are in [docs/compact-hud-verification.md](docs/compact-hud-verification.md). Latest ecology, model, interface and fairness verification is in [docs/fair-ai-living-realm-verification.md](docs/fair-ai-living-realm-verification.md). Earlier team verification is in `docs/living-world-teams-verification.md`; gameplay and gesture evidence is in `docs/gameplay-refinements.md`; initial 3D evidence is in `docs/3d-verification.md`. Multiplayer evidence and hosting limits are in `docs/multiplayer-verification.md`.
 

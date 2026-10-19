@@ -1,0 +1,164 @@
+{
+  "license": "CC-BY-SA-3.0",
+  "author": "Wildfire Games and contributors",
+  "revision": "61a3b9507d974084e6badb88a0826bd89a6d5b8b",
+  "sourceRepository": "https://github.com/0ad/0ad",
+  "modifications": "Static COLLADA world transforms and Z-up to Y-up; original triangles/UVs/normals retained; 512px RGBA PNG atlas derivatives; alpha-based trunk/foliage material split. No actor decal props or wind shader.",
+  "assets": [
+    {
+      "file": "oak-a.png",
+      "bytes": 89226,
+      "sha256": "2111caeb9bd9b063cf1da737a113ef2bff0b45ea7d7337c5bcdbd501b9311455",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "file": "oak-a.glb",
+      "bytes": 43676,
+      "sha256": "2f56d756a25c9114cd4301657c5a0251828ef03bbce0bbfdd1b640a54c594e75",
+      "triangles": 436,
+      "sourceMesh": "oak_tree_a.dae",
+      "sourceTexture": "oak_tree_a.png"
+    },
+    {
+      "file": "oak-b.png",
+      "bytes": 88921,
+      "sha256": "f2662ad761b6bdbaf7af9b4f3553897ea978780f3c072646239f4476741978dd",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "file": "oak-b.glb",
+      "bytes": 35424,
+      "sha256": "0dddf70e7e2e988f5f037763d0508737041e9c84c941621d71eadf49c3caba1a",
+      "triangles": 350,
+      "sourceMesh": "oak_tree_b.dae",
+      "sourceTexture": "oak_tree_b.png"
+    },
+    {
+      "file": "pine.png",
+      "bytes": 543329,
+      "sha256": "2ca5650f3bcc70351bf90c38c7c62575606d812fe6c00587ee1d8cd21ac3f0e8",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "file": "pine.glb",
+      "bytes": 7376,
+      "sha256": "22f5b9b47948552f4e0b826e1ca092d6b757c59b5f42490547b6c0228ab6d0c5",
+      "triangles": 58,
+      "sourceMesh": "pine1.dae",
+      "sourceTexture": "pine.dds"
+    },
+    {
+      "file": "berries.png",
+      "bytes": 77308,
+      "sha256": "16d02f746da30a82a81aaafd9f8a7ee049e4126803cf8ff412d847f11c6fa68f",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "file": "berries.glb",
+      "bytes": 45796,
+      "sha256": "1f3d2df79134f36361d268a1a3bfac0551eb41bcc4903c2dcad35f5457705572",
+      "triangles": 458,
+      "sourceMesh": "berry_bush_01.dae",
+      "sourceTexture": "berry_bush_01.png"
+    },
+    {
+      "file": "0ad-LICENSE.txt",
+      "bytes": 3049,
+      "sha256": "cb9eb5e8768328e8086b0d17bd1b95f07b51bc9ab74fa1b509ee09c7894b2f53"
+    },
+    {
+      "file": "0ad-art-LICENSE.txt",
+      "bytes": 1426,
+      "sha256": "ef98babd771c206032e005f3d440a1e610df409d9a9191f03e64deaa4abefbd9"
+    },
+    {
+      "file": "NOTICE.txt",
+      "bytes": 415,
+      "sha256": "df50578aa197096d899cdc92a10fad908dae19d1f3ee96f6cd8c0e2fc075b27b"
+    }
+  ],
+  "sources": [
+    {
+      "path": "binaries/data/mods/public/art/meshes/gaia/oak_tree_a.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/gaia/oak_tree_a.dae",
+      "sha256": "504d88a37bd2ad8a12a73e379d2d53f566772e40d5c2c8c59c4df24b53acd5d6",
+      "bytes": 76879
+    },
+    {
+      "path": "binaries/data/mods/public/art/textures/skins/gaia/oak_tree_a.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/gaia/oak_tree_a.png",
+      "sha256": "9eec586f13dbef7eb3e26cc1e14ee7bcf02b3a11b07756c5a63096c8c703f453",
+      "bytes": 89693
+    },
+    {
+      "path": "binaries/data/mods/public/art/meshes/gaia/oak_tree_b.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/gaia/oak_tree_b.dae",
+      "sha256": "397cd6b3f7d741e36f90d845aa8ecdfb3676ddec5f0385e0aab2d4a6c0bd8635",
+      "bytes": 61897
+    },
+    {
+      "path": "binaries/data/mods/public/art/textures/skins/gaia/oak_tree_b.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/gaia/oak_tree_b.png",
+      "sha256": "a306d5a997ac945b465fa72baa3585135dcb0c76eeb9bb7454a89b87b318d11d",
+      "bytes": 89381
+    },
+    {
+      "path": "binaries/data/mods/public/art/meshes/gaia/pine1.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/gaia/pine1.dae",
+      "sha256": "c524d586848de38b9837944d4e47646244543646cfe8535219e1b65a89a5dc64",
+      "bytes": 11160
+    },
+    {
+      "path": "binaries/data/mods/public/art/textures/skins/gaia/pine.dds",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/gaia/pine.dds",
+      "sha256": "6f6700d20b6d7e69ddab2231b1d078f78128485a6b56a150431a91627c6cbc9a",
+      "bytes": 349680
+    },
+    {
+      "path": "binaries/data/mods/public/art/meshes/gaia/berry_bush_01.dae",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/meshes/gaia/berry_bush_01.dae",
+      "sha256": "ea786dc4262b29de819d61528e1f99ff2fc3ddb1ef211153207ce66d08077995",
+      "bytes": 67580
+    },
+    {
+      "path": "binaries/data/mods/public/art/textures/skins/gaia/berry_bush_01.png",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/textures/skins/gaia/berry_bush_01.png",
+      "sha256": "c76f2f35511197103f5c0ba286044b0bad1a87809984f7ca0bd23146d73155fc",
+      "bytes": 76250
+    },
+    {
+      "path": "binaries/data/mods/public/art/actors/flora/trees/oak.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/flora/trees/oak.xml",
+      "sha256": "a768c65fbb0084b81681cdd8c43cb05d6573de59e89e75e06d61d97884ec02d3",
+      "bytes": 1534
+    },
+    {
+      "path": "binaries/data/mods/public/art/actors/flora/trees/pine.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/flora/trees/pine.xml",
+      "sha256": "1691e5c27d0ee2b8cfc7ce7095b891a1d0bcad99af8170887c8adf16963a3fdc",
+      "bytes": 2820
+    },
+    {
+      "path": "binaries/data/mods/public/art/actors/props/flora/berry_bush.xml",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/actors/props/flora/berry_bush.xml",
+      "sha256": "ef6aca8fda22622f3f1d7dadee134e473bddb6a08ecbb48ab0810680a04e880b",
+      "bytes": 1158
+    },
+    {
+      "path": "LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/LICENSE.txt",
+      "sha256": "cb9eb5e8768328e8086b0d17bd1b95f07b51bc9ab74fa1b509ee09c7894b2f53",
+      "bytes": 3049
+    },
+    {
+      "path": "binaries/data/mods/public/art/LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/0ad/0ad/61a3b9507d974084e6badb88a0826bd89a6d5b8b/binaries/data/mods/public/art/LICENSE.txt",
+      "sha256": "ef98babd771c206032e005f3d440a1e610df409d9a9191f03e64deaa4abefbd9",
+      "bytes": 1426
+    }
+  ]
+}

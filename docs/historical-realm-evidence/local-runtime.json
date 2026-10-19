@@ -1,0 +1,156 @@
+{
+  "verifiedAt": "2026-10-18T23:16:16.683Z",
+  "origin": "http://localhost:8180",
+  "health": {
+    "ok": true,
+    "rooms": 0,
+    "protocol": 1
+  },
+  "welcome": "welcome",
+  "assets": [
+    {
+      "path": "/models/historical/characters.json",
+      "status": 200,
+      "bytes": "82842",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/models/historical/characters.bin",
+      "status": 200,
+      "bytes": "9136896",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/models/historical-nature/oak-a.glb",
+      "status": 200,
+      "bytes": "43676",
+      "cache": "no-cache"
+    },
+    {
+      "path": "/art/portraits/archer-0.webp",
+      "status": 200,
+      "bytes": "6090",
+      "cache": "no-cache"
+    }
+  ],
+  "errors": [],
+  "captures": [
+    {
+      "name": "desktop-historical-day",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "actors": {
+          "status": "ready",
+          "geometries": 432,
+          "geometryBytes": 14118096,
+          "triangles": 139128,
+          "materials": 104,
+          "textures": 18,
+          "cachedFrames": 3072,
+          "liveMixers": 0
+        },
+        "nature": {
+          "geometries": 14,
+          "materials": 8,
+          "textures": 4,
+          "templates": 7,
+          "liveMixers": 0
+        }
+      },
+      "materials": "ready"
+    },
+    {
+      "name": "desktop-historical-night",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "actors": {
+          "status": "ready",
+          "geometries": 432,
+          "geometryBytes": 14118096,
+          "triangles": 139128,
+          "materials": 104,
+          "textures": 18,
+          "cachedFrames": 3072,
+          "liveMixers": 0
+        },
+        "nature": {
+          "geometries": 14,
+          "materials": 8,
+          "textures": 4,
+          "templates": 7,
+          "liveMixers": 0
+        }
+      },
+      "materials": "ready"
+    },
+    {
+      "name": "phone-landscape-historical",
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "actors": {
+          "status": "ready",
+          "geometries": 432,
+          "geometryBytes": 14118096,
+          "triangles": 139128,
+          "materials": 104,
+          "textures": 18,
+          "cachedFrames": 3072,
+          "liveMixers": 0
+        },
+        "nature": {
+          "geometries": 14,
+          "materials": 8,
+          "textures": 4,
+          "templates": 7,
+          "liveMixers": 0
+        }
+      },
+      "materials": "ready"
+    },
+    {
+      "name": "phone-portrait-historical",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "seed": 42,
+      "size": 160,
+      "models": {
+        "actors": {
+          "status": "ready",
+          "geometries": 432,
+          "geometryBytes": 14118096,
+          "triangles": 139128,
+          "materials": 104,
+          "textures": 18,
+          "cachedFrames": 3072,
+          "liveMixers": 0
+        },
+        "nature": {
+          "geometries": 14,
+          "materials": 8,
+          "textures": 4,
+          "templates": 7,
+          "liveMixers": 0
+        }
+      },
+      "materials": "ready"
+    }
+  ],
+  "limits": "Actual local production build and WebSocket welcome. Native character/color comparisons use prepared troops and scouting on seed42 generated land with normal HP and rules. The ordinary start is unmodified. Phone views use Chromium emulation on a desktop GPU, not physical devices. No public internet voice or external hosting verification."
+}

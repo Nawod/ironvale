@@ -6,6 +6,7 @@ import {adjacentDistance,approach,travel,garrisonExit} from './navigation';
 import {seen} from './visibility';
 import {assign,event} from './economy';
 import {assignZombie,isZombie,zombieNight} from './zombies';
+import {attackRange,clearAttackLine,counterPreference} from './combat-tactics';
 function combatOrder(e:Entity,order:Entity['order']):void{if(isZombie(e))assignZombie(e,order);else assign(e,order);}
 export function attackDamage(s:GameState,a:Entity,b:Entity):number{
  const p=s.players[a.owner];let damage=a.kind==='building'?(BUILDINGS[a.type as keyof typeof BUILDINGS].damage??0)+a.garrison.length*3:UNITS[a.type as keyof typeof UNITS].damage;
@@ -37,11 +38,11 @@ export function updateCombat(s:GameState,dt:number,grids:Uint8Array[]):void{
   const order=e.order;let target=order.kind==='attack'&&order.target?s.entities[order.target]:undefined;
   if(target&&(target.hp<=0||!hostile(s,e.owner,target.owner)||target.garrisoned||!zombie&&!seen(s,e.owner,target))){target=undefined;combatOrder(e,{kind:'idle'});}
   const auto=!zombie&&(e.kind==='building'?!!(def as typeof BUILDINGS.capital).damage:e.type!=='villager'&&!['move','garrison'].includes(order.kind));
-  if(!target&&auto){const r=e.kind==='building'||e.stance==='hold'?(def.range??0):Math.max(6,def.range??0);let best=Infinity;for(const t of nearby(e,r)){if(!hostile(s,e.owner,t.owner)||t.hp<=0||t.garrisoned||!s.entities[t.id]||!seen(s,e.owner,t))continue;const d=adjacentDistance(e,t);if(d>r||e.stance==='defensive'&&e.home&&distance(t,e.home)>7)continue;const score=(t.kind==='unit'?0:3)+d;if(score<best){best=score;target=t;}}}
-  if(target){const range=def.range??0;if(adjacentDistance(e,target)<=range){if(e.cooldown<=0){target.hp-=attackDamage(s,e,target);if(target.kind==='building')target.lastDamagedTick=s.tick;e.attackFx={x:target.x,y:target.y,tick:s.tick};e.cooldown=e.type==='trebuchet'?3:e.type==='ram'?2:1.15;
+  if(!target&&auto){const fixed=e.kind==='building'||e.stance==='hold',r=fixed?attackRange(s,e).max:Math.max(6,attackRange(s,e).max);let best=Infinity;for(const t of nearby(e,r)){if(!hostile(s,e.owner,t.owner)||t.hp<=0||t.garrisoned||!s.entities[t.id]||!seen(s,e.owner,t))continue;const d=adjacentDistance(e,t),reach=fixed?attackRange(s,e,t).max:Math.max(6,attackRange(s,e,t).max);if(d>reach||e.stance==='defensive'&&e.home&&distance(t,e.home)>7)continue;const score=(t.kind==='unit'?0:3)+d-counterPreference(e,t);if(score<best){best=score;target=t;}}}
+  if(target){const range=attackRange(s,e,target).max;if(adjacentDistance(e,target)<=range&&clearAttackLine(s,e,target)){if(e.cooldown<=0){target.hp-=attackDamage(s,e,target);if(target.kind==='building')target.lastDamagedTick=s.tick;e.attackFx={x:target.x,y:target.y,tick:s.tick};e.cooldown=e.type==='trebuchet'?3:e.type==='ram'?2:1.15;
     const latest=[...s.events].reverse().find(v=>v.player===target!.owner&&v.kind==='attack');if(target.owner>=0&&(!latest||s.tick-latest.tick>200))event(s,target.owner,'Your empire is under attack.','attack',target);
     if(target.hp<=0)kill(s,target);
-   }}else if(e.kind==='unit'&&e.stance!=='hold')travel(s,e,zombie?approach(s,e,target,grid):target,dt,grid);continue;}
+   }}else if(e.kind==='unit'&&e.stance!=='hold')travel(s,e,zombie||s.elevation&&range>2?approach(s,e,target,grid):target,dt,grid);continue;}
   if(e.kind!=='unit')continue;
   if(['move','attackMove','patrol'].includes(order.kind)&&order.point){
    if(travel(s,e,order.point,dt,grid)){if(order.kind==='patrol'&&order.origin){const p=order.point;order.point=order.origin;order.origin=p;e.path=[];e.pathGoal=undefined;}else combatOrder(e,{kind:'idle'});}

@@ -1,0 +1,295 @@
+{
+  "passing": 35,
+  "skipped": 7,
+  "unexpected": 0,
+  "note": "Latest exact test/project result supersedes earlier attempts; raw run reports retained. No retries enabled.",
+  "runs": [
+    {
+      "report": "browser-results.json",
+      "stats": {
+        "startTime": "2026-10-18T22:58:12.471Z",
+        "duration": 385943.17699999997,
+        "expected": 32,
+        "skipped": 5,
+        "unexpected": 2,
+        "flaky": 0
+      }
+    },
+    {
+      "report": "browser-focused-results.json",
+      "stats": {
+        "startTime": "2026-10-18T23:05:44.657Z",
+        "duration": 78600.69900000001,
+        "expected": 3,
+        "skipped": 2,
+        "unexpected": 1,
+        "flaky": 0
+      }
+    },
+    {
+      "report": "browser-selection-results.json",
+      "stats": {
+        "startTime": "2026-10-18T23:10:40.169Z",
+        "duration": 45912.792,
+        "expected": 3,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "cases": [
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "move and remove an owned building with preserved health and a removal confirmation",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "night zombies render and daylight zombies retreat without attacking",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "an online host enables zombie mode and the guest receives the shared setting",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "move and remove an owned building with preserved health and a removal confirmation",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "night zombies render and daylight zombies retreat without attacking",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "an online host enables zombie mode and the guest receives the shared setting",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "move and remove an owned building with preserved health and a removal confirmation",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "night zombies render and daylight zombies retreat without attacking",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "buildings-zombies.spec.ts",
+      "test": "an online host enables zombie mode and the guest receives the shared setting",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "compact controls leave the battlefield playable and every worker action reachable in both orientations",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "action tabs support keyboard navigation without pausing or panning the battlefield",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "status, map, camera, tutorial, game menu and larger-text commands stay reachable",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "compact-hud.spec.ts",
+      "test": "production, research, trade, wall upgrades and removal remain accessible through contextual tabs",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "historical-realm.spec.ts",
+      "test": "native historical troops and woodlands render at day with bounded shared assets",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "historical-realm.spec.ts",
+      "test": "native historical troops and woodlands render at night with bounded shared assets",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "historical-realm.spec.ts",
+      "test": "selecting a historical archer exposes readable counters and potential downhill range",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "historical-realm.spec.ts",
+      "test": "native historical troops and woodlands render at day with bounded shared assets",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "historical-realm.spec.ts",
+      "test": "native historical troops and woodlands render at night with bounded shared assets",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "historical-realm.spec.ts",
+      "test": "selecting a historical archer exposes readable counters and potential downhill range",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "historical-realm.spec.ts",
+      "test": "native historical troops and woodlands render at day with bounded shared assets",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "historical-realm.spec.ts",
+      "test": "native historical troops and woodlands render at night with bounded shared assets",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "historical-realm.spec.ts",
+      "test": "selecting a historical archer exposes readable counters and potential downhill range",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "project": "desktop",
+      "status": "skipped"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "project": "phone",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "real voice audio stays open or team-private, mutes, and survives the lobby-to-match transition",
+      "project": "tablet",
+      "status": "skipped"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "compact match keeps quick microphone controls reachable beside Commands in both orientations",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "voice-chat.spec.ts",
+      "test": "free-for-all exposes only open voice and leaves microphone capture stopped",
+      "project": "tablet",
+      "status": "expected"
+    },
+    {
+      "file": "living-world-teams.spec.ts",
+      "test": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+      "project": "desktop",
+      "status": "expected"
+    },
+    {
+      "file": "living-world-teams.spec.ts",
+      "test": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+      "project": "phone",
+      "status": "skipped"
+    },
+    {
+      "file": "living-world-teams.spec.ts",
+      "test": "online allies choose uneven teams, confirm changes and retain teams after refresh",
+      "project": "tablet",
+      "status": "skipped"
+    }
+  ]
+}

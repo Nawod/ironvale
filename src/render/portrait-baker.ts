@@ -2,21 +2,23 @@ import {Scene,Group,Mesh,Box3,Vector3,OrthographicCamera,WebGLRenderer,Hemispher
 import {MedievalBuildings} from './medieval-buildings3d';
 import {ImportedModels} from './imported-models3d';
 import {ImportedScenery} from './imported-scenery3d';
+import {HistoricalModels} from './historical-models3d';
+import {HistoricalScenery} from './historical-scenery3d';
 import {ModelLibrary} from './models3d';
 import {portraitCatalog} from './portraits';
 import {BUILDINGS,UNITS} from '../sim/definitions';
 import type {Entity} from '../sim/types';
 
 /** Offline only: one renderer bakes the actual game models into lightweight UI art. */
-export async function bakeCommandPortraits(save:(name:string,data:string)=>Promise<void>,preview=false):Promise<{count:number;size:number}>{
+export async function bakeCommandPortraits(save:(name:string,data:string)=>Promise<void>,preview=false,historicalOnly=false):Promise<{count:number;size:number}>{
  const renderer=new WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true});renderer.setSize(192,192);renderer.setPixelRatio(1);renderer.setClearColor(0,0);renderer.toneMapping=ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;renderer.shadowMap.type=PCFSoftShadowMap;
  const scene=new Scene(),root=new Group();scene.add(root,new HemisphereLight('#e9eff7','#746345',2.6));const key=new DirectionalLight('#ffedcb',3.8);key.position.set(-4,7,7);scene.add(key);const fill=new DirectionalLight('#b9d4e0',1.2);fill.position.set(5,3,-4);scene.add(fill);
- const camera=new OrthographicCamera(-1,1,1,-1,.01,100),buildings=new MedievalBuildings(),actors=new ImportedModels(),scenery=new ImportedScenery(),fallback=new ModelLibrary();
+ const camera=new OrthographicCamera(-1,1,1,-1,.01,100),buildings=new MedievalBuildings(),actors=new ImportedModels(),scenery=new ImportedScenery(),historical=new HistoricalModels(),nature=new HistoricalScenery(),fallback=new ModelLibrary();
  try{
-  await Promise.all([actors.load(),scenery.load()]);const catalog=portraitCatalog().filter(p=>!preview||p.owner===0&&p.age===1);let count=0;
+  await Promise.all([actors.load(),scenery.load(),historical.load(),nature.load()]);if(historical.status!=='ready'||nature.status!=='ready')throw new Error('Historical portrait sources failed to load.');const catalog=portraitCatalog().filter(p=>(!preview||p.owner===0&&p.age===1)&&(!historicalOnly||['spearman','swordsman','archer','pikeman','wood','berries','gold'].includes(p.type)));let count=0;
   for(const record of catalog){
    root.clear();const entity:Entity={id:3,kind:Object.hasOwn(BUILDINGS,record.type)?'building':Object.hasOwn(UNITS,record.type)?'unit':'resource',type:record.type,owner:record.owner,x:0,y:0,hp:100,maxHp:100,order:{kind:'idle'},path:[],progress:1,queue:[],amount:500,cooldown:0,stance:'hold',garrison:[],wallTier:record.wallTier};
-   const parts=buildings.get(entity,record.age)??actors.get(entity,{time:0,moving:false,working:false,attacking:false,detail:'full'})??scenery.get(entity,record.age,1)??fallback.get(entity.type,entity.owner);
+   const parts=buildings.get(entity,record.age)??historical.get(entity,{time:0,moving:false,working:false,attacking:false,detail:'full'})??actors.get(entity,{time:0,moving:false,working:false,attacking:false,detail:'full'})??nature.get(entity)??scenery.get(entity,record.age,1)??fallback.get(entity.type,entity.owner);
    for(const part of parts){const mesh=new Mesh(part.geometry,part.material);mesh.position.fromArray(part.position);mesh.rotation.set(...part.rotation);mesh.scale.fromArray(part.scale);root.add(mesh);}
    root.updateMatrixWorld(true);let bounds=new Box3().setFromObject(root),center=bounds.getCenter(new Vector3()),size=bounds.getSize(new Vector3());
    // Infantry reads as a face, uniform and weapon; horses and siege keep full silhouettes.
@@ -32,5 +34,5 @@ export async function bakeCommandPortraits(save:(name:string,data:string)=>Promi
    if(count%32===0)await new Promise<void>(resolve=>setTimeout(resolve,0));
   }
   return{count,size:192};
- }finally{root.clear();buildings.dispose();actors.dispose();scenery.dispose();fallback.dispose();renderer.dispose();renderer.forceContextLoss();}
+ }finally{root.clear();buildings.dispose();actors.dispose();scenery.dispose();historical.dispose();nature.dispose();fallback.dispose();renderer.dispose();renderer.forceContextLoss();}
 }

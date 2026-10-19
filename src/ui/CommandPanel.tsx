@@ -7,6 +7,7 @@ import type {BuildingType,Entity,QueueItem,Resource,Snapshot} from '../sim/types
 import {EntityPortrait} from './EntityPortrait';
 import {SelectionRoster} from './SelectionRoster';
 import {WorkerTasks} from './WorkerTasks';
+import {UnitTactics} from './UnitTactics';
 
 interface CommandPanelProps {
  snapshot:Snapshot;
@@ -84,6 +85,7 @@ export function CommandPanel({snapshot:s,selected,mode,placement,issue,select,se
   {activeTab?<div className="command-content" role="tabpanel" id={`${id}-panel-${activeTab}`} aria-labelledby={`${id}-tab-${activeTab}`} tabIndex={0}>
    {activeTab==='orders'&&<>
     <SelectionRoster selected={selected} playerId={pid} select={select} className="selection-roster-mobile"/>
+    {units.length===1&&units[0].type!=='villager'&&<UnitTactics unit={units[0]} snapshot={s}/>}
     <div className="order-buttons">{[
      {key:'move',label:'Move',Icon:Move},
      {key:'attackMove',label:'Attack-move',Icon:Swords},
