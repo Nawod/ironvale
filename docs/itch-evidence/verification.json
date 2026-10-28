@@ -1,0 +1,32 @@
+{
+  "testedAt": "2026-10-28T10:17:17.132Z",
+  "render": "https://ironvale.onrender.com/",
+  "actualItchUpload": false,
+  "source": "verified ZIP index.html",
+  "reports": [
+    {
+      "name": "desktop",
+      "nestedCrossOriginFrames": true,
+      "menu": true,
+      "startedSinglePlayer": true,
+      "multiplayerWelcome": {
+        "type": "welcome",
+        "protocol": 1,
+        "origin": "https://ironvale.onrender.com"
+      },
+      "physicalDevice": false
+    },
+    {
+      "name": "phone",
+      "nestedCrossOriginFrames": true,
+      "menu": true,
+      "startedSinglePlayer": true,
+      "multiplayerWelcome": {
+        "type": "welcome",
+        "protocol": 1,
+        "origin": "https://ironvale.onrender.com"
+      },
+      "physicalDevice": false
+    }
+  ]
+}

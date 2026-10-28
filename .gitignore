@@ -14,3 +14,5 @@ server-data/
 .env
 .cache/historical/
 __pycache__/
+
+releases/
