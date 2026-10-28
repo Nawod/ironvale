@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#202920">
+<title>Kingdom Lanka</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#202920;color:#ebdfbd;font:16px Georgia,serif}
+iframe{position:fixed;inset:0;width:100%;height:100%;height:100dvh;border:0;background:#202920}
+.loading{position:fixed;inset:0;display:grid;place-content:center;text-align:center;gap:14px;background:#202920;padding:24px;z-index:1}
+.loading[hidden]{display:none}.loading h1{margin:0;color:#e4c483;font-weight:400;font-size:clamp(30px,6vw,52px)}
+.loading p{margin:0;max-width:420px;line-height:1.6;color:#c7c6b4}.loading a{color:#e4c483}.later[hidden]{display:none}
+.flame{width:28px;height:28px;margin:auto;border:2px solid #736645;border-top-color:#e4c483;border-radius:50%;animation:turn 1.2s linear infinite}
+@keyframes turn{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.flame{animation:none}}
+</style>
+</head>
+<body>
+<div class="loading" id="loading" role="status" aria-live="polite">
+ <div class="flame" aria-hidden="true"></div><h1>Kingdom Lanka</h1>
+ <p>Opening your realm…</p>
+ <p class="later" id="later" hidden>The game server is taking a little longer. Keep this page open, or <a href="https://ironvale.onrender.com/" target="_blank" rel="noopener">open the game directly</a>.</p>
+</div>
+<iframe id="game" title="Kingdom Lanka game" src="https://ironvale.onrender.com/" allow="autoplay; fullscreen; gamepad; microphone" allowfullscreen></iframe>
+<script>
+const game=document.getElementById('game'), loading=document.getElementById('loading');
+const wait=setTimeout(()=>{document.getElementById('later').hidden=false;},20000);
+game.addEventListener('load',()=>{clearTimeout(wait);loading.hidden=true;});
+</script>
+<noscript>Enable JavaScript to play, or visit https://ironvale.onrender.com/ directly.</noscript>
+</body>
+</html>
